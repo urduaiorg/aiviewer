@@ -1,0 +1,152 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  image?: string;
+  variant?: 'playbook' | 'tool' | 'guide';
+  badge?: string;
+  compact?: boolean;
+}
+
+const {
+  title,
+  subtitle = '',
+  image,
+  variant = 'guide',
+  badge = 'AIViewer.ai',
+  compact = false,
+} = Astro.props;
+
+const variantStyles = {
+  playbook: {
+    shell:
+      'from-zinc-950 via-indigo-950 to-zinc-900 text-white',
+    ink: 'text-white/88',
+    line: 'stroke-[#F0C75E]/80',
+    panel:
+      'border-white/14 bg-white/10 text-white shadow-[0_24px_60px_rgba(15,23,42,0.28)]',
+    badge:
+      'border-[#F0C75E]/40 bg-[#F0C75E]/14 text-[#F8D986]',
+    glow:
+      'bg-[radial-gradient(circle_at_top_left,rgba(240,199,94,0.36),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(129,140,248,0.26),transparent_34%)]',
+  },
+  tool: {
+    shell:
+      'from-white via-indigo-50 to-zinc-100 text-zinc-950',
+    ink: 'text-zinc-700',
+    line: 'stroke-indigo-500/80',
+    panel:
+      'border-white/70 bg-white/82 text-zinc-950 shadow-[0_24px_60px_rgba(79,70,229,0.12)]',
+    badge:
+      'border-indigo-200 bg-white/84 text-indigo-700',
+    glow:
+      'bg-[radial-gradient(circle_at_top_left,rgba(79,70,229,0.22),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(240,199,94,0.24),transparent_32%)]',
+  },
+  guide: {
+    shell:
+      'from-amber-50 via-white to-indigo-50 text-zinc-950',
+    ink: 'text-zinc-700',
+    line: 'stroke-zinc-900/75',
+    panel:
+      'border-white/75 bg-white/84 text-zinc-950 shadow-[0_24px_60px_rgba(24,24,27,0.12)]',
+    badge:
+      'border-amber-200 bg-white/84 text-amber-800',
+    glow:
+      'bg-[radial-gradient(circle_at_top_left,rgba(240,199,94,0.28),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(79,70,229,0.18),transparent_34%)]',
+  },
+} as const;
+
+const style = variantStyles[variant];
+const heightClass = compact ? 'aspect-[16/10]' : 'aspect-[16/8]';
+---
+
+<div class:list={['relative isolate overflow-hidden', heightClass]}>
+  <div class:list={['absolute inset-0 bg-gradient-to-br', style.shell]}></div>
+  <div class:list={['absolute inset-0', style.glow]}></div>
+
+  {image && (
+    <div class="absolute inset-0">
+      <img
+        src={image}
+        alt=""
+        width="1200"
+        height="630"
+        loading="lazy"
+        decoding="async"
+        class="h-full w-full object-cover opacity-30 mix-blend-multiply saturate-[0.7] contrast-[1.05]"
+      />
+      <div class="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.02),rgba(9,9,11,0.1))]"></div>
+    </div>
+  )}
+
+  <svg
+    viewBox="0 0 1200 630"
+    aria-hidden="true"
+    class="absolute inset-0 h-full w-full"
+    preserveAspectRatio="none"
+  >
+    {variant === 'playbook' && (
+      <>
+        <path d="M64 126 H318 L474 246 H760 L928 394 H1136" fill="none" class={style.line} stroke-width="3.5" stroke-linecap="round" />
+        <circle cx="318" cy="126" r="14" fill="rgba(240,199,94,0.9)" />
+        <circle cx="474" cy="246" r="12" fill="rgba(255,255,255,0.72)" />
+        <circle cx="760" cy="246" r="12" fill="rgba(255,255,255,0.72)" />
+        <circle cx="928" cy="394" r="14" fill="rgba(240,199,94,0.82)" />
+        <path d="M105 500 C260 446 356 450 498 506" fill="none" class={style.line} stroke-width="2.4" stroke-dasharray="10 16" stroke-linecap="round" />
+      </>
+    )}
+    {variant === 'tool' && (
+      <>
+        <rect x="82" y="94" width="1036" height="442" rx="28" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.44)" stroke-width="2.5" />
+        <path d="M114 162 H1086" fill="none" class={style.line} stroke-width="2" stroke-dasharray="10 14" />
+        <rect x="146" y="226" width="168" height="216" rx="18" fill="rgba(255,255,255,0.42)" />
+        <rect x="352" y="278" width="128" height="164" rx="18" fill="rgba(99,102,241,0.24)" />
+        <rect x="518" y="198" width="154" height="244" rx="18" fill="rgba(240,199,94,0.22)" />
+        <rect x="710" y="246" width="132" height="196" rx="18" fill="rgba(99,102,241,0.18)" />
+        <rect x="880" y="176" width="118" height="266" rx="18" fill="rgba(24,24,27,0.14)" />
+      </>
+    )}
+    {variant === 'guide' && (
+      <>
+        <path d="M118 142 H1076" fill="none" class={style.line} stroke-width="2.5" />
+        <path d="M118 204 H768" fill="none" class={style.line} stroke-width="1.8" stroke-dasharray="12 16" />
+        <path d="M118 266 H986" fill="none" class={style.line} stroke-width="1.8" />
+        <path d="M118 328 H904" fill="none" class={style.line} stroke-width="1.8" stroke-dasharray="12 16" />
+        <rect x="824" y="110" width="242" height="312" rx="24" fill="rgba(255,255,255,0.28)" stroke="rgba(255,255,255,0.56)" stroke-width="2" />
+        <circle cx="944" cy="264" r="72" fill="rgba(240,199,94,0.28)" />
+        <circle cx="944" cy="264" r="34" fill="rgba(79,70,229,0.22)" />
+      </>
+    )}
+  </svg>
+
+  <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),transparent_36%,rgba(9,9,11,0.20))]"></div>
+
+  <div class="absolute left-4 top-4 sm:left-5 sm:top-5">
+    <span class:list={[
+      'inline-flex items-center rounded-full border px-3 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.18em] backdrop-blur-md',
+      style.badge,
+    ]}>
+      {badge}
+    </span>
+  </div>
+
+  <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+    <div class:list={[
+      'max-w-[20rem] rounded-[1.35rem] border px-4 py-4 backdrop-blur-md sm:px-5',
+      compact ? 'max-w-[18rem]' : 'max-w-[22rem]',
+      style.panel,
+    ]}>
+      {subtitle && (
+        <p class:list={['text-[0.64rem] font-semibold uppercase tracking-[0.16em]', style.ink]}>
+          {subtitle}
+        </p>
+      )}
+      <h3 class:list={[
+        'text-balance font-[650] leading-[1.02]',
+        compact ? 'mt-2 text-[1.1rem] sm:text-[1.25rem]' : 'mt-2 text-[1.25rem] sm:text-[1.55rem]',
+      ]}>
+        {title}
+      </h3>
+    </div>
+  </div>
+</div>

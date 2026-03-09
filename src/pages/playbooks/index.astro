@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
 import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import EditorialCover from '../../components/content/EditorialCover.astro';
 import { formatDate, formatDateShort } from '../../utils/formatDate';
 import { getReadingTime } from '../../utils/readingTime';
 import { roleLabels, difficultyConfig } from '../../data/site.config';
@@ -14,13 +15,6 @@ const playbooks = (await getCollection('playbooks', ({ data }) => !data.draft)).
 
 const featuredPlaybooks = playbooks.filter((entry) => entry.data.featured).slice(0, 2);
 const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
-
-const coverFallbacks = [
-  'from-indigo-200 via-indigo-50 to-amber-100',
-  'from-zinc-200 via-white to-indigo-100',
-  'from-amber-100 via-white to-zinc-200',
-  'from-indigo-100 via-zinc-100 to-indigo-200',
-];
 ---
 
 <BaseLayout
@@ -83,26 +77,19 @@ const coverFallbacks = [
         </div>
 
         <div class="grid gap-5 lg:grid-cols-2">
-          {featuredPlaybooks.map((entry, index) => (
+          {featuredPlaybooks.map((entry) => (
             <a
               href={`/playbooks/${entry.id}/`}
               class="group overflow-hidden rounded-[1.6rem] border border-zinc-200 bg-white shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
             >
-              <div class="relative aspect-[16/8] overflow-hidden border-b border-zinc-200 bg-zinc-100">
-                <img
-                  src={entry.data.coverImage}
-                  alt={entry.data.title}
-                  class="h-full w-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                  onerror="this.style.display='none'; this.nextElementSibling?.classList.remove('hidden');"
+              <div class="border-b border-zinc-200">
+                <EditorialCover
+                  title={entry.data.title}
+                  subtitle={roleLabels[entry.data.role] ?? entry.data.role}
+                  image={entry.data.coverImage}
+                  variant="playbook"
+                  badge="Operational playbook"
                 />
-                <div class:list={['absolute inset-0 hidden bg-gradient-to-br', coverFallbacks[index % coverFallbacks.length]]}>
-                  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(79,70,229,0.20),transparent_38%),radial-gradient(circle_at_bottom_left,rgba(240,199,94,0.35),transparent_36%)]"></div>
-                  <div class="absolute inset-x-0 bottom-0 p-5">
-                    <p class="max-w-[15rem] text-xl font-semibold leading-tight text-zinc-950">{entry.data.title}</p>
-                  </div>
-                </div>
               </div>
 
               <div class="p-7">
@@ -180,32 +167,21 @@ const coverFallbacks = [
         </div>
       ) : (
         <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3" data-playbook-grid>
-          {playbooks.map((entry, index) => (
+          {playbooks.map((entry) => (
             <a
               href={`/playbooks/${entry.id}/`}
               class="playbook-card group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-zinc-200 bg-white shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
               data-role={entry.data.role}
             >
-              <div class="relative aspect-[16/10] overflow-hidden border-b border-zinc-200 bg-zinc-100">
-                <img
-                  src={entry.data.coverImage}
-                  alt={entry.data.title}
-                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                  loading="lazy"
-                  decoding="async"
-                  onerror="this.style.display='none'; this.nextElementSibling?.classList.remove('hidden');"
+              <div class="border-b border-zinc-200">
+                <EditorialCover
+                  title={entry.data.title}
+                  subtitle={difficultyConfig[entry.data.difficulty]?.label ?? entry.data.difficulty}
+                  image={entry.data.coverImage}
+                  variant="playbook"
+                  badge={roleLabels[entry.data.role] ?? entry.data.role}
+                  compact={true}
                 />
-                <div class:list={['absolute inset-0 hidden bg-gradient-to-br', coverFallbacks[index % coverFallbacks.length]]}>
-                  <div class="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(255,255,255,0.35)_45%,rgba(9,9,11,0.10))]"></div>
-                  <div class="absolute left-5 top-5">
-                    <span class="inline-flex rounded-full bg-white/80 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-zinc-700 backdrop-blur">
-                      {roleLabels[entry.data.role] ?? entry.data.role}
-                    </span>
-                  </div>
-                  <div class="absolute inset-x-0 bottom-0 p-5">
-                    <p class="max-w-[15rem] text-xl font-semibold leading-tight text-zinc-950">{entry.data.title}</p>
-                  </div>
-                </div>
               </div>
 
               <div class="flex flex-1 flex-col p-6">

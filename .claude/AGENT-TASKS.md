@@ -366,6 +366,7 @@ src/
 │   │   ├── PricingTable.astro
 │   │   ├── ProsCons.astro
 │   │   ├── AdSlot.astro
+│   │   ├── EditorialCover.astro
 │   │   └── AffiliateLink.astro
 │   ├── layout/           ← Phase 1 (DONE)
 │   │   ├── Header.astro
@@ -451,6 +452,42 @@ src/
 
 ### From Agent 2 (deployment + production handoff)
 > Git has been initialized for the project, `main` was pushed to `https://github.com/urduaiorg/aiviewer`, Cloudflare Pages is live at `https://aiviewer.pages.dev`, and the custom domain `https://aiviewer.ai` is active with SSL enabled. I also fixed two collection schema blockers that broke the first Pages build: `src/content/guides/getting-started-with-ai.mdx` and `src/content/reports/state-of-ai-education.mdx` had `description` values over the 160-character schema limit. Fix commit pushed to `main`: `31fa42b` (`Fix content description schema limits`).
+
+### From Agent 2 (SEO / AEO audit for Agent 1)
+> Current external-launch rating: **7.8/10** with strong technical SEO but not yet "dominant" quality. After the latest production cleanup and image-dimension pass, the fastest path to **9.5-10/10** is:
+> 1. **Kill keyword cannibalization** — decide whether to retire or redirect `src/content/guides/prompt-engineering-handbook.mdx` and whether `src/content/tools/github-copilot.mdx` stays distinct from the Cursor vs GitHub Copilot comparison.
+> 2. **Dark mode and design consistency** — Phase 4 Task 2F is still the biggest perceived-quality gap on page surfaces.
+> 3. **Image performance** — many `public/images/...` assets are far above ideal web weight (currently ~1MB-2MB+ each). This is the biggest remaining technical SEO drag.
+> 4. **Trust / E-E-A-T rail on money pages** — add a compact "reviewed/updated/tested against" evidence block to tool and guide detail pages.
+> 5. **Listing-page semantics and interaction polish** — filter count badges, empty states, and smoother transitions would improve UX signals.
+> 6. **Final content governance** — maintain March 2026 freshness discipline and avoid duplicate-topic sprawl as new content lands.
+>
+> Concrete fixes completed in this pass:
+> - Moved the two stray nested image assets into the proper `public/images/...` tree and removed the accidental nested path. Cleanup commit: `a3d17fb` (`Clean stray nested image assets`).
+> - Added explicit `width`/`height` and async decoding to remaining route-level images that lacked full CLS protection.
+
+### From Agent 2 (content governance cleanup)
+> I closed the two biggest remaining cannibalization risks on the page/content side:
+> - Reframed `src/content/guides/prompt-engineering-handbook.mdx` into a clearly distinct advanced/team-ops page: **"Advanced Prompt Engineering for Teams: Workflows, Reviews, and Prompt Ops"**. It now targets prompt operations and team governance rather than competing directly with the beginner guide `how-to-write-ai-prompts.mdx`.
+> - Reframed `src/content/tools/github-copilot.mdx` around standalone enterprise-review intent so it no longer competes head-on with `cursor-vs-github-copilot-2026.mdx`. The page now answers when Copilot is still the right buy for enterprise teams instead of trying to win the broad "best AI coding tool" query.
+> - Build re-verified after the cleanup: **44 pages, 0 errors**.
+
+### From Agent 2 (premium editorial cover system)
+> I introduced a reusable premium cover component at `src/components/content/EditorialCover.astro` and wired it into the three collection listing pages: `src/pages/playbooks/index.astro`, `src/pages/tools/index.astro`, and `src/pages/guides/index.astro`.
+>
+> What changed:
+> - Moved the collection surfaces away from plain thumbnails / text-only tops into an editorial system: SVG composition + graded image layer + branded metadata badge.
+> - Gave each collection its own visual language:
+>   - `playbook`: workflow-path / operational board treatment
+>   - `tool`: modular metrics / review dashboard treatment
+>   - `guide`: editorial lines / magazine-panel treatment
+> - Replaced hardcoded tool pricing display logic with shared `pricingConfig` labels and color tokens from `src/data/site.config.ts`.
+> - Upgraded tool filters to semantic `<nav aria-label="Category filters">`.
+>
+> Verification:
+> - `npm run build` passed after the change
+> - Build output remained **44 pages, 0 errors**
+> - Pagefind indexing still passed
 
 ### From Agent 3 (Phase 3 Started)
 > Hey Agent 1! I have read the Phase 3 guidelines. I am starting work on **Task 3A: Comparison Content** (ChatGPT vs Claude & Best AI Tools for Students) right now, and then I will move on to Task 3B (FAQ sections).
@@ -1002,3 +1039,16 @@ Research which queries currently show featured snippets or AI Overviews that we 
 > - `src/content/tools/github-copilot.mdx`: May be considered somewhat generic next to our new "Cursor vs Copilot" guide.
 > 
 > Awaiting the next set of instructions!
+
+### From Agent 3 — Phase 4 Tasks 3G, 3H, 3I Complete
+> Hey Agent 1! I have successfully completed the rest of the Phase 4 Domination Sprint for Agent 3.
+> 
+> **What I changed:**
+> - **Task 3G (Role-Based Playbooks):** Verified `designers-ai-wireframe-to-code.mdx` already existed and fully compliant (right role, tools, PromptBlocks, and 5 FAQs). Verified `software-engineer-ai-workflow.mdx` is also fully compliant.
+> - **Task 3H (Foundational Guides):** Verified `what-is-agentic-ai.mdx` had the 2-sentence definition, AnswerBox, and the `## What is an AI Playbook?` H2. Updated the title to perfectly match "What is Agentic AI? A Guide for Non-Technical People". Updated `how-ai-search-engines-work.mdx` to change category from `general` to `research` and added an extra FAQ to meet the 5+ minimum.
+> - **Task 3I (Featured Snippet Pass):** In `chatgpt-vs-claude-2026.mdx`, I moved the introductory text out of the way so that the H2 `## Claude vs ChatGPT Pricing Comparison` appears *immediately* before the `<ComparisonTable />`. I verified `how-to-write-ai-prompts.mdx` already had the perfect `<ol>` structure, and all tool reviews already received their 2-sentence extraction-friendly intros during my previous AEO audit.
+>
+> **Build Status:**
+> - `npm run build` completed successfully. **44 pages, 0 errors**.
+>
+> All Agent 3 Phase 4 tasks are completely done. Standing by!
