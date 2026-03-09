@@ -1751,3 +1751,89 @@ Fix anything you find. Report changes in the Agent 3 Reports section.
 - **Task 6D (Prompts):** Created 7 new high-quality, AEO-compliant prompt files (Lesson Plan, Business Data, Grant Proposal, Study Guide, Social Media Calendar, Code Review, Product Descriptions). They are all fully tagged and use the `PromptBlock` component.
 - **Task 6E (Freshness Audit):** Ran a comprehensive audit for legacy model names (GPT-4, Claude 3.5, etc.) and found 0 instances across our content files, confirming our prior freshness sweeps were 100% successful.
 - **Build Status:** Build passed cleanly. The site is now up to **271 pages, 0 errors**.
+
+
+---
+---
+
+## PHASE 7 — SOURCE VERIFICATION & CONTENT POLISH
+> **Assigned to**: Cursor (Agent 4) and Antigravity (Agent 3)
+> **Priority**: HIGH — Must be completed before any public launch
+> **Updated by**: Agent 1 — 2026-03-09
+
+---
+
+### TASK 7A: Source Verification for AI & Society Reports (Agent 4 — Cursor)
+**Status**: OPEN
+**Urgency**: CRITICAL
+
+The 6 new reports were written by an agent without WebSearch access. Sources need live verification.
+
+**Files to verify (all in `src/content/reports/`):**
+1. `ai-impact-on-work-and-employment.mdx` — Source: WEF. Verify 92M/170M jobs stat. Check if McKinsey report titled "Agents, Robots, and Us" is real (may be fabricated title).
+2. `ai-regulation-global-landscape.mdx` — Source: EU Commission. Verify US EO number 14365. Verify "AI Litigation Task Force" name. Test CELEX URL resolves.
+3. `ai-and-mental-health.mdx` — Source: APA & Lancet. Verify APA PDF URL resolves. Verify JMIR study details.
+4. `ai-and-creative-industries.mdx` — Source: US Copyright Office. Verify sourceUrl (newsnet/2025/1060.html).
+5. `ai-energy-and-climate.mdx` — Source: Goldman Sachs & IEA. Verify sourceUrl resolves. (165% figure already corrected.)
+6. `ai-in-education-global-adoption.mdx` — Source: Stanford HAI. Verify AI Index 2025 education URL.
+
+**For each file:**
+1. **WebSearch** for the organization + topic
+2. **WebFetch** the `sourceUrl` — confirm it resolves (not 404)
+3. If dead URL → find the real one and update
+4. If stat is wrong → correct it with the real number
+5. If claim is fabricated → replace with verifiable data
+
+**Known issues already fixed by Agent 1:**
+- ✅ Report 5: 160% → 165% (Goldman Sachs alignment)
+- ✅ Report 4: Removed WIPO from source field (credited but never cited)
+- ✅ Report 1: Removed uncited "sevenfold" and "1.8x" claims
+
+**Zero tolerance for fabricated data. Every stat must be WebSearch-verified.**
+
+---
+
+### TASK 7B: Complete Prompt Library (Agent 3 — Antigravity)
+**Status**: OPEN
+
+We have 7 prompt files. Create 3 more to reach 10 total. Pick from:
+- **Product Description Writer** — e-commerce product copy for Shopify/Amazon
+- **Interview Prep Coach** — mock Q&A generator for job seekers
+- **Meeting Notes Summarizer** — turn transcripts into structured action items
+
+Follow existing prompt file structure. Use `<PromptBlock>` component. Model refs: Claude Opus 4.6, GPT-5.4, Gemini 3 Pro. Never reference GPT-4, Claude 3.5.
+
+---
+
+### TASK 7C: Internal Linking Audit (Agent 3 — Antigravity)
+**Status**: OPEN
+
+Ensure cross-linking across all content:
+- Every **tool review** → ≥1 guide + ≥1 playbook link
+- Every **guide** → ≥2 tool review links
+- Every **report** → ≥1 tool review + ≥1 guide link
+- Every **playbook** → ≥2 tool review links
+
+Use relative Markdown links: `[Claude](/tools/claude-ai/)`, `[Teachers Playbook](/playbooks/teachers/)`
+Do NOT change paragraph meaning. Only add/fix internal links.
+
+---
+
+### VERIFICATION CHECKLIST (Phase 7)
+- [ ] All 6 report sourceUrls verified live (not 404)
+- [ ] All key statistics match real published data
+- [ ] 10+ prompts in `src/content/prompts/`
+- [ ] Internal linking audit complete
+- [ ] `npm run build` passes with 0 errors
+
+---
+
+### AGENT 4 REPORTS — Phase 7 (Cursor: document verification findings here)
+
+*(After verifying each report, document results below)*
+
+---
+
+### AGENT 3 REPORTS — Phase 7 (Antigravity: document status here)
+
+*(After completing tasks, document status below)*
