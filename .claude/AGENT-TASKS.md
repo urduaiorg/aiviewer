@@ -1837,3 +1837,132 @@ Do NOT change paragraph meaning. Only add/fix internal links.
 ### AGENT 3 REPORTS — Phase 7 (Antigravity: document status here)
 
 *(After completing tasks, document status below)*
+
+
+---
+---
+
+## PHASE 8 — AI & SOCIETY: NARRATIVE EXPANSION
+> **Assigned to**: Agent 4 (Cursor) — Research & Writing
+> **Priority**: HIGH — This is our primary domain authority strategy
+> **Updated by**: Agent 1 — 2026-03-09
+
+### STRATEGIC CONTEXT
+
+Our current 8 reports are all **data-driven research summaries** — statistics, projections, policy analysis. They're solid but they read like analyst briefings. What we're missing is the **ground-level human story** — how AI is *actually* reshaping daily life in specific communities, sectors, and regions around the world.
+
+This is the content that gets shared on LinkedIn, cited by journalists, and linked by universities. The SEO deep dive (`.claude/research/seo-aeo-standing-deep-dive-2026.md`) identified domain authority as our 3/10 gap. These narrative reports are how we close it.
+
+### THE EDITORIAL SHIFT
+
+**Before (what we have)**: "The WEF projects 92M jobs will be eliminated by 2030."
+**After (what we need)**: "In rural Punjab, an AI-powered pest detection app is helping cotton farmers reduce crop losses by 40% — but only if they have a smartphone and cell signal."
+
+Both are valuable. We need **both layers**: the macro data AND the human story.
+
+---
+
+### TASK 8A: Create 5 New Narrative Reports (Agent 4 — Cursor)
+**Status**: OPEN
+**Urgency**: HIGH
+
+Write 5 new reports that cover AI's real-world impact on society, politics, agriculture, and culture. Each must be **grounded in real, WebSearch-verified 2025-2026 sources**.
+
+#### Report 1: AI in Agriculture & Food Security
+**File**: `src/content/reports/ai-in-agriculture.mdx`
+**Angle**: How AI is transforming farming — precision agriculture, crop disease detection, yield prediction, climate-adaptive farming. Cover both wealthy agritech (John Deere, Microsoft FarmBeats) AND developing world adoption (smallholder farmers in India, Kenya, Brazil).
+**Sources to search**: FAO, World Bank, CGIAR, Nature Food, MIT Technology Review
+**Key questions to answer**:
+- What AI farming tools are actually deployed at scale in 2026?
+- How are smallholder farmers in developing nations accessing AI?
+- What's the real impact on crop yields and food security?
+- What are the risks (data ownership, corporate dependency, digital divide)?
+
+#### Report 2: AI and Democracy — Elections, Deepfakes, and Information Warfare
+**File**: `src/content/reports/ai-and-democracy.mdx`
+**Angle**: The 2024-2026 election cycle was the first to face mass AI-generated political content. Cover deepfakes, AI robocalls, synthetic candidate images, AI-powered voter microtargeting. Include real incidents (not hypotheticals).
+**Sources to search**: Brookings Institution, Stanford Internet Observatory, Freedom House, Reuters Institute, Election Integrity Partnership
+**Key questions to answer**:
+- What documented cases of AI-generated election interference occurred in 2024-2026?
+- How are governments and platforms responding?
+- What AI detection tools exist and how effective are they?
+- What's at stake for democratic processes globally?
+
+#### Report 3: AI in the Global South — Innovation Beyond Silicon Valley
+**File**: `src/content/reports/ai-in-global-south.mdx`
+**Angle**: AI isn't just a Silicon Valley story. Cover AI adoption in Africa (M-Pesa + AI, Kenyan healthtech), South Asia (India's AI stack, Aadhaar + AI), Latin America (Brazilian agritech, Mexican fintech), and Southeast Asia. Focus on local innovation, not just tech company expansion.
+**Sources to search**: World Bank, OECD AI Policy Observatory, Google AI for Social Good, African Union Digital Transformation Strategy, India's NITI Aayog AI strategy
+**Key questions to answer**:
+- Which Global South countries are leading in AI adoption and why?
+- What unique AI applications have emerged from developing nations?
+- How does limited infrastructure shape AI deployment differently?
+- What are the risks of AI colonialism (dependency on Western models/platforms)?
+
+#### Report 4: AI in Justice & Policing — Bias, Surveillance, and Civil Liberties
+**File**: `src/content/reports/ai-justice-and-policing.mdx`
+**Angle**: Predictive policing, facial recognition in law enforcement, AI in courtrooms (sentencing algorithms, bail prediction), surveillance states. Cover both the US/EU context AND China/other authoritarian contexts. Ground in documented cases of bias and civil liberties violations.
+**Sources to search**: AI Now Institute, ACLU, Amnesty International, ProPublica, EU Fundamental Rights Agency, MIT Media Lab
+**Key questions to answer**:
+- Which cities/countries have banned facial recognition and why?
+- What documented cases of algorithmic bias in policing exist?
+- How is AI being used in courtrooms and what are the accuracy rates?
+- What's the global surveillance landscape in 2026?
+
+#### Report 5: AI and Language — Breaking Barriers or Erasing Cultures?
+**File**: `src/content/reports/ai-and-language.mdx`
+**Angle**: AI translation is connecting people across languages at unprecedented scale, but most AI models are trained primarily on English. Cover: AI-powered real-time translation (Meta's SeamlessM4T, Google Translate advances), efforts to build AI for low-resource languages (African languages, Indigenous languages), the risk of linguistic homogenization, and local language LLM initiatives.
+**Sources to search**: UNESCO Atlas of World Languages, Mozilla Common Voice, Masakhane NLP, Google Research, Meta AI
+**Key questions to answer**:
+- How many of the world's 7,000+ languages does AI actually serve?
+- What initiatives exist to build AI for underrepresented languages?
+- Is AI translation displacing human translators or augmenting them?
+- How are communities using AI to preserve endangered languages?
+
+---
+
+### WRITING STANDARDS (CRITICAL)
+
+1. **Every statistic must come from a WebSearch-verified source.** No fabrication. Zero.
+2. **AnswerBox at the top** — 2-sentence summary answering the main question
+3. **Question-format H2 headings** for AEO (Answer Engine Optimization)
+4. **5+ FAQ entries** at the bottom with `###` heading format
+5. **Internal links**: Link to at least 1 tool review and 1 guide/playbook from our site
+6. **Tone**: Journalistic, not academic. Write like The Guardian or MIT Technology Review, not like a UN report.
+7. **Both sides**: Present benefits AND risks. We're not cheerleading AI.
+8. **Freshness**: All content must reflect March 2026 realities. Current model names: Claude Opus 4.6, GPT-5.4, Gemini 3 Pro.
+
+### FRONTMATTER TEMPLATE
+```yaml
+---
+title: "[Title — clear, specific, no clickbait]"
+description: "[Max 160 chars — the Google snippet]"
+source: "[Primary source organization]"
+sourceUrl: "[REAL verified URL — WebSearch/WebFetch confirmed]"
+reportYear: 2026
+keyInsights: [
+  "[Insight 1 — specific, data-backed]",
+  "[Insight 2 — specific, data-backed]",
+  "[Insight 3 — specific, data-backed]"
+]
+publishedDate: 2026-03-12
+coverImage: "/images/reports/[slug].jpg"
+tags: ["tag1", "tag2", "tag3", "tag4", "tag5"]
+draft: false
+---
+```
+
+### VERIFICATION CHECKLIST (Phase 8)
+- [ ] 5 new narrative reports created
+- [ ] Every sourceUrl verified via WebFetch (resolves, not 404)
+- [ ] Every key statistic verified via WebSearch
+- [ ] AnswerBox at top of each report
+- [ ] 5+ FAQ entries per report
+- [ ] Internal links to existing AIViewer content
+- [ ] No fabricated quotes, names, or statistics
+- [ ] `npm run build` passes with 0 errors
+
+---
+
+### AGENT 4 REPORTS — Phase 8 (Cursor: document status here)
+
+*(After completing each report, document your sources and verification below)*
