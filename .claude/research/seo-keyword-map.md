@@ -39,6 +39,18 @@
 | **"what is agentic ai"** | High | 40 (Emerging) | `guides/what-is-agentic-ai.mdx` | **GAP** - Need Guide |
 | **"what are ai text embeddings"** | Low/Med | 35 (Low) | `guides/understanding-ai-embeddings.mdx` | **GAP** - Need Guide |
 
+## 4. "AI & Society" Impact Queries (E-E-A-T / Backlink Generators)
+
+**Intent:** Top of funnel journalism, academic research, and broad public interest.
+**Target Content Type:** Reports (`/reports/`)
+
+| Target Keyword Cluster | Search Volume (Est.) | KD | Content Assignment | Content Gap |
+| :--- | :--- | :--- | :--- | :--- |
+| **"ai impact on jobs 2026"** | Very High | 80 | `reports/ai-impact-on-jobs.mdx` | **GAP** - Need Report |
+| **"ai regulation tracker"** | High | 60 | `reports/global-ai-regulation-tracker.mdx` | **GAP** - Need Report |
+| **"ai in classroom 2026"** | Medium | 50 | `reports/state-of-ai-education.mdx` | **GAP** - Need Report |
+| **"ai healthcare breakthroughs"** | High | 55 | `reports/ai-healthcare-2026.mdx` | **GAP** - Need Report |
+
 ---
 
 ## Actionable Recommendations for Agent 2 & Agent 3

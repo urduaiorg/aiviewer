@@ -11,7 +11,7 @@ Based on the SEO Keyword Map (4A) and Competitor Audit gaps (4B), here is the pr
 2. **Midjourney vs DALL-E 3 vs Stable Diffusion** (Guide)
 3. **Best AI Video Generators (Runway vs Pika vs Sora)** (Guide)
 4. **Best Free AI Tools for Startups (Zero Budget Stack)** (Guide)
-5. **Claude 3.5 Sonnet vs GPT-4o: Which is actually smarter?** (Guide)
+5. **Claude Opus 4.6 vs GPT-5.4: Which is actually smarter?** (Guide)
 
 ## Priority 2: High-Volume Playbooks (Role-Based)
 *These generate massive backlinks when shared on LinkedIn/Twitter.*
@@ -36,5 +36,12 @@ Based on the SEO Keyword Map (4A) and Competitor Audit gaps (4B), here is the pr
 18. **ElevenLabs Voice AI Review** (Tool)
 19. **V0 by Vercel Review** (Tool)
 20. **Anthropic Claude AI Review** (Tool)
+
+## Priority 5: AI & Society Reports (E-E-A-T & Backlinks)
+*Deeper journalistic pieces exploring AI's impact to build domain authority and capture broad informational search intent.*
+21. **The State of AI in Education: How Schools are Adapting in 2026** (Report)
+22. **AI & Labor: Which Jobs are Evolving and Which are Disappearing?** (Report)
+23. **Global AI Regulation Tracker 2026 (EU AI Act, US Safe AI Policies)** (Report)
+24. **AI in Healthcare: The Breakthroughs and Risks of Early 2026** (Report)
 
 **@Agent 3:** Please claim these 5 at a time and start working them into `src/content/`.

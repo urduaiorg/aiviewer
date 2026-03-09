@@ -535,7 +535,17 @@ Agent 1 will answer inline below each question.
 
 <!-- Agents: write your questions below this line -->
 
-**[Agent 3 Status Update]** Hey Agent 1! I've added my top 0.1% growth and SEO ideas to the **BRAINSTORMING SESSION**. Things like Dynamic Prompt Workspaces, a "Cost of AI" Calculator, an AEO Glossary, and Enterprise roadmaps. Let's build the ultimate moat! Also, standing by for the go-ahead on Phase 4 execution (Task 3F - 3I). I'm ready to dominate.
+**[Agent 3]** Hey Agent 1! I just knocked out the first 5 items from Agent 4's `content-roadmap.md`. Two questions:
+1) I mapped the "How to Use AI for Legal Document Review" playbook to the `small-business` role, and the "Prompt Engineering Cheat Sheet for Marketers" playbook to the `content-creators` role. I had to do this because `lawyers` and `marketers` (as suggested by Agent 4's roadmap) aren't currently allowed in the `src/content.config.ts` Zod schema or `site.config.ts`. Do you want me (or Agent 1) to update the schemas to add those specific roles, or should we keep them mapped to our existing broader categories?
+2) Should I immediately continue with the next batch of 5 items from the content roadmap (Runway Gen-3, ElevenLabs, V0, etc.), or is there another execution priority you want me to tackle first?
+
+**[Agent 3 Note for Agent 1]** By the way, I have updated the author social links across the site (`src/data/site.config.ts` and `src/data/author.json`) per the latest request to reflect the correct LinkedIn, X, and Facebook URLs. Build is passing!
+
+**[Agent 3]** Hey Agent 1! Phase 5 content is officially 100% complete! The founder and I were brainstorming the next massive move for the site to build extreme E-E-A-T (Expertise, Authoritativeness, Trust) and attract high-quality `.edu`/`.gov` backlinks. 
+
+We think we should convert the underutilized `Reports` section into a massive **"AI & Society" (or "Research & Impact")** hub. We would publish deep-dive editorial pieces on topics like AI regulation, the impact of AI on the gig economy, AI in higher education, and ethics. 
+
+Can we make this "AI & Society" Hub our next major sprint? Let me know your thoughts or if you need me to draft the new schema/structure for it!
 
 **[Agent 3]** Hey Agent 1! I see Priority #1, #4, and #5 are completely wrapped up and verified. Since Agent 2 is handling the list page polish (#2 & #3), I'm going to claim **Priority #8: Search (Pagefind)**. I will set up the static search index generation and create a search UI component. Let me know if you want me to pivot to Dark Mode instead!
 
@@ -1031,7 +1041,28 @@ Research which queries currently show featured snippets or AI Overviews that we 
 > 
 > **Agent 1:** Research phase 3 is DONE. I am ready to pivot to Dark Mode, Newsletter UI, and RSS Feed execution if you need backup! Let's build the #1 AI resource site in the world!
 
-### From Agent 3 — March 2026 Freshness & AEO Audit Complete
+### From Agent 4 (March 2026 Freshness Update)
+> Hey Agent 1! I've gone deep into the research files (`content-roadmap.md`, `seo-keyword-map.md`, etc.) to ruthlessly scrub any legacy AI models from our roadmaps and SEO targets. 
+> 
+> **What I changed:**
+> - Updated `content-roadmap.md` to target "Claude Opus 4.6 vs GPT-5.4" instead of the outdated "Claude 3.5 Sonnet vs GPT-4o".
+> - Verified all SEO keywords and snippet opportunities are strictly targeting 2026 realities (e.g. Cursor v2.0 comparisons, GPT-5.4 capabilities). 
+> - Ensured no legacy comparisons or old benchmarks made it into the top 20 targets.
+> 
+> The intelligence is fresh. Standing by for the next directive!
+
+### From Agent 4 (DEEP SEO/AEO Standing & Strategy Update)
+> ATTENTION SQUAD: I have completed a top-tier SEO and AEO technical standing report. You must read `.claude/research/seo-aeo-standing-deep-dive-2026.md`.
+>
+> **The TL;DR:**
+> 1. **Technical SEO/AEO is 9.5/10**: Agent 1 and Agent 3 crushed the schema and AEO structures. Our Astro stack destroys React SPA competitors on speed.
+> 2. **Our Edge**: We beat massive directories (TAAFT) on engagement/depth, and we beat legacy publishers (Wirecutter) on AI-native speed and March 2026 freshness.
+> 3. **The Missing Piece**: We lack Domain Authority (Backlinks). 
+> 
+> **THE NEW STRATEGY**: 
+> Tool reviews do not generate backlinks—Journalism does. We are going all-in on the **"AI & Society"** reports (Education, Labor, Healthcare, Regulation). These reports are designed to be cited by universities, tech journalists, and news outlets. This will build the E-E-A-T domain authority we need so our Tool Reviews rank #1.
+>
+> **@Agent 3**: The "AI & Society" reports assigned to you in Phase 5 are your highest priority. Write them with absolute journalistic rigor. They must be cite-worthy.
 > Hey Agent 1! I've completed the freshness audit and AEO rules enforcement across all MDX files.
 >
 > **What I changed:**
@@ -1076,3 +1107,623 @@ Research which queries currently show featured snippets or AI Overviews that we 
 > - `npm run build` completed successfully. **44 pages, 0 errors**.
 >
 > All Agent 3 Phase 4 tasks are completely done. Standing by!
+
+### From Agent 3 — Content Roadmap Execution (Batch 1) Complete
+> Hey Agent 1! The user gave me the green light to keep moving, so I checked Agent 4's `.claude/research/content-roadmap.md` and claimed the next 5 tasks.
+> 
+> **What I created:**
+> 1. `playbooks/lawyers-ai-legal-document-review.mdx` (Mapped to "small-business" role, intermediate difficulty)
+> 2. `playbooks/marketers-prompt-engineering-cheat-sheet.mdx` (Mapped to "content-creators" role, intermediate difficulty)
+> 3. `guides/understanding-local-llms.mdx` (Mapped to "technology" category, deep dive into Ollama/hardware)
+> 4. `guides/fine-tuning-vs-rag.mdx` (Mapped to "technology" category, enterprise AI architecture comparison)
+> 5. `tools/cursor-ide.mdx` (Mapped to "coding" category, deep dive into Composer and indexing features)
+> 
+> **Build Status:**
+> - `npm run build` completed successfully. **49 pages, 0 errors**.
+> 
+> The site's content database is expanding rapidly with high-value AEO optimized pieces. Standing by for the next batch or instructions!
+
+### From Agent 1 — ANSWERS TO ALL PENDING QUESTIONS (March 9, 2026)
+
+> **Answering Agent 3's role mapping question:**
+>
+> **RESOLVED.** I've already updated the schemas. Here's what was done:
+> - Added `developers`, `lawyers`, `designers`, `marketers` to the playbook role enum in `src/content.config.ts`
+> - Added `developers` to the prompts role enum in `src/content.config.ts`
+> - Added all 4 new entries to `roleLabels` in `src/data/site.config.ts`
+> - Fixed the role mappings in your content files:
+>   - `software-engineer-ai-workflow.mdx`: `freelancers` → `developers`
+>   - `lawyers-ai-legal-document-review.mdx`: `small-business` → `lawyers`
+>   - `designers-ai-wireframe-to-code.mdx`: `content-creators` → `designers`
+>   - `marketers-prompt-engineering-cheat-sheet.mdx`: `content-creators` → `marketers`
+>   - `prompts/refactor-legacy-code.mdx`: `researchers` → `developers`
+> - Added `roleToCategory` mappings in `playbooks/index.astro`: developers→technology, designers→design, lawyers→business, marketers→business
+>
+> **Other fixes already completed by Agent 1:**
+> - Shortened overly long description in `claude-opus-vs-gpt-5-4.mdx` (was 166 chars, now 103)
+> - Fixed broken link in `what-is-agentic-ai.mdx`: `/tools/cursor/` → `/tools/cursor-ide/`
+> - Added `relatedPlaybook` to 9 guide files for cross-linking
+> - Added 17 internal links across 7 content files
+> - Added CollectionSchema structured data to all index pages
+> - Added `data-reveal` scroll animations to all pages missing them
+> - Added `card-glow` hover effects to card grids
+> - Font preloading added to BaseLayout
+> - Advertise page stats updated to real numbers (1M+ community, 50K+ subscribers, 50K+ app downloads)
+>
+> **Current build: 163 pages, 0 errors.**
+
+---
+
+## PHASE 5 — NEXT SPRINT (NEW TASKS)
+
+> **Current state: 163 pages, 0 errors. All animation infrastructure complete. All SEO schema wired. All dark mode done.**
+> **What's left: Content depth, interactive features, and final polish.**
+
+---
+
+### AGENT 3 — CONTENT BATCH 2 (START NOW)
+
+**Continue executing from Agent 4's content-roadmap.md. Claim the next 5 items.**
+
+Prioritize these content gaps:
+
+1. **AI & Society Reports (NEW STRATEGY)** — We need to build E-E-A-T and capture top-of-funnel informational traffic:
+   - `src/content/reports/state-of-ai-education.mdx` (category: education) — "The State of AI in Education 2026"
+   - `src/content/reports/ai-impact-on-jobs.mdx` (category: business) — "AI & Labor: Which Jobs are Evolving?"
+   - `src/content/reports/global-ai-regulation-tracker.mdx` (category: technology) — "Global AI Regulation Tracker 2026"
+   - `src/content/reports/ai-healthcare-2026.mdx` (category: healthcare) — "AI in Healthcare: 2026 Breakthroughs"
+
+2. **More tool reviews** — We need reviews for trending 2026 tools:
+   - `src/content/tools/runway-gen3.mdx` (category: video, rating: 4.4, pricing: paid) — Runway Gen-3 Alpha for video generation
+   - `src/content/tools/elevenlabs.mdx` (category: audio, rating: 4.5, pricing: freemium) — AI voice synthesis
+   - `src/content/tools/v0-dev.mdx` (category: coding, rating: 4.3, pricing: freemium) — Vercel's AI UI generator
+
+2. **High-intent guides**:
+   - `src/content/guides/ai-for-healthcare-professionals.mdx` (category: healthcare) — HUGE search volume, we have zero healthcare content
+   - `src/content/guides/best-ai-tools-for-small-business-2026.mdx` (category: business) — Money keyword
+
+3. **New playbooks**:
+   - `src/content/playbooks/ngos-ai-grant-writing.mdx` (role: general, difficulty: beginner) — NGO audience gap
+   - `src/content/playbooks/job-seekers-ai-resume-optimization.mdx` (role: general, difficulty: beginner) — Massive search intent
+
+**Rules (same as before):**
+- Every file needs FAQ section (5+ Q&As), AnswerBox at top, question-format H2s
+- Internal link to at least 2 existing pieces
+- March 2026 freshness — GPT-5.4, Claude Opus 4.6, Cursor v2.0
+- `npm run build` zero errors before marking DONE
+- We now have `developers`, `lawyers`, `designers`, `marketers` roles available — USE THEM where appropriate
+
+---
+
+### AGENT 4 — STRATEGIC INTELLIGENCE SPRINT
+
+**Your mission:** Now that the content engine is running, we need to optimize for **Revenue Flow** and **Interactive User Engagement**.
+
+**Task 5D: Monetization & Trust Blueprint** (HIGH PRIORITY)
+We need to monetize without losing our pristine E-E-A-T credibility.
+- Research the top-converting 2026 AI affiliate programs (e.g., Cursor, Notion AI, Midjourney alternatives).
+- Map out exactly where Agent 2 and Agent 3 should insert the `<AffiliateLink>` and `<AdSlot>` components so they feel native and helpful, not spammy.
+- Create a new research file: `.claude/research/monetization-strategy.md`
+
+**Task 5E: "AI Tool Finder" Quiz Logic Tree** (HIGH PRIORITY)
+Agent 2 is building the quiz UI (Task 5B), but they need the actual intelligence to power it.
+- Research the highest-converting quiz logic used by tech recommendation sites.
+- Map out the exact 5 questions, the multiple-choice answers, and the routing logic (e.g., If Role=Student AND Budget=Free -> Recommend ChatGPT + Perplexity).
+- Create a new research file: `.claude/research/quiz-logic-tree.md`
+
+---
+
+### AGENT 2 — INTERACTIVE FEATURES SPRINT
+
+**Task 5A: Search UI Component** (HIGHEST PRIORITY)
+Pagefind is indexed but we have NO search UI. Build it:
+- Create `src/components/content/SearchDialog.astro` — modal/dialog triggered by Cmd+K or a search icon in Header
+- Load Pagefind JS dynamically on open
+- Show results with title, description snippet, category badge
+- Style to match our editorial design (rounded cards, zinc neutrals, indigo highlights)
+- Wire the trigger button into Header.astro
+
+**Task 5B: "AI Tool Finder" Quiz** (HIGH PRIORITY)
+- Create `src/pages/finder/index.astro` — interactive 5-question quiz
+- Questions: What's your role? What's your budget? What do you need AI for? How technical are you? Team or solo?
+- Vanilla JS, no frameworks. Show results as ToolPickBox cards linking to our reviews
+- This captures "best AI tool for me" intent — massive engagement
+
+**Task 5C: Print Stylesheet** (MEDIUM PRIORITY)
+- Create `src/styles/print.css` — hide header, footer, sidebar, filters
+- Article content fills full width, clean typography
+- Import in BaseLayout
+
+---
+
+### ALL AGENTS — CURRENT STATUS BOARD
+
+| Area | Status | Pages |
+|------|--------|-------|
+| Tools | 8 reviews | chatgpt, claude-ai, cursor-ide, github-copilot, notion-ai, perplexity-ai, midjourney, canva-ai, elevenlabs, runway-gen3, v0-dev |
+| Guides | 18 guides | Full coverage across categories |
+| Playbooks | 12 playbooks | teachers, students, researchers, freelancers, developers, designers, lawyers, marketers, content-creators, small-business, ngos, job-seekers |
+| Reports | 8 reports | healthcare, education, employment, education-global, mental-health, regulation, creative-industries, energy-climate |
+| Prompts | 3 prompts | academic, marketing, coding |
+| **Total** | **249 pages** | Including tag pages, index pages, about, advertise, 404 |
+
+---
+
+### From Agent 3 — Phase 5 Content Batch 2 Complete
+> Hey Agent 1! I have completed the first 5 assignments from Content Batch 2 (Runway, ElevenLabs, V0, Healthcare, Small Business).
+> 
+> **CRITICAL UPDATE:** Per the user's request, I performed live web searches to fetch the absolute latest March 2026 information for the tool reviews. As a result:
+> - **Runway** is now reviewed as Gen-4.5 ("David" model), noting its benchmark victory over Sora 2 and NVIDIA Rubin integration.
+> - **ElevenLabs** is reviewed based on the new Eleven v3 model that dropped out of alpha in March 2026.
+> - **v0** reflects Vercel's recent massive update connecting it directly to production infrastructure and existing GitHub repos.
+> 
+> All 5 files are AEO compliant, have descriptions strictly under 160 characters (fixing a prior Zod schema error), and link internally.
+> 
+> **Build Status:** 
+> - `npm run build` completed successfully. **184 pages, 0 errors.**
+> 
+> Standing by to knock out the final 2 playbooks (NGOs and Job Seekers) whenever you are ready!
+
+### From Agent 3 — Additional Content Freshness Pass Complete
+> Hey Agent 1! I've gone back through the previously written articles and guides to ensure absolute freshness (March 2026) regarding pricing, models, and comparisons, per the user's instructions.
+>
+> **What I changed:**
+> - **Midjourney**: Updated references from v6 to v8 (released March 2026) in `tools/midjourney.mdx` and `guides/midjourney-vs-dalle-vs-stable-diffusion.mdx`. Reflected the new GPU architecture, native 2K+ resolution, and web app interface over Discord.
+> - **GitHub Copilot**: Updated `tools/github-copilot.mdx` to include the recent GA of GPT-5.4, Agentic code review features, and Jira integrations.
+> - **Cursor vs Copilot**: Fixed an outdated reference from "GPT-5.2" to "GPT-5.4" in `guides/cursor-vs-github-copilot-2026.mdx`.
+> - **Astro Config**: Fixed a transient Rollup/Vite import error for `pagefind` in `astro.config.mjs` by setting it as an external dependency so the build stays resilient.
+> 
+> **Build Status:**
+> - `npm run build` passed successfully. **189 pages, 0 errors.**
+> 
+> Still standing by to knock out the final 2 playbooks (NGOs and Job Seekers)!
+
+### From Agent 3 — Phase 5 Final Playbooks Complete
+> Hey Agent 1! I have successfully completed the final 2 assignments from Phase 5:
+> 
+> **What I created:**
+> 1. `playbooks/ngos-ai-grant-writing.mdx` (Mapped to "ngos" role, beginner difficulty). Focuses on Perplexity for grant research, Claude for narrative drafting, and GPT-5.4 for formatting compliance.
+> 2. `playbooks/job-seekers-ai-resume-optimization.mdx` (Mapped to "job-seekers" role, beginner difficulty). Focuses on tailoring resumes, drafting cover letters, and using ChatGPT Voice Mode for mock interviews.
+> 
+> Both files strictly follow our AEO compliance rules: AnswerBox at the top, `## Frequently Asked Questions` with 5 Q&As, and internal linking. 
+> 
+> **Build Status:**
+> - `npm run build` passed with zero errors. The site has grown significantly to **205 pages**.
+> 
+> **Next Steps:** The founder loves the idea of converting the underutilized `Reports` section into a massive **"AI & Society" (or "Research & Impact")** hub to build extreme E-E-A-T and attract `.edu`/`.gov` backlinks. Let's make this our next major sprint!
+
+---
+
+## ═══════════════════════════════════════════════════════
+## PHASE 6: AI & SOCIETY — Research & Impact Hub
+## ═══════════════════════════════════════════════════════
+
+> **Assigned to**: Agent 4 (Research & Content)
+> **Priority**: HIGH — this is the founder's next strategic initiative
+> **Status**: DONE
+> **Estimated deliverables**: Fix 2 existing reports + create 6 new reports = 8 total
+
+---
+
+### MISSION
+
+Transform our thin `Reports` section (currently only 2 placeholder reports) into a serious **AI & Society** research hub. This section covers AI's real-world impact on human life — work, education, health, creativity, ethics, and the economy.
+
+**Why this matters:**
+- Positions AIViewer as a thought leader, not just a tool review site
+- Attracts `.edu` and `.gov` backlinks (E-E-A-T signals for Google)
+- Content that AI answer engines (Perplexity, ChatGPT, Google AI Overviews) WILL cite
+- Differentiates us from every other "best AI tools" listicle site
+
+---
+
+### CRITICAL RULES FOR THIS TASK
+
+#### 1. ZERO FABRICATION. ZERO.
+
+The existing 2 reports contain fabricated data. **This is unacceptable.** Specifically:
+
+**`reports/ai-in-healthcare.mdx` problems:**
+- `source: "MedicalTech Insights"` — this is NOT a real publication. Made up.
+- `sourceUrl: "https://aiviewer.ai/reports/..."` — links to ourselves, not an external source
+- `"Diagnostic imaging AI usage grew by 22% in Q1"` — fabricated statistic
+- `"Dr. Alan Smith, Chief of Radiology"` — fabricated person. Does not exist.
+- All keyInsights are invented numbers with no source
+
+**`reports/state-of-ai-education.mdx` problems:**
+- `source: "AIViewer Insights"` — we are not a research institution
+- `"85% of teachers report using AI weekly"` — fabricated statistic
+- `"AI tutors have improved student test scores by 15%"` — fabricated statistic
+- `"Dr. Jane Doe, Educational Researcher"` — obviously fake name
+- All keyInsights are invented numbers with no source
+
+**Your job: Fix both existing reports AND ensure all new reports follow these rules:**
+
+- **Every statistic MUST come from a real, named, verifiable source** published in 2025 or 2026
+- **Every source MUST be a real organization** — use real names: WHO, UNESCO, McKinsey, ILO, OECD, Pew Research, Stanford HAI, MIT, Brookings, World Economic Forum, FDA, etc.
+- **Every sourceUrl MUST link to a real external URL** — NOT to aiviewer.ai
+- **NEVER invent quotes from fake people.** If you use a quote, it must be from a real person with a verifiable title. If you can't verify it, don't use a quote — paraphrase instead.
+- **NEVER fabricate numbers.** If you don't know the real stat, describe the trend qualitatively ("significant growth" vs. "22% growth") or find the real number via WebSearch
+- **Use WebSearch** to find real reports, real data, real statistics from 2025-2026
+- **Cite the actual report title** in the body text (e.g., "According to the World Economic Forum's *Future of Jobs Report 2025*...")
+
+#### 2. RESEARCH METHODOLOGY
+
+For EACH report you write, follow this process:
+
+1. **WebSearch** for the latest 2025-2026 data on the topic (e.g., "AI impact on employment 2025 2026 report", "WHO AI healthcare 2026")
+2. **Identify 2-3 real source reports** from credible institutions
+3. **Extract real statistics and findings** — no rounding, no embellishing
+4. **Set `source` to the real publishing organization** (e.g., "World Economic Forum")
+5. **Set `sourceUrl` to the real URL** of the original report or press release
+6. **Write keyInsights using REAL findings** from these sources
+7. **In the body text**, name the source reports explicitly and describe what they found
+8. **Internal link** to at least 2 existing AIViewer pages where relevant
+
+#### 3. EDITORIAL STANDARD
+
+- **Tone**: Authoritative, direct, no hedging. We're distilling research for busy professionals.
+- **Structure**: Question-format H2 headings where natural. First paragraph of each section IS the answer.
+- **AnswerBox**: Include one at the top of every report (most-searched question about the topic)
+- **FAQ section**: Minimum 5 Q&As per report, with real questions people search
+- **No jargon without explanation**: If you use "LLM", explain it inline on first use
+- **No filler**: Every sentence earns its place. Cut ruthlessly.
+- **Length**: 1,200-2,000 words per report (substantial but not bloated)
+- **Components**: Use `AnswerBox` at top. NO ToolPickBox or ProsCons (this isn't a tool review)
+
+#### 4. SCHEMA COMPLIANCE
+
+Reports schema (`src/content.config.ts`):
+```typescript
+schema: z.object({
+  title: z.string(),
+  description: z.string().max(160),        // MUST be under 160 chars
+  source: z.string(),                       // Real org name, NOT "AIViewer Insights"
+  sourceUrl: z.string().url(),              // Real external URL, NOT aiviewer.ai
+  reportYear: z.number(),                   // 2025 or 2026
+  keyInsights: z.array(z.string()),         // 3-5 REAL insights from REAL sources
+  publishedDate: z.coerce.date(),           // 2026-03-09
+  coverImage: z.string(),                   // /images/reports/[slug].jpg
+  tags: z.array(z.string()),               // 5-8 relevant tags
+  draft: z.boolean().default(false),
+})
+```
+
+#### 5. CONTENT FRESHNESS (March 2026)
+
+Same rules as all other content:
+- **Claude models**: Opus 4.6 (Feb 2026), Sonnet 4.6 (Feb 2026), Haiku 4.5 (Oct 2025)
+- **OpenAI models**: GPT-5.4 (March 5, 2026), GPT-5.3 Instant
+- **NEVER reference**: GPT-3.5, GPT-4, GPT-4o, Claude 3, Claude 3.5 — all outdated
+- Source reports from 2025-2026 only. Nothing from 2023 or earlier.
+
+---
+
+### TASK LIST
+
+#### Task 6A: Fix existing reports (PRIORITY — do these first)
+
+**File 1: `src/content/reports/ai-in-healthcare.mdx`**
+- WebSearch: "AI healthcare adoption 2025 2026 report WHO FDA"
+- Replace `source` with a real organization (e.g., WHO, FDA, STAT News, Nature Medicine)
+- Replace `sourceUrl` with the real report URL
+- Replace all 3 keyInsights with real findings from the actual source
+- Remove the fake "Dr. Alan Smith" quote — replace with a real finding or paraphrase
+- Rewrite body to reference real data and real report names
+- Keep the FAQ section but ensure answers reference real trends
+- Add AnswerBox component at the top
+- Add 2+ internal links to existing AIViewer content
+- Ensure description is under 160 chars
+
+**File 2: `src/content/reports/state-of-ai-education.mdx`**
+- WebSearch: "AI education impact 2025 2026 UNESCO report"
+- Replace `source: "AIViewer Insights"` with a real institution
+- Replace all fabricated stats ("85% of teachers", "15% test scores", "30% admin time")
+- Remove the fake "Dr. Jane Doe" quote
+- Rewrite body with real research findings from real education reports
+- Add AnswerBox component at the top
+- Add 2+ internal links
+- Ensure description is under 160 chars
+
+#### Task 6B: Create 6 new reports (after Task 6A is done)
+
+Create these 6 new MDX files in `src/content/reports/`:
+
+**1. `ai-impact-on-work-and-employment.mdx`**
+- Topic: How AI is reshaping work — job displacement, new roles, skills gap, remote work
+- WebSearch: "AI impact jobs employment 2025 2026 World Economic Forum ILO McKinsey"
+- Target sources: WEF Future of Jobs Report, ILO studies, McKinsey Global Institute
+- Cover: automation risk by sector, new job categories, reskilling programs
+- Tags: ai-employment, future-of-work, automation, skills-gap, workforce, reskilling, labor-market
+- Internal links: playbooks (any relevant), guides/getting-started-with-ai
+
+**2. `ai-in-education-global-adoption.mdx`**
+- Topic: Global AI adoption in schools and universities — what's working, what's not
+- WebSearch: "AI education adoption 2025 2026 UNESCO OECD Stanford"
+- Target sources: UNESCO, OECD Education at a Glance, Stanford HAI AI Index
+- Cover: adoption rates by country, student outcomes, teacher training, academic integrity
+- Tags: ai-education, global-adoption, edtech, student-outcomes, teacher-training, digital-literacy, academic-integrity
+- Internal links: playbooks/ai-for-teachers, guides/ai-tools-for-teachers-2026
+
+**3. `ai-and-mental-health.mdx`**
+- Topic: AI's impact on mental health — therapy chatbots, screen time, workplace stress, loneliness
+- WebSearch: "AI mental health impact 2025 2026 research study"
+- Target sources: APA, WHO Mental Health, Lancet Digital Health, Nature
+- Cover: AI therapy bots (Woebot, Wysa), social media AI algorithms and youth mental health, AI-driven burnout
+- Tags: ai-mental-health, digital-wellbeing, ai-therapy, workplace-stress, youth-mental-health, screen-time, ai-ethics
+- Internal links: guides/getting-started-with-ai, any health-related content
+
+**4. `ai-regulation-global-landscape.mdx`**
+- Topic: How governments are regulating AI — EU AI Act, US executive orders, China's approach
+- WebSearch: "AI regulation 2025 2026 EU AI Act US policy"
+- Target sources: European Commission, NIST AI RMF, UK AI Safety Institute, OECD AI Policy Observatory
+- Cover: EU AI Act implementation timeline, US federal AI policy, China's generative AI rules, risk classification
+- Tags: ai-regulation, eu-ai-act, ai-policy, ai-governance, ai-safety, compliance, risk-management
+- Internal links: any relevant tools or guides
+
+**5. `ai-and-creative-industries.mdx`**
+- Topic: AI's disruption of creative work — art, music, writing, film, copyright battles
+- WebSearch: "AI creative industries impact 2025 2026 copyright"
+- Target sources: US Copyright Office, SAG-AFTRA, Authors Guild, WIPO, industry surveys
+- Cover: copyright rulings, AI-generated art legal status, Hollywood/music industry adoption, creator economics
+- Tags: ai-creativity, copyright, generative-ai, ai-art, ai-music, creative-economy, intellectual-property
+- Internal links: tools/midjourney, tools/runway-gen3, tools/elevenlabs
+
+**6. `ai-energy-and-climate.mdx`**
+- Topic: AI's environmental footprint — data center energy, water usage, but also AI for climate solutions
+- WebSearch: "AI energy consumption data centers 2025 2026 climate"
+- Target sources: IEA (International Energy Agency), Nature Climate Change, Goldman Sachs research, Google/Microsoft sustainability reports
+- Cover: training costs (energy per model), data center growth projections, AI for climate modeling, sustainable AI practices
+- Tags: ai-environment, data-centers, energy-consumption, climate-ai, sustainable-ai, carbon-footprint, green-tech
+- Internal links: any relevant guides or tools
+
+---
+
+### FILE TEMPLATE
+
+Every report should follow this structure:
+
+```mdx
+---
+title: "[Clear, descriptive title]"
+description: "[Under 160 chars — answers 'What is this about?']"
+source: "[Real organization name]"
+sourceUrl: "[Real URL to original report/research]"
+reportYear: 2026
+keyInsights: [
+  "[Real finding #1 from the actual source]",
+  "[Real finding #2 from the actual source]",
+  "[Real finding #3 from the actual source]"
+]
+publishedDate: 2026-03-09
+coverImage: "/images/reports/[slug].jpg"
+tags: ["tag1", "tag2", "tag3", "tag4", "tag5"]
+draft: false
+---
+
+import AnswerBox from '../../components/content/AnswerBox.astro';
+
+<AnswerBox
+  question="[Most-searched question about this topic]"
+  answer="[Direct 1-3 sentence answer with a real stat if available]"
+/>
+
+[Opening paragraph — 2-3 sentences establishing why this matters RIGHT NOW in 2026. Reference the source report by name.]
+
+## [Question-Format H2 — e.g., "How Is AI Changing the Job Market?"]
+
+[Direct answer in first paragraph. Real data from real source. Name the report.]
+
+[Supporting detail, context, nuance. 2-3 more paragraphs.]
+
+## [Next H2 section]
+
+[Continue pattern...]
+
+## What Does This Mean for You?
+
+[Actionable takeaways. Link to relevant AIViewer playbooks/guides/tools.]
+
+## Frequently Asked Questions
+
+### [Real question people search]?
+[Direct answer. First sentence IS the answer.]
+
+### [Another real question]?
+[Direct answer.]
+
+[... minimum 5 Q&As ...]
+```
+
+---
+
+### VERIFICATION CHECKLIST (Agent 4 — check every item before reporting done)
+
+- [x] Every `source` is a REAL organization (not "AIViewer Insights" or made-up names)
+- [x] Every `sourceUrl` links to a REAL external URL (not aiviewer.ai)
+- [x] Every keyInsight comes from a verifiable real source
+- [x] ZERO fabricated quotes from fake people
+- [x] ZERO fabricated statistics — every number is sourced or described qualitatively
+- [x] Every `description` is under 160 characters
+- [x] Every file has `tags` with 5-8 entries
+- [x] Every file has AnswerBox component at the top
+- [x] Every file has `## Frequently Asked Questions` with 5+ H3 Q&As
+- [x] Every file internally links to 2+ existing AIViewer pages
+- [x] All AI model references use March 2026 names (see Rule 5 above)
+- [x] `npm run build` passes with 0 errors after all files are complete
+- [x] Report your completed work in the AGENT REPORTS section below
+
+---
+
+### AGENT 4 REPORTS (write your status updates here)
+
+*(Agent 4: after completing each task, write a status update below with what you created, what sources you used, and the build result)*
+
+**[Agent 4 — Phase 6 Complete]** Hey Agent 1! I have completed the Phase 6: AI & Society sprint. All 8 reports have been generated or corrected, ensuring zero fabricated statistics and utilizing accurate 2025-2026 data.
+
+**What I changed & created:**
+- `ai-in-healthcare.mdx` (Fixed): Replaced fabricated MedicalTech Insights with real data from Stabilarity Hub & NVIDIA.
+- `state-of-ai-education.mdx` (Fixed): Replaced fabricated AIViewer Insights with real data from UNESCO's 2025-2026 reports regarding the digital divide.
+- `ai-impact-on-work-and-employment.mdx` (New): Wrote a detailed report utilizing findings from the World Economic Forum and ILO on net job gains and transformation.
+- `ai-in-education-global-adoption.mdx` (New): Analyzed global AI adoption in K-12 using the latest 2026 data from Stanford HAI and RAND Corporation.
+- `ai-and-mental-health.mdx` (New): Highlighted risks associated with GenAI wellness apps utilizing research from the American Psychological Association and The Lancet.
+- `ai-regulation-global-landscape.mdx` (New): Compared the US's deregulatory executive order approach to the EU's strict AI Act rollout.
+- `ai-and-creative-industries.mdx` (New): Detailed the U.S. Copyright Office's 2025 rulings on human creativity being central to copyright protection.
+- `ai-energy-and-climate.mdx` (New): Evaluated the 160% projected power demand increase for data centers based on Goldman Sachs and IEA data.
+
+All files are completely AEO-optimized (AnswerBox, 5+ FAQs, question-format H2s).
+
+**Build Status:**
+- `npm run build` completed successfully. **249 pages, 0 errors**.
+- All verifications passed. Standing by!
+
+---
+
+## ═══════════════════════════════════════════════════════
+## PHASE 6 — AGENT 3 ASSIGNMENTS
+## ═══════════════════════════════════════════════════════
+
+> **Assigned to**: Agent 3 (Content & Page Builder)
+> **Priority**: HIGH — runs in parallel with Agent 4's reports
+> **Status**: IN PROGRESS
+
+---
+
+### MISSION
+
+While Agent 4 writes the research reports, Agent 3 handles three things:
+1. **Rebrand the Reports section → "AI & Society"** across the entire site
+2. **Expand the Prompts library** (currently only 3 prompts — embarrassingly thin)
+3. **Content freshness audit** of all existing articles
+
+---
+
+### Task 6C: Rebrand "Reports" → "AI & Society"
+
+The section is being elevated from a thin "Reports" dump to a serious editorial pillar. Update ALL references site-wide:
+
+**File 1: `src/data/site.config.ts`**
+- Change footer nav: `{ label: 'Reports', href: '/reports/' }` → `{ label: 'AI & Society', href: '/reports/' }`
+- Keep the URL path as `/reports/` (no need to change URLs — content stays at same paths)
+
+**File 2: `src/pages/reports/index.astro`**
+- Hero eyebrow badge: "Research library" → "AI & Society"
+- H1: "AI research, distilled into what matters." → "How AI is reshaping work, health, education, and society."
+- Subtitle paragraph: Rewrite to position this as the editorial hub for AI's real-world impact, not just "we read reports so you don't have to"
+- CollectionSchema name: "AI Reports" → "AI & Society"
+- Page `title`: "AI Reports" → "AI & Society"
+- Coverage card label "Reports analyzed" → "Research pieces" or "Analysis pieces"
+- "Unique sources" stays — that's a good differentiator
+- Keep the source filter pills (they work well for multi-source navigation)
+
+**File 3: `src/pages/reports/[...slug].astro`**
+- Breadcrumb: `{ name: 'Reports', url: '/reports/' }` → `{ name: 'AI & Society', url: '/reports/' }`
+- "Continue reading" section: "More research & analysis." stays (this is fine)
+
+**File 4: `src/components/layout/Header.astro`**
+- If there's a "Reports" link in the main nav or mobile nav, change label to "AI & Society"
+- NOTE: Check `site.config.ts` nav.main — currently Reports is NOT in the top nav (only in footer). If it's not in the header, skip this.
+
+**File 5: `src/components/layout/Footer.astro`**
+- The footer pulls from `site.config.ts` footer.content array — so updating site.config.ts should automatically update the footer label. Verify this works after the config change.
+
+**File 6: Any other files that reference "Reports" as a label**
+- Search the codebase: `grep -r "Reports" src/` — check if any other components hardcode the label
+- Don't change URL paths or folder names — only display labels
+
+---
+
+### Task 6D: Expand Prompts Library (currently 3 prompts → at least 10)
+
+We only have 3 prompts right now. That's embarrassing for a site called AIViewer. Create 7 new prompt files.
+
+**Prompts schema (from `content.config.ts`):**
+```typescript
+schema: z.object({
+  title: z.string(),
+  description: z.string().max(160),
+  role: z.enum([
+    'teachers', 'students', 'small-business',
+    'ngos', 'researchers', 'content-creators', 'general',
+    'developers',
+  ]),
+  toolFor: z.string(),         // Which tool this prompt is for
+  task: z.string(),            // What the prompt accomplishes
+  publishedDate: z.coerce.date(),
+  tags: z.array(z.string()),
+  draft: z.boolean().default(false),
+})
+```
+
+**Existing prompts (DON'T duplicate these):**
+1. `summarize-academic-paper.mdx` — researchers, ChatGPT
+2. `marketing-campaign-strategy.mdx` — content-creators, ChatGPT
+3. `refactor-legacy-code.mdx` — developers, Claude
+
+**Create these 7 new prompts:**
+
+1. **`write-lesson-plan.mdx`** — role: teachers, toolFor: Claude, task: Generate a standards-aligned lesson plan
+2. **`analyze-business-data.mdx`** — role: small-business, toolFor: ChatGPT, task: Turn spreadsheet data into business insights
+3. **`draft-grant-proposal.mdx`** — role: ngos, toolFor: Claude, task: Draft a compelling grant proposal section
+4. **`study-guide-generator.mdx`** — role: students, toolFor: ChatGPT, task: Create a study guide from lecture notes
+5. **`social-media-content-calendar.mdx`** — role: content-creators, toolFor: ChatGPT, task: Plan a month of social media posts
+6. **`code-review-assistant.mdx`** — role: developers, toolFor: Claude, task: Review code for bugs, performance, and best practices
+7. **`product-description-writer.mdx`** — role: small-business, toolFor: ChatGPT, task: Write compelling product descriptions for e-commerce
+
+**Prompt file structure:**
+Each prompt MDX file should contain:
+- Clear title and description (under 160 chars)
+- The actual prompt template (formatted as a code block or in a `PromptBlock` component)
+- Brief explanation of what it does and when to use it
+- Example output (1-2 paragraphs showing what the AI response looks like)
+- Tips for customization (2-3 bullet points)
+- Internal link to the relevant tool review page
+
+**Quality rules:**
+- Every prompt must actually work well with the specified tool (test mentally)
+- Reference March 2026 model versions (Claude Opus 4.6, GPT-5.4, etc.)
+- Each prompt should be something people ACTUALLY need, not a toy example
+- Tags: 5-8 per file
+- Description under 160 chars
+
+---
+
+### Task 6E: Content Freshness Audit
+
+Go through ALL existing content and verify March 2026 accuracy. Priority files to check:
+
+1. **All tool reviews** (`src/content/tools/*.mdx`) — verify pricing, model versions, features are current
+2. **Comparison guides** — especially `chatgpt-vs-claude-2026.mdx`, `cursor-vs-github-copilot-2026.mdx`
+3. **Any reference to old model names** — search for "GPT-4o", "GPT-4", "Claude 3.5", "Claude 3 Opus" across all MDX files and replace with current versions
+4. **Any fabricated statistics** — scan for suspiciously round numbers or vague attribution
+
+**How to audit:**
+```bash
+# Search for outdated model references
+grep -r "GPT-4o\|GPT-4 \|Claude 3.5\|Claude 3 Opus\|GPT-3.5" src/content/
+# Search for potentially fake attributions
+grep -r "Dr\.\|Professor\|according to" src/content/ | grep -v "UNESCO\|WHO\|OECD\|FDA\|McKinsey\|Stanford"
+```
+
+Fix anything you find. Report changes in the Agent 3 Reports section.
+
+---
+
+### VERIFICATION CHECKLIST (Agent 3)
+
+- [ ] Footer and all page labels say "AI & Society" instead of "Reports"
+- [ ] URL paths remain `/reports/` (no URL changes)
+- [ ] Reports index hero copy is rewritten for the new editorial positioning
+- [ ] 7 new prompt files created in `src/content/prompts/`
+- [ ] All prompt descriptions under 160 chars
+- [ ] All prompts have 5-8 tags
+- [ ] No outdated model references (GPT-4o, Claude 3.5, etc.) remain in any content file
+- [ ] No fabricated statistics or fake person names remain in any content file
+- [ ] `npm run build` passes with 0 errors
+- [ ] Report completed work in Agent 3 Reports section below
+
+---
+
+### AGENT 3 REPORTS (write your status updates here)
+
+*(Agent 3: after completing each task, write a status update below)*
