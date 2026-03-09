@@ -89,24 +89,24 @@ const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
                   image={entry.data.coverImage}
                   variant="playbook"
                   badge="Operational playbook"
-                  layout="split"
+                  layout="hero"
                 />
               </div>
 
               <div class="p-7">
               <div class="flex items-start justify-between gap-4">
                 <div>
-                  <span class="inline-flex rounded-full bg-indigo-50 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-indigo-600">
+                  <span class="inline-flex rounded-full border border-[#F0C75E]/35 bg-[#F0C75E]/10 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-amber-800">
                     {roleLabels[entry.data.role] ?? entry.data.role}
                   </span>
-                  <h3 class="mt-4 text-2xl text-zinc-950 group-hover:text-indigo-600">{entry.data.title}</h3>
+                  <p class="mt-4 max-w-xl text-[0.8rem] font-semibold uppercase tracking-[0.16em] text-zinc-400">Why it matters</p>
                 </div>
                 <span class:list={['rounded-full border px-3 py-1 text-xs font-semibold', difficultyConfig[entry.data.difficulty]?.color ?? 'bg-zinc-100 text-zinc-700']}>
                   {difficultyConfig[entry.data.difficulty]?.label ?? entry.data.difficulty}
                 </span>
               </div>
 
-              <p class="mt-4 max-w-xl text-[0.96rem] leading-7 text-zinc-600">{entry.data.description}</p>
+              <p class="mt-3 max-w-xl text-[1rem] leading-7 text-zinc-600">{entry.data.description}</p>
 
               <div class="mt-6 flex flex-wrap gap-2">
                 {entry.data.toolsUsed.slice(0, 4).map((tool) => (

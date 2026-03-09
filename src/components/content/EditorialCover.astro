@@ -6,7 +6,7 @@ interface Props {
   variant?: 'playbook' | 'tool' | 'guide';
   badge?: string;
   compact?: boolean;
-  layout?: 'panel' | 'frame' | 'split';
+  layout?: 'panel' | 'frame' | 'split' | 'hero';
   showTitle?: boolean;
 }
 
@@ -186,6 +186,39 @@ const copyWidth = compact ? 'max-w-[14rem]' : 'max-w-[21rem]';
           'h-14 w-14 rounded-[1.1rem] border backdrop-blur-md sm:h-18 sm:w-18',
           style.frame,
         ]}></div>
+      </div>
+    </div>
+  )}
+
+  {showTitle && layout === 'hero' && (
+    <div class="absolute inset-x-0 bottom-0 p-4 sm:p-6">
+      <div class="flex items-end justify-between gap-6">
+        <div class={copyWidth}>
+          {subtitle && (
+            <p class:list={[
+              'text-[0.64rem] font-semibold uppercase tracking-[0.18em]',
+              variant === 'playbook' ? 'text-white/70' : 'text-zinc-700/78',
+            ]}>
+              {subtitle}
+            </p>
+          )}
+          <h3 class:list={[
+            'mt-2 text-balance font-[700] leading-[0.98]',
+            variant === 'playbook' ? 'text-white' : 'text-zinc-950',
+            compact ? 'text-[1.2rem] sm:text-[1.35rem]' : 'text-[1.55rem] sm:text-[2rem]',
+          ]}>
+            {title}
+          </h3>
+        </div>
+
+        <div class="hidden sm:block">
+          <div class:list={[
+            'h-24 w-24 rounded-[1.75rem] border backdrop-blur-md',
+            variant === 'playbook'
+              ? 'border-white/14 bg-white/6'
+              : 'border-zinc-900/8 bg-white/22',
+          ]}></div>
+        </div>
       </div>
     </div>
   )}
