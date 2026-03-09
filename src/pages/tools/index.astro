@@ -23,7 +23,7 @@ const categories = [...new Set(tools.map((entry) => entry.data.category))];
   <Header />
 
   <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
-    <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.22),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.12),_transparent_38%)]"></div>
+    <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.22),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.12),_transparent_38%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.08),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.06),_transparent_38%)]"></div>
     <div class="page-container relative py-12 md:py-16">
       <Breadcrumbs items={[{ label: 'Tools' }]} />
 
@@ -184,12 +184,11 @@ const categories = [...new Set(tools.map((entry) => entry.data.category))];
       const setFilter = (value) => {
         buttons.forEach((button) => {
           const active = button.dataset.filter === value;
-          button.classList.toggle('border-indigo-200', active);
-          button.classList.toggle('bg-indigo-50', active);
-          button.classList.toggle('text-indigo-700', active);
-          button.classList.toggle('border-zinc-200', !active);
-          button.classList.toggle('bg-white', !active);
-          button.classList.toggle('text-zinc-600', !active);
+          if (active) {
+            button.className = 'rounded-full border border-indigo-200 dark:border-indigo-700 bg-indigo-50 dark:bg-indigo-900/30 px-4 py-2 text-sm font-semibold text-indigo-700 dark:text-indigo-300';
+          } else {
+            button.className = 'rounded-full border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 transition-colors hover:border-indigo-200 hover:text-indigo-600';
+          }
         });
 
         cards.forEach((card) => {

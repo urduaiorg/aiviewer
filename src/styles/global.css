@@ -62,34 +62,39 @@
   --shadow-card-hover: 0 0 0 1px rgb(255 255 255 / 0.2), 0 8px 16px rgb(0 0 0 / 0.4);
 }
 
-/* ---- Base ---- */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+/* ---- Base ----
+     Wrapped in @layer base so Tailwind utilities (text-*, bg-*, etc.)
+     can properly override these defaults via the cascade. Without this,
+     unlayered styles beat any layered utility regardless of specificity. */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
 
-body {
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--color-text);
-  background-color: var(--color-bg);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
+  body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
 
-/* ---- Typography ---- */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  color: var(--color-heading);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-}
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--color-heading);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
 
-h1 { font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 800; }
-h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); font-weight: 700; }
-h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); font-weight: 600; }
-h4 { font-size: 1.125rem; font-weight: 600; }
+  h1 { font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 800; }
+  h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); font-weight: 700; }
+  h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); font-weight: 600; }
+  h4 { font-size: 1.125rem; font-weight: 600; }
+}
 
 /* ---- Links — scoped so buttons aren't affected ---- */
 @layer base {
@@ -103,132 +108,132 @@ h4 { font-size: 1.125rem; font-weight: 600; }
   }
 }
 
-/* ---- Layout ---- */
-.page-container {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-@media (min-width: 768px) {
+/* ---- Layout & Components ----
+     In @layer components so Tailwind utilities can override when needed. */
+@layer components {
   .page-container {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
-}
 
-.content-area {
-  max-width: 720px;
-  margin: 0 auto;
-}
+  @media (min-width: 768px) {
+    .page-container {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
 
-/* ---- Prompt block ---- */
-.prompt-block {
-  background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
-  border-left: 3px solid var(--color-primary);
-  border-radius: 0 0.625rem 0.625rem 0;
-  padding: 1.5rem;
-  font-family: var(--font-mono);
-  font-size: 13.5px;
-  position: relative;
-  white-space: pre-wrap;
-  line-height: 1.65;
-}
+  .content-area {
+    max-width: 720px;
+    margin: 0 auto;
+  }
 
-/* ---- Tool pick box ---- */
-.tool-pick-box {
-  background: var(--color-primary-light);
-  border: 1.5px solid var(--color-primary-subtle);
-  border-radius: 1rem;
-  padding: 1.75rem;
-}
+  .prompt-block {
+    background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+    border-left: 3px solid var(--color-primary);
+    border-radius: 0 0.625rem 0.625rem 0;
+    padding: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    position: relative;
+    white-space: pre-wrap;
+    line-height: 1.65;
+  }
 
-/* ---- Ad slot ---- */
-.ad-slot {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-bg-alt);
-  border: 1px dashed var(--color-border);
-  border-radius: 0.5rem;
-  min-height: 250px;
-  min-width: 300px;
-}
+  .tool-pick-box {
+    background: var(--color-primary-light);
+    border: 1.5px solid var(--color-primary-subtle);
+    border-radius: 1rem;
+    padding: 1.75rem;
+  }
 
-/* ---- Prose styles for markdown ---- */
-.prose h2 {
-  margin-top: 3rem;
-  margin-bottom: 1rem;
-}
+  .ad-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-alt);
+    border: 1px dashed var(--color-border);
+    border-radius: 0.5rem;
+    min-height: 250px;
+    min-width: 300px;
+  }
 
-.prose h3 {
-  margin-top: 2.25rem;
-  margin-bottom: 0.75rem;
-}
+  /* Prose styles for markdown content */
+  .prose h2 {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
 
-.prose p {
-  margin-bottom: 1.375rem;
-}
+  .prose h3 {
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
 
-.prose ul, .prose ol {
-  margin-bottom: 1.375rem;
-  padding-left: 1.25rem;
-}
+  .prose p {
+    margin-bottom: 1.375rem;
+  }
 
-.prose li {
-  margin-bottom: 0.5rem;
-}
+  .prose ul, .prose ol {
+    margin-bottom: 1.375rem;
+    padding-left: 1.25rem;
+  }
 
-.prose blockquote {
-  border-left: 3px solid var(--color-primary);
-  padding-left: 1.25rem;
-  color: var(--color-text-muted);
-  font-style: italic;
-  margin: 2rem 0;
-}
+  .prose li {
+    margin-bottom: 0.5rem;
+  }
 
-.prose code {
-  background: var(--color-bg-alt);
-  padding: 0.15rem 0.4rem;
-  border-radius: 0.25rem;
-  font-family: var(--font-mono);
-  font-size: 0.85em;
-}
+  .prose blockquote {
+    border-left: 3px solid var(--color-primary);
+    padding-left: 1.25rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin: 2rem 0;
+  }
 
-.prose pre {
-  background: var(--color-bg-dark);
-  color: #E4E4E7;
-  padding: 1.5rem;
-  border-radius: 0.75rem;
-  overflow-x: auto;
-  margin: 2rem 0;
-}
+  .prose code {
+    background: var(--color-bg-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+  }
 
-.prose pre code {
-  background: none;
-  padding: 0;
-  color: inherit;
-}
+  .prose pre {
+    background: var(--color-bg-dark);
+    color: #E4E4E7;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    margin: 2rem 0;
+  }
 
-.prose img {
-  border-radius: 0.75rem;
-  margin: 2rem 0;
-}
+  .prose pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
 
-/* ---- Dark mode card & section helpers ---- */
-[data-theme="dark"] .transition-card {
-  background-color: var(--color-bg-white);
-  border-color: var(--color-border);
-}
-[data-theme="dark"] .transition-card:hover {
-  border-color: rgba(99, 102, 241, 0.35);
-}
+  .prose img {
+    border-radius: 0.75rem;
+    margin: 2rem 0;
+  }
 
-/* ---- Utility transitions ---- */
-.transition-card {
-  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
-}
-.transition-card:hover {
-  transform: translateY(-2px);
+  /* Card transitions */
+  .transition-card {
+    transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+  }
+  .transition-card:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Dark mode card helpers */
+  [data-theme="dark"] .transition-card {
+    background-color: var(--color-bg-white);
+    border-color: var(--color-border);
+  }
+  [data-theme="dark"] .transition-card:hover {
+    border-color: rgba(99, 102, 241, 0.35);
+  }
 }
