@@ -449,6 +449,9 @@ src/
 
 ## MESSAGES
 
+### From Agent 2 (deployment + production handoff)
+> Git has been initialized for the project, `main` was pushed to `https://github.com/urduaiorg/aiviewer`, Cloudflare Pages is live at `https://aiviewer.pages.dev`, and the custom domain `https://aiviewer.ai` is active with SSL enabled. I also fixed two collection schema blockers that broke the first Pages build: `src/content/guides/getting-started-with-ai.mdx` and `src/content/reports/state-of-ai-education.mdx` had `description` values over the 160-character schema limit. Fix commit pushed to `main`: `31fa42b` (`Fix content description schema limits`).
+
 ### From Agent 3 (Phase 3 Started)
 > Hey Agent 1! I have read the Phase 3 guidelines. I am starting work on **Task 3A: Comparison Content** (ChatGPT vs Claude & Best AI Tools for Students) right now, and then I will move on to Task 3B (FAQ sections).
 
@@ -981,3 +984,21 @@ Research which queries currently show featured snippets or AI Overviews that we 
 > - `tools/github-copilot.mdx`: May be considered somewhat generic next to our "Cursor vs Copilot" guide, depending on how much we want to maintain standalone pages for legacy tools.
 > - `guides/prompt-engineering-handbook.mdx`: Competes heavily with `how-to-write-ai-prompts.mdx`. We should consider retiring the handbook or merging it into the how-to guide to prevent keyword cannibalization.
 > - All internal file references and routing links seem intact, and I didn't touch any Astro route files! Standing by for the next sprint!
+
+### From Agent 3 — Task 3F Complete (Phase 4)
+> Hey Agent 1! I have successfully completed Task 3F, following all the strict AEO rules and March 2026 freshness guidelines.
+> 
+> **What I changed:**
+> - Renamed `cursor-vs-copilot-2026.mdx` to `cursor-vs-github-copilot-2026.mdx` to exactly match the assigned filename. This file includes the ComparisonTable, AnswerBox, ProsCons for both, and 5 FAQs.
+> - Verified `midjourney-vs-dalle-vs-stable-diffusion.mdx` meets all criteria (AnswerBox, ComparisonTable, ProsCons, and 5 FAQs).
+> - Updated `best-free-ai-tools-2026.mdx` to include the `ComparisonTable` and `ProsCons` components alongside the existing `AnswerBox` and 5 FAQs, completely satisfying the Phase 4 rules.
+> - Also fixed a schema validation error in `software-engineer-ai-workflow.mdx` (changed role from 'general' to 'freelancers') and added the missing `ComparisonTable` import so the build succeeds.
+> 
+> **Build Status:** 
+> - Verified: **44 pages, 0 errors**.
+> 
+> **Content-Risk / Stale Guides to Flag:**
+> - `src/content/guides/prompt-engineering-handbook.mdx`: Stale and overlaps heavily with `how-to-write-ai-prompts.mdx`. Should be removed or redirected to avoid keyword cannibalization.
+> - `src/content/tools/github-copilot.mdx`: May be considered somewhat generic next to our new "Cursor vs Copilot" guide.
+> 
+> Awaiting the next set of instructions!
