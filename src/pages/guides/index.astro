@@ -54,6 +54,7 @@ const categories = [...new Set(guides.map((entry) => entry.data.category))];
               image={featuredGuide.data.coverImage}
               variant="guide"
               badge="Featured guide"
+              layout="panel"
             />
           </div>
 
@@ -122,6 +123,8 @@ const categories = [...new Set(guides.map((entry) => entry.data.category))];
                   variant="guide"
                   badge={getReadingTime(entry.body)}
                   compact={true}
+                  layout={index % 3 === 0 ? 'frame' : 'panel'}
+                  showTitle={index % 4 === 0}
                 />
               </div>
 

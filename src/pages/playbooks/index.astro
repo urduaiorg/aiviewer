@@ -89,6 +89,7 @@ const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
                   image={entry.data.coverImage}
                   variant="playbook"
                   badge="Operational playbook"
+                  layout="split"
                 />
               </div>
 
@@ -176,11 +177,12 @@ const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
               <div class="border-b border-zinc-200">
                 <EditorialCover
                   title={entry.data.title}
-                  subtitle={difficultyConfig[entry.data.difficulty]?.label ?? entry.data.difficulty}
+                  subtitle={`${difficultyConfig[entry.data.difficulty]?.label ?? entry.data.difficulty} workflow`}
                   image={entry.data.coverImage}
                   variant="playbook"
                   badge={roleLabels[entry.data.role] ?? entry.data.role}
                   compact={true}
+                  showTitle={false}
                 />
               </div>
 

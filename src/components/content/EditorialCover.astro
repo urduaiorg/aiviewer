@@ -6,6 +6,8 @@ interface Props {
   variant?: 'playbook' | 'tool' | 'guide';
   badge?: string;
   compact?: boolean;
+  layout?: 'panel' | 'frame' | 'split';
+  showTitle?: boolean;
 }
 
 const {
@@ -15,49 +17,44 @@ const {
   variant = 'guide',
   badge = 'AIViewer.ai',
   compact = false,
+  layout = 'panel',
+  showTitle = true,
 } = Astro.props;
 
 const variantStyles = {
   playbook: {
-    shell:
-      'from-zinc-950 via-indigo-950 to-zinc-900 text-white',
-    ink: 'text-white/88',
-    line: 'stroke-[#F0C75E]/80',
-    panel:
-      'border-white/14 bg-white/10 text-white shadow-[0_24px_60px_rgba(15,23,42,0.28)]',
-    badge:
-      'border-[#F0C75E]/40 bg-[#F0C75E]/14 text-[#F8D986]',
-    glow:
-      'bg-[radial-gradient(circle_at_top_left,rgba(240,199,94,0.36),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(129,140,248,0.26),transparent_34%)]',
+    shell: 'from-zinc-950 via-indigo-950 to-zinc-900 text-white',
+    ink: 'text-white/76',
+    line: 'stroke-[#F0C75E]/72',
+    panel: 'border-white/12 bg-zinc-950/44 text-white shadow-[0_24px_60px_rgba(15,23,42,0.32)]',
+    frame: 'border-[#F0C75E]/24 bg-black/18 text-white shadow-[0_24px_60px_rgba(15,23,42,0.22)]',
+    badge: 'border-[#F0C75E]/42 bg-black/24 text-[#F8D986]',
+    glow: 'bg-[radial-gradient(circle_at_top_left,rgba(240,199,94,0.34),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(129,140,248,0.22),transparent_34%)]',
   },
   tool: {
-    shell:
-      'from-white via-indigo-50 to-zinc-100 text-zinc-950',
+    shell: 'from-[#f8f8fb] via-indigo-50 to-zinc-100 text-zinc-950',
     ink: 'text-zinc-700',
-    line: 'stroke-indigo-500/80',
-    panel:
-      'border-white/70 bg-white/82 text-zinc-950 shadow-[0_24px_60px_rgba(79,70,229,0.12)]',
-    badge:
-      'border-indigo-200 bg-white/84 text-indigo-700',
-    glow:
-      'bg-[radial-gradient(circle_at_top_left,rgba(79,70,229,0.22),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(240,199,94,0.24),transparent_32%)]',
+    line: 'stroke-indigo-500/72',
+    panel: 'border-white/78 bg-white/72 text-zinc-950 shadow-[0_24px_60px_rgba(79,70,229,0.12)]',
+    frame: 'border-zinc-900/10 bg-white/28 text-zinc-950 shadow-[0_24px_60px_rgba(79,70,229,0.08)]',
+    badge: 'border-indigo-200 bg-white/84 text-indigo-700',
+    glow: 'bg-[radial-gradient(circle_at_top_left,rgba(79,70,229,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(240,199,94,0.18),transparent_28%)]',
   },
   guide: {
-    shell:
-      'from-amber-50 via-white to-indigo-50 text-zinc-950',
+    shell: 'from-amber-50 via-white to-indigo-50 text-zinc-950',
     ink: 'text-zinc-700',
     line: 'stroke-zinc-900/75',
-    panel:
-      'border-white/75 bg-white/84 text-zinc-950 shadow-[0_24px_60px_rgba(24,24,27,0.12)]',
-    badge:
-      'border-amber-200 bg-white/84 text-amber-800',
-    glow:
-      'bg-[radial-gradient(circle_at_top_left,rgba(240,199,94,0.28),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(79,70,229,0.18),transparent_34%)]',
+    panel: 'border-white/80 bg-white/74 text-zinc-950 shadow-[0_24px_60px_rgba(24,24,27,0.12)]',
+    frame: 'border-zinc-900/8 bg-white/32 text-zinc-950 shadow-[0_24px_60px_rgba(24,24,27,0.08)]',
+    badge: 'border-amber-200 bg-white/84 text-amber-800',
+    glow: 'bg-[radial-gradient(circle_at_top_left,rgba(240,199,94,0.24),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(79,70,229,0.14),transparent_32%)]',
   },
 } as const;
 
 const style = variantStyles[variant];
 const heightClass = compact ? 'aspect-[16/10]' : 'aspect-[16/8]';
+const titleSize = compact ? 'text-[1rem] sm:text-[1.15rem]' : 'text-[1.2rem] sm:text-[1.5rem]';
+const copyWidth = compact ? 'max-w-[14rem]' : 'max-w-[21rem]';
 ---
 
 <div class:list={['relative isolate overflow-hidden', heightClass]}>
@@ -73,9 +70,9 @@ const heightClass = compact ? 'aspect-[16/10]' : 'aspect-[16/8]';
         height="630"
         loading="lazy"
         decoding="async"
-        class="h-full w-full object-cover opacity-30 mix-blend-multiply saturate-[0.7] contrast-[1.05]"
+        class="h-full w-full object-cover opacity-26 mix-blend-multiply saturate-[0.78] contrast-[1.02]"
       />
-      <div class="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.02),rgba(9,9,11,0.1))]"></div>
+      <div class="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.02),rgba(9,9,11,0.08))]"></div>
     </div>
   )}
 
@@ -87,23 +84,23 @@ const heightClass = compact ? 'aspect-[16/10]' : 'aspect-[16/8]';
   >
     {variant === 'playbook' && (
       <>
-        <path d="M64 126 H318 L474 246 H760 L928 394 H1136" fill="none" class={style.line} stroke-width="3.5" stroke-linecap="round" />
-        <circle cx="318" cy="126" r="14" fill="rgba(240,199,94,0.9)" />
-        <circle cx="474" cy="246" r="12" fill="rgba(255,255,255,0.72)" />
-        <circle cx="760" cy="246" r="12" fill="rgba(255,255,255,0.72)" />
-        <circle cx="928" cy="394" r="14" fill="rgba(240,199,94,0.82)" />
-        <path d="M105 500 C260 446 356 450 498 506" fill="none" class={style.line} stroke-width="2.4" stroke-dasharray="10 16" stroke-linecap="round" />
+        <path d="M72 120 H334 L502 236 H756 L928 386 H1120" fill="none" class={style.line} stroke-width="3.2" stroke-linecap="round" />
+        <circle cx="334" cy="120" r="12" fill="rgba(240,199,94,0.88)" />
+        <circle cx="502" cy="236" r="10" fill="rgba(255,255,255,0.72)" />
+        <circle cx="756" cy="236" r="10" fill="rgba(255,255,255,0.72)" />
+        <circle cx="928" cy="386" r="12" fill="rgba(240,199,94,0.8)" />
+        <path d="M90 474 C252 430 362 432 524 488" fill="none" class={style.line} stroke-width="2.2" stroke-dasharray="10 16" stroke-linecap="round" />
       </>
     )}
     {variant === 'tool' && (
       <>
-        <rect x="82" y="94" width="1036" height="442" rx="28" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.44)" stroke-width="2.5" />
-        <path d="M114 162 H1086" fill="none" class={style.line} stroke-width="2" stroke-dasharray="10 14" />
-        <rect x="146" y="226" width="168" height="216" rx="18" fill="rgba(255,255,255,0.42)" />
-        <rect x="352" y="278" width="128" height="164" rx="18" fill="rgba(99,102,241,0.24)" />
-        <rect x="518" y="198" width="154" height="244" rx="18" fill="rgba(240,199,94,0.22)" />
-        <rect x="710" y="246" width="132" height="196" rx="18" fill="rgba(99,102,241,0.18)" />
-        <rect x="880" y="176" width="118" height="266" rx="18" fill="rgba(24,24,27,0.14)" />
+        <rect x="90" y="92" width="1020" height="448" rx="30" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.42)" stroke-width="2.2" />
+        <path d="M128 158 H1076" fill="none" class={style.line} stroke-width="2" stroke-dasharray="10 14" />
+        <rect x="152" y="232" width="178" height="206" rx="16" fill="rgba(255,255,255,0.34)" />
+        <rect x="372" y="286" width="118" height="152" rx="16" fill="rgba(99,102,241,0.22)" />
+        <rect x="530" y="194" width="152" height="244" rx="16" fill="rgba(240,199,94,0.20)" />
+        <rect x="722" y="246" width="120" height="192" rx="16" fill="rgba(99,102,241,0.16)" />
+        <rect x="882" y="176" width="124" height="262" rx="16" fill="rgba(24,24,27,0.12)" />
       </>
     )}
     {variant === 'guide' && (
@@ -119,7 +116,7 @@ const heightClass = compact ? 'aspect-[16/10]' : 'aspect-[16/8]';
     )}
   </svg>
 
-  <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),transparent_36%,rgba(9,9,11,0.20))]"></div>
+  <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),transparent_34%,rgba(9,9,11,0.16))]"></div>
 
   <div class="absolute left-4 top-4 sm:left-5 sm:top-5">
     <span class:list={[
@@ -130,23 +127,77 @@ const heightClass = compact ? 'aspect-[16/10]' : 'aspect-[16/8]';
     </span>
   </div>
 
-  <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5">
-    <div class:list={[
-      'max-w-[20rem] rounded-[1.35rem] border px-4 py-4 backdrop-blur-md sm:px-5',
-      compact ? 'max-w-[18rem]' : 'max-w-[22rem]',
-      style.panel,
-    ]}>
-      {subtitle && (
-        <p class:list={['text-[0.64rem] font-semibold uppercase tracking-[0.16em]', style.ink]}>
-          {subtitle}
-        </p>
-      )}
-      <h3 class:list={[
-        'text-balance font-[650] leading-[1.02]',
-        compact ? 'mt-2 text-[1.1rem] sm:text-[1.25rem]' : 'mt-2 text-[1.25rem] sm:text-[1.55rem]',
+  {showTitle && layout === 'panel' && (
+    <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+      <div class:list={[
+        'rounded-[1.1rem] border px-4 py-4 backdrop-blur-md sm:px-5',
+        copyWidth,
+        style.panel,
       ]}>
-        {title}
-      </h3>
+        {subtitle && (
+          <p class:list={['text-[0.64rem] font-semibold uppercase tracking-[0.16em]', style.ink]}>
+            {subtitle}
+          </p>
+        )}
+        <h3 class:list={['mt-2 text-balance font-[650] leading-[1.02]', titleSize]}>
+          {title}
+        </h3>
+      </div>
     </div>
-  </div>
+  )}
+
+  {showTitle && layout === 'frame' && (
+    <div class="absolute right-4 top-16 sm:right-6 sm:top-18">
+      <div class:list={[
+        'rounded-[1.5rem] border p-5 backdrop-blur-md',
+        compact ? 'w-[12.5rem] sm:w-[13.5rem]' : 'w-[15rem] sm:w-[18rem]',
+        style.frame,
+      ]}>
+        {subtitle && (
+          <p class:list={['text-[0.64rem] font-semibold uppercase tracking-[0.16em]', style.ink]}>
+            {subtitle}
+          </p>
+        )}
+        <h3 class:list={['mt-3 text-balance font-[650] leading-[1.02]', titleSize]}>
+          {title}
+        </h3>
+      </div>
+    </div>
+  )}
+
+  {showTitle && layout === 'split' && (
+    <div class="absolute inset-x-0 bottom-0 grid grid-cols-[minmax(0,1fr)_5rem] items-end px-4 pb-4 sm:px-6 sm:pb-6">
+      <div class:list={[
+        'rounded-[1rem] border px-4 py-4 backdrop-blur-md sm:px-5',
+        copyWidth,
+        style.panel,
+      ]}>
+        {subtitle && (
+          <p class:list={['text-[0.64rem] font-semibold uppercase tracking-[0.16em]', style.ink]}>
+            {subtitle}
+          </p>
+        )}
+        <h3 class:list={['mt-2 text-balance font-[650] leading-[1.02]', titleSize]}>
+          {title}
+        </h3>
+      </div>
+      <div class="justify-self-end">
+        <div class:list={[
+          'h-14 w-14 rounded-[1.1rem] border backdrop-blur-md sm:h-18 sm:w-18',
+          style.frame,
+        ]}></div>
+      </div>
+    </div>
+  )}
+
+  {!showTitle && subtitle && (
+    <div class="absolute left-4 bottom-4 sm:left-5 sm:bottom-5">
+      <p class:list={[
+        'text-[0.64rem] font-semibold uppercase tracking-[0.18em]',
+        variant === 'playbook' ? 'text-white/72' : 'text-zinc-700/80',
+      ]}>
+        {subtitle}
+      </p>
+    </div>
+  )}
 </div>

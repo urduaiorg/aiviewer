@@ -82,6 +82,7 @@ const categories = [...new Set(tools.map((entry) => entry.data.category))];
               image={featuredTool.data.coverImage}
               variant="tool"
               badge="Featured review"
+              layout="frame"
             />
           </div>
 
@@ -134,6 +135,7 @@ const categories = [...new Set(tools.map((entry) => entry.data.category))];
                   variant="tool"
                   badge={pricingConfig[entry.data.pricing]?.label ?? entry.data.pricing}
                   compact={true}
+                  showTitle={false}
                 />
               </div>
 
