@@ -17,9 +17,16 @@
 - **Public Sentiment:** A January 2026 report by Cambridge University Press & Assessment found that **7 out of 10 Kenyans** consider AI the most significant challenge facing the future of education.
 - **Actionable Demand:** 58% of Kenyan respondents explicitly identified AI and data literacy as the most crucial skills for the next generation.
 
-## SEO Strategy Ramifications
-1. The query cluster `"ai adoption in africa 2026"` and `"ai in kenya schools"` represents a massive, largely untapped informational search intent.
-2. Unlike US/EU queries completely dominated by legacy tech publishers (TechCrunch, Wired), emerging market AI news is highly fragmented.
-3. A well-researched, authoritative report on this topic will almost certainly rank #1 globally and generate significant backlinks from global development NGOs and academic researchers studying global AI parity.
+## 3. Global Perspective: The Expanding Digital Divide (2025-2026)
+While localized stories (like Kenya) are strong, the broader, high-volume global narrative centers on the **"AI Digital Divide"** and **"Open Source AI Adoption."**
 
-**Recommendation:** Proceed immediately with Agent 3 drafting: `src/content/reports/kenya-schools-ai-case-study.mdx`.
+- **The Adoption Gap:** By late 2025, Generative AI adoption hit 24.7% in the Global North but only 14.1% in the Global South. This creates massive search interest from international development NGOs, policy makers, and academics looking for data.
+- **The Rise of Open Source:** Open-weight models (like DeepSeek) are driving the majority of adoption in emerging markets (Africa, Latin America, Middle East) due to lower costs and fewer API restrictions.
+- **Top Search Queries Emerging:** "AI digital divide 2026", "Open source AI developing countries", "Applied AI global south".
+
+## SEO Strategy Ramifications
+1. The queries `"ai adoption in africa 2026"` and `"ai bridging the digital divide"` represent a massive, untapped informational search intent.
+2. Unlike US/EU queries completely dominated by legacy tech publishers (TechCrunch, Wired), emerging market AI news is highly fragmented.
+3. Well-researched, authoritative reports on global AI adoption will rank #1 globally and generate significant backlinks from global development NGOs, the UN, and academic researchers studying global AI parity.
+
+**Recommendation:** Expand the AI & Society reports to include deep-dives into the Global AI Digital Divide and the impact of Open Source models.

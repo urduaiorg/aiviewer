@@ -51,6 +51,8 @@
 | **"ai in classroom 2026"** | Medium | 50 | `reports/state-of-ai-education.mdx` | **GAP** - Need Report |
 | **"ai healthcare breakthroughs"** | High | 55 | `reports/ai-healthcare-2026.mdx` | **GAP** - Need Report |
 | **"ai adoption in africa 2026"** | Medium | 40 | `reports/kenya-schools-ai-case-study.mdx` | **GAP** - Need Story |
+| **"ai digital divide 2026"** | High | 65 | `reports/global-ai-digital-divide.mdx` | **GAP** - Need Report |
+| **"open source ai global south"**| Med | 45 | `reports/open-source-ai-emerging-markets.mdx` | **GAP** - Need Report |
 
 ---
 
