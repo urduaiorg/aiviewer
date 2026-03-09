@@ -32,7 +32,7 @@ const { name, title, bio, photo, social, credentials } = authorData;
   ]}>
     {/* Avatar with status ring */}
     <div class="relative shrink-0">
-      <div class="w-16 h-16 sm:w-[4.5rem] sm:h-[4.5rem] rounded-2xl bg-gradient-to-br from-indigo-100 to-zinc-100 overflow-hidden ring-2 ring-white shadow-md">
+      <div class="w-16 h-16 sm:w-[4.5rem] sm:h-[4.5rem] rounded-2xl bg-gradient-to-br from-indigo-100 to-zinc-100 dark:from-indigo-900/50 dark:to-zinc-800 overflow-hidden ring-2 ring-white dark:ring-zinc-800 shadow-md">
         <img
           src={photo}
           alt={name}
@@ -45,7 +45,7 @@ const { name, title, bio, photo, social, credentials } = authorData;
         />
       </div>
       {/* Verified badge */}
-      <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-indigo-500 rounded-full flex items-center justify-center ring-2 ring-white" title="Verified author">
+      <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-indigo-500 rounded-full flex items-center justify-center ring-2 ring-white dark:ring-zinc-900" title="Verified author">
         <svg class="w-3 h-3 text-white" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
         </svg>
@@ -55,13 +55,13 @@ const { name, title, bio, photo, social, credentials } = authorData;
     {/* Info */}
     <div class="flex-1 min-w-0">
       <div class="flex items-center gap-2 flex-wrap">
-        <h4 class="text-[0.95rem] font-bold text-zinc-900 leading-tight">{name}</h4>
-        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[0.6rem] font-semibold uppercase tracking-wider bg-indigo-50 text-indigo-600">
+        <h4 class="text-[0.95rem] font-bold text-zinc-900 dark:text-zinc-50 leading-tight">{name}</h4>
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[0.6rem] font-semibold uppercase tracking-wider bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400">
           {title}
         </span>
       </div>
 
-      <p class="mt-2 text-[0.82rem] text-zinc-500 leading-relaxed max-w-md">
+      <p class="mt-2 text-[0.82rem] text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-md">
         {bio}
       </p>
 

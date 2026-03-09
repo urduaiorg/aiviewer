@@ -39,7 +39,7 @@ function renderValue(val: boolean | string | number) {
     <svg class="w-5 h-5 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
     </svg>
-    <h4 class="text-sm font-bold text-zinc-900">{title}</h4>
+    <h4 class="text-sm font-bold text-zinc-900 dark:text-zinc-50">{title}</h4>
   </div>
 
   <div class="overflow-x-auto -mx-1 px-1">
@@ -55,7 +55,7 @@ function renderValue(val: boolean | string | number) {
               class:list={[
                 'text-center py-3 px-4 min-w-[140px]',
                 tool.isWinner
-                  ? 'bg-indigo-50/60 rounded-t-xl'
+                  ? 'bg-indigo-50/60 dark:bg-indigo-900/20 rounded-t-xl'
                   : '',
               ]}
             >
@@ -68,7 +68,7 @@ function renderValue(val: boolean | string | number) {
                     Winner
                   </span>
                 )}
-                <span class="font-bold text-zinc-900 text-[0.85rem]">{tool.name}</span>
+                <span class="font-bold text-zinc-900 dark:text-zinc-50 text-[0.85rem]">{tool.name}</span>
               </div>
             </th>
           ))}
@@ -78,9 +78,9 @@ function renderValue(val: boolean | string | number) {
       {/* Features */}
       <tbody>
         {features.map((feature, fi) => (
-          <tr class:list={[fi % 2 === 0 ? 'bg-zinc-50/50' : '']}>
+          <tr class:list={[fi % 2 === 0 ? 'bg-zinc-50/50 dark:bg-zinc-800/30' : '']}>
             <td class="py-3 px-4">
-              <span class="font-medium text-zinc-700">{feature.name}</span>
+              <span class="font-medium text-zinc-700 dark:text-zinc-300">{feature.name}</span>
               {feature.description && (
                 <span class="block text-[0.7rem] text-zinc-400 mt-0.5">{feature.description}</span>
               )}
@@ -89,19 +89,19 @@ function renderValue(val: boolean | string | number) {
               <td
                 class:list={[
                   'text-center py-3 px-4',
-                  tools[vi]?.isWinner ? 'bg-indigo-50/40' : '',
+                  tools[vi]?.isWinner ? 'bg-indigo-50/40 dark:bg-indigo-900/15' : '',
                 ]}
               >
                 {typeof val === 'boolean' ? (
                   val ? (
-                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-emerald-50">
+                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-emerald-50 dark:bg-emerald-900/30">
                       <svg class="w-4 h-4 text-emerald-500" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                       </svg>
                     </span>
                   ) : (
-                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-zinc-100">
-                      <svg class="w-4 h-4 text-zinc-300" viewBox="0 0 20 20" fill="currentColor">
+                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-zinc-100 dark:bg-zinc-800">
+                      <svg class="w-4 h-4 text-zinc-300 dark:text-zinc-600" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                       </svg>
                     </span>
@@ -112,13 +112,13 @@ function renderValue(val: boolean | string | number) {
                       <div
                         class:list={[
                           'w-2 h-2 rounded-full',
-                          i < val ? 'bg-indigo-500' : 'bg-zinc-200',
+                          i < val ? 'bg-indigo-500' : 'bg-zinc-200 dark:bg-zinc-700',
                         ]}
                       ></div>
                     ))}
                   </div>
                 ) : (
-                  <span class="text-zinc-600">{val}</span>
+                  <span class="text-zinc-600 dark:text-zinc-400">{val}</span>
                 )}
               </td>
             ))}
@@ -130,8 +130,8 @@ function renderValue(val: boolean | string | number) {
 
   {/* Verdict */}
   {verdict && (
-    <div class="mt-4 px-4 py-3 bg-indigo-50 rounded-xl border border-indigo-100">
-      <p class="text-[0.8rem] text-indigo-800 leading-relaxed">
+    <div class="mt-4 px-4 py-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-100 dark:border-indigo-800/50">
+      <p class="text-[0.8rem] text-indigo-800 dark:text-indigo-300 leading-relaxed">
         <span class="font-bold">Verdict:</span>{' '}
         {verdict}
       </p>

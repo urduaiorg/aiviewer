@@ -19,11 +19,11 @@ const total = pros.length + cons.length;
 const proPercent = total > 0 ? Math.round((pros.length / total) * 100) : 50;
 ---
 
-<div class="proscons my-8 rounded-2xl overflow-hidden border border-zinc-200/80 bg-white shadow-sm">
+<div class="proscons my-8 rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
   {/* Header with balance indicator */}
-  <div class="px-5 py-4 border-b border-zinc-100 bg-zinc-50/50">
+  <div class="px-5 py-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/50">
     <div class="flex items-center justify-between mb-3">
-      <h4 class="text-sm font-bold text-zinc-900 flex items-center gap-2">
+      <h4 class="text-sm font-bold text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
         <svg class="w-4.5 h-4.5 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
         </svg>
@@ -36,8 +36,8 @@ const proPercent = total > 0 ? Math.round((pros.length / total) * 100) : 50;
 
     {/* Visual balance bar */}
     <div class="flex items-center gap-2">
-      <span class="text-[0.6rem] font-semibold text-emerald-600 w-8 text-right">{proPercent}%</span>
-      <div class="flex-1 h-1.5 rounded-full bg-zinc-200 overflow-hidden flex">
+      <span class="text-[0.6rem] font-semibold text-emerald-600 dark:text-emerald-400 w-8 text-right">{proPercent}%</span>
+      <div class="flex-1 h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-700 overflow-hidden flex">
         <div
           class="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full transition-all duration-500"
           style={`width: ${proPercent}%`}
@@ -47,21 +47,21 @@ const proPercent = total > 0 ? Math.round((pros.length / total) * 100) : 50;
           style={`width: ${100 - proPercent}%`}
         ></div>
       </div>
-      <span class="text-[0.6rem] font-semibold text-red-500 w-8">{100 - proPercent}%</span>
+      <span class="text-[0.6rem] font-semibold text-red-500 dark:text-red-400 w-8">{100 - proPercent}%</span>
     </div>
   </div>
 
   {/* Split content */}
-  <div class="grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-zinc-100">
+  <div class="grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-zinc-100 dark:divide-zinc-800">
     {/* Pros */}
     <div class="p-5">
       <div class="flex items-center gap-2 mb-3">
-        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-50">
+        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-50 dark:bg-emerald-900/30">
           <svg class="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
           </svg>
         </span>
-        <span class="text-[0.7rem] font-bold uppercase tracking-wider text-emerald-700">
+        <span class="text-[0.7rem] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
           What we liked
         </span>
       </div>
@@ -69,7 +69,7 @@ const proPercent = total > 0 ? Math.round((pros.length / total) * 100) : 50;
         {pros.map((pro) => (
           <li class="flex items-start gap-2.5">
             <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" aria-hidden="true"></span>
-            <span class="text-[0.82rem] text-zinc-600 leading-relaxed">{pro}</span>
+            <span class="text-[0.82rem] text-zinc-600 dark:text-zinc-400 leading-relaxed">{pro}</span>
           </li>
         ))}
       </ul>
@@ -78,12 +78,12 @@ const proPercent = total > 0 ? Math.round((pros.length / total) * 100) : 50;
     {/* Cons */}
     <div class="p-5">
       <div class="flex items-center gap-2 mb-3">
-        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-red-50">
+        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-red-50 dark:bg-red-900/30">
           <svg class="w-4 h-4 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5" />
           </svg>
         </span>
-        <span class="text-[0.7rem] font-bold uppercase tracking-wider text-red-600">
+        <span class="text-[0.7rem] font-bold uppercase tracking-wider text-red-600 dark:text-red-400">
           What could improve
         </span>
       </div>
@@ -91,7 +91,7 @@ const proPercent = total > 0 ? Math.round((pros.length / total) * 100) : 50;
         {cons.map((con) => (
           <li class="flex items-start gap-2.5">
             <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" aria-hidden="true"></span>
-            <span class="text-[0.82rem] text-zinc-600 leading-relaxed">{con}</span>
+            <span class="text-[0.82rem] text-zinc-600 dark:text-zinc-400 leading-relaxed">{con}</span>
           </li>
         ))}
       </ul>
@@ -100,9 +100,9 @@ const proPercent = total > 0 ? Math.round((pros.length / total) * 100) : 50;
 
   {/* Verdict */}
   {verdict && (
-    <div class="px-5 py-4 border-t border-zinc-100 bg-gradient-to-r from-zinc-50 to-white">
-      <p class="text-[0.82rem] text-zinc-700 leading-relaxed">
-        <span class="font-bold text-zinc-900">Bottom line:</span>{' '}
+    <div class="px-5 py-4 border-t border-zinc-100 dark:border-zinc-800 bg-gradient-to-r from-zinc-50 to-white dark:from-zinc-800/50 dark:to-zinc-900">
+      <p class="text-[0.82rem] text-zinc-700 dark:text-zinc-300 leading-relaxed">
+        <span class="font-bold text-zinc-900 dark:text-zinc-50">Bottom line:</span>{' '}
         {verdict}
       </p>
     </div>
