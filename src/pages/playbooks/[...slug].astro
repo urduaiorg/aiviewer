@@ -12,6 +12,7 @@ import { getReadingTime } from '../../utils/readingTime';
 import AuthorBio from '../../components/content/AuthorBio.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import ReadingProgress from '../../components/content/ReadingProgress.astro';
+import RelatedContent from '../../components/content/RelatedContent.astro';
 import { roleLabels, difficultyConfig } from '../../data/site.config';
 import { slugifyTag } from '../../utils/slugifyTag';
 
@@ -149,6 +150,13 @@ const relatedEntries = (await getCollection('playbooks', ({ data }) => !data.dra
       </div>
     </section>
   )}
+
+  <RelatedContent
+    currentCollection="playbooks"
+    currentId={entry.id}
+    tags={entry.data.tags}
+    toolsUsed={entry.data.toolsUsed}
+  />
 
   <Footer />
 </BaseLayout>

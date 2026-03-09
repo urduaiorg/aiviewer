@@ -15,6 +15,7 @@ import ComparisonTable from '../../components/content/ComparisonTable.astro';
 import AuthorBio from '../../components/content/AuthorBio.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import ReadingProgress from '../../components/content/ReadingProgress.astro';
+import RelatedContent from '../../components/content/RelatedContent.astro';
 import { formatDate } from '../../utils/formatDate';
 import { getReadingTime } from '../../utils/readingTime';
 import { categoryLabels, pricingConfig } from '../../data/site.config';
@@ -313,6 +314,13 @@ const pricingTiers = inferPricingTiers();
       </div>
     </section>
   )}
+
+  <RelatedContent
+    currentCollection="tools"
+    currentId={entry.id}
+    tags={entry.data.tags}
+    toolName={entry.data.toolName}
+  />
 
   <Footer />
 </BaseLayout>

@@ -1,66 +1,33 @@
 ---
 /**
- * AffiliateLink — Branded CTA button for affiliate/sponsored tool links
- * Designed to feel editorial, not salesy. Features a subtle
- * "commission" disclosure, external link indicator, and hover lift.
- * Properly tagged with rel="sponsored" for SEO compliance.
+ * AffiliateLink — A trusted, SEO-compliant text link component
+ * 
+ * Renders an inline link with proper FTC/Google attributes (sponsored noopener)
+ * and an optional subtle external link icon. Looks like a native text link
+ * but handles tracking and compliance safely.
  */
 interface Props {
   href: string;
-  text: string;
-  toolName?: string;
-  /** Visual variant */
-  variant?: 'primary' | 'subtle' | 'outline';
-  /** Show affiliate disclosure */
-  showDisclosure?: boolean;
-  /** Size */
-  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+  showIcon?: boolean;
 }
 
-const {
-  href,
-  text,
-  toolName,
-  variant = 'primary',
-  showDisclosure = true,
-  size = 'md',
-} = Astro.props;
-
-const variantClasses: Record<string, string> = {
-  primary: 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm hover:shadow-md',
-  subtle: 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 border border-indigo-100 dark:border-indigo-800',
-  outline: 'bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 border border-zinc-200 dark:border-zinc-700 hover:border-indigo-300 dark:hover:border-indigo-700',
-};
-
-const sizeClasses: Record<string, string> = {
-  sm: 'px-4 py-2 text-[0.75rem] gap-1.5 rounded-lg',
-  md: 'px-5 py-2.5 text-[0.82rem] gap-2 rounded-xl',
-  lg: 'px-6 py-3 text-[0.88rem] gap-2 rounded-xl',
-};
+const { href, class: className, showIcon = true } = Astro.props;
 ---
 
-<span class="affiliate-link-wrap inline-flex flex-col items-start">
-  <a
-    href={href}
-    target="_blank"
-    rel="sponsored noopener noreferrer"
-    class:list={[
-      'affiliate-cta inline-flex items-center font-semibold transition-all duration-200 hover:-translate-y-px',
-      variantClasses[variant],
-      sizeClasses[size],
-    ]}
-    data-affiliate={toolName || ''}
-  >
-    {text}
-    {/* External link icon */}
-    <svg class="w-3.5 h-3.5 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<a 
+  href={href} 
+  target="_blank" 
+  rel="sponsored noopener" 
+  class:list={[
+    "inline-flex items-baseline gap-0.5 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 underline decoration-indigo-200 dark:decoration-indigo-900/50 underline-offset-2 transition-colors", 
+    className
+  ]}
+>
+  <slot />
+  {showIcon && (
+    <svg class="w-3 h-3 text-zinc-400 dark:text-zinc-500 translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
     </svg>
-  </a>
-
-  {showDisclosure && (
-    <span class="mt-1.5 text-[0.58rem] text-zinc-300 dark:text-zinc-600 italic leading-tight">
-      This is an affiliate link — we may earn a small commission at no extra cost to you.
-    </span>
   )}
-</span>
+</a>

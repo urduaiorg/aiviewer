@@ -1,0 +1,58 @@
+---
+const { title, prompt, useCase, proTip } = Astro.props;
+---
+
+<div class="my-8 rounded-xl border border-indigo-100 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-sm overflow-hidden not-prose">
+  <div class="bg-indigo-50 dark:bg-indigo-900/40 px-6 py-4 border-b border-indigo-100 dark:border-indigo-800/50 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="bg-indigo-600 text-white p-1.5 rounded-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      </div>
+      <h3 class="m-0 text-lg font-bold text-gray-900 dark:text-white">{title}</h3>
+    </div>
+    <button 
+      class="text-indigo-600 dark:text-indigo-400 font-medium text-sm hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors flex items-center gap-1 cursor-not-allowed opacity-50"
+      title="Copying disabled in demo"
+    >
+      Copy
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+      </svg>
+    </button>
+  </div>
+  
+  <div class="p-6">
+    <div class="mb-6 relative">
+      <div class="absolute -left-3 top-0 bottom-0 w-1 bg-indigo-500 rounded-r"></div>
+      <p class="font-mono text-base text-gray-800 dark:text-gray-200 leading-relaxed bg-gray-50 dark:bg-gray-900/50 p-4 rounded-lg border border-gray-100 dark:border-gray-800">
+        "{prompt}"
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mt-4">
+      <div class="bg-emerald-50 dark:bg-emerald-900/20 px-4 py-3 rounded-lg border border-emerald-100 dark:border-emerald-800/30">
+        <p class="font-semibold text-emerald-800 dark:text-emerald-400 mb-1 flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          Best Used For
+        </p>
+        <p class="text-emerald-700 dark:text-emerald-300/80 m-0">{useCase}</p>
+      </div>
+      
+      {proTip && (
+        <div class="bg-amber-50 dark:bg-amber-900/20 px-4 py-3 rounded-lg border border-amber-100 dark:border-amber-800/30">
+          <p class="font-semibold text-amber-800 dark:text-amber-400 mb-1 flex items-center gap-1.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
+            </svg>
+            Pro Tip
+          </p>
+          <p class="text-amber-700 dark:text-amber-300/80 m-0">{proTip}</p>
+        </div>
+      )}
+    </div>
+  </div>
+</div>

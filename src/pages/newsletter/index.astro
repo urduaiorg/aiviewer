@@ -1,0 +1,161 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
+import { getCollection } from 'astro:content';
+
+// Fetch latest content for the "What you'll get" section
+const allGuides = await getCollection('guides', ({ data }) => !data.draft);
+const allReports = await getCollection('reports', ({ data }) => !data.draft);
+const allTools = await getCollection('tools', ({ data }) => !data.draft);
+
+const latestGuides = allGuides
+  .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime())
+  .slice(0, 3);
+const latestReport = allReports
+  .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime())[0];
+---
+
+<BaseLayout
+  title="Newsletter — The AI Briefing"
+  description="Weekly digest of the most useful AI tools, guides, and industry analysis. One email. No hype. Free forever."
+>
+  <Header />
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
+    <div class="absolute inset-x-0 top-0 h-96 bg-[radial-gradient(circle_at_top_center,_rgba(240,199,94,0.20),_transparent_50%),radial-gradient(circle_at_bottom_right,_rgba(79,70,229,0.10),_transparent_45%)] dark:bg-[radial-gradient(circle_at_top_center,_rgba(240,199,94,0.08),_transparent_50%),radial-gradient(circle_at_bottom_right,_rgba(79,70,229,0.06),_transparent_45%)]"></div>
+    <div class="page-container relative py-14 md:py-20">
+      <Breadcrumbs items={[{ label: 'Newsletter' }]} />
+
+      <div class="max-w-2xl mx-auto text-center" data-reveal>
+        <span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-600 dark:text-zinc-400">
+          <span class="relative flex h-1.5 w-1.5">
+            <span class="absolute inline-flex h-full w-full animate-pulse rounded-full bg-[#F0C75E] opacity-75"></span>
+            <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#F0C75E]"></span>
+          </span>
+          Free weekly digest
+        </span>
+        <h1 class="mt-6 text-zinc-950 dark:text-zinc-50">The AI Briefing</h1>
+        <p class="mt-5 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+          One email per week with the most useful AI tools, guides, and analysis. Written for people who build, teach, and create — not for people who speculate.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subscribe Form -->
+  <section class="bg-[var(--color-bg)]">
+    <div class="page-container py-12 md:py-16">
+      <div class="max-w-2xl mx-auto" data-reveal>
+        <NewsletterSignup />
+      </div>
+
+      <!-- What you get -->
+      <div class="mt-16 grid gap-5 md:grid-cols-2 xl:grid-cols-4" data-reveal>
+        <div class="rounded-[1.6rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-[var(--shadow-card)]">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-900/30 mb-4">
+            <svg class="h-5 w-5 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-zinc-950 dark:text-zinc-50">Tool picks</h3>
+          <p class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">Curated AI tool recommendations based on what actually ships results.</p>
+        </div>
+
+        <div class="rounded-[1.6rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-[var(--shadow-card)]">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 dark:bg-amber-900/30 mb-4">
+            <svg class="h-5 w-5 text-[#F0C75E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-zinc-950 dark:text-zinc-50">Workflow tactics</h3>
+          <p class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">Practical prompts and workflows you can use immediately in your own work.</p>
+        </div>
+
+        <div class="rounded-[1.6rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-[var(--shadow-card)]">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-900/30 mb-4">
+            <svg class="h-5 w-5 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-zinc-950 dark:text-zinc-50">Industry analysis</h3>
+          <p class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">Data-backed reports on how AI is reshaping work, education, and society.</p>
+        </div>
+
+        <div class="rounded-[1.6rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-[var(--shadow-card)]">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 dark:bg-rose-900/30 mb-4">
+            <svg class="h-5 w-5 text-rose-600 dark:text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-zinc-950 dark:text-zinc-50">No noise</h3>
+          <p class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">Zero hype, zero speculation. Just things you can act on this week.</p>
+        </div>
+      </div>
+
+      <!-- Recent content preview -->
+      <div class="mt-16" data-reveal>
+        <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Recent from AIViewer</p>
+        <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">The kind of content you'll receive.</h2>
+        <p class="mt-3 max-w-xl text-zinc-600 dark:text-zinc-400">
+          Every issue pulls from our latest published guides, tool reviews, and reports.
+        </p>
+
+        <div class="mt-8 grid gap-4 md:grid-cols-2" data-reveal data-reveal-delay="80">
+          {latestGuides.map((guide) => (
+            <a href={`/guides/${guide.id}/`} class="group flex gap-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-4 shadow-[var(--shadow-card)] transition-card hover:shadow-[var(--shadow-card-hover)]">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                </svg>
+              </div>
+              <div class="min-w-0">
+                <p class="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">Guide</p>
+                <p class="mt-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-1">{guide.data.title}</p>
+                <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1">{guide.data.description}</p>
+              </div>
+            </a>
+          ))}
+
+          {latestReport && (
+            <a href={`/reports/${latestReport.id}/`} class="group flex gap-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-4 shadow-[var(--shadow-card)] transition-card hover:shadow-[var(--shadow-card-hover)]">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-50 dark:bg-amber-900/30 text-[#F0C75E]">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                </svg>
+              </div>
+              <div class="min-w-0">
+                <p class="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[#F0C75E]">Report</p>
+                <p class="mt-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-1">{latestReport.data.title}</p>
+                <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1">{latestReport.data.description}</p>
+              </div>
+            </a>
+          )}
+        </div>
+      </div>
+
+      <!-- Trust signals -->
+      <div class="mt-16 rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-zinc-950 p-8 text-center md:p-12" data-reveal>
+        <div class="grid gap-8 md:grid-cols-3">
+          <div>
+            <div class="text-3xl font-bold text-[#F0C75E]">Weekly</div>
+            <p class="mt-2 text-sm text-zinc-400">One email. Never more, never less.</p>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-white">Free</div>
+            <p class="mt-2 text-sm text-zinc-400">No premium tier, no paywall, no catch.</p>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-white">Yours</div>
+            <p class="mt-2 text-sm text-zinc-400">Unsubscribe anytime with one click.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

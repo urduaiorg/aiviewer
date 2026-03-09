@@ -10,6 +10,7 @@ import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 import AuthorBio from '../../components/content/AuthorBio.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import ReadingProgress from '../../components/content/ReadingProgress.astro';
+import RelatedContent from '../../components/content/RelatedContent.astro';
 import { formatDate } from '../../utils/formatDate';
 import { getReadingTime } from '../../utils/readingTime';
 import { slugifyTag } from '../../utils/slugifyTag';
@@ -164,6 +165,12 @@ const relatedEntries = (await getCollection('reports', ({ data }) => !data.draft
       </div>
     </section>
   )}
+
+  <RelatedContent
+    currentCollection="reports"
+    currentId={entry.id}
+    tags={entry.data.tags}
+  />
 
   <Footer />
 </BaseLayout>

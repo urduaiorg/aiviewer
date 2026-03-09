@@ -75,7 +75,7 @@ export const siteConfig = {
       { label: 'Guides', href: '/guides/' },
       { label: 'About', href: '/about/' },
     ],
-    cta: { label: 'Find AI Tools', href: '/tools/' },
+    cta: { label: 'Find AI Tools Quiz', href: '/finder/' },
     footer: {
       content: [
         { label: 'Playbooks', href: '/playbooks/' },

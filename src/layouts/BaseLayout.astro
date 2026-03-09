@@ -110,14 +110,19 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     {updatedDate && <meta property="article:modified_time" content={updatedDate} />}
     {articleSection && <meta property="article:section" content={articleSection} />}
 
+    <!-- Google Search Console -->
+    {siteConfig.analytics.googleSiteVerification && <meta name="google-site-verification" content={siteConfig.analytics.googleSiteVerification} />}
+
     <!-- Schema: Website (homepage) or overridden by page-level components -->
     <slot name="head" />
 
     <!-- View Transitions for smooth page navigation -->
     <ViewTransitions />
 
-    <!-- Cloudflare Web Analytics placeholder -->
-    <!-- <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "YOUR_TOKEN"}'></script> -->
+    <!-- Cloudflare Web Analytics -->
+    {siteConfig.analytics.cloudflareToken && (
+      <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon={`{"token": "${siteConfig.analytics.cloudflareToken}"}`} />
+    )}
   </head>
   <body class="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
     <slot name="header" />

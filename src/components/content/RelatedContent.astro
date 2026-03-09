@@ -1,0 +1,189 @@
+---
+/**
+ * RelatedContent — Cross-collection internal linking component
+ *
+ * Builds topical clusters by connecting content across different collections:
+ * - Tool pages → playbooks that use the tool + related guides
+ * - Playbook pages → tools used in the playbook + related guides
+ * - Guide pages → related tools + related playbooks
+ * - Report pages → related guides + related tools
+ *
+ * Matching logic:
+ * 1. Tag overlap — highest signal for topical relevance
+ * 2. Direct references — toolsUsed field in playbooks
+ * 3. Category match — fallback grouping
+ */
+import { getCollection } from 'astro:content';
+
+interface Props {
+  /** Current page's collection type */
+  currentCollection: 'tools' | 'playbooks' | 'guides' | 'reports';
+  /** Current entry's ID (to exclude from results) */
+  currentId: string;
+  /** Current entry's tags for matching */
+  tags: string[];
+  /** For playbooks: tools used in the playbook */
+  toolsUsed?: string[];
+  /** For tools: the tool name to match in playbook toolsUsed */
+  toolName?: string;
+  /** Max items to show per section */
+  limit?: number;
+}
+
+const {
+  currentCollection,
+  currentId,
+  tags,
+  toolsUsed = [],
+  toolName = '',
+  limit = 3,
+} = Astro.props;
+
+// Helper: count tag overlaps
+function tagOverlap(a: string[], b: string[]) {
+  return a.filter((t) => b.includes(t)).length;
+}
+
+// Fetch all published content from other collections
+const allTools = currentCollection !== 'tools'
+  ? await getCollection('tools', ({ data }) => !data.draft)
+  : [];
+const allPlaybooks = currentCollection !== 'playbooks'
+  ? await getCollection('playbooks', ({ data }) => !data.draft)
+  : [];
+const allGuides = currentCollection !== 'guides'
+  ? await getCollection('guides', ({ data }) => !data.draft)
+  : [];
+const allReports = currentCollection !== 'reports'
+  ? await getCollection('reports', ({ data }) => !data.draft)
+  : [];
+
+// Score and sort by relevance
+type ScoredItem = { entry: any; score: number; collection: string; href: string };
+const scored: ScoredItem[] = [];
+
+// Score tools
+for (const entry of allTools) {
+  let score = tagOverlap(tags, entry.data.tags);
+  // Boost if this tool is referenced in playbook's toolsUsed
+  if (toolsUsed.some((t) => entry.data.toolName.toLowerCase().includes(t.toLowerCase()))) {
+    score += 5;
+  }
+  if (score > 0) {
+    scored.push({ entry, score, collection: 'tools', href: `/tools/${entry.id}/` });
+  }
+}
+
+// Score playbooks
+for (const entry of allPlaybooks) {
+  let score = tagOverlap(tags, entry.data.tags);
+  // Boost if this playbook uses the current tool
+  if (toolName && entry.data.toolsUsed.some((t: string) => t.toLowerCase().includes(toolName.toLowerCase()))) {
+    score += 5;
+  }
+  if (score > 0) {
+    scored.push({ entry, score, collection: 'playbooks', href: `/playbooks/${entry.id}/` });
+  }
+}
+
+// Score guides
+for (const entry of allGuides) {
+  let score = tagOverlap(tags, entry.data.tags);
+  if (score > 0) {
+    scored.push({ entry, score, collection: 'guides', href: `/guides/${entry.id}/` });
+  }
+}
+
+// Score reports
+for (const entry of allReports) {
+  let score = tagOverlap(tags, entry.data.tags);
+  if (score > 0) {
+    scored.push({ entry, score, collection: 'reports', href: `/reports/${entry.id}/` });
+  }
+}
+
+// Sort by score descending, take top items
+const topRelated = scored
+  .sort((a, b) => b.score - a.score)
+  .slice(0, limit * 2); // Get extra for variety
+
+// Group by collection for display, max `limit` per group
+const groupedByCollection: Record<string, ScoredItem[]> = {};
+for (const item of topRelated) {
+  if (!groupedByCollection[item.collection]) groupedByCollection[item.collection] = [];
+  if (groupedByCollection[item.collection].length < limit) {
+    groupedByCollection[item.collection].push(item);
+  }
+}
+
+// Flatten back into a display list, max total items
+const displayItems = Object.values(groupedByCollection).flat().slice(0, limit + 2);
+
+const collectionLabels: Record<string, string> = {
+  tools: 'Tool Review',
+  playbooks: 'Playbook',
+  guides: 'Guide',
+  reports: 'Report',
+};
+
+const collectionColors: Record<string, { badge: string; icon: string }> = {
+  tools: {
+    badge: 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400',
+    icon: 'text-indigo-500 dark:text-indigo-400',
+  },
+  playbooks: {
+    badge: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400',
+    icon: 'text-emerald-500 dark:text-emerald-400',
+  },
+  guides: {
+    badge: 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400',
+    icon: 'text-amber-500 dark:text-amber-400',
+  },
+  reports: {
+    badge: 'bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400',
+    icon: 'text-rose-500 dark:text-rose-400',
+  },
+};
+---
+
+{displayItems.length > 0 && (
+  <section class="border-t border-zinc-200/70 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/50">
+    <div class="page-container py-12 md:py-16">
+      <div class="mb-8" data-reveal>
+        <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Keep reading</p>
+        <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">Related across AIViewer.</h2>
+        <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+          Connected content from our playbooks, tool reviews, guides, and reports.
+        </p>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-reveal data-reveal-delay="80">
+        {displayItems.map((item) => {
+          const colors = collectionColors[item.collection] ?? collectionColors.guides;
+          return (
+            <a
+              href={item.href}
+              class="group flex flex-col rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 dark:hover:border-indigo-800 hover:shadow-[var(--shadow-card-hover)]"
+            >
+              <span class={`self-start rounded-full px-2.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.14em] ${colors.badge}`}>
+                {collectionLabels[item.collection]}
+              </span>
+              <h3 class="mt-3 text-[0.95rem] font-semibold leading-snug text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
+                {item.entry.data.title}
+              </h3>
+              <p class="mt-2 flex-1 text-sm leading-6 text-zinc-500 dark:text-zinc-400 line-clamp-2">
+                {item.entry.data.description}
+              </p>
+              <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 dark:text-indigo-400 group-hover:gap-2.5 transition-all">
+                Read more
+                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+)}

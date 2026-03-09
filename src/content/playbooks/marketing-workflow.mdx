@@ -1,0 +1,90 @@
+---
+title: "The Ultimate Prompt Engineering Cheat Sheet for Marketers"
+description: "Stop writing generic AI copy. Learn the exact prompt formulas top marketers use in 2026 to generate high-converting SEO articles, ad copy, and social campaigns."
+role: "marketers"
+difficulty: "beginner"
+timeToComplete: "1 hour"
+toolsUsed: ["jasper-ai", "chatgpt"]
+workflows: 3
+publishedDate: 2026-03-09
+coverImage: "/images/playbooks/marketing-workflow.jpg"
+tags: ["marketing", "prompt-engineering", "chatgpt", "copywriting", "seo"]
+draft: false
+---
+
+import PromptCard from '../../components/content/PromptCard.astro';
+import ToolPickBox from '../../components/content/ToolPickBox.astro';
+
+
+In 2026, the baseline expectation for any marketer is the ability to generate copy instantly. The *competitive advantage* is the ability to generate copy that doesn't sound like a robot wrote it.
+
+Here are the specific prompt formulas and workflows top marketers are using to generate high-converting campaigns.
+
+## 1. The Core Tech Stack
+
+Familiarize yourself with the main copywriting engines.
+
+<ToolPickBox
+  name="Jasper AI"
+  verdict="The undeniable best platform for enterprise marketing teams."
+  description="Jasper is specifically tuned for marketing workflows. Its 'Brand Voice' feature allows you to upload past successful campaigns, and it will perfectly mimic your company's tone. It also integrates directly into Webflow and WordPress, skipping the 'copy and paste' phase entirely."
+  rating={4.8}
+  pricing="enterprise"
+  bestFor={["SEO blog posts", "Ad campaigns", "Maintaining brand voice"]}
+  website="/tools/jasper-ai/"
+/>
+
+**Secondary Tools:**
+- **ChatGPT Plus:** Essential for general brainstorming and the "Advanced Data Analysis" tool (for analyzing your past ad spend CSVs).
+- **Claude 3.5 Sonnet:** Currently the best model on the market for natural-sounding, empathetic human text (less "robotic" than GPT-4).
+
+## 2. The Golden Framework: Context, Intent, Formula
+
+A terrible prompt: *"Write a Facebook ad for my new accounting software."*
+
+**A 2026 prompt follows the C-I-F formula:**
+1. **Context:** Who are you and who is the audience?
+2. **Intent:** What is the primary goal of this copy?
+3. **Formula:** What exact copywriting framework should the AI use?
+
+### The "High-Converting Facebook Ad" Prompt
+<PromptCard 
+  title="The Social Ad Architect"
+  prompt="Act as a world-class Direct Response copywriter. Our product is 'LedgerX', a fast accounting software for freelancers. Our target audience is exhausted freelance graphic designers who hate math. Goal: Drive clicks to our 14-day free trial. Write 3 variations of a Facebook Ad using the PAS (Problem, Agitation, Solution) framework. Keep the tone aggressive against traditional, slow CRMs."
+  useCase="Generating variations of ad copy quickly for A/B testing."
+  proTip="Always ask for multiple variations (e.g., 'Write 3 versions: one funny, one data-driven, one fear-based'). It gives you excellent A/B testing material."
+/>
+
+## 3. SEO Content: Beating the "AI Penalty"
+
+Google's algorithms in 2026 easily detect "thin," generic AI content. To rank on Page 1, you cannot just tell the AI to write an article. You must provide the *human* insights for the AI to format.
+
+### The "SME Interview" Prompt
+**Step 1:** Record a 5-minute raw audio braindump of your personal thoughts on a topic (e.g., "Why link building is dead"). Use an AI transcriber like Otter.ai.
+
+**Step 2:** Paste the unformatted, messy transcript into Claude or ChatGPT with the following prompt:
+
+<PromptCard 
+  title="The Subject Matter Expert (SME) Ghostwriter"
+  prompt="Here is a raw transcript of my thoughts on the current state of SEO. Turn this into a 1,200-word blog post optimized for the keyword 'Link Building 2026'. Do NOT add any outside opinions or generic filler. Only use the arguments I made in the transcript. Format it with H2 question headers, short punchy paragraphs, and a contrarian tone."
+  useCase="Writing high-ranking SEO content that sounds uniquely human."
+  proTip="By restricting the AI to ONLY use the arguments from your transcript, you bypass the generic 'AI voice' entirely. You provide the soul; the AI provides the grammar and formatting."
+/>
+
+## 4. The "Roast My Landing Page" Strategy
+
+AI is not just for writing; it is excellent for critiquing. 
+
+If your landing page is failing to convert, you can feed the copy into ChatGPT and ask it to adopt the persona of your most cynical customer.
+
+### The "Conversion Killer" Prompt
+<PromptCard 
+  title="The Cynic"
+  prompt="Here is the complete copy for my new product landing page. Adopt the persona of a highly skeptical, budget-conscious customer who has been burned by similar products before. Tear this copy apart. Tell me exactly why you wouldn't buy this, which claims sound fake or unsubstantiated, and where you got bored and stopped reading."
+  useCase="Identifying friction points in a sales funnel before you spend ad money."
+  proTip="Do this before you run any paid traffic to a new page. The AI will often spot glaring holes in your value proposition that you were too close to the project to see."
+/>
+
+## The 2026 Marketing Reality
+
+The marketers who get fired in 2026 are the ones who use AI to generate mediocre content 10x faster. The marketers who get promoted are the ones who use AI to generate highly-targeted, empathetic, framework-driven copy that actually converts.
