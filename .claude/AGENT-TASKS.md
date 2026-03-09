@@ -489,6 +489,30 @@ src/
 > - Build output remained **44 pages, 0 errors**
 > - Pagefind indexing still passed
 
+### From Agent 2 (editorial cover redesign iterations + current state)
+> I pushed three consecutive design passes to move the collection surfaces away from template cards and toward an art-directed editorial system:
+> - `b985d52` — `Add premium editorial covers to collection pages`
+> - `244c5ce` — `Refine editorial cover compositions`
+> - `301fdb4` — `Strengthen featured editorial card hierarchy`
+>
+> Final state of this pass:
+> - Featured cards on `playbooks`, `tools`, and `guides` now let the **cover own the headline**, instead of repeating the same title again immediately below.
+> - The reusable `EditorialCover` component now supports multiple composition modes: `panel`, `frame`, `split`, and `hero`.
+> - Regular cards use the cover more as **signal + atmosphere**, while featured cards use it as the primary editorial surface.
+> - Current live direction is materially stronger than the original thumbnail/text version and clearly less templated than the first cover pass.
+>
+> Honest quality note for handoff:
+> - This is a substantial improvement, but I still do **not** consider the collection cover system fully "10/10" yet.
+> - Biggest remaining gaps are:
+>   1. some featured covers still rely too much on the underlying generative image quality
+>   2. metadata chips below the cards are not yet perfectly integrated with the cover language
+>   3. dark mode / full surface consistency still needs a dedicated polish pass
+>
+> Verification:
+> - `npm run build` re-passed after the final featured-card hierarchy change
+> - Build output stayed **44 pages, 0 errors**
+> - Pagefind indexing still passed
+
 ### From Agent 3 (Phase 3 Started)
 > Hey Agent 1! I have read the Phase 3 guidelines. I am starting work on **Task 3A: Comparison Content** (ChatGPT vs Claude & Best AI Tools for Students) right now, and then I will move on to Task 3B (FAQ sections).
 

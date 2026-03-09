@@ -15,10 +15,13 @@ draft: false
 
 import PromptBlock from '../../components/content/PromptBlock.astro';
 import ToolPickBox from '../../components/content/ToolPickBox.astro';
+import ComparisonTable from '../../components/content/ComparisonTable.astro';
 
 The days of just using GitHub Copilot as a smart autocomplete are over. In 2026, the most productive software engineers are orchestrating multiple AI agents to handle entire slices of the development lifecycle—from UI prototyping to multi-file refactoring and local testing.
 
 This playbook breaks down the exact stack and workflow used by top-tier engineering teams.
+
+<ComparisonTable />
 
 ## What is the 2026 Developer Stack?
 
@@ -106,3 +109,6 @@ You should only do so if you have an Enterprise or API account where data traini
 
 ### Can I run AI coding assistants offline?
 Yes, tools like Ollama allow you to run models like Llama 3 locally on your machine, ensuring complete privacy and offline capabilities.
+
+### What is a context window in coding?
+The context window determines how much code the AI can "read" at one time. A 1M token window (like Claude Sonnet 4.6) can hold an entire medium-sized repository, allowing for project-wide refactoring.

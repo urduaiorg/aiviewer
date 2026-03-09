@@ -44,6 +44,10 @@ If you are writing a standard React component or a Python sorting function, both
 Suppose you need to rename a core database model and update every API endpoint and frontend component that references it.
 
 - **With Copilot:** You would likely use standard find-and-replace, and maybe use Copilot Chat to help rewrite specific complex functions one by one.
+  <PromptBlock 
+    tool="GitHub Copilot" 
+    prompt="@workspace Find all instances of the User model and rewrite them to Account. Suggest changes file by file." 
+  />
 - **With Cursor:** You open Composer and type:
   <PromptBlock 
     tool="Cursor" 
@@ -80,3 +84,6 @@ Cursor has a strict "Privacy Mode" toggle. When enabled, they state that none of
 
 ### Is GitHub Copilot better for beginners?
 Copilot is generally easier to adopt because it just acts like a smart autocomplete. Cursor's advanced features -- particularly the multi-agent workflow and Composer model -- require learning a new way of interacting with your codebase, though the payoff in productivity is substantial once you do.
+
+### Can Copilot and Cursor work together?
+While you could technically install the Copilot extension inside Cursor, it is redundant and often leads to conflicting autocomplete suggestions. It's best to choose one ecosystem.
