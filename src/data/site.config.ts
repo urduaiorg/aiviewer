@@ -181,15 +181,15 @@ export const categoryLabels: Record<string, string> = {
 
 /** Difficulty display config */
 export const difficultyConfig: Record<string, { label: string; color: string }> = {
-  beginner: { label: 'Beginner', color: 'bg-emerald-50 text-emerald-700' },
-  intermediate: { label: 'Intermediate', color: 'bg-amber-50 text-amber-700' },
-  advanced: { label: 'Advanced', color: 'bg-red-50 text-red-700' },
+  beginner: { label: 'Beginner', color: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800' },
+  intermediate: { label: 'Intermediate', color: 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800' },
+  advanced: { label: 'Advanced', color: 'bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800' },
 };
 
 /** Pricing display config */
 export const pricingConfig: Record<string, { label: string; color: string }> = {
-  free: { label: 'Free', color: 'bg-emerald-50 text-emerald-700' },
-  freemium: { label: 'Freemium', color: 'bg-blue-50 text-blue-700' },
-  paid: { label: 'Paid', color: 'bg-amber-50 text-amber-700' },
-  enterprise: { label: 'Enterprise', color: 'bg-violet-50 text-violet-700' },
+  free: { label: 'Free', color: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' },
+  freemium: { label: 'Freemium', color: 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' },
+  paid: { label: 'Paid', color: 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' },
+  enterprise: { label: 'Enterprise', color: 'bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300' },
 };
