@@ -2,14 +2,14 @@
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-zinc-200 bg-white" slot="footer">
+<footer class="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]" slot="footer">
   <div class="page-container py-14">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
       <!-- Brand -->
       <div class="col-span-2 md:col-span-1">
         <a href="/" class="inline-flex items-baseline" style="font-family: 'Montserrat', sans-serif;">
           <span class="text-[1.2rem] font-extrabold" style="color: #F0C75E; letter-spacing: -0.02em;">AI</span>
-          <span class="text-[1.2rem] font-extrabold text-zinc-900" style="letter-spacing: -0.02em;">Viewer</span>
+          <span class="text-[1.2rem] font-extrabold text-zinc-900 dark:text-white" style="letter-spacing: -0.02em;">Viewer</span>
         </a>
         <p class="mt-3 text-[0.8rem] text-zinc-400 leading-relaxed max-w-[220px]">
           Practical AI knowledge for everyone. No jargon, no hype.
@@ -20,10 +20,10 @@ const year = new Date().getFullYear();
       <div>
         <h4 class="text-[0.7rem] font-semibold text-zinc-400 uppercase tracking-wider mb-4">Content</h4>
         <nav class="flex flex-col gap-2.5">
-          <a href="/playbooks/" class="text-[0.84rem] text-zinc-500 hover:text-zinc-900 transition-colors">Playbooks</a>
-          <a href="/tools/" class="text-[0.84rem] text-zinc-500 hover:text-zinc-900 transition-colors">AI Tools</a>
-          <a href="/guides/" class="text-[0.84rem] text-zinc-500 hover:text-zinc-900 transition-colors">Guides</a>
-          <a href="/reports/" class="text-[0.84rem] text-zinc-500 hover:text-zinc-900 transition-colors">Reports</a>
+          <a href="/playbooks/" class="text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Playbooks</a>
+          <a href="/tools/" class="text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">AI Tools</a>
+          <a href="/guides/" class="text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Guides</a>
+          <a href="/reports/" class="text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Reports</a>
         </nav>
       </div>
 
@@ -31,10 +31,10 @@ const year = new Date().getFullYear();
       <div>
         <h4 class="text-[0.7rem] font-semibold text-zinc-400 uppercase tracking-wider mb-4">Resources</h4>
         <nav class="flex flex-col gap-2.5">
-          <a href="/prompts/" class="text-[0.84rem] text-zinc-500 hover:text-zinc-900 transition-colors">Prompt Library</a>
-          <a href="/about/" class="text-[0.84rem] text-zinc-500 hover:text-zinc-900 transition-colors">About</a>
-          <a href="/advertise/" class="text-[0.84rem] text-zinc-500 hover:text-zinc-900 transition-colors">Advertise</a>
-          <a href="/rss.xml" class="text-[0.84rem] text-zinc-500 hover:text-zinc-900 transition-colors">RSS Feed</a>
+          <a href="/prompts/" class="text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Prompt Library</a>
+          <a href="/about/" class="text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">About</a>
+          <a href="/advertise/" class="text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Advertise</a>
+          <a href="/rss.xml" class="text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">RSS Feed</a>
         </nav>
       </div>
 
@@ -42,18 +42,18 @@ const year = new Date().getFullYear();
       <div>
         <h4 class="text-[0.7rem] font-semibold text-zinc-400 uppercase tracking-wider mb-4">Connect</h4>
         <nav class="flex flex-col gap-2.5">
-          <a href="https://linkedin.com/in/qaisarroonjha" target="_blank" rel="noopener" class="text-[0.84rem] text-zinc-500 hover:text-zinc-900 transition-colors">LinkedIn</a>
-          <a href="https://twitter.com/qaisarroonjha" target="_blank" rel="noopener" class="text-[0.84rem] text-zinc-500 hover:text-zinc-900 transition-colors">X / Twitter</a>
+          <a href="https://linkedin.com/in/qaisarroonjha" target="_blank" rel="noopener" class="text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">LinkedIn</a>
+          <a href="https://twitter.com/qaisarroonjha" target="_blank" rel="noopener" class="text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">X / Twitter</a>
         </nav>
       </div>
     </div>
 
     <!-- Bottom -->
-    <div class="mt-12 pt-6 border-t border-zinc-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+    <div class="mt-12 pt-6 border-t border-zinc-100 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-3">
       <p class="text-[0.75rem] text-zinc-400">
-        &copy; {year} AIViewer.ai &middot; Part of the <a href="https://www.urduai.org" target="_blank" rel="noopener" class="inline-flex items-baseline" style="font-family: 'Montserrat', sans-serif;"><span class="font-bold text-zinc-600">Urdu</span><span class="font-bold" style="color: #F0C75E;">AI</span></a> network
+        &copy; {year} AIViewer.ai &middot; Part of the <a href="https://www.urduai.org" target="_blank" rel="noopener" class="inline-flex items-baseline" style="font-family: 'Montserrat', sans-serif;"><span class="font-bold text-zinc-600 dark:text-zinc-300">Urdu</span><span class="font-bold" style="color: #F0C75E;">AI</span></a> network
       </p>
-      <p class="text-[0.75rem] text-zinc-300">
+      <p class="text-[0.75rem] text-zinc-300 dark:text-zinc-600">
         1M+ community &middot; AI literacy for everyone
       </p>
     </div>

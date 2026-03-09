@@ -15,6 +15,21 @@ const playbooks = (await getCollection('playbooks', ({ data }) => !data.draft)).
 
 const featuredPlaybooks = playbooks.filter((entry) => entry.data.featured).slice(0, 2);
 const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
+
+/** Map roles → category palette keys for cover color tinting */
+const roleToCategory: Record<string, string> = {
+  teachers: 'education',
+  students: 'education',
+  'small-business': 'business',
+  'content-creators': 'design',
+  researchers: 'research',
+  freelancers: 'productivity',
+  entrepreneurs: 'business',
+  farmers: 'agriculture',
+  'job-seekers': 'general',
+  ngos: 'government',
+  general: 'general',
+};
 ---
 
 <BaseLayout
@@ -23,23 +38,23 @@ const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
 >
   <Header />
 
-  <section class="relative overflow-hidden border-b border-zinc-200/70 bg-white">
+  <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
     <div class="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.22),_transparent_45%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.10),_transparent_40%)]"></div>
     <div class="page-container relative py-12 md:py-16">
       <Breadcrumbs items={[{ label: 'Playbooks' }]} />
 
       <div class="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_24rem] lg:items-end">
         <div class="max-w-3xl">
-          <span class="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-amber-700">
+          <span class="inline-flex items-center gap-2 rounded-full border border-amber-200 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-300">
             Workflow library
           </span>
-          <h1 class="mt-5 max-w-2xl text-zinc-950">AI playbooks with an operational point of view.</h1>
-          <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600">
+          <h1 class="mt-5 max-w-2xl text-zinc-950 dark:text-zinc-50">AI playbooks with an operational point of view.</h1>
+          <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
             Role-based guides designed around time saved, tools used, and actual workflow count. Less inspiration board, more field manual.
           </p>
         </div>
 
-        <div class="rounded-[1.75rem] border border-zinc-200 bg-zinc-950 p-6 text-white shadow-[0_24px_80px_rgba(9,9,11,0.14)]">
+        <div class="rounded-[1.75rem] border border-zinc-200 dark:border-zinc-800 bg-zinc-950 p-6 text-white shadow-[0_24px_80px_rgba(9,9,11,0.14)]">
           <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">At a glance</p>
           <div class="mt-5 grid grid-cols-2 gap-4">
             <div>
@@ -67,12 +82,12 @@ const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
   </section>
 
   {featuredPlaybooks.length > 0 && (
-    <section class="border-b border-zinc-200/70 bg-[linear-gradient(180deg,#fff,rgba(244,244,245,0.75))]">
+    <section class="border-b border-zinc-200/70 dark:border-zinc-800 bg-[linear-gradient(180deg,#fff,rgba(244,244,245,0.75))] dark:bg-[linear-gradient(180deg,var(--color-bg),rgba(24,24,27,0.75))]">
       <div class="page-container py-10 md:py-14">
         <div class="mb-8 flex items-center justify-between gap-4">
           <div>
-            <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600">Featured</p>
-            <h2 class="mt-2 text-zinc-950">Start with the most useful playbooks.</h2>
+            <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Featured</p>
+            <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">Start with the most useful playbooks.</h2>
           </div>
         </div>
 
@@ -80,13 +95,13 @@ const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
           {featuredPlaybooks.map((entry) => (
             <a
               href={`/playbooks/${entry.id}/`}
-              class="group overflow-hidden rounded-[1.6rem] border border-zinc-200 bg-white shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
+              class="group overflow-hidden rounded-[1.6rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
             >
-              <div class="border-b border-zinc-200">
+              <div class="border-b border-zinc-200 dark:border-zinc-800">
                 <EditorialCover
                   title={entry.data.title}
                   subtitle={roleLabels[entry.data.role] ?? entry.data.role}
-                  image={entry.data.coverImage}
+                  category={roleToCategory[entry.data.role] ?? 'general'}
                   variant="playbook"
                   badge="Operational playbook"
                   layout="hero"
@@ -96,7 +111,7 @@ const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
               <div class="p-7">
               <div class="flex items-start justify-between gap-4">
                 <div>
-                  <span class="inline-flex rounded-full border border-[#F0C75E]/35 bg-[#F0C75E]/10 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-amber-800">
+                  <span class="inline-flex rounded-full border border-[#F0C75E]/35 bg-[#F0C75E]/10 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-amber-800 dark:text-amber-300">
                     {roleLabels[entry.data.role] ?? entry.data.role}
                   </span>
                   <p class="mt-4 max-w-xl text-[0.8rem] font-semibold uppercase tracking-[0.16em] text-zinc-400">Why it matters</p>
@@ -106,25 +121,25 @@ const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
                 </span>
               </div>
 
-              <p class="mt-3 max-w-xl text-[1rem] leading-7 text-zinc-600">{entry.data.description}</p>
+              <p class="mt-3 max-w-xl text-[1rem] leading-7 text-zinc-600 dark:text-zinc-400">{entry.data.description}</p>
 
               <div class="mt-6 flex flex-wrap gap-2">
                 {entry.data.toolsUsed.slice(0, 4).map((tool) => (
-                  <span class="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600">{tool}</span>
+                  <span class="rounded-full bg-zinc-100 dark:bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-400">{tool}</span>
                 ))}
               </div>
 
-              <div class="mt-7 grid grid-cols-3 gap-3 border-t border-zinc-100 pt-5 text-sm text-zinc-500">
+              <div class="mt-7 grid grid-cols-3 gap-3 border-t border-zinc-100 dark:border-zinc-800 pt-5 text-sm text-zinc-500 dark:text-zinc-400">
                 <div>
-                  <div class="font-semibold text-zinc-900">{entry.data.workflows}</div>
+                  <div class="font-semibold text-zinc-900 dark:text-zinc-100">{entry.data.workflows}</div>
                   <div>workflows</div>
                 </div>
                 <div>
-                  <div class="font-semibold text-zinc-900">{getReadingTime(entry.body)}</div>
+                  <div class="font-semibold text-zinc-900 dark:text-zinc-100">{getReadingTime(entry.body)}</div>
                   <div>reading time</div>
                 </div>
                 <div>
-                  <div class="font-semibold text-zinc-900">{formatDateShort(entry.data.publishedDate)}</div>
+                  <div class="font-semibold text-zinc-900 dark:text-zinc-100">{formatDateShort(entry.data.publishedDate)}</div>
                   <div>published</div>
                 </div>
               </div>
@@ -141,20 +156,20 @@ const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
       <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">All playbooks</p>
-          <h2 class="mt-2 text-zinc-950">Browse by role, difficulty, and workflow depth.</h2>
+          <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">Browse by role, difficulty, and workflow depth.</h2>
         </div>
-        <p class="max-w-xl text-sm leading-6 text-zinc-500">
+        <p class="max-w-xl text-sm leading-6 text-zinc-500 dark:text-zinc-400">
           Every entry is pulled from the Astro content collection, so new playbooks will land here automatically.
         </p>
       </div>
 
       {roles.length > 0 && (
         <nav class="mb-8 flex flex-wrap gap-2" aria-label="Role filters" data-filter-controls>
-          <button class="rounded-full border border-[#F0C75E] bg-[#F0C75E]/10 px-4 py-2 text-sm font-semibold text-amber-800" data-filter="all">
+          <button class="rounded-full border border-[#F0C75E] bg-[#F0C75E]/10 px-4 py-2 text-sm font-semibold text-amber-800 dark:text-amber-300" data-filter="all">
             All roles
           </button>
           {roles.map((role) => (
-            <button class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-600 transition-colors hover:border-[#F0C75E] hover:text-amber-800" data-filter={role}>
+            <button class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 transition-colors hover:border-[#F0C75E] hover:text-amber-800" data-filter={role}>
               {roleLabels[role] ?? role}
             </button>
           ))}
@@ -162,23 +177,23 @@ const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
       )}
 
       {playbooks.length === 0 ? (
-        <div class="rounded-[1.75rem] border border-dashed border-zinc-300 bg-white px-8 py-16 text-center">
-          <h3 class="text-zinc-950">No playbooks published yet.</h3>
-          <p class="mt-3 text-zinc-500">Add Markdown or MDX files to `src/content/playbooks` and this directory page will populate automatically.</p>
+        <div class="rounded-[1.75rem] border border-dashed border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-8 py-16 text-center">
+          <h3 class="text-zinc-950 dark:text-zinc-50">No playbooks published yet.</h3>
+          <p class="mt-3 text-zinc-500 dark:text-zinc-400">Add Markdown or MDX files to `src/content/playbooks` and this directory page will populate automatically.</p>
         </div>
       ) : (
         <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3" data-playbook-grid>
           {playbooks.map((entry) => (
             <a
               href={`/playbooks/${entry.id}/`}
-              class="playbook-card group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-zinc-200 bg-white shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
+              class="playbook-card group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
               data-role={entry.data.role}
             >
-              <div class="border-b border-zinc-200">
+              <div class="border-b border-zinc-200 dark:border-zinc-800">
                 <EditorialCover
                   title={entry.data.title}
                   subtitle={`${difficultyConfig[entry.data.difficulty]?.label ?? entry.data.difficulty} workflow`}
-                  image={entry.data.coverImage}
+                  category={roleToCategory[entry.data.role] ?? 'general'}
                   variant="playbook"
                   badge={roleLabels[entry.data.role] ?? entry.data.role}
                   compact={true}
@@ -188,36 +203,36 @@ const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
 
               <div class="flex flex-1 flex-col p-6">
               <div class="flex items-start justify-between gap-4">
-                <span class="inline-flex rounded-full bg-zinc-100 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-zinc-600">
+                <span class="inline-flex rounded-full bg-zinc-100 dark:bg-zinc-800 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-zinc-600 dark:text-zinc-400">
                   {roleLabels[entry.data.role] ?? entry.data.role}
                 </span>
                 <span class="text-xs font-medium text-zinc-400">{formatDate(entry.data.publishedDate)}</span>
               </div>
 
-              <h3 class="mt-5 text-[1.35rem] text-zinc-950 group-hover:text-indigo-600">{entry.data.title}</h3>
-              <p class="mt-3 flex-1 text-[0.95rem] leading-7 text-zinc-600">{entry.data.description}</p>
+              <h3 class="mt-5 text-[1.35rem] text-zinc-950 dark:text-zinc-50 group-hover:text-indigo-600">{entry.data.title}</h3>
+              <p class="mt-3 flex-1 text-[0.95rem] leading-7 text-zinc-600 dark:text-zinc-400">{entry.data.description}</p>
 
               <div class="mt-5 flex flex-wrap gap-2">
                 {entry.data.tags.slice(0, 3).map((tag) => (
-                  <span class="rounded-full border border-zinc-200 px-2.5 py-1 text-xs text-zinc-500">{tag}</span>
+                  <span class="rounded-full border border-zinc-200 dark:border-zinc-700 px-2.5 py-1 text-xs text-zinc-500 dark:text-zinc-400">{tag}</span>
                 ))}
               </div>
 
-              <div class="mt-7 grid grid-cols-2 gap-4 border-t border-zinc-100 pt-5 text-sm text-zinc-500">
+              <div class="mt-7 grid grid-cols-2 gap-4 border-t border-zinc-100 dark:border-zinc-800 pt-5 text-sm text-zinc-500 dark:text-zinc-400">
                 <div>
-                  <div class="font-semibold text-zinc-900">{difficultyConfig[entry.data.difficulty]?.label ?? entry.data.difficulty}</div>
+                  <div class="font-semibold text-zinc-900 dark:text-zinc-100">{difficultyConfig[entry.data.difficulty]?.label ?? entry.data.difficulty}</div>
                   <div>difficulty</div>
                 </div>
                 <div>
-                  <div class="font-semibold text-zinc-900">{getReadingTime(entry.body)}</div>
+                  <div class="font-semibold text-zinc-900 dark:text-zinc-100">{getReadingTime(entry.body)}</div>
                   <div>reading time</div>
                 </div>
                 <div>
-                  <div class="font-semibold text-zinc-900">{entry.data.workflows}</div>
+                  <div class="font-semibold text-zinc-900 dark:text-zinc-100">{entry.data.workflows}</div>
                   <div>workflows</div>
                 </div>
                 <div>
-                  <div class="font-semibold text-zinc-900">{entry.data.toolsUsed.length}</div>
+                  <div class="font-semibold text-zinc-900 dark:text-zinc-100">{entry.data.toolsUsed.length}</div>
                   <div>tools referenced</div>
                 </div>
               </div>
@@ -236,16 +251,22 @@ const roles = [...new Set(playbooks.map((entry) => entry.data.role))];
       const buttons = Array.from(controls.querySelectorAll('button[data-filter]'));
       const cards = Array.from(grid.querySelectorAll('.playbook-card'));
 
+      const isDark = () => document.documentElement.getAttribute('data-theme') === 'dark';
       const setFilter = (value: string) => {
         buttons.forEach((button) => {
           const active = (button as HTMLElement).dataset.filter === value;
+          const dark = isDark();
           button.classList.toggle('border-[#F0C75E]', active);
           button.classList.toggle('bg-[#F0C75E]/10', active);
-          button.classList.toggle('text-amber-800', active);
+          button.classList.toggle('text-amber-800', active && !dark);
+          button.classList.toggle('text-amber-300', active && dark);
           button.classList.toggle('font-semibold', active);
-          button.classList.toggle('border-zinc-200', !active);
-          button.classList.toggle('bg-white', !active);
-          button.classList.toggle('text-zinc-600', !active);
+          button.classList.toggle('border-zinc-200', !active && !dark);
+          button.classList.toggle('border-zinc-700', !active && dark);
+          button.classList.toggle('bg-white', !active && !dark);
+          button.classList.toggle('bg-zinc-800', !active && dark);
+          button.classList.toggle('text-zinc-600', !active && !dark);
+          button.classList.toggle('text-zinc-400', !active && dark);
           button.classList.toggle('font-medium', !active);
         });
 

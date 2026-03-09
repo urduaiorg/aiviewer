@@ -12,14 +12,14 @@ const navItems = [
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-zinc-100" slot="header">
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-100 dark:border-zinc-800" slot="header">
   <div class="page-container">
     <div class="flex items-center justify-between h-[4.25rem]">
 
       <!-- Logo — Montserrat Bold, AI (dark yellow) + Viewer (dark) -->
       <a href="/" class="flex items-baseline gap-0" style="font-family: 'Montserrat', sans-serif;">
         <span class="text-[1.4rem] font-extrabold tracking-tight" style="color: #F0C75E; letter-spacing: -0.02em;">AI</span>
-        <span class="text-[1.4rem] font-extrabold tracking-tight text-zinc-900" style="letter-spacing: -0.02em;">Viewer</span>
+        <span class="text-[1.4rem] font-extrabold tracking-tight text-zinc-900 dark:text-white" style="letter-spacing: -0.02em;">Viewer</span>
       </a>
 
       <!-- Desktop Navigation -->
@@ -30,14 +30,14 @@ const currentPath = Astro.url.pathname;
             class:list={[
               'px-3.5 py-2 text-[0.84rem] font-medium rounded-lg transition-all duration-200',
               currentPath.startsWith(item.href)
-                ? 'text-indigo-600 bg-indigo-50'
-                : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50',
+                ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
+                : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-800',
             ]}
           >
             {item.label}
           </a>
         ))}
-        <div class="w-px h-5 bg-zinc-200 mx-2"></div>
+        <div class="w-px h-5 bg-zinc-200 dark:bg-zinc-700 mx-2"></div>
         <ThemeToggle />
         <Search />
         <a
@@ -54,7 +54,7 @@ const currentPath = Astro.url.pathname;
         <Search />
         <button
           id="mobile-menu-btn"
-          class="flex items-center justify-center w-10 h-10 rounded-lg text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 transition-colors"
+          class="flex items-center justify-center w-10 h-10 rounded-lg text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
           aria-label="Open menu"
           aria-expanded="false"
         >
@@ -70,13 +70,13 @@ const currentPath = Astro.url.pathname;
 <!-- Mobile overlay menu -->
 <div id="mobile-menu" class="fixed inset-0 z-[60] hidden">
   <div id="mobile-menu-backdrop" class="absolute inset-0 bg-black/20 backdrop-blur-sm"></div>
-  <div class="absolute right-0 top-0 h-full w-[17rem] bg-white shadow-2xl">
+  <div class="absolute right-0 top-0 h-full w-[17rem] bg-white dark:bg-zinc-900 shadow-2xl">
     <!-- Close -->
-    <div class="flex items-center justify-between px-5 h-[4.25rem] border-b border-zinc-100">
+    <div class="flex items-center justify-between px-5 h-[4.25rem] border-b border-zinc-100 dark:border-zinc-800">
       <span class="text-sm font-semibold text-zinc-400 uppercase tracking-wider">Menu</span>
       <button
         id="mobile-menu-close"
-        class="flex items-center justify-center w-9 h-9 rounded-lg text-zinc-400 hover:text-zinc-900 hover:bg-zinc-50 transition-colors"
+        class="flex items-center justify-center w-9 h-9 rounded-lg text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
         aria-label="Close menu"
       >
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
@@ -93,14 +93,14 @@ const currentPath = Astro.url.pathname;
           class:list={[
             'px-3 py-2.5 text-[0.92rem] font-medium rounded-lg transition-all',
             currentPath.startsWith(item.href)
-              ? 'text-indigo-600 bg-indigo-50'
-              : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
+              ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
+              : 'text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-800',
           ]}
         >
           {item.label}
         </a>
       ))}
-      <div class="my-2 border-t border-zinc-100"></div>
+      <div class="my-2 border-t border-zinc-100 dark:border-zinc-800"></div>
       <a
         href="/tools/"
         class="mx-3 mt-1 flex items-center justify-center px-4 py-2.5 text-[0.92rem] font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
