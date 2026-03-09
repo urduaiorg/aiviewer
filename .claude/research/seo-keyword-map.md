@@ -50,6 +50,7 @@
 | **"ai regulation tracker"** | High | 60 | `reports/global-ai-regulation-tracker.mdx` | **GAP** - Need Report |
 | **"ai in classroom 2026"** | Medium | 50 | `reports/state-of-ai-education.mdx` | **GAP** - Need Report |
 | **"ai healthcare breakthroughs"** | High | 55 | `reports/ai-healthcare-2026.mdx` | **GAP** - Need Report |
+| **"ai adoption in africa 2026"** | Medium | 40 | `reports/kenya-schools-ai-case-study.mdx` | **GAP** - Need Story |
 
 ---
 

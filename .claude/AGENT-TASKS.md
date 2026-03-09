@@ -1172,6 +1172,7 @@ Prioritize these content gaps:
    - `src/content/reports/ai-impact-on-jobs.mdx` (category: business) — "AI & Labor: Which Jobs are Evolving?"
    - `src/content/reports/global-ai-regulation-tracker.mdx` (category: technology) — "Global AI Regulation Tracker 2026"
    - `src/content/reports/ai-healthcare-2026.mdx` (category: healthcare) — "AI in Healthcare: 2026 Breakthroughs"
+   - `src/content/reports/kenya-schools-ai-case-study.mdx` (category: education) — "Global AI Case Studies: Kenya's Schools"
 
 2. **More tool reviews** — We need reviews for trending 2026 tools:
    - `src/content/tools/runway-gen3.mdx` (category: video, rating: 4.4, pricing: paid) — Runway Gen-3 Alpha for video generation
@@ -1244,8 +1245,8 @@ Pagefind is indexed but we have NO search UI. Build it:
 | Guides | 18 guides | Full coverage across categories |
 | Playbooks | 12 playbooks | teachers, students, researchers, freelancers, developers, designers, lawyers, marketers, content-creators, small-business, ngos, job-seekers |
 | Reports | 8 reports | healthcare, education, employment, education-global, mental-health, regulation, creative-industries, energy-climate |
-| Prompts | 3 prompts | academic, marketing, coding |
-| **Total** | **249 pages** | Including tag pages, index pages, about, advertise, 404 |
+| Prompts | 10 prompts | academic, marketing, coding, lesson-plan, business-data, grant-proposal, study-guide, social-media, code-review, product-description |
+| **Total** | **271 pages** | Including tag pages, index pages, about, advertise, 404 |
 
 ---
 
@@ -1585,7 +1586,7 @@ All files are completely AEO-optimized (AnswerBox, 5+ FAQs, question-format H2s)
 
 > **Assigned to**: Agent 3 (Content & Page Builder)
 > **Priority**: HIGH — runs in parallel with Agent 4's reports
-> **Status**: IN PROGRESS
+> **Status**: DONE
 
 ---
 
@@ -1711,19 +1712,25 @@ Fix anything you find. Report changes in the Agent 3 Reports section.
 
 ### VERIFICATION CHECKLIST (Agent 3)
 
-- [ ] Footer and all page labels say "AI & Society" instead of "Reports"
-- [ ] URL paths remain `/reports/` (no URL changes)
-- [ ] Reports index hero copy is rewritten for the new editorial positioning
-- [ ] 7 new prompt files created in `src/content/prompts/`
-- [ ] All prompt descriptions under 160 chars
-- [ ] All prompts have 5-8 tags
-- [ ] No outdated model references (GPT-4o, Claude 3.5, etc.) remain in any content file
-- [ ] No fabricated statistics or fake person names remain in any content file
-- [ ] `npm run build` passes with 0 errors
-- [ ] Report completed work in Agent 3 Reports section below
+- [x] Footer and all page labels say "AI & Society" instead of "Reports"
+- [x] URL paths remain `/reports/` (no URL changes)
+- [x] Reports index hero copy is rewritten for the new editorial positioning
+- [x] 7 new prompt files created in `src/content/prompts/`
+- [x] All prompt descriptions under 160 chars
+- [x] All prompts have 5-8 tags
+- [x] No outdated model references (GPT-4o, Claude 3.5, etc.) remain in any content file
+- [x] No fabricated statistics or fake person names remain in any content file
+- [x] `npm run build` passes with 0 errors
+- [x] Report completed work in Agent 3 Reports section below
 
 ---
 
 ### AGENT 3 REPORTS (write your status updates here)
 
 *(Agent 3: after completing each task, write a status update below)*
+
+**[Agent 3 — Phase 6 Complete]** Hey Agent 1! I have completed the Phase 6: Agent 3 Assignments. 
+- **Task 6C (Rebrand):** Verified that "Reports" was fully rebranded to "AI & Society" site-wide across all `.astro` and config files.
+- **Task 6D (Prompts):** Created 7 new high-quality, AEO-compliant prompt files (Lesson Plan, Business Data, Grant Proposal, Study Guide, Social Media Calendar, Code Review, Product Descriptions). They are all fully tagged and use the `PromptBlock` component.
+- **Task 6E (Freshness Audit):** Ran a comprehensive audit for legacy model names (GPT-4, Claude 3.5, etc.) and found 0 instances across our content files, confirming our prior freshness sweeps were 100% successful.
+- **Build Status:** Build passed cleanly. The site is now up to **271 pages, 0 errors**.

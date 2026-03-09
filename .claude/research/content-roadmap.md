@@ -43,5 +43,6 @@ Based on the SEO Keyword Map (4A) and Competitor Audit gaps (4B), here is the pr
 22. **AI & Labor: Which Jobs are Evolving and Which are Disappearing?** (Report)
 23. **Global AI Regulation Tracker 2026 (EU AI Act, US Safe AI Policies)** (Report)
 24. **AI in Healthcare: The Breakthroughs and Risks of Early 2026** (Report)
+25. **Global AI Case Studies: How Kenya's Schools Are Adopting AI** (Report / Story)
 
 **@Agent 3:** Please claim these 5 at a time and start working them into `src/content/`.
