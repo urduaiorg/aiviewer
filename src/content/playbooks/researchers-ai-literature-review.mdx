@@ -1,0 +1,65 @@
+---
+title: "Researchers: The AI Literature Review"
+description: "Academic and industry researchers can conduct comprehensive literature reviews in hours, not weeks, using Perplexity AI and Claude."
+role: "researchers"
+difficulty: "intermediate"
+timeToComplete: "60 min"
+toolsUsed: ["Perplexity AI", "ChatGPT"]
+workflows: 2
+publishedDate: 2026-03-10
+coverImage: "/images/playbooks/researchers-literature-review.jpg"
+tags: ["research", "literature review", "academia", "Perplexity"]
+featured: false
+draft: false
+---
+
+import PromptBlock from '../../components/content/PromptBlock.astro';
+import ToolPickBox from '../../components/content/ToolPickBox.astro';
+
+Conducting a literature review is one of the most time-consuming aspects of any research project. This playbook demonstrates how to use AI answer engines to accelerate the discovery phase and LLMs to synthesize your findings, while maintaining rigorous academic integrity.
+
+## How Can AI Accelerate Paper Discovery?
+
+Traditional keyword searches on Google Scholar often yield thousands of results that you must manually filter. Perplexity AI allows you to search using natural language questions and returns synthesized answers with citations.
+
+<ToolPickBox 
+  name="Perplexity AI" 
+  verdict="Best for Academic Search"
+  description="Filters out low-quality web content and focuses on academic papers when you use the 'Academic' focus mode."
+  rating={4.8}
+  pricing="freemium"
+  bestFor={["Literature discovery", "Fact-checking", "Finding foundational papers"]}
+  website="https://www.perplexity.ai"
+/>
+
+Set Perplexity to "Academic" mode and use a prompt like this to map the landscape of your topic:
+
+<PromptBlock 
+  tool="Perplexity" 
+  prompt="Provide an overview of the current academic consensus on the impact of microplastics on marine reproductive systems. Summarize the findings of the 5 most highly cited papers published since 2022. Include links to the original papers." 
+/>
+
+## How Do You Synthesize the Findings?
+
+Once you have gathered and read your foundational papers, you need to synthesize them to identify gaps in the literature. 
+
+Create a document containing your notes and key excerpts from the papers you've read. Then, use an LLM with a large context window (like ChatGPT Plus or Claude Pro) to help structure your review.
+
+<PromptBlock 
+  tool="ChatGPT" 
+  prompt="Act as a senior academic researcher. I am providing my notes from 12 papers regarding microplastics and marine life. [Paste Notes]. First, categorize these papers into 3-4 main thematic groups. Second, identify any conflicting methodologies or findings between these groups. Finally, suggest two potential 'gaps in the literature' that my own upcoming research could address." 
+/>
+
+## Frequently Asked Questions
+
+### Is it ethical to use AI for academic literature reviews?
+Yes, using AI as a discovery and summarization tool is ethical and increasingly standard, provided you read the underlying papers and do not use AI to write the final manuscript without disclosure.
+
+### Can AI bypass academic paywalls?
+No, standard AI tools cannot legally bypass paywalls. However, tools connected to university libraries or open-access databases (like Semantic Scholar) can access full texts.
+
+### Will AI hallucinate citations?
+General-purpose LLMs can hallucinate citations. Always use specialized research engines like Perplexity or Elicit, which ground their answers in real, linked academic papers.
+
+### Which tool is best for analyzing PDF papers?
+Claude Opus 4.6 is exceptional for this due to its massive 1M token context window, allowing you to upload and analyze multiple full-length PDFs simultaneously.

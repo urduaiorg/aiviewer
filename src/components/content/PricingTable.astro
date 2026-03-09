@@ -1,0 +1,135 @@
+---
+/**
+ * PricingTable — Clean, editorial pricing tier display
+ * Not a SaaS pricing page — this is for tool reviews, showing
+ * what each tier offers. Features a "Best Value" badge and
+ * highlighted recommended tier.
+ */
+interface PricingTier {
+  name: string;
+  price: string;
+  period?: string;
+  description: string;
+  features: string[];
+  isRecommended?: boolean;
+  cta?: string;
+  ctaUrl?: string;
+}
+
+interface Props {
+  tiers: PricingTier[];
+  toolName?: string;
+  disclaimer?: string;
+}
+
+const { tiers = [], toolName, disclaimer } = Astro.props;
+---
+
+<div class="pricing-table my-8">
+  {/* Section label */}
+  {toolName && (
+    <div class="flex items-center gap-2 mb-5">
+      <svg class="w-5 h-5 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+      </svg>
+      <h4 class="text-sm font-bold text-zinc-900">{toolName} Pricing</h4>
+    </div>
+  )}
+
+  <div class:list={[
+    'grid gap-4',
+    tiers.length === 2 ? 'sm:grid-cols-2' : '',
+    tiers.length === 3 ? 'sm:grid-cols-3' : '',
+    tiers.length >= 4 ? 'sm:grid-cols-2 lg:grid-cols-4' : '',
+  ]}>
+    {tiers.map((tier) => (
+      <div
+        class:list={[
+          'relative rounded-2xl p-5 transition-all duration-200',
+          tier.isRecommended
+            ? 'bg-white border-2 border-indigo-500 shadow-lg shadow-indigo-100/50 scale-[1.02]'
+            : 'bg-white border border-zinc-200 hover:border-zinc-300 hover:shadow-md',
+        ]}
+      >
+        {/* Recommended badge */}
+        {tier.isRecommended && (
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[0.6rem] font-bold uppercase tracking-wider bg-indigo-600 text-white shadow-sm">
+              <svg class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              Best Value
+            </span>
+          </div>
+        )}
+
+        {/* Tier name */}
+        <p class:list={[
+          'text-[0.7rem] font-semibold uppercase tracking-wider mb-3',
+          tier.isRecommended ? 'text-indigo-600' : 'text-zinc-400',
+        ]}>
+          {tier.name}
+        </p>
+
+        {/* Price */}
+        <div class="flex items-baseline gap-1 mb-2">
+          <span class="text-2xl font-extrabold text-zinc-900">{tier.price}</span>
+          {tier.period && (
+            <span class="text-[0.75rem] text-zinc-400 font-medium">/{tier.period}</span>
+          )}
+        </div>
+
+        {/* Description */}
+        <p class="text-[0.78rem] text-zinc-500 leading-relaxed mb-4">
+          {tier.description}
+        </p>
+
+        {/* Divider */}
+        <div class="border-t border-dashed border-zinc-200 mb-4"></div>
+
+        {/* Features */}
+        <ul class="space-y-2">
+          {tier.features.map((f) => (
+            <li class="flex items-start gap-2 text-[0.78rem] text-zinc-600">
+              <svg
+                class:list={[
+                  'w-4 h-4 mt-0.5 shrink-0',
+                  tier.isRecommended ? 'text-indigo-500' : 'text-emerald-500',
+                ]}
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              {f}
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA */}
+        {tier.ctaUrl && (
+          <a
+            href={tier.ctaUrl}
+            target="_blank"
+            rel="noopener"
+            class:list={[
+              'mt-5 block text-center py-2.5 rounded-xl text-[0.8rem] font-semibold transition-colors',
+              tier.isRecommended
+                ? 'bg-indigo-600 text-white hover:bg-indigo-700'
+                : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200',
+            ]}
+          >
+            {tier.cta || `Get ${tier.name}`}
+          </a>
+        )}
+      </div>
+    ))}
+  </div>
+
+  {/* Disclaimer */}
+  {disclaimer && (
+    <p class="mt-4 text-[0.65rem] text-zinc-400 text-center italic">
+      {disclaimer}
+    </p>
+  )}
+</div>

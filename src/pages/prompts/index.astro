@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const prompts = await getCollection('prompts', ({ data }) => !data.draft);
+
+// Sort by date descending
+prompts.sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf());
+
+// Get unique roles and tools for filters
+const roles = [...new Set(prompts.map(p => p.data.role))];
+const tools = [...new Set(prompts.map(p => p.data.toolFor))];
+---
+
+<BaseLayout 
+  title="AI Prompt Library | AIViewer"
+  description="A curated library of effective prompts for ChatGPT, Claude, and other AI tools."
+>
+  <div class="page-container py-12 lg:py-20">
+    <header class="max-w-3xl mb-12">
+      <h1 class="text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white mb-4">Prompt Library</h1>
+      <p class="text-xl text-zinc-600 dark:text-zinc-400">Copy, paste, and customize our most effective prompts to get better results from your AI tools.</p>
+    </header>
+
+    <div class="flex flex-col lg:flex-row gap-8">
+      {/* Sidebar Filters */}
+      <aside class="lg:w-1/4">
+        <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 sticky top-24">
+          <h2 class="text-lg font-bold text-zinc-900 dark:text-white mb-4">Filters</h2>
+          
+          <div class="mb-6">
+            <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider mb-3">Role</h3>
+            <div class="space-y-2">
+              {roles.map(role => (
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" class="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-600" />
+                  <span class="text-sm text-zinc-600 dark:text-zinc-400 capitalize">{role.replace('-', ' ')}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider mb-3">Tool</h3>
+            <div class="space-y-2">
+              {tools.map(tool => (
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" class="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-600" />
+                  <span class="text-sm text-zinc-600 dark:text-zinc-400">{tool}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      {/* Prompts Grid */}
+      <main class="lg:w-3/4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {prompts.map((prompt) => (
+            <a href={`/prompts/${prompt.id}/`} class="group block bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 hover:shadow-lg transition-all duration-300">
+              <div class="flex items-start justify-between mb-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
+                  {prompt.data.toolFor}
+                </span>
+                <span class="text-xs text-zinc-500 capitalize">{prompt.data.role.replace('-', ' ')}</span>
+              </div>
+              <h2 class="text-xl font-bold text-zinc-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                {prompt.data.title}
+              </h2>
+              <p class="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2">
+                {prompt.data.description}
+              </p>
+            </a>
+          ))}
+        </div>
+      </main>
+    </div>
+  </div>
+</BaseLayout>

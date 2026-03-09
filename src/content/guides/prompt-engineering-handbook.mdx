@@ -1,0 +1,54 @@
+---
+title: "The Prompt Engineering Handbook"
+description: "Master prompt engineering by understanding the anatomy of a perfect prompt, using few-shot examples, and avoiding common ambiguity mistakes."
+category: "general"
+publishedDate: 2026-03-09
+coverImage: "/images/guides/prompt-engineering.jpg"
+tags: ["prompting", "guide", "advanced", "LLMs"]
+relatedPlaybook: "freelancers-automating-client-onboarding"
+featured: false
+draft: false
+---
+
+import TableOfContents from '../../components/content/TableOfContents.astro';
+
+Prompt engineering is the art and science of communicating effectively with AI models. It is not just about typing a question; it is about providing the right context, constraints, and formatting instructions to ensure the AI generates exactly what you need.
+
+## What is the Anatomy of a Perfect Prompt?
+
+A highly effective prompt usually contains four key elements:
+
+1.  **Role (Persona):** Tell the AI who it should be acting as. (e.g., "Act as a senior software engineer.")
+2.  **Task:** Clearly state the goal. (e.g., "Review this code for security vulnerabilities.")
+3.  **Context:** Provide background information. (e.g., "This code handles user authentication for a fintech app.")
+4.  **Format/Constraints:** Specify how you want the output delivered. (e.g., "Provide the feedback as a bulleted list. Do not write new code.")
+
+## What Are Some Advanced Prompting Techniques?
+
+### Few-Shot Prompting
+
+Instead of just telling the AI what to do (zero-shot), give it a few examples of successful inputs and outputs. This helps the AI understand the exact pattern or tone you are looking for.
+
+### Chain-of-Thought Prompting
+
+For complex reasoning tasks, add the phrase "Let's think step by step" to your prompt. This forces the AI to break down the problem into logical steps, significantly reducing mathematical and logical errors.
+
+## What Are Common Prompting Mistakes to Avoid?
+
+-   **Being Too Vague:** Avoid prompts like "Write an article about AI." Instead, use "Write a 500-word blog post about the impact of AI on digital marketing, targeted at small business owners."
+-   **Contradictory Instructions:** Ensure your prompt doesn't ask for two opposing things simultaneously.
+-   **Ignoring the Context Window:** Remember that LLMs have a limit on how much text they can "remember" in a single conversation. If a chat gets too long, start a new one to prevent the AI from forgetting earlier instructions.
+
+## Frequently Asked Questions
+
+### What is a zero-shot prompt?
+A zero-shot prompt asks the AI to perform a task without providing any examples of the desired output.
+
+### What is few-shot prompting?
+Few-shot prompting involves giving the AI 2-3 examples of the input-output pattern you want it to follow before giving it the actual task.
+
+### How do I stop the AI from hallucinating?
+You can reduce hallucinations by asking the AI to "think step-by-step" and explicitly instructing it to say "I don't know" if it lacks information.
+
+### Do different models require different prompts?
+Yes, while general frameworks apply, models like Claude Opus 4.6 excel with dense XML formatting, whereas GPT-5.4 responds well to direct conversational commands.

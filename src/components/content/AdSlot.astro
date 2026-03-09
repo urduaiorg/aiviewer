@@ -1,0 +1,75 @@
+---
+/**
+ * AdSlot — Tasteful, editorial-grade ad placement
+ * Designed to feel native to the content, not jarring.
+ * Features a subtle "Sponsored" label, supports multiple sizes,
+ * and degrades gracefully when no ad loads. Not a screaming banner.
+ */
+interface Props {
+  /** Ad slot identifier for the ad network */
+  slot: string;
+  /** Display size: inline (within content), sidebar, or banner */
+  size?: 'inline' | 'sidebar' | 'banner';
+  /** Optional background style */
+  variant?: 'light' | 'transparent';
+  /** Fallback text when no ad loads */
+  fallbackText?: string;
+}
+
+const {
+  slot,
+  size = 'inline',
+  variant = 'light',
+  fallbackText = 'Support independent AI journalism',
+} = Astro.props;
+
+const sizeClasses: Record<string, string> = {
+  inline: 'min-h-[250px] max-w-[728px] mx-auto',
+  sidebar: 'min-h-[600px] max-w-[300px]',
+  banner: 'min-h-[90px] w-full',
+};
+---
+
+<aside
+  class:list={[
+    'ad-slot relative overflow-hidden rounded-xl',
+    sizeClasses[size],
+    variant === 'light'
+      ? 'bg-zinc-50/80 border border-dashed border-zinc-200'
+      : 'bg-transparent',
+  ]}
+  role="complementary"
+  aria-label="Sponsored content"
+  data-ad-slot={slot}
+>
+  {/* Sponsored label */}
+  <div class="absolute top-2 right-2 z-10">
+    <span class="text-[0.55rem] font-medium text-zinc-300 uppercase tracking-widest">
+      Sponsored
+    </span>
+  </div>
+
+  {/* Ad container — filled by ad network script */}
+  <div
+    class="ad-container flex items-center justify-center w-full h-full"
+    data-ad-container={slot}
+  >
+    {/* Fallback shown when no ad loads */}
+    <div class="ad-fallback flex flex-col items-center justify-center gap-3 py-8 px-6 text-center">
+      <div class="w-10 h-10 rounded-xl bg-zinc-100 flex items-center justify-center">
+        <svg class="w-5 h-5 text-zinc-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      </div>
+      <p class="text-[0.75rem] text-zinc-300 max-w-[200px] leading-relaxed">
+        {fallbackText}
+      </p>
+      <a
+        href="/advertise/"
+        class="text-[0.65rem] font-medium text-zinc-300 hover:text-indigo-500 transition-colors underline underline-offset-2"
+      >
+        Advertise with us
+      </a>
+    </div>
+  </div>
+</aside>

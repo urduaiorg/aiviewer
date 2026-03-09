@@ -1,0 +1,38 @@
+---
+title: "Summarize Complex Academic Papers"
+description: "Extract key findings, methodologies, and conclusions from dense academic papers instantly using this structured summarization prompt."
+role: "researchers"
+toolFor: "Claude"
+task: "research"
+publishedDate: 2026-03-08
+tags: ["research", "summary", "academic"]
+draft: false
+---
+
+import PromptBlock from '../../components/content/PromptBlock.astro';
+
+Reading dense academic papers can be time-consuming. Use this prompt to get a quick, accurate summary before diving into the full text. Note: Claude is often better at this due to its larger context window.
+
+<PromptBlock 
+  tool="Claude" 
+  prompt="Please read the attached academic paper. Summarize it for a graduate-level researcher. Provide the following: 1. A 3-sentence executive summary. 2. The main research question or hypothesis. 3. A brief explanation of the methodology used. 4. The key findings. 5. Any limitations mentioned by the authors. 6. Potential areas for future research based on this paper." 
+/>
+
+## What Are Some Tips for Success?
+
+- Always paste the text of the paper or upload the PDF (if using a paid tier that supports it) along with this prompt.
+- If the paper is highly technical, you can add "Explain the methodology in simpler terms" to the prompt.
+
+## Frequently Asked Questions
+
+### How do I feed the PDF to the AI?
+You can upload the PDF directly if you are using ChatGPT Plus or Claude Pro. Alternatively, you can copy and paste the text from the paper into the prompt.
+
+### Will the AI understand complex mathematical formulas?
+State-of-the-art models like GPT-5.4 are highly capable of parsing and explaining complex mathematical notations found in technical papers.
+
+### Is this prompt suitable for medical research papers?
+Yes, but you should always consult the original paper for critical clinical data, as AI models can occasionally hallucinate specific statistical figures.
+
+### Can the AI compare this paper to others?
+Yes, once the initial summary is generated, you can upload a second paper and ask the AI to compare their methodologies and conclusions.

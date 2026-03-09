@@ -1,0 +1,113 @@
+---
+/**
+ * AuthorBio — Premium editorial author card
+ * Used at bottom of articles. Features a subtle gradient border,
+ * verified badge, and social links. Not a generic "about the author" box.
+ */
+import authorData from '../../data/author.json';
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+const { name, title, bio, photo, social, credentials } = authorData;
+---
+
+<section
+  class:list={[
+    'author-bio relative overflow-hidden',
+    compact ? 'py-6' : 'py-8 sm:py-10',
+  ]}
+  aria-label={`About ${name}`}
+>
+  {/* Decorative gradient border top */}
+  <div class="absolute top-0 left-0 right-0 h-[2px]" aria-hidden="true">
+    <div class="h-full bg-gradient-to-r from-indigo-500 via-violet-400 to-amber-400 opacity-60"></div>
+  </div>
+
+  <div class:list={[
+    'flex gap-5',
+    compact ? 'items-center' : 'items-start flex-col sm:flex-row',
+  ]}>
+    {/* Avatar with status ring */}
+    <div class="relative shrink-0">
+      <div class="w-16 h-16 sm:w-[4.5rem] sm:h-[4.5rem] rounded-2xl bg-gradient-to-br from-indigo-100 to-zinc-100 overflow-hidden ring-2 ring-white shadow-md">
+        <img
+          src={photo}
+          alt={name}
+          width="72"
+          height="72"
+          class="w-full h-full object-cover"
+          loading="lazy"
+          onerror="this.style.display='none'; this.parentElement.innerHTML = `<div class='flex items-center justify-center w-full h-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white text-xl font-bold'>${'QR'}</div>`"
+        />
+      </div>
+      {/* Verified badge */}
+      <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-indigo-500 rounded-full flex items-center justify-center ring-2 ring-white" title="Verified author">
+        <svg class="w-3 h-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg>
+      </div>
+    </div>
+
+    {/* Info */}
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 flex-wrap">
+        <h4 class="text-[0.95rem] font-bold text-zinc-900 leading-tight">{name}</h4>
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[0.6rem] font-semibold uppercase tracking-wider bg-indigo-50 text-indigo-600">
+          {title}
+        </span>
+      </div>
+
+      <p class="mt-2 text-[0.82rem] text-zinc-500 leading-relaxed max-w-md">
+        {bio}
+      </p>
+
+      {!compact && (
+        <div class="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+          {credentials.map((c: string) => (
+            <span class="text-[0.72rem] text-zinc-400 flex items-center gap-1">
+              <svg class="w-3 h-3 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              {c}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Social links */}
+      <div class="mt-3 flex items-center gap-3">
+        {social.linkedin && (
+          <a
+            href={social.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 text-[0.75rem] font-medium text-zinc-400 hover:text-indigo-600 transition-colors"
+            aria-label={`${name} on LinkedIn`}
+          >
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            LinkedIn
+          </a>
+        )}
+        {social.twitter && (
+          <a
+            href={social.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 text-[0.75rem] font-medium text-zinc-400 hover:text-zinc-700 transition-colors"
+            aria-label={`${name} on X`}
+          >
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            X / Twitter
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

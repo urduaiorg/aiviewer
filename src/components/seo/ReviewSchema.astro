@@ -1,0 +1,56 @@
+---
+export interface Props {
+  itemName: string;
+  itemImage?: string;
+  description: string;
+  ratingValue: number;
+  bestRating?: number;
+  worstRating?: number;
+  authorName?: string;
+  datePublished: Date;
+}
+
+const {
+  itemName,
+  itemImage,
+  description,
+  ratingValue,
+  bestRating = 5,
+  worstRating = 1,
+  authorName = "AIViewer Expert",
+  datePublished,
+} = Astro.props;
+
+const siteUrl = Astro.site ? Astro.site.toString() : 'https://aiviewer.ai';
+const imageUrl = itemImage ? new URL(itemImage, siteUrl).toString() : new URL('/og-default.png', siteUrl).toString();
+
+const schema = {
+  "@context": "https://schema.org/",
+  "@type": "Review",
+  "itemReviewed": {
+    "@type": "SoftwareApplication",
+    "name": itemName,
+    "image": imageUrl,
+    "description": description,
+    "applicationCategory": "BusinessApplication"
+  },
+  "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": ratingValue.toString(),
+    "bestRating": bestRating.toString(),
+    "worstRating": worstRating.toString()
+  },
+  "name": `Review of ${itemName}`,
+  "author": {
+    "@type": "Person",
+    "name": authorName
+  },
+  "datePublished": datePublished.toISOString(),
+  "publisher": {
+    "@type": "Organization",
+    "name": "AIViewer.ai"
+  }
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

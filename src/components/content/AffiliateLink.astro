@@ -1,0 +1,66 @@
+---
+/**
+ * AffiliateLink — Branded CTA button for affiliate/sponsored tool links
+ * Designed to feel editorial, not salesy. Features a subtle
+ * "commission" disclosure, external link indicator, and hover lift.
+ * Properly tagged with rel="sponsored" for SEO compliance.
+ */
+interface Props {
+  href: string;
+  text: string;
+  toolName?: string;
+  /** Visual variant */
+  variant?: 'primary' | 'subtle' | 'outline';
+  /** Show affiliate disclosure */
+  showDisclosure?: boolean;
+  /** Size */
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const {
+  href,
+  text,
+  toolName,
+  variant = 'primary',
+  showDisclosure = true,
+  size = 'md',
+} = Astro.props;
+
+const variantClasses: Record<string, string> = {
+  primary: 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm hover:shadow-md',
+  subtle: 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-100',
+  outline: 'bg-white text-zinc-700 hover:text-indigo-600 border border-zinc-200 hover:border-indigo-300',
+};
+
+const sizeClasses: Record<string, string> = {
+  sm: 'px-4 py-2 text-[0.75rem] gap-1.5 rounded-lg',
+  md: 'px-5 py-2.5 text-[0.82rem] gap-2 rounded-xl',
+  lg: 'px-6 py-3 text-[0.88rem] gap-2 rounded-xl',
+};
+---
+
+<span class="affiliate-link-wrap inline-flex flex-col items-start">
+  <a
+    href={href}
+    target="_blank"
+    rel="sponsored noopener noreferrer"
+    class:list={[
+      'affiliate-cta inline-flex items-center font-semibold transition-all duration-200 hover:-translate-y-px',
+      variantClasses[variant],
+      sizeClasses[size],
+    ]}
+    data-affiliate={toolName || ''}
+  >
+    {text}
+    {/* External link icon */}
+    <svg class="w-3.5 h-3.5 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    </svg>
+  </a>
+
+  {showDisclosure && (
+    <span class="mt-1.5 text-[0.58rem] text-zinc-300 italic leading-tight">
+      This is an affiliate link — we may earn a small commission at no extra cost to you.
+    </span>
+  )}
+</span>

@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import AuthorBio from '../../components/content/AuthorBio.astro';
+import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
+---
+
+<BaseLayout
+  title="About AIViewer.ai"
+  description="Learn what AIViewer.ai is building: practical AI literacy, honest reviews, and role-based playbooks with an editorial standard."
+>
+  <Header />
+
+  <section class="relative overflow-hidden border-b border-zinc-200/70 bg-white">
+    <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.22),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.10),_transparent_38%)]"></div>
+    <div class="page-container relative py-12 md:py-16">
+      <Breadcrumbs items={[{ label: 'About' }]} />
+
+      <div class="max-w-3xl">
+        <span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-600">
+          About the publication
+        </span>
+        <h1 class="mt-5 text-zinc-950">AI literacy with editorial discipline.</h1>
+        <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600">
+          AIViewer.ai exists to make AI useful for normal people and operational for teams. The standard is practical clarity, not hype cycles.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-bg)]">
+    <div class="page-container py-12 md:py-16">
+      <div class="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+        <div class="rounded-[1.8rem] border border-zinc-200 bg-white p-7 shadow-[var(--shadow-card)] md:p-9">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600">What we publish</p>
+          <h2 class="mt-3 text-zinc-950">A working library, not a trend feed.</h2>
+          <div class="mt-6 space-y-5 text-[0.98rem] leading-8 text-zinc-600">
+            <p>
+              The site focuses on playbooks, tool reviews, and guides that help people decide what to use, how to use it, and where the limits are.
+            </p>
+            <p>
+              Content is structured so readers can move from orientation to execution quickly: understand the landscape, pick a workflow, then ship something useful.
+            </p>
+          </div>
+        </div>
+
+        <div class="rounded-[1.8rem] border border-zinc-200 bg-zinc-950 p-7 text-white shadow-[0_24px_80px_rgba(9,9,11,0.14)] md:p-9">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Editorial standard</p>
+          <div class="mt-6 space-y-4">
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <h3 class="text-lg text-white">Usefulness first</h3>
+              <p class="mt-2 text-sm leading-6 text-zinc-300">We optimize for whether a reader can act on the page immediately.</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <h3 class="text-lg text-white">Honest evaluation</h3>
+              <p class="mt-2 text-sm leading-6 text-zinc-300">Tool reviews should surface tradeoffs, not bury them behind conversion copy.</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <h3 class="text-lg text-white">Accessible language</h3>
+              <p class="mt-2 text-sm leading-6 text-zinc-300">Readers should not need technical background to understand the stakes or the path forward.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 grid gap-6 lg:grid-cols-3">
+        <div class="rounded-[1.6rem] border border-zinc-200 bg-white p-6 shadow-[var(--shadow-card)]">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Playbooks</p>
+          <h3 class="mt-3 text-zinc-950">Role-specific execution</h3>
+          <p class="mt-3 text-sm leading-7 text-zinc-600">Structured around time saved, workflow count, and concrete tool stacks.</p>
+        </div>
+        <div class="rounded-[1.6rem] border border-zinc-200 bg-white p-6 shadow-[var(--shadow-card)]">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Tool Reviews</p>
+          <h3 class="mt-3 text-zinc-950">Decision-ready comparisons</h3>
+          <p class="mt-3 text-sm leading-7 text-zinc-600">Best-for fit, pricing realities, and a direct statement on where the tool breaks down.</p>
+        </div>
+        <div class="rounded-[1.6rem] border border-zinc-200 bg-white p-6 shadow-[var(--shadow-card)]">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Guides</p>
+          <h3 class="mt-3 text-zinc-950">Context before adoption</h3>
+          <p class="mt-3 text-sm leading-7 text-zinc-600">Industry framing and implementation guidance for people mapping AI to real constraints.</p>
+        </div>
+      </div>
+
+      <!-- Author / Team -->
+      <div class="mt-6 rounded-[1.8rem] border border-zinc-200 bg-white p-7 shadow-[var(--shadow-card)] md:p-9">
+        <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 mb-4">Written & curated by</p>
+        <AuthorBio />
+      </div>
+
+      <!-- Newsletter -->
+      <div class="mt-6">
+        <NewsletterSignup heading="Stay in the loop." subtitle="Weekly digest of the most useful AI developments, new tool reviews, and playbook updates." />
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,188 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+
+const tools = (await getCollection('tools', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.rating - a.data.rating || b.data.publishedDate.getTime() - a.data.publishedDate.getTime()
+);
+
+const featuredTool = tools.find((entry) => entry.data.featured) ?? tools[0];
+const categories = [...new Set(tools.map((entry) => entry.data.category))];
+
+const pricingTone: Record<string, string> = {
+  free: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  freemium: 'bg-sky-50 text-sky-700 border-sky-200',
+  paid: 'bg-amber-50 text-amber-700 border-amber-200',
+  enterprise: 'bg-violet-50 text-violet-700 border-violet-200',
+};
+---
+
+<BaseLayout
+  title="AI Tools"
+  description="Browse AI tool reviews across writing, research, design, coding, video, education, and more, with category filtering built into the directory."
+>
+  <Header />
+
+  <section class="relative overflow-hidden border-b border-zinc-200/70 bg-white">
+    <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.22),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.12),_transparent_38%)]"></div>
+    <div class="page-container relative py-12 md:py-16">
+      <Breadcrumbs items={[{ label: 'Tools' }]} />
+
+      <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end">
+        <div class="max-w-3xl">
+          <span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-600">
+            Review directory
+          </span>
+          <h1 class="mt-5 text-zinc-950">AI tools, filtered by actual use case.</h1>
+          <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600">
+            Compare tools by category, pricing model, and rating without wading through affiliate sludge.
+          </p>
+        </div>
+
+        <div class="rounded-[1.75rem] border border-zinc-200 bg-zinc-950 p-6 text-white shadow-[0_24px_80px_rgba(9,9,11,0.14)]">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Coverage</p>
+          <div class="mt-5 grid grid-cols-2 gap-4">
+            <div>
+              <div class="text-3xl font-bold">{tools.length}</div>
+              <p class="mt-1 text-sm text-zinc-400">Reviewed tools</p>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-[#F0C75E]">{categories.length}</div>
+              <p class="mt-1 text-sm text-zinc-400">Categories</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {categories.length > 0 && (
+        <div class="mt-10 flex flex-wrap gap-2" data-filter-controls>
+          <button class="rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700" data-filter="all">
+            All categories
+          </button>
+          {categories.map((category) => (
+            <button class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-600 transition-colors hover:border-indigo-200 hover:text-indigo-600" data-filter={category}>
+              {category}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  {featuredTool && (
+    <section class="border-b border-zinc-200/70 bg-[linear-gradient(180deg,#fff,rgba(244,244,245,0.75))]">
+      <div class="page-container py-10 md:py-14">
+        <a
+          href={`/tools/${featuredTool.id}/`}
+          class="group grid gap-6 rounded-[1.8rem] border border-zinc-200 bg-white p-7 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] md:grid-cols-[minmax(0,1fr)_15rem]"
+        >
+          <div>
+            <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600">Editor’s featured tool</p>
+            <h2 class="mt-3 text-zinc-950 group-hover:text-indigo-600">{featuredTool.data.title}</h2>
+            <p class="mt-4 max-w-2xl text-[0.98rem] leading-7 text-zinc-600">{featuredTool.data.description}</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              {featuredTool.data.bestFor.slice(0, 4).map((item) => (
+                <span class="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600">{item}</span>
+              ))}
+            </div>
+          </div>
+
+          <div class="rounded-[1.4rem] bg-zinc-950 p-5 text-white">
+            <p class="text-sm text-zinc-400">Rating</p>
+            <div class="mt-2 text-4xl font-bold text-white">{featuredTool.data.rating.toFixed(1)}</div>
+            <p class="mt-4 text-sm text-zinc-400">Pricing</p>
+            <span class:list={['mt-2 inline-flex rounded-full border px-3 py-1 text-xs font-semibold capitalize', pricingTone[featuredTool.data.pricing]]}>
+              {featuredTool.data.pricing}
+            </span>
+            <p class="mt-6 text-sm text-zinc-400">Category</p>
+            <div class="mt-2 text-base font-semibold text-white">{featuredTool.data.category}</div>
+          </div>
+        </a>
+      </div>
+    </section>
+  )}
+
+  <section class="bg-[var(--color-bg)]">
+    <div class="page-container py-12 md:py-16">
+      {tools.length === 0 ? (
+        <div class="rounded-[1.75rem] border border-dashed border-zinc-300 bg-white px-8 py-16 text-center">
+          <h2 class="text-zinc-950">No tool reviews yet.</h2>
+          <p class="mt-3 text-zinc-500">Add Markdown or MDX files to `src/content/tools` and this directory will populate automatically.</p>
+        </div>
+      ) : (
+        <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3" data-tool-grid>
+          {tools.map((entry) => (
+            <a
+              href={`/tools/${entry.id}/`}
+              class="tool-card group flex h-full flex-col rounded-[1.5rem] border border-zinc-200 bg-white p-6 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
+              data-category={entry.data.category}
+            >
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <span class="inline-flex rounded-full bg-zinc-100 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-zinc-600">
+                    {entry.data.category}
+                  </span>
+                  <h3 class="mt-4 text-[1.3rem] text-zinc-950 group-hover:text-indigo-600">{entry.data.toolName}</h3>
+                </div>
+                <div class="text-right">
+                  <div class="text-2xl font-bold text-zinc-950">{entry.data.rating.toFixed(1)}</div>
+                  <div class="text-xs text-zinc-400">out of 5</div>
+                </div>
+              </div>
+
+              <p class="mt-4 flex-1 text-[0.95rem] leading-7 text-zinc-600">{entry.data.description}</p>
+
+              <div class="mt-5 flex flex-wrap gap-2">
+                {entry.data.bestFor.slice(0, 3).map((item) => (
+                  <span class="rounded-full border border-zinc-200 px-2.5 py-1 text-xs text-zinc-500">{item}</span>
+                ))}
+              </div>
+
+              <div class="mt-6 flex items-center justify-between border-t border-zinc-100 pt-5">
+                <span class:list={['rounded-full border px-3 py-1 text-xs font-semibold capitalize', pricingTone[entry.data.pricing]]}>
+                  {entry.data.pricing}
+                </span>
+                <span class="text-sm font-medium text-indigo-600">Read review</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <script>
+    const controls = document.querySelector('[data-filter-controls]');
+    const grid = document.querySelector('[data-tool-grid]');
+    if (controls && grid) {
+      const buttons = Array.from(controls.querySelectorAll('button[data-filter]'));
+      const cards = Array.from(grid.querySelectorAll('.tool-card'));
+
+      const setFilter = (value) => {
+        buttons.forEach((button) => {
+          const active = button.dataset.filter === value;
+          button.classList.toggle('border-indigo-200', active);
+          button.classList.toggle('bg-indigo-50', active);
+          button.classList.toggle('text-indigo-700', active);
+          button.classList.toggle('border-zinc-200', !active);
+          button.classList.toggle('bg-white', !active);
+          button.classList.toggle('text-zinc-600', !active);
+        });
+
+        cards.forEach((card) => {
+          const matches = value === 'all' || card.dataset.category === value;
+          card.toggleAttribute('hidden', !matches);
+        });
+      };
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => setFilter(button.dataset.filter ?? 'all'));
+      });
+    }
+  </script>
+
+  <Footer />
+</BaseLayout>

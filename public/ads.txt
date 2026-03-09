@@ -1,0 +1,3 @@
+# ads.txt — AIViewer.ai
+# Adsterra (update PUBLISHER_ID after registration)
+# aiviewer.ai, PUBLISHER_ID, DIRECT

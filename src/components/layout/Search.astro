@@ -1,0 +1,145 @@
+---
+---
+
+<div id="search-container" class="relative group">
+  <button 
+    id="search-button"
+    class="flex items-center justify-center p-2 rounded-full text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors"
+    aria-label="Search"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+  </button>
+  
+  <div id="search-modal" class="fixed inset-0 z-50 hidden bg-zinc-900/50 backdrop-blur-sm pt-20 px-4 sm:pt-28">
+    <div class="mx-auto max-w-2xl bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 flex flex-col max-h-[80vh]">
+      <div class="flex items-center border-b border-zinc-200 dark:border-zinc-800 px-4 py-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 mr-3">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Search tools, playbooks, guides..." 
+          class="flex-1 bg-transparent border-0 focus:ring-0 text-zinc-900 dark:text-white placeholder-zinc-500 text-lg outline-none"
+        />
+        <button id="search-close" class="p-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 rounded-md bg-zinc-100 dark:bg-zinc-800 text-xs px-2 shadow-sm font-medium border border-zinc-200 dark:border-zinc-700">ESC</button>
+      </div>
+      
+      <div id="search-results" class="overflow-y-auto p-2">
+        <div class="py-12 text-center text-zinc-500 dark:text-zinc-400 text-sm">
+          Type to start searching...
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  let pagefind = null;
+  
+  // Initialize on load
+  const initSearch = async () => {
+    try {
+      pagefind = await import("/pagefind/pagefind.js");
+      pagefind.init();
+    } catch (e) {
+      console.error("Pagefind not loaded. Did you run the build command?");
+    }
+  };
+
+  document.addEventListener('astro:page-load', () => {
+    const searchButton = document.getElementById('search-button');
+    const searchModal = document.getElementById('search-modal');
+    const searchInput = document.getElementById('search-input');
+    const searchClose = document.getElementById('search-close');
+    const searchResults = document.getElementById('search-results');
+    
+    if (!searchButton || !searchModal || !searchInput || !searchClose || !searchResults) return;
+
+    const openSearch = () => {
+      searchModal.classList.remove('hidden');
+      searchInput.focus();
+      document.body.style.overflow = 'hidden';
+      if (!pagefind) initSearch();
+    };
+
+    const closeSearch = () => {
+      searchModal.classList.add('hidden');
+      document.body.style.overflow = '';
+      searchInput.value = '';
+      searchResults.innerHTML = '<div class="py-12 text-center text-zinc-500 dark:text-zinc-400 text-sm">Type to start searching...</div>';
+    };
+
+    searchButton.addEventListener('click', openSearch);
+    searchClose.addEventListener('click', closeSearch);
+    searchModal.addEventListener('click', (e) => {
+      if (e.target === searchModal) closeSearch();
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      // Cmd+K or Ctrl+K to open
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openSearch();
+      }
+      // ESC to close
+      if (e.key === 'Escape' && !searchModal.classList.contains('hidden')) {
+        closeSearch();
+      }
+    });
+
+    let searchTimeout: ReturnType<typeof setTimeout>;
+    
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      const query = e.target.value;
+      
+      if (query.trim().length < 2) {
+        searchResults.innerHTML = '<div class="py-12 text-center text-zinc-500 dark:text-zinc-400 text-sm">Type to start searching...</div>';
+        return;
+      }
+      
+      searchResults.innerHTML = '<div class="py-8 text-center"><div class="inline-block h-6 w-6 animate-spin rounded-full border-2 border-solid border-indigo-600 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div></div>';
+      
+      searchTimeout = setTimeout(async () => {
+        if (!pagefind) {
+          searchResults.innerHTML = '<div class="p-4 text-zinc-500 text-sm">Search index not found. Only available in production build.</div>';
+          return;
+        }
+
+        const search = await pagefind.search(query);
+        
+        if (search.results.length === 0) {
+          searchResults.innerHTML = `<div class="py-12 text-center text-zinc-500 dark:text-zinc-400">No results found for "${query}"</div>`;
+          return;
+        }
+
+        // Limit to 8 results for the modal
+        const topResults = search.results.slice(0, 8);
+        const resultsData = await Promise.all(topResults.map((r: any) => r.data()));
+        
+        searchResults.innerHTML = `
+          <ul class="flex flex-col">
+            ${resultsData.map(data => `
+              <li>
+                <a href="${data.url}" class="block px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 rounded-xl transition-colors">
+                  <div class="flex items-center gap-3">
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-semibold text-zinc-900 dark:text-white truncate">${data.meta.title || data.url}</p>
+                      <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate mt-1">${data.excerpt}</p>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            `).join('')}
+          </ul>
+        `;
+      }, 200);
+    });
+  });
+</script>

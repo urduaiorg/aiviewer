@@ -1,0 +1,46 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  publishedDate: Date;
+  updatedDate?: Date;
+  authorName?: string;
+}
+
+const {
+  title,
+  description,
+  image,
+  publishedDate,
+  updatedDate,
+  authorName = "AIViewer Editor",
+} = Astro.props;
+
+const siteUrl = Astro.site ? Astro.site.toString() : 'https://aiviewer.ai';
+const imageUrl = image ? new URL(image, siteUrl).toString() : new URL('/og-default.png', siteUrl).toString();
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "image": imageUrl,
+  "datePublished": publishedDate.toISOString(),
+  ...(updatedDate && { "dateModified": updatedDate.toISOString() }),
+  "author": {
+    "@type": "Person",
+    "name": authorName,
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AIViewer.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": new URL('/logo.png', siteUrl).toString()
+    }
+  }
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

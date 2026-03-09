@@ -1,0 +1,148 @@
+---
+/**
+ * TableOfContents — Sticky sidebar TOC with active-section tracking
+ * Uses IntersectionObserver for scroll-spy without scroll event spam.
+ * Renders a vertical timeline-style indicator, not a boring bullet list.
+ */
+interface TOCItem {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: TOCItem[];
+  label?: string;
+}
+
+const { headings, label = 'In this article' } = Astro.props;
+const tocItems = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+
+{tocItems.length > 0 && (
+  <aside class="toc-sidebar hidden xl:block" aria-label="Table of contents">
+    <div class="sticky top-24">
+      <p class="text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-zinc-400 mb-4">
+        {label}
+      </p>
+
+      <nav class="relative">
+        <!-- The vertical track line -->
+        <div class="absolute left-[5px] top-0 bottom-0 w-px bg-zinc-200" aria-hidden="true"></div>
+        <!-- Active progress indicator (animated via JS) -->
+        <div
+          id="toc-progress"
+          class="absolute left-[5px] top-0 w-px bg-indigo-500 transition-all duration-300 ease-out"
+          style="height: 0;"
+          aria-hidden="true"
+        ></div>
+
+        <ul class="space-y-0.5">
+          {tocItems.map((item) => (
+            <li>
+              <a
+                href={`#${item.slug}`}
+                data-toc-link={item.slug}
+                class:list={[
+                  'toc-link group flex items-start gap-3 py-1.5 text-[0.8rem] leading-snug transition-all duration-200',
+                  item.depth === 3 ? 'pl-5' : 'pl-0',
+                ]}
+              >
+                {/* Dot indicator */}
+                <span
+                  class="toc-dot mt-[5px] shrink-0 w-[11px] h-[11px] rounded-full border-2 border-zinc-300 bg-white transition-all duration-200 group-hover:border-indigo-400"
+                  aria-hidden="true"
+                ></span>
+                <span class="toc-text text-zinc-400 group-hover:text-zinc-700 transition-colors duration-200">
+                  {item.text}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </aside>
+)}
+
+<style>
+  .toc-link.is-active .toc-dot {
+    border-color: #4F46E5;
+    background: #4F46E5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+  }
+  .toc-link.is-active .toc-text {
+    color: #18181B;
+    font-weight: 600;
+  }
+</style>
+
+<script>
+  function initTOC() {
+    const links = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+    if (!links.length) return;
+
+    const slugs = Array.from(links).map((l) => l.dataset.tocLink!);
+    const sections = slugs
+      .map((s) => document.getElementById(s))
+      .filter(Boolean) as HTMLElement[];
+
+    if (!sections.length) return;
+
+    let currentSlug = '';
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find the topmost visible section
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+        if (visible.length > 0) {
+          const slug = visible[0].target.id;
+          if (slug !== currentSlug) {
+            currentSlug = slug;
+            setActive(slug);
+          }
+        }
+      },
+      { rootMargin: '-80px 0px -60% 0px', threshold: 0 }
+    );
+
+    sections.forEach((s) => observer.observe(s));
+
+    function setActive(slug: string) {
+      links.forEach((link) => {
+        link.classList.toggle('is-active', link.dataset.tocLink === slug);
+      });
+
+      // Update progress bar
+      const idx = slugs.indexOf(slug);
+      const progress = document.getElementById('toc-progress');
+      if (progress && idx >= 0) {
+        const activeLink = document.querySelector(`[data-toc-link="${slug}"]`) as HTMLElement;
+        if (activeLink) {
+          const nav = activeLink.closest('nav') as HTMLElement;
+          const top = activeLink.offsetTop - nav.offsetTop + 8;
+          progress.style.height = `${top}px`;
+        }
+      }
+    }
+
+    // Smooth scroll on click
+    links.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.getElementById(link.dataset.tocLink!);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.pushState(null, '', `#${link.dataset.tocLink}`);
+        }
+      });
+    });
+  }
+
+  // Run on initial load and after Astro view transitions
+  initTOC();
+  document.addEventListener('astro:after-swap', initTOC);
+</script>

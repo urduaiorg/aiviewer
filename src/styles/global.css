@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+/* =========================================
+   AIViewer.ai — Premium Design System
+   ========================================= */
+
+@theme {
+  /* Neutrals — refined warm grays */
+  --color-bg: #FAFAFA;
+  --color-bg-white: #FFFFFF;
+  --color-bg-alt: #F4F4F5;
+  --color-bg-dark: #18181B;
+  --color-text: #3F3F46;
+  --color-text-muted: #71717A;
+  --color-heading: #09090B;
+  --color-border: #E4E4E7;
+  --color-border-light: #F4F4F5;
+
+  /* Brand — deep indigo-blue, not generic blue */
+  --color-primary: #4F46E5;
+  --color-primary-hover: #4338CA;
+  --color-primary-light: #EEF2FF;
+  --color-primary-subtle: #C7D2FE;
+
+  /* Accent — warm amber for highlights */
+  --color-accent: #F59E0B;
+  --color-accent-hover: #E0B84D;
+
+  /* Functional */
+  --color-success: #059669;
+  --color-warning: #D97706;
+  --color-danger: #DC2626;
+
+  /* Font families */
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Inter Tight', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  /* Shadows — layered for depth */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.06), 0 4px 6px -4px rgb(0 0 0 / 0.06);
+  --shadow-card: 0 0 0 1px rgb(0 0 0 / 0.03), 0 2px 4px rgb(0 0 0 / 0.04);
+  --shadow-card-hover: 0 0 0 1px rgb(0 0 0 / 0.04), 0 8px 16px rgb(0 0 0 / 0.08);
+}
+
+[data-theme="dark"] {
+  --color-bg: #09090B;
+  --color-bg-white: #18181B;
+  --color-bg-alt: #27272A;
+  --color-text: #E4E4E7;
+  --color-text-muted: #A1A1AA;
+  --color-heading: #FAFAFA;
+  --color-border: #27272A;
+  --color-border-light: #18181B;
+  --color-primary-light: rgba(79, 70, 229, 0.1);
+  --color-primary-subtle: rgba(79, 70, 229, 0.2);
+  --shadow-card: 0 0 0 1px rgb(255 255 255 / 0.1);
+  --shadow-card-hover: 0 0 0 1px rgb(255 255 255 / 0.2), 0 8px 16px rgb(0 0 0 / 0.4);
+}
+
+/* ---- Base ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- Typography ---- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-heading);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 800; }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); font-weight: 700; }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); font-weight: 600; }
+h4 { font-size: 1.125rem; font-weight: 600; }
+
+/* ---- Links — scoped so buttons aren't affected ---- */
+@layer base {
+  a:not([class]) {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  a:not([class]):hover {
+    color: var(--color-primary-hover);
+  }
+}
+
+/* ---- Layout ---- */
+.page-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .page-container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+.content-area {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ---- Prompt block ---- */
+.prompt-block {
+  background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+  border-left: 3px solid var(--color-primary);
+  border-radius: 0 0.625rem 0.625rem 0;
+  padding: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  position: relative;
+  white-space: pre-wrap;
+  line-height: 1.65;
+}
+
+/* ---- Tool pick box ---- */
+.tool-pick-box {
+  background: var(--color-primary-light);
+  border: 1.5px solid var(--color-primary-subtle);
+  border-radius: 1rem;
+  padding: 1.75rem;
+}
+
+/* ---- Ad slot ---- */
+.ad-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-alt);
+  border: 1px dashed var(--color-border);
+  border-radius: 0.5rem;
+  min-height: 250px;
+  min-width: 300px;
+}
+
+/* ---- Prose styles for markdown ---- */
+.prose h2 {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+.prose h3 {
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose p {
+  margin-bottom: 1.375rem;
+}
+
+.prose ul, .prose ol {
+  margin-bottom: 1.375rem;
+  padding-left: 1.25rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-primary);
+  padding-left: 1.25rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin: 2rem 0;
+}
+
+.prose code {
+  background: var(--color-bg-alt);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+.prose pre {
+  background: var(--color-bg-dark);
+  color: #E4E4E7;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin: 2rem 0;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.prose img {
+  border-radius: 0.75rem;
+  margin: 2rem 0;
+}
+
+/* ---- Utility transitions ---- */
+.transition-card {
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+}
+.transition-card:hover {
+  transform: translateY(-2px);
+}

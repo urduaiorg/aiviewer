@@ -1,0 +1,84 @@
+---
+title: "Perplexity AI: The Ultimate Search Engine Replacement"
+description: "Review of Perplexity AI, the AI-powered answer engine that cites its sources and provides real-time web research."
+toolName: "Perplexity AI"
+category: "research"
+pricing: "freemium"
+pricingDetails: "Free basic search, $20/mo Pro tier for more advanced models and unlimited file uploads"
+website: "https://www.perplexity.ai"
+rating: 4.8
+bestFor: ["Academic research", "Fact-checking", "Deep dives into new topics"]
+pros: ["Always cites sources", "Real-time web access", "Follow-up question suggestions", "Clean, ad-free interface"]
+cons: ["Less creative for creative writing tasks", "Can occasionally hallucinate if source material is weak", "Free tier limits deep research capabilities"]
+publishedDate: 2026-03-08
+coverImage: "/images/tools/perplexity.jpg"
+tags: ["AI search", "research", "Perplexity", "fact-checking"]
+featured: true
+draft: false
+---
+
+import ToolPickBox from '../../components/content/ToolPickBox.astro';
+import ProsCons from '../../components/content/ProsCons.astro';
+import PricingTable from '../../components/content/PricingTable.astro';
+import ComparisonTable from '../../components/content/ComparisonTable.astro';
+
+While traditional search engines give you links, Perplexity gives you answers. By combining advanced language models with live web searching, Perplexity provides concise, synthesized answers to complex questions, complete with inline citations.
+
+## Key Features
+
+- **Inline Citations:** Every claim is backed by a linked source, making it easy to verify information.
+- **Pro Search:** For complex queries, Pro Search asks clarifying questions to ensure it gathers the exact information you need.
+- **Collections:** Organize your research into shareable threads with custom instructions.
+
+<ProsCons 
+  pros={["Always cites sources", "Real-time web access", "Follow-up question suggestions", "Clean, ad-free interface"]}
+  cons={["Less creative for creative writing tasks", "Can occasionally hallucinate if source material is weak", "Free tier limits deep research capabilities"]}
+/>
+
+## How Does Perplexity Compare to Traditional Search?
+
+<ComparisonTable
+  title="AI Search Tools Compared"
+  tools={[
+    { name: "Perplexity", isWinner: true },
+    { name: "ChatGPT" },
+    { name: "Google AI" },
+  ]}
+  features={[
+    { name: "Source citations", values: [true, false, true] },
+    { name: "Real-time web", values: [true, true, true] },
+    { name: "Follow-up questions", values: [true, true, false] },
+    { name: "File uploads", values: [true, true, false] },
+    { name: "Research depth", values: [5, 4, 3] },
+    { name: "Speed", values: [4, 4, 5] },
+  ]}
+  verdict="Perplexity wins for research depth and citations. ChatGPT is more versatile for creative tasks."
+/>
+
+If you spend a lot of time researching topics, gathering statistics, or trying to understand complex subjects quickly, Perplexity is arguably the most useful AI tool currently available.
+
+## Frequently Asked Questions
+
+### Is Perplexity AI free?
+Yes, Perplexity offers a powerful free search engine that uses standard AI models. The Pro version ($20/mo) unlocks advanced models like GPT-5.4 and Claude Sonnet 4.6, plus unlimited file uploads.
+
+### Does Perplexity hallucinate?
+Because Perplexity grounds its answers in real-time web search results (RAG - Retrieval-Augmented Generation), it hallucinates far less than standard chatbots. However, if it reads a low-quality or incorrect source website, it may repeat that incorrect information.
+
+### Is Perplexity a search engine or a chatbot?
+It is primarily an answer engine. While it has a conversational interface, its core purpose is to replace Google Search by giving you direct answers with citations rather than a list of blue links.
+
+### Can Perplexity read PDFs?
+Yes, you can upload PDFs and ask Perplexity to summarize or query them. The Pro tier offers much higher limits for file uploads.
+
+## The Verdict
+
+<ToolPickBox
+  name="Perplexity Pro"
+  verdict="The best AI search tool for anyone who needs reliable, cited answers fast."
+  description="Perplexity combines LLM reasoning with real-time web search, delivering answers with inline citations. Every claim links back to its source — ideal for research, fact-checking, and academic work."
+  rating={4.8}
+  pricing="paid"
+  bestFor={["Academic research", "Fact-checking", "Deep dives"]}
+  website="https://www.perplexity.ai"
+/>

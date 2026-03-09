@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Exclude private directories if any
+Disallow: /api/
+Disallow: /admin/
+Disallow: /preview/
+
+Sitemap: https://aiviewer.ai/sitemap-index.xml

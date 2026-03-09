@@ -1,0 +1,67 @@
+---
+title: "Freelancers: Automating Your Client Onboarding"
+description: "Freelancers can automate client onboarding by using AI to instantly generate tailored proposals, standard contracts, and customized welcome packets."
+role: "freelancers"
+difficulty: "intermediate"
+timeToComplete: "30 min"
+toolsUsed: ["ChatGPT", "Notion AI", "Zapier"]
+workflows: 4
+publishedDate: 2026-03-09
+coverImage: "/images/playbooks/freelancer-onboarding.jpg"
+tags: ["freelance", "automation", "onboarding", "efficiency"]
+featured: true
+draft: false
+---
+
+import PromptBlock from '../../components/content/PromptBlock.astro';
+import ToolPickBox from '../../components/content/ToolPickBox.astro';
+
+Time spent on administrative tasks is time you aren't spending on billable client work. This playbook will show you how to leverage AI to handle the tedious parts of client onboarding.
+
+## How Do You Generate the Perfect Proposal?
+
+Writing a custom proposal from scratch for every lead is exhausting. Instead, create a master template and use AI to tailor it to each specific client.
+
+<ToolPickBox
+  name="Notion AI"
+  verdict="Best for Proposal Templates"
+  description="AI-powered writing and knowledge management assistant built into Notion for generating templates, summaries, and formatted documents."
+  rating={4.7}
+  pricing="paid"
+  bestFor={["Template generation", "Formatting", "Summarization"]}
+  website="https://www.notion.so/product/ai"
+/>
+
+Once you have your template, use ChatGPT to generate the specific details based on your discovery call notes:
+
+<PromptBlock 
+  tool="ChatGPT" 
+  prompt="Act as an expert freelance [Your Role]. Based on these rough notes from a discovery call [Paste Notes], write a customized 'Project Scope' and 'Proposed Solution' section for a proposal. Maintain a professional, confident, and persuasive tone." 
+/>
+
+## How Can AI Automate Contract Drafting?
+
+While AI cannot replace a lawyer, it can help you generate standard independent contractor agreements or modify existing ones to include specific clauses.
+
+## How Do You Create a Personalized Welcome Packet?
+
+First impressions matter. Send an automated welcome packet that sets boundaries, expectations, and next steps.
+
+<PromptBlock 
+  tool="ChatGPT" 
+  prompt="Draft a welcome email for a new freelance client. Include a warm greeting, a summary of what they need to provide (assets, logins), expected timeline for the first milestone, and my communication boundaries (hours I respond to emails)." 
+/>
+
+## Frequently Asked Questions
+
+### Is it legal to use AI to draft contracts?
+AI can draft strong initial contract templates based on standard clauses, but you should always have a legal professional review your base template for your specific jurisdiction.
+
+### Will clients know I used AI for their proposal?
+Not if you prompt the AI correctly to match your personal brand voice and manually review the output to add specific, highly customized details.
+
+### Which AI is best for drafting proposals?
+Claude 4.6 is widely considered the best AI for proposal drafting because of its highly natural, professional, and non-robotic writing tone.
+
+### How much time does automated onboarding save?
+By standardizing this workflow, freelancers often reduce the time spent from initial lead to signed contract from several hours to under 30 minutes.

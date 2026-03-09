@@ -1,0 +1,33 @@
+---
+export interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+export interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+const siteUrl = Astro.site ? Astro.site.toString() : 'https://aiviewer.ai';
+
+const itemListElement = items.map((item, index) => {
+  // Ensure absolute URL
+  const itemUrl = item.url.startsWith('http') ? item.url : new URL(item.url, siteUrl).toString();
+  
+  return {
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.name,
+    "item": itemUrl
+  };
+});
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": itemListElement
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

@@ -1,0 +1,26 @@
+---
+const navItems = [
+  { label: 'Playbooks', href: '/playbooks/' },
+  { label: 'Tools', href: '/tools/' },
+  { label: 'Guides', href: '/guides/' },
+  { label: 'About', href: '/about/' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="hidden md:flex items-center gap-8">
+  {navItems.map((item) => (
+    <a
+      href={item.href}
+      class:list={[
+        'text-sm font-medium transition-colors',
+        currentPath.startsWith(item.href)
+          ? 'text-[var(--color-primary)]'
+          : 'text-[var(--color-text-muted)] hover:text-[var(--color-heading)]',
+      ]}
+    >
+      {item.label}
+    </a>
+  ))}
+</nav>

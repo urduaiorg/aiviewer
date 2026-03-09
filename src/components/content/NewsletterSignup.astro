@@ -1,0 +1,81 @@
+---
+/**
+ * NewsletterSignup — Email capture component
+ *
+ * Clean, minimal newsletter signup form. Works as a standalone section
+ * or inline component. Form action is a placeholder — wire to your
+ * email provider (ConvertKit, Buttondown, etc.) when ready.
+ */
+interface Props {
+  /** Heading text */
+  heading?: string;
+  /** Subtitle / description */
+  subtitle?: string;
+  /** Visual variant */
+  variant?: 'section' | 'inline';
+}
+
+const {
+  heading = 'Stay ahead of the AI curve.',
+  subtitle = 'One email per week. No spam, no hype — just the most useful AI developments, tools, and tactics.',
+  variant = 'section',
+} = Astro.props;
+---
+
+{variant === 'section' ? (
+  <section class="relative overflow-hidden rounded-[1.75rem] border border-zinc-200 bg-white shadow-[var(--shadow-card)]">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(240,199,94,0.12),_transparent_50%),radial-gradient(circle_at_bottom_left,_rgba(79,70,229,0.08),_transparent_50%)]"></div>
+    <div class="relative px-6 py-10 md:px-10 md:py-12">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600">Newsletter</p>
+        <h2 class="mt-3 text-2xl font-bold text-zinc-950 md:text-3xl">{heading}</h2>
+        <p class="mt-3 text-[0.95rem] leading-7 text-zinc-600">{subtitle}</p>
+
+        {/* TODO: Wire form action to email provider (ConvertKit, Buttondown, etc.) */}
+        <form class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center" data-newsletter-form>
+          <label class="sr-only" for="newsletter-email">Email address</label>
+          <input
+            id="newsletter-email"
+            type="email"
+            name="email"
+            required
+            placeholder="you@example.com"
+            class="h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100 sm:max-w-xs"
+          />
+          <button
+            type="submit"
+            class="h-12 shrink-0 rounded-xl bg-zinc-950 px-6 text-sm font-semibold text-white transition-colors hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-2"
+          >
+            Subscribe
+          </button>
+        </form>
+        <p class="mt-4 text-xs text-zinc-400">Free forever. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+) : (
+  <div class="not-prose my-8 rounded-2xl border border-zinc-200 bg-gradient-to-br from-zinc-50 to-white p-6">
+    <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600">Newsletter</p>
+    <p class="mt-2 text-base font-semibold text-zinc-900">{heading}</p>
+    <p class="mt-1 text-sm text-zinc-600">{subtitle}</p>
+
+    {/* TODO: Wire form action to email provider */}
+    <form class="mt-4 flex gap-2" data-newsletter-form>
+      <label class="sr-only" for="newsletter-email-inline">Email address</label>
+      <input
+        id="newsletter-email-inline"
+        type="email"
+        name="email"
+        required
+        placeholder="you@example.com"
+        class="h-10 flex-1 rounded-lg border border-zinc-200 bg-white px-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+      />
+      <button
+        type="submit"
+        class="h-10 shrink-0 rounded-lg bg-zinc-950 px-5 text-sm font-semibold text-white transition-colors hover:bg-zinc-800"
+      >
+        Subscribe
+      </button>
+    </form>
+  </div>
+)}

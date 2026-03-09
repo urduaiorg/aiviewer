@@ -1,0 +1,88 @@
+---
+title: "What is Agentic AI? (A Guide for Non-Technical People)"
+description: "Agentic AI is the next major leap beyond chatbots. Here is a simple explanation of what AI agents are, how they work, and why they matter."
+category: "general"
+publishedDate: 2026-03-12
+coverImage: "/images/guides/agentic-ai.jpg"
+tags: ["Agentic AI", "AI Agents", "Autonomous AI", "Future of AI"]
+featured: true
+draft: false
+---
+
+import AnswerBox from '../../components/content/AnswerBox.astro';
+
+<AnswerBox 
+  question="What is the difference between Generative AI and Agentic AI?"
+  answer="Generative AI (like ChatGPT) waits for your prompt, generates an answer, and stops. Agentic AI is given a goal (e.g., 'Book me a flight to NYC') and can take a sequence of actions—like browsing the web, clicking buttons, and entering credit card info—autonomously to achieve that goal."
+/>
+
+Since 2023, the world has been obsessed with *Generative AI*. We type a prompt into a box, and the AI generates text, code, or an image. 
+
+But a chatbot, no matter how smart, is fundamentally passive. It is a brain in a jar. It cannot *do* anything unless you ask it to, and it stops working the second it hits "send."
+
+**Agentic AI** is the transition from AI as a *chatbot* to AI as a *coworker*. It gives the brain hands.
+
+## What Are the Three Core Parts of an AI Agent?
+
+For an AI system to be considered "agentic," it needs three things:
+
+### 1. The Brain (LLM)
+The core intelligence is still a Large Language Model like Claude Opus 4.6 or GPT-5.4. This provides the reasoning, understanding, and decision-making capabilities.
+
+### 2. Tools (The Hands)
+An agent needs access to tools. This might be a web browser, a code execution environment, an email client, or access to your company's database via APIs. 
+
+### 3. A Loop (Autonomy)
+This is the most important part. An agent operates on a loop:
+1. **Observe:** "I need to book a flight, but I don't know the dates."
+2. **Think:** "I should check the user's calendar."
+3. **Act:** *Uses API tool to read Google Calendar.*
+4. **Observe:** "The user is free next Tuesday."
+5. **Think:** "Now I need to find flights."
+6. **Act:** *Uses web browser tool to search Expedia.*
+
+The agent continues this loop autonomously until the original goal is achieved.
+
+## What Are Some Real-World Examples of AI Agents?
+
+To understand Agentic AI, let's look at how it changes standard workflows:
+
+**The old way (Generative AI):** You paste a giant spreadsheet into ChatGPT and ask, "Write a summary of these sales numbers."
+**The new way (Agentic AI):** You tell your AI agent, "Every Monday at 9 AM, pull the sales data from Stripe, format it into a PDF report, and Slack it to the executive team."
+
+**The old way (Generative AI):** A developer asks an AI to write a specific sorting function.
+**The new way (Agentic AI):** A developer uses a tool like [Cursor](/tools/cursor/) or GitHub Workspace and says, "Find the bug causing the login page to crash, write the fix, and submit a Pull Request." The agent reads the codebase, finds the error, and writes the code without human intervention.
+
+## Why is Agentic AI happening now?
+
+You might wonder why this didn't happen as soon as ChatGPT launched. The answer is **reasoning reliability**. 
+
+Early AI models hallucinated too much. If an AI hallucinates while writing a poem, it's funny. If an AI hallucinates while it has autonomous access to your company's Stripe account, it's a disaster.
+
+In 2026, models have finally become reliable enough at complex reasoning and tool-use that we can trust them to execute multi-step loops without going completely off the rails.
+
+## What Are the Risks of Autonomous Agents?
+
+Giving AI systems autonomy introduces new risks:
+
+- **The Alignment Problem:** Did the agent understand your goal *exactly*? If you tell a poorly designed agent to "delete all the spam in my inbox," it might decide the safest way to ensure zero spam is to delete *every* email.
+- **Security:** If an agent has access to your email to book flights, it also has access to your private conversations. Securing agent permissions is a massive focus for enterprise IT departments right now.
+- **Infinite Loops:** If an agent gets confused or encounters an error it doesn't understand, it can get stuck in a "thinking/acting" loop, rapidly burning through API credits and money.
+
+## How Will Agentic AI Evolve?
+
+We are moving away from "prompt engineering" and moving toward "agent orchestration." In the near future, the most valuable skill won't be knowing how to talk to a chatbot; it will be knowing how to manage a team of autonomous digital workers.
+
+## Frequently Asked Questions
+
+### What makes an AI "agentic"?
+An AI is agentic when it can make decisions, use external tools, and execute multi-step workflows autonomously without constant human intervention.
+
+### Is agentic AI the same as AGI?
+No, agentic AI refers to goal-oriented software systems, whereas AGI (Artificial General Intelligence) is a theoretical system that can perform any intellectual task a human can.
+
+### What tools do AI agents use?
+AI agents can use tools like web browsers, code execution environments, APIs, and direct computer-use interfaces to accomplish their goals.
+
+### Are AI agents safe?
+Agentic systems require robust guardrails and "human-in-the-loop" approval steps to prevent them from taking destructive actions autonomously.

@@ -1,0 +1,61 @@
+---
+title: "AI for UI/UX Designers: From Wireframe to Code"
+description: "Product designers can go from abstract concept to functioning frontend React code using Midjourney for ideation and v0 for component generation."
+role: content-creators
+difficulty: intermediate
+timeToComplete: "30 min"
+toolsUsed: ["Midjourney", "Figma AI", "v0", "Claude"]
+workflows: 4
+publishedDate: 2026-03-09
+coverImage: "/images/playbooks/designers-wireframe-code.jpg"
+tags: ["design", "UI/UX", "Figma", "v0", "frontend"]
+featured: true
+draft: false
+---
+import PromptBlock from '../../components/content/PromptBlock.astro';
+import ToolPickBox from '../../components/content/ToolPickBox.astro';
+
+## What is the Modern UI/UX Workflow?
+
+Designers in 2026 aren't just pushing pixels—they are generating full interactive prototypes and shipping production code. This playbook covers how to go from abstract concept to functioning frontend component using a mix of generative AI and intelligent design tools.
+
+### Step 1: Ideation and Moodboarding with Midjourney
+
+Before you touch Figma, generate high-fidelity moodboards to establish visual direction.
+
+<PromptBlock 
+  tool="Midjourney" 
+  prompt="UI/UX design of a modern fintech dashboard, dark mode, neo-brutalism style, vibrant neon green accents, data visualization charts, clean typography, 8k resolution, dribbble style --ar 16:9 --v 6.0" 
+/>
+
+### Step 2: Component Generation with v0
+
+Vercel's v0 is the fastest way to turn a rough wireframe or text description into a working React component.
+
+<PromptBlock 
+  tool="v0" 
+  prompt="Create a SaaS pricing table with three tiers. The middle tier should be highlighted as 'Most Popular' with a subtle glowing border. Use Tailwind CSS and lucide-react icons. Make the layout responsive." 
+/>
+
+### Step 3: Logic and State with Claude
+
+Once you have the UI component, use Claude 4.6 Sonnet to add complex state management, animations, and real-world logic.
+
+<PromptBlock 
+  tool="Claude" 
+  prompt="I have this React pricing component. Please update it to include a monthly/yearly toggle switch at the top. When toggled to yearly, apply a 20% discount to all prices and show a small 'Save 20%' badge." 
+/>
+
+## Frequently Asked Questions
+
+### Can AI replace UI/UX designers?
+No, AI tools amplify a designer's output but still require human taste, user empathy, and strategic thinking to create cohesive products.
+
+### Is v0 code actually usable in production?
+Yes, v0 generates clean React components using Tailwind CSS and Radix UI primitives, which are highly standard and production-ready for most modern web apps.
+
+### How do I use Midjourney for web design?
+Use Midjourney for conceptual exploration, color palette inspiration, and background assets, rather than trying to generate literal interfaces you can export.
+
+### What is the best AI tool for designers?
+For UI generation, v0 and Claude 4.6 Sonnet are the leaders. For asset creation, Midjourney and Figma's native AI features are essential.

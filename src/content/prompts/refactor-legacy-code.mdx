@@ -1,0 +1,38 @@
+---
+title: "Refactor Legacy Code"
+description: "Safely refactor and modernize old, undocumented legacy code while maintaining exact business logic using this developer-focused AI prompt."
+role: "researchers"
+toolFor: "GitHub Copilot"
+task: "coding"
+publishedDate: 2026-03-09
+tags: ["coding", "refactoring", "legacy code"]
+draft: false
+---
+
+import PromptBlock from '../../components/content/PromptBlock.astro';
+
+Dealing with legacy code is a common challenge for developers. Use this prompt in an IDE-integrated AI (like GitHub Copilot Chat or Cursor) to safely modernize old functions.
+
+<PromptBlock 
+  tool="GitHub Copilot Chat" 
+  prompt="Analyze this legacy function. Explain what it does step-by-step. Then, refactor the code to use modern ES6+ syntax (or the modern equivalent for this language). Ensure the new code is more readable, includes clear inline comments, and maintains the exact same input/output behavior. Finally, generate three unit tests to verify the refactored code." 
+/>
+
+## What Are the Important Considerations?
+
+- Always highlight or select the specific block of code you want to refactor before running this prompt.
+- Do not blindly trust the refactored code. Always run the generated unit tests to ensure the logic remains intact.
+
+## Frequently Asked Questions
+
+### Will the AI change the underlying business logic?
+The prompt explicitly instructs the AI not to, but you must always run comprehensive unit tests before deploying AI-refactored code to production.
+
+### How much code can I paste into the prompt at once?
+With models like GPT-5.4 or Claude Opus 4.6, you can paste tens of thousands of lines, but for best results, refactor one logical module or file at a time.
+
+### Which AI is best for code refactoring?
+Cursor IDE with its Composer feature is currently the industry standard for this, as it can read your entire codebase and apply the refactor directly to your files.
+
+### What if the original code has no tests?
+You should first use a separate prompt to ask the AI to write unit tests for the existing legacy code *before* you attempt to refactor it.
