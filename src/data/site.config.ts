@@ -23,8 +23,9 @@ export const siteConfig = {
   author: {
     name: 'Qaisar Roonjha',
     title: 'AI Education Specialist',
-    twitter: '@qaisarroonjha',
-    linkedin: 'https://linkedin.com/in/qaisarroonjha',
+    twitter: 'https://x.com/QRoonjha',
+    linkedin: 'https://www.linkedin.com/in/roonjha/',
+    facebook: 'https://facebook.com/qroonjha',
   },
 
   // ── SEO defaults ──
@@ -80,7 +81,7 @@ export const siteConfig = {
         { label: 'Playbooks', href: '/playbooks/' },
         { label: 'AI Tools', href: '/tools/' },
         { label: 'Guides', href: '/guides/' },
-        { label: 'Reports', href: '/reports/' },
+        { label: 'AI & Society', href: '/reports/' },
       ],
       resources: [
         { label: 'Prompt Library', href: '/prompts/' },
@@ -88,8 +89,9 @@ export const siteConfig = {
         { label: 'Advertise', href: '/advertise/' },
       ],
       social: [
-        { label: 'LinkedIn', href: 'https://linkedin.com/in/qaisarroonjha' },
-        { label: 'X / Twitter', href: 'https://twitter.com/qaisarroonjha' },
+        { label: 'LinkedIn', href: 'https://www.linkedin.com/in/roonjha/' },
+        { label: 'X / Twitter', href: 'https://x.com/QRoonjha' },
+        { label: 'Facebook', href: 'https://facebook.com/qroonjha' },
       ],
     },
   },
@@ -154,6 +156,10 @@ export const roleLabels: Record<string, string> = {
   'job-seekers': 'Job Seekers',
   freelancers: 'Freelancers',
   entrepreneurs: 'Entrepreneurs',
+  developers: 'Developers',
+  lawyers: 'Lawyers',
+  designers: 'Designers',
+  marketers: 'Marketers',
   general: 'Everyone',
 };
 

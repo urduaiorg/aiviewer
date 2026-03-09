@@ -1,55 +1,67 @@
 ---
+import { siteConfig } from '../../data/site.config';
+
 export interface Props {
   itemName: string;
   itemImage?: string;
   description: string;
+  reviewBody?: string;
   ratingValue: number;
   bestRating?: number;
   worstRating?: number;
   authorName?: string;
+  authorUrl?: string;
   datePublished: Date;
+  dateModified?: Date;
 }
 
 const {
   itemName,
   itemImage,
   description,
+  reviewBody,
   ratingValue,
   bestRating = 5,
   worstRating = 1,
-  authorName = "AIViewer Expert",
+  authorName = siteConfig.author.name,
+  authorUrl = siteConfig.author.linkedin,
   datePublished,
+  dateModified,
 } = Astro.props;
 
-const siteUrl = Astro.site ? Astro.site.toString() : 'https://aiviewer.ai';
-const imageUrl = itemImage ? new URL(itemImage, siteUrl).toString() : new URL('/og-default.png', siteUrl).toString();
+const siteUrl = siteConfig.url;
+const imageUrl = itemImage ? new URL(itemImage, siteUrl).toString() : new URL(siteConfig.seo.ogImage, siteUrl).toString();
 
 const schema = {
-  "@context": "https://schema.org/",
+  "@context": "https://schema.org",
   "@type": "Review",
   "itemReviewed": {
     "@type": "SoftwareApplication",
     "name": itemName,
     "image": imageUrl,
     "description": description,
-    "applicationCategory": "BusinessApplication"
+    "applicationCategory": "BusinessApplication",
   },
   "reviewRating": {
     "@type": "Rating",
     "ratingValue": ratingValue.toString(),
     "bestRating": bestRating.toString(),
-    "worstRating": worstRating.toString()
+    "worstRating": worstRating.toString(),
   },
   "name": `Review of ${itemName}`,
+  ...(reviewBody && { "reviewBody": reviewBody }),
   "author": {
     "@type": "Person",
-    "name": authorName
+    "name": authorName,
+    "url": authorUrl,
   },
   "datePublished": datePublished.toISOString(),
+  "dateModified": (dateModified ?? datePublished).toISOString(),
   "publisher": {
     "@type": "Organization",
-    "name": "AIViewer.ai"
-  }
+    "name": siteConfig.name,
+    "url": siteUrl,
+  },
 };
 ---
 

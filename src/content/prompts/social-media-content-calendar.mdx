@@ -1,0 +1,52 @@
+---
+title: "Plan a Month of Social Media Posts"
+description: "A prompt for content creators to generate a complete, 30-day social media content calendar with hooks, captions, and visual ideas."
+role: "content-creators"
+toolFor: "ChatGPT"
+task: "Plan a month of social media posts"
+publishedDate: 2026-03-12
+tags: ["content-creation", "marketing", "social-media", "chatgpt", "strategy"]
+draft: false
+---
+
+import PromptBlock from '../../components/content/PromptBlock.astro';
+
+Consistency is the hardest part of content creation. This prompt uses [ChatGPT](/tools/chatgpt/) to eliminate the blank page and instantly generate a structured, 30-day content calendar tailored to your specific niche and target audience.
+
+## The Prompt
+
+<PromptBlock 
+  tool="ChatGPT"
+  prompt={`Act as an expert social media strategist and content planner. I need a 30-day content calendar for my [PLATFORM, e.g., Instagram/LinkedIn] account. 
+
+My niche is: [YOUR NICHE, e.g., personal finance for millennials].
+My target audience is: [YOUR AUDIENCE].
+My primary goal is: [GOAL, e.g., grow followers and drive newsletter signups].
+
+Please create a markdown table with 30 rows (one for each day) containing the following columns:
+1. Day (1-30)
+2. Content Pillar (e.g., Educational, Entertaining, Personal Story, Promotional)
+3. Hook / Headline (The first sentence to grab attention)
+4. Post Concept (A brief 1-sentence description of the visual or video idea)
+5. Call to Action (What the user should do next)
+
+Ensure the content mix is balanced (not too promotional) and follows current best practices for engagement on this platform.`}
+/>
+
+## Example Output
+
+When you run this prompt, ChatGPT will output a clean, actionable table:
+
+> Here is your 30-day Instagram content calendar focusing on personal finance for millennials:
+> 
+> | Day | Content Pillar | Hook / Headline | Post Concept | Call to Action |
+> |---|---|---|---|---|
+> | 1 | Educational | "Stop making this $10,000 mistake with your 401(k)." | Carousel showing the difference between pre-tax and Roth contributions. | Save this post for your next HR meeting! |
+> | 2 | Personal Story | "I had $30k in student debt at 25. Here is exactly how I paid it off." | Talking-head Reel walking through my specific budget breakdown. | Drop a 💸 in the comments if you're debt-free tracking. |
+> | 3 | Entertaining | "When payday hits but the rent is due the next morning." | Relatable meme/GIF with a trending audio track. | Share this to your Story if you feel the pain. |
+
+## Tips for Customization
+
+* **Specify your pillars:** If you already know your brand pillars (e.g., "Behind the Scenes," "Client Wins," "How-to"), list them explicitly in the prompt so the AI sticks to them.
+* **Request script generation:** Once you see a concept you like in the table, you can reply: "Please write the full video script for Day 2."
+* **Platform constraints:** Mention any platform limits, such as "Keep all Twitter hooks under 280 characters" or "Focus entirely on short-form vertical video concepts."

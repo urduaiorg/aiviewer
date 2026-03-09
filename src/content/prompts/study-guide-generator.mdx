@@ -1,0 +1,53 @@
+---
+title: "Create a Study Guide from Lecture Notes"
+description: "A prompt for students to instantly transform messy, disorganized lecture notes into a structured, easily digestible study guide."
+role: "students"
+toolFor: "ChatGPT"
+task: "Create a study guide from lecture notes"
+publishedDate: 2026-03-12
+tags: ["study-tools", "students", "academia", "chatgpt", "learning"]
+draft: false
+---
+
+import PromptBlock from '../../components/content/PromptBlock.astro';
+
+When studying for midterms or finals, organizing your notes is often half the battle. This prompt uses [ChatGPT](/tools/chatgpt/) to digest raw, messy lecture notes and output a clean, highly structured study guide complete with flashcard questions.
+
+## The Prompt
+
+<PromptBlock 
+  tool="ChatGPT"
+  prompt={`Act as an expert academic tutor. I am going to provide you with my raw, disorganized lecture notes on [SUBJECT/TOPIC]. 
+
+Please transform these notes into a comprehensive, easy-to-read study guide. Structure the output as follows:
+1. Core Concepts: A bulleted summary of the 3-5 most important high-level themes.
+2. Key Definitions: A glossary of all important terms and their definitions.
+3. Detailed Outline: An organized, hierarchical outline of all the material.
+4. Practice Questions: Generate 5 challenging "short answer" practice questions based ONLY on the material provided to test my understanding.
+
+Here are my notes:
+[PASTE LECTURE NOTES HERE]`}
+/>
+
+## Example Output
+
+When you run this prompt, ChatGPT will restructure your text:
+
+> **1. Core Concepts:**
+> - The transition from feudalism to early capitalism in 14th-century Europe.
+> - The role of the Black Death in shifting labor economics.
+> - The centralization of state power away from local lords.
+> 
+> **2. Key Definitions:**
+> - *Guilds:* Associations of artisans or merchants that controlled the practice of their craft in a particular town.
+> - *Serfdom:* The status of many peasants under feudalism, specifically relating to manorialism.
+> 
+> **4. Practice Questions:**
+> 1. How did the population decline following the Black Death temporarily improve the bargaining power of the peasantry?
+> 2. Explain the structural differences between a guild and a modern labor union.
+
+## Tips for Customization
+
+* **Add specific formats:** If you prefer visual learning, ask the AI to "format the timeline of events as a markdown table."
+* **Ask for analogies:** If a concept is difficult to understand, add: "Please explain [Complex Concept] using a simple, modern-day analogy."
+* **Flashcard mode:** You can follow up with, "Now convert these notes into a CSV file with front/back columns so I can import them directly into Anki or Quizlet."

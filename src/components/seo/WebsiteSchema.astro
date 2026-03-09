@@ -1,0 +1,44 @@
+---
+import { siteConfig } from '../../data/site.config';
+
+/**
+ * WebsiteSchema — JSON-LD for the homepage.
+ * Outputs a Schema.org WebSite entity with SearchAction for sitelinks search.
+ */
+
+const siteUrl = siteConfig.url;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": siteConfig.name,
+  "url": siteUrl,
+  "description": siteConfig.description,
+  "inLanguage": "en-US",
+  "publisher": {
+    "@type": "Organization",
+    "name": siteConfig.name,
+    "url": siteUrl,
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${siteUrl}/logo.png`,
+    },
+    "sameAs": [
+      siteConfig.author.twitter,
+      siteConfig.author.linkedin,
+      siteConfig.author.facebook,
+      siteConfig.network.url,
+    ],
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": `${siteUrl}/?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./print.css";
 
 /* ── Dark mode: bind dark: variant to data-theme attribute ── */
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
@@ -236,4 +237,132 @@
   [data-theme="dark"] .transition-card:hover {
     border-color: rgba(99, 102, 241, 0.35);
   }
+
+  /* ── Card hover glow ── */
+  .card-glow {
+    position: relative;
+    overflow: hidden;
+  }
+  .card-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+    background: radial-gradient(
+      420px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+      rgba(79, 70, 229, 0.07),
+      transparent 55%
+    );
+  }
+  .card-glow:hover::before {
+    opacity: 1;
+  }
+  [data-theme="dark"] .card-glow::before {
+    background: radial-gradient(
+      420px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+      rgba(99, 102, 241, 0.13),
+      transparent 55%
+    );
+  }
+
+  /* ── Reading progress bar ── */
+  .reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 60;
+    transform-origin: left;
+    transform: scaleX(0);
+    background: linear-gradient(90deg, #4F46E5, #818CF8);
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  /* ── Nav link animated underline ── */
+  .nav-link-underline {
+    position: relative;
+  }
+  .nav-link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 70%;
+    height: 2px;
+    background: var(--color-primary);
+    border-radius: 1px;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .nav-link-underline:hover::after {
+    transform: translateX(-50%) scaleX(1);
+  }
 }
+
+/* ── Animations ──────────────────────────────────────
+   All wrapped in prefers-reduced-motion check.
+   Users who prefer reduced motion see no animations. */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Scroll-reveal: elements start hidden, animate in when observed */
+  [data-reveal]:not(.revealed) {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  .revealed {
+    animation: reveal-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Hero entrance cascade */
+  @keyframes hero-enter {
+    from {
+      opacity: 0;
+      transform: translateY(32px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-stagger-1 { opacity: 0; animation: hero-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both; }
+  .hero-stagger-2 { opacity: 0; animation: hero-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both; }
+  .hero-stagger-3 { opacity: 0; animation: hero-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.36s both; }
+  .hero-stagger-4 { opacity: 0; animation: hero-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both; }
+  .hero-stagger-5 { opacity: 0; animation: hero-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.64s both; }
+  .hero-stagger-6 { opacity: 0; animation: hero-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both; }
+
+  /* Theme toggle rotation */
+  @keyframes toggle-spin {
+    from { transform: rotate(0deg) scale(1); }
+    50%  { transform: rotate(90deg) scale(0.82); }
+    to   { transform: rotate(180deg) scale(1); }
+  }
+}
+
+/* Reduced-motion: scroll-reveal elements are always visible */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+

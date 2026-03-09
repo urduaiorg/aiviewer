@@ -1,0 +1,71 @@
+---
+/**
+ * ReadingProgress — Scroll-linked progress bar
+ *
+ * A thin indigo gradient bar fixed at the very top of the viewport.
+ * Grows from left to right as the user scrolls through the article.
+ * Fades out briefly after reaching 100%.
+ */
+---
+
+<div id="reading-progress" class="reading-progress" aria-hidden="true"></div>
+
+<script>
+  function initReadingProgress() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const bar = document.getElementById('reading-progress');
+    if (!bar) return;
+
+    let ticking = false;
+    let fadeTimer: ReturnType<typeof setTimeout> | null = null;
+
+    function updateProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (docHeight <= 0) return;
+
+      const progress = Math.min(scrollTop / docHeight, 1);
+      bar.style.transform = `scaleX(${progress})`;
+
+      // Show bar once user starts scrolling
+      if (progress > 0.01) {
+        bar.style.opacity = '1';
+      }
+
+      // Fade out at 100%
+      if (progress >= 0.99) {
+        if (!fadeTimer) {
+          fadeTimer = setTimeout(() => {
+            bar.style.opacity = '0';
+          }, 1200);
+        }
+      } else {
+        if (fadeTimer) {
+          clearTimeout(fadeTimer);
+          fadeTimer = null;
+        }
+      }
+
+      ticking = false;
+    }
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(updateProgress);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+
+    // Reset on View Transitions navigation
+    bar.style.transform = 'scaleX(0)';
+    bar.style.opacity = '0';
+  }
+
+  initReadingProgress();
+  document.addEventListener('astro:page-load', initReadingProgress);
+</script>

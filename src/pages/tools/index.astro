@@ -5,6 +5,7 @@ import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
 import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
 import EditorialCover from '../../components/content/EditorialCover.astro';
+import CollectionSchema from '../../components/seo/CollectionSchema.astro';
 import { categoryLabels, pricingConfig } from '../../data/site.config';
 
 const tools = (await getCollection('tools', ({ data }) => !data.draft)).sort(
@@ -20,6 +21,14 @@ const categories = [...new Set(tools.map((entry) => entry.data.category))];
   title="AI Tools"
   description="Browse AI tool reviews across writing, research, design, coding, video, education, and more, with category filtering built into the directory."
 >
+  <Fragment slot="head">
+    <CollectionSchema
+      name="AI Tools"
+      description="Browse AI tool reviews across writing, research, design, coding, video, education, and more, with category filtering built into the directory."
+      url="/tools/"
+      numberOfItems={tools.length}
+    />
+  </Fragment>
   <Header />
 
   <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
@@ -27,7 +36,7 @@ const categories = [...new Set(tools.map((entry) => entry.data.category))];
     <div class="page-container relative py-12 md:py-16">
       <Breadcrumbs items={[{ label: 'Tools' }]} />
 
-      <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end">
+      <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end" data-reveal>
         <div class="max-w-3xl">
           <span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-600 dark:text-zinc-400">
             Review directory
@@ -54,7 +63,7 @@ const categories = [...new Set(tools.map((entry) => entry.data.category))];
       </div>
 
       {categories.length > 0 && (
-        <nav class="mt-10 flex flex-wrap gap-2" data-filter-controls aria-label="Category filters">
+        <nav class="mt-10 flex flex-wrap gap-2" data-filter-controls aria-label="Category filters" data-reveal>
           <button class="rounded-full border border-indigo-200 dark:border-indigo-700 bg-indigo-50 dark:bg-indigo-900/30 px-4 py-2 text-sm font-semibold text-indigo-700 dark:text-indigo-300" data-filter="all">
             All categories
           </button>
@@ -73,7 +82,8 @@ const categories = [...new Set(tools.map((entry) => entry.data.category))];
       <div class="page-container py-10 md:py-14">
         <a
           href={`/tools/${featuredTool.id}/`}
-          class="group grid gap-6 overflow-hidden rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] md:grid-cols-[minmax(0,1fr)_15rem]"
+          class="card-glow group grid gap-6 overflow-hidden rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] md:grid-cols-[minmax(0,1fr)_15rem]"
+          data-reveal
         >
           <div class="border-b border-zinc-200 dark:border-zinc-800 md:border-b-0 md:border-r">
             <EditorialCover
@@ -114,17 +124,19 @@ const categories = [...new Set(tools.map((entry) => entry.data.category))];
   <section class="bg-[var(--color-bg)]">
     <div class="page-container py-12 md:py-16">
       {tools.length === 0 ? (
-        <div class="rounded-[1.75rem] border border-dashed border-zinc-300 bg-white px-8 py-16 text-center">
-          <h2 class="text-zinc-950">No tool reviews yet.</h2>
-          <p class="mt-3 text-zinc-500">Add Markdown or MDX files to `src/content/tools` and this directory will populate automatically.</p>
+        <div class="rounded-[1.75rem] border border-dashed border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-8 py-16 text-center">
+          <h2 class="text-zinc-950 dark:text-zinc-50">No tool reviews yet.</h2>
+          <p class="mt-3 text-zinc-500 dark:text-zinc-400">Add Markdown or MDX files to `src/content/tools` and this directory will populate automatically.</p>
         </div>
       ) : (
         <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3" data-tool-grid>
-          {tools.map((entry) => (
+          {tools.map((entry, i) => (
             <a
               href={`/tools/${entry.id}/`}
-              class="tool-card group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
+              class="tool-card card-glow group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
               data-category={entry.data.category}
+              data-reveal
+              data-reveal-delay={`${i * 80}`}
             >
               <div class="border-b border-zinc-200 dark:border-zinc-800">
                 <EditorialCover

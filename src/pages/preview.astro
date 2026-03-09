@@ -21,8 +21,8 @@ import TableOfContents from '../components/content/TableOfContents.astro';
   <Header />
 
   <div class="page-container py-12">
-    <h1 class="text-3xl font-extrabold text-zinc-900 mb-2">Phase 2 — Component Showcase</h1>
-    <p class="text-zinc-500 mb-12 text-lg">All 9 core content components, ready for editorial pages.</p>
+    <h1 class="text-3xl font-extrabold text-zinc-900 dark:text-zinc-50 mb-2">Phase 2 — Component Showcase</h1>
+    <p class="text-zinc-500 dark:text-zinc-400 mb-12 text-lg">All 9 core content components, ready for editorial pages.</p>
 
     <div class="grid grid-cols-1 xl:grid-cols-[220px_1fr] gap-12">
       {/* Sidebar TOC */}
@@ -42,8 +42,8 @@ import TableOfContents from '../components/content/TableOfContents.astro';
 
         {/* ── Prompt Block ── */}
         <section>
-          <h2 id="prompt-block" class="text-xl font-bold text-zinc-900 mb-1">Prompt Block</h2>
-          <p class="text-sm text-zinc-400 mb-6">Copyable prompt display — light and dark variants</p>
+          <h2 id="prompt-block" class="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-1">Prompt Block</h2>
+          <p class="text-sm text-zinc-400 dark:text-zinc-500 mb-6">Copyable prompt display — light and dark variants</p>
 
           <div class="space-y-6">
             <PromptBlock
@@ -62,8 +62,8 @@ import TableOfContents from '../components/content/TableOfContents.astro';
 
         {/* ── Tool Pick Box ── */}
         <section>
-          <h2 id="tool-pick-box" class="text-xl font-bold text-zinc-900 mb-1">Tool Pick Box</h2>
-          <p class="text-sm text-zinc-400 mb-6">Wirecutter-style editorial tool recommendation</p>
+          <h2 id="tool-pick-box" class="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-1">Tool Pick Box</h2>
+          <p class="text-sm text-zinc-400 dark:text-zinc-500 mb-6">Wirecutter-style editorial tool recommendation</p>
 
           <ToolPickBox
             name="Perplexity AI"
@@ -79,8 +79,8 @@ import TableOfContents from '../components/content/TableOfContents.astro';
 
         {/* ── Comparison Table ── */}
         <section>
-          <h2 id="comparison-table" class="text-xl font-bold text-zinc-900 mb-1">Comparison Table</h2>
-          <p class="text-sm text-zinc-400 mb-6">Side-by-side tool comparison with winner highlight</p>
+          <h2 id="comparison-table" class="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-1">Comparison Table</h2>
+          <p class="text-sm text-zinc-400 dark:text-zinc-500 mb-6">Side-by-side tool comparison with winner highlight</p>
 
           <ComparisonTable
             title="AI Writing Tools Compared"
@@ -105,8 +105,8 @@ import TableOfContents from '../components/content/TableOfContents.astro';
 
         {/* ── Pricing Table ── */}
         <section>
-          <h2 id="pricing-table" class="text-xl font-bold text-zinc-900 mb-1">Pricing Table</h2>
-          <p class="text-sm text-zinc-400 mb-6">Clean tier display for tool reviews</p>
+          <h2 id="pricing-table" class="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-1">Pricing Table</h2>
+          <p class="text-sm text-zinc-400 dark:text-zinc-500 mb-6">Clean tier display for tool reviews</p>
 
           <PricingTable
             toolName="ChatGPT"
@@ -142,8 +142,8 @@ import TableOfContents from '../components/content/TableOfContents.astro';
 
         {/* ── Pros & Cons ── */}
         <section>
-          <h2 id="pros-cons" class="text-xl font-bold text-zinc-900 mb-1">Pros & Cons</h2>
-          <p class="text-sm text-zinc-400 mb-6">Visual evaluation with balance indicator</p>
+          <h2 id="pros-cons" class="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-1">Pros & Cons</h2>
+          <p class="text-sm text-zinc-400 dark:text-zinc-500 mb-6">Visual evaluation with balance indicator</p>
 
           <ProsCons
             toolName="Perplexity AI"
@@ -165,16 +165,16 @@ import TableOfContents from '../components/content/TableOfContents.astro';
 
         {/* ── Ad Slot ── */}
         <section>
-          <h2 id="ad-slot" class="text-xl font-bold text-zinc-900 mb-1">Ad Slot</h2>
-          <p class="text-sm text-zinc-400 mb-6">Tasteful ad placement with fallback state</p>
+          <h2 id="ad-slot" class="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-1">Ad Slot</h2>
+          <p class="text-sm text-zinc-400 dark:text-zinc-500 mb-6">Tasteful ad placement with fallback state</p>
 
           <AdSlot slot="preview-inline-1" size="inline" />
         </section>
 
         {/* ── Affiliate Link ── */}
         <section>
-          <h2 id="affiliate-link" class="text-xl font-bold text-zinc-900 mb-1">Affiliate Link</h2>
-          <p class="text-sm text-zinc-400 mb-6">Branded CTA buttons — 3 variants, 3 sizes</p>
+          <h2 id="affiliate-link" class="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-1">Affiliate Link</h2>
+          <p class="text-sm text-zinc-400 dark:text-zinc-500 mb-6">Branded CTA buttons — 3 variants, 3 sizes</p>
 
           <div class="space-y-6">
             <div class="flex flex-wrap items-start gap-6">
@@ -187,15 +187,15 @@ import TableOfContents from '../components/content/TableOfContents.astro';
 
         {/* ── Author Bio ── */}
         <section>
-          <h2 id="author-bio" class="text-xl font-bold text-zinc-900 mb-1">Author Bio</h2>
-          <p class="text-sm text-zinc-400 mb-6">Editorial author card — full and compact variants</p>
+          <h2 id="author-bio" class="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-1">Author Bio</h2>
+          <p class="text-sm text-zinc-400 dark:text-zinc-500 mb-6">Editorial author card — full and compact variants</p>
 
           <div class="space-y-8">
-            <div class="border border-zinc-200 rounded-2xl px-6 overflow-hidden">
+            <div class="border border-zinc-200 dark:border-zinc-800 rounded-2xl px-6 overflow-hidden">
               <AuthorBio />
             </div>
 
-            <div class="border border-zinc-200 rounded-2xl px-6 overflow-hidden">
+            <div class="border border-zinc-200 dark:border-zinc-800 rounded-2xl px-6 overflow-hidden">
               <AuthorBio compact />
             </div>
           </div>

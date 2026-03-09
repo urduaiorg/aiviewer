@@ -1,0 +1,51 @@
+---
+title: "Review Code for Bugs and Performance"
+description: "A prompt for developers to use AI as an automated peer-reviewer to catch edge cases, security flaws, and performance bottlenecks."
+role: "developers"
+toolFor: "Claude"
+task: "Review code for bugs, performance, and best practices"
+publishedDate: 2026-03-12
+tags: ["software-engineering", "coding", "code-review", "claude", "development"]
+draft: false
+---
+
+import PromptBlock from '../../components/content/PromptBlock.astro';
+
+While IDEs like [Cursor](/tools/cursor-ide/) offer inline autocomplete, sometimes you need a comprehensive architectural review of a specific module. This prompt leverages [Claude](/tools/claude-ai/)—widely considered the most capable model for deep coding tasks in 2026—to act as a Senior Staff Engineer reviewing your pull request.
+
+## The Prompt
+
+<PromptBlock 
+  tool="Claude"
+  prompt={`Act as a Senior Staff Software Engineer performing a rigorous code review. I am going to provide you with a [LANGUAGE, e.g., TypeScript] component. 
+
+Please review this code and provide feedback categorized exactly as follows:
+1. Security Vulnerabilities: (Are there any injection risks, unhandled auth edge cases, or data leaks?)
+2. Performance Bottlenecks: (Are there unnecessary re-renders, O(n^2) loops, or memory leaks?)
+3. Architecture & Best Practices: (Does this violate SOLID principles? Is it testable?)
+4. Refactored Version: Provide a refactored version of the code that implements your critical suggestions. Add comments explaining the changes.
+
+Be highly critical but constructive. Do not nitpick stylistic choices (like formatting); focus on architecture, performance, and safety.
+
+Here is the code:
+[PASTE CODE HERE]`}
+/>
+
+## Example Output
+
+When you run this prompt, Claude will provide a structured technical breakdown:
+
+> **2. Performance Bottlenecks:**
+> - You are calling `fetchUserData()` inside the React `useEffect` without a dependency array, which will cause an infinite render loop.
+> - The `.filter().map()` chain on line 42 iterates over the `transactions` array twice. For large datasets, this should be combined into a single `reduce` pass.
+> 
+> **4. Refactored Version:**
+> \`\`\`typescript
+> // ... (Refactored code block with specific comments highlighting the fix for the infinite loop)
+> \`\`\`
+
+## Tips for Customization
+
+* **Add context:** The AI gives better feedback if it knows *where* this code runs. Add context like: "This code runs on a Node.js backend and processes 10,000 requests per minute."
+* **Focus the review:** If you are specifically worried about one thing, adjust the prompt: "Focus 100% of your review on finding potential SQL injection vulnerabilities."
+* **Ask for tests:** Follow up the review by asking, "Now, please write three unit tests using Jest that cover the edge cases you just identified."

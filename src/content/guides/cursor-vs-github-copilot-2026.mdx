@@ -5,6 +5,7 @@ category: "general"
 publishedDate: 2026-03-11
 coverImage: "/images/guides/cursor-vs-copilot.jpg"
 tags: ["coding", "Cursor", "GitHub Copilot", "developer tools", "comparison"]
+relatedPlaybook: "software-engineer-ai-workflow"
 featured: true
 draft: false
 ---
@@ -21,7 +22,7 @@ import PromptBlock from '../../components/content/PromptBlock.astro';
 
 For years, GitHub Copilot was the undisputed king of AI coding assistants. It lived in your editor, predicted your next line of code, and saved hours of typing boilerplate.
 
-However, by March 2026, the conversation has shifted decisively. **Cursor v2.0**, a fork of VS Code built entirely around AI from day one, has become the tool of choice for many top engineers. With its own Composer model, support for Claude Sonnet 4.6 with 1M token context, Claude Opus 4.6, GPT-5.2, Gemini 3 Pro, and Grok Code, Cursor now offers unmatched model flexibility. Its new agent-centric interface lets you run multiple AI agents in parallel, and through the Agent Client Protocol (ACP), Cursor is now available inside JetBrains IDEs as well. Instead of just an extension living *inside* your editor, Cursor *is* the editor.
+However, by March 2026, the conversation has shifted decisively. **Cursor v2.0**, a fork of VS Code built entirely around AI from day one, has become the tool of choice for many top engineers. With its own Composer model, support for Claude Sonnet 4.6 with 1M token context, Claude Opus 4.6, GPT-5.4, Gemini 3 Pro, and Grok Code, Cursor now offers unmatched model flexibility. Its new agent-centric interface lets you run multiple AI agents in parallel, and through the Agent Client Protocol (ACP), Cursor is now available inside JetBrains IDEs as well. Instead of just an extension living *inside* your editor, Cursor *is* the editor.
 
 ## What is the Core Difference Between Copilot and Cursor?
 
@@ -60,7 +61,7 @@ Suppose you need to rename a core database model and update every API endpoint a
 <ProsCons
   toolName="Cursor IDE"
   verdict="The best choice for developers who want AI to write entire features across multiple files, run parallel agents, and have full control over which model powers their workflow."
-  pros={["Composer model delivers ultra-fast, purpose-built code generation", "Multi-agent interface lets you run parallel agents across your codebase", "Choose your LLM: Claude Sonnet 4.6 (1M tokens), Claude Opus 4.6, GPT-5.2, Gemini 3 Pro, Grok Code", "Now available in JetBrains IDEs via Agent Client Protocol (ACP)", "Familiar VS Code interface with deep codebase indexing"]}
+  pros={["Composer model delivers ultra-fast, purpose-built code generation", "Multi-agent interface lets you run parallel agents across your codebase", "Choose your LLM: Claude Sonnet 4.6 (1M tokens), Claude Opus 4.6, GPT-5.4, Gemini 3 Pro, Grok Code", "Now available in JetBrains IDEs via Agent Client Protocol (ACP)", "Familiar VS Code interface with deep codebase indexing"]}
   cons={["Can be overwhelming for beginners due to agent-heavy workflow", "Enterprise compliance is harder than Microsoft-backed Copilot", "Premium model access requires Pro plan at $20/month"]}
 />
 
@@ -77,7 +78,7 @@ Suppose you need to rename a core database model and update every API endpoint a
 Yes. Because Cursor is a fork of VS Code, it supports nearly all standard VS Code extensions, themes, and keybindings. You can import them with one click during setup. And with Cursor now available in JetBrains IDEs through the Agent Client Protocol (ACP), you are no longer limited to the VS Code ecosystem.
 
 ### Is Cursor free?
-Cursor offers a free tier with a limited number of premium AI requests (using models like Claude Sonnet 4.6). For unlimited standard requests and access to premium models including Claude Opus 4.6 and GPT-5.2, it costs $20/month.
+Cursor offers a free tier with a limited number of premium AI requests (using models like Claude Sonnet 4.6). For unlimited standard requests and access to premium models including Claude Opus 4.6 and GPT-5.4, it costs $20/month.
 
 ### Does Cursor steal my code?
 Cursor has a strict "Privacy Mode" toggle. When enabled, they state that none of your code is stored on their servers or used to train models.

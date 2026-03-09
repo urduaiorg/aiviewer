@@ -13,17 +13,17 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 >
   <Header />
 
-  <section class="relative overflow-hidden border-b border-zinc-200/70 bg-white">
-    <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.22),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.10),_transparent_38%)]"></div>
+  <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
+    <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.22),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.10),_transparent_38%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.08),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.06),_transparent_38%)]"></div>
     <div class="page-container relative py-12 md:py-16">
       <Breadcrumbs items={[{ label: 'About' }]} />
 
-      <div class="max-w-3xl">
-        <span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-600">
+      <div class="max-w-3xl" data-reveal>
+        <span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-600 dark:text-zinc-400">
           About the publication
         </span>
-        <h1 class="mt-5 text-zinc-950">AI literacy with editorial discipline.</h1>
-        <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600">
+        <h1 class="mt-5 text-zinc-950 dark:text-zinc-50">AI literacy with editorial discipline.</h1>
+        <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
           AIViewer.ai exists to make AI useful for normal people and operational for teams. The standard is practical clarity, not hype cycles.
         </p>
       </div>
@@ -32,11 +32,11 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 
   <section class="bg-[var(--color-bg)]">
     <div class="page-container py-12 md:py-16">
-      <div class="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-        <div class="rounded-[1.8rem] border border-zinc-200 bg-white p-7 shadow-[var(--shadow-card)] md:p-9">
-          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600">What we publish</p>
-          <h2 class="mt-3 text-zinc-950">A working library, not a trend feed.</h2>
-          <div class="mt-6 space-y-5 text-[0.98rem] leading-8 text-zinc-600">
+      <div class="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]" data-reveal>
+        <div class="rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)] md:p-9">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">What we publish</p>
+          <h2 class="mt-3 text-zinc-950 dark:text-zinc-50">A working library, not a trend feed.</h2>
+          <div class="mt-6 space-y-5 text-[0.98rem] leading-8 text-zinc-600 dark:text-zinc-400">
             <p>
               The site focuses on playbooks, tool reviews, and guides that help people decide what to use, how to use it, and where the limits are.
             </p>
@@ -46,7 +46,7 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
           </div>
         </div>
 
-        <div class="rounded-[1.8rem] border border-zinc-200 bg-zinc-950 p-7 text-white shadow-[0_24px_80px_rgba(9,9,11,0.14)] md:p-9">
+        <div class="rounded-[1.8rem] border border-zinc-200 dark:border-zinc-700 bg-zinc-950 p-7 text-white shadow-[0_24px_80px_rgba(9,9,11,0.14)] md:p-9">
           <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Editorial standard</p>
           <div class="mt-6 space-y-4">
             <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
@@ -65,32 +65,32 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
         </div>
       </div>
 
-      <div class="mt-6 grid gap-6 lg:grid-cols-3">
-        <div class="rounded-[1.6rem] border border-zinc-200 bg-white p-6 shadow-[var(--shadow-card)]">
-          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Playbooks</p>
-          <h3 class="mt-3 text-zinc-950">Role-specific execution</h3>
-          <p class="mt-3 text-sm leading-7 text-zinc-600">Structured around time saved, workflow count, and concrete tool stacks.</p>
+      <div class="mt-6 grid gap-6 lg:grid-cols-3" data-reveal>
+        <div class="rounded-[1.6rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-[var(--shadow-card)]">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">Playbooks</p>
+          <h3 class="mt-3 text-zinc-950 dark:text-zinc-50">Role-specific execution</h3>
+          <p class="mt-3 text-sm leading-7 text-zinc-600 dark:text-zinc-400">Structured around time saved, workflow count, and concrete tool stacks.</p>
         </div>
-        <div class="rounded-[1.6rem] border border-zinc-200 bg-white p-6 shadow-[var(--shadow-card)]">
-          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Tool Reviews</p>
-          <h3 class="mt-3 text-zinc-950">Decision-ready comparisons</h3>
-          <p class="mt-3 text-sm leading-7 text-zinc-600">Best-for fit, pricing realities, and a direct statement on where the tool breaks down.</p>
+        <div class="rounded-[1.6rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-[var(--shadow-card)]">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">Tool Reviews</p>
+          <h3 class="mt-3 text-zinc-950 dark:text-zinc-50">Decision-ready comparisons</h3>
+          <p class="mt-3 text-sm leading-7 text-zinc-600 dark:text-zinc-400">Best-for fit, pricing realities, and a direct statement on where the tool breaks down.</p>
         </div>
-        <div class="rounded-[1.6rem] border border-zinc-200 bg-white p-6 shadow-[var(--shadow-card)]">
-          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Guides</p>
-          <h3 class="mt-3 text-zinc-950">Context before adoption</h3>
-          <p class="mt-3 text-sm leading-7 text-zinc-600">Industry framing and implementation guidance for people mapping AI to real constraints.</p>
+        <div class="rounded-[1.6rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-[var(--shadow-card)]">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">Guides</p>
+          <h3 class="mt-3 text-zinc-950 dark:text-zinc-50">Context before adoption</h3>
+          <p class="mt-3 text-sm leading-7 text-zinc-600 dark:text-zinc-400">Industry framing and implementation guidance for people mapping AI to real constraints.</p>
         </div>
       </div>
 
       <!-- Author / Team -->
-      <div class="mt-6 rounded-[1.8rem] border border-zinc-200 bg-white p-7 shadow-[var(--shadow-card)] md:p-9">
-        <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 mb-4">Written & curated by</p>
+      <div class="mt-6 rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)] md:p-9" data-reveal>
+        <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400 mb-4">Written & curated by</p>
         <AuthorBio />
       </div>
 
       <!-- Newsletter -->
-      <div class="mt-6">
+      <div class="mt-6" data-reveal>
         <NewsletterSignup heading="Stay in the loop." subtitle="Weekly digest of the most useful AI developments, new tool reviews, and playbook updates." />
       </div>
     </div>

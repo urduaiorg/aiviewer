@@ -23,20 +23,20 @@ const { question, answer, label = 'Quick Answer' } = Astro.props;
 ---
 
 <aside
-  class="not-prose my-8 rounded-2xl border border-amber-200/80 bg-gradient-to-br from-amber-50/80 to-white p-6 shadow-sm"
+  class="not-prose my-8 rounded-2xl border border-amber-200/80 dark:border-amber-700/40 bg-gradient-to-br from-amber-50/80 to-white dark:from-amber-900/20 dark:to-zinc-900 p-6 shadow-sm"
   role="note"
   aria-label={label}
   data-answer-box
 >
-  <p class="mb-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-amber-700/70">
+  <p class="mb-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-amber-700/70 dark:text-amber-400/80">
     {label}
   </p>
   {question && (
-    <p class="mb-3 text-base font-semibold text-zinc-900" data-answer-question>
+    <p class="mb-3 text-base font-semibold text-zinc-900 dark:text-zinc-50" data-answer-question>
       {question}
     </p>
   )}
-  <p class="text-[0.95rem] leading-7 text-zinc-700" data-answer-text>
+  <p class="text-[0.95rem] leading-7 text-zinc-700 dark:text-zinc-300" data-answer-text>
     {answer}
   </p>
 </aside>

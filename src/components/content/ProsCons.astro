@@ -19,7 +19,7 @@ const total = pros.length + cons.length;
 const proPercent = total > 0 ? Math.round((pros.length / total) * 100) : 50;
 ---
 
-<div class="proscons my-8 rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
+<div class="proscons not-prose my-8 rounded-2xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
   {/* Header with balance indicator */}
   <div class="px-5 py-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/50">
     <div class="flex items-center justify-between mb-3">
@@ -29,7 +29,7 @@ const proPercent = total > 0 ? Math.round((pros.length / total) * 100) : 50;
         </svg>
         {toolName ? `${toolName} — ` : ''}Pros & Cons
       </h4>
-      <span class="text-[0.65rem] font-semibold text-zinc-400">
+      <span class="text-[0.65rem] font-semibold text-zinc-400 dark:text-zinc-500">
         {pros.length} pros · {cons.length} cons
       </span>
     </div>

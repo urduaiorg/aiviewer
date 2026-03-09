@@ -45,7 +45,7 @@ const hasHalf = rating % 1 >= 0.5;
 const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
 ---
 
-<div class="tool-pick relative bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300">
+<div class="tool-pick not-prose relative bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300">
   {/* Top accent gradient */}
   <div class="h-[3px] bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-400" aria-hidden="true"></div>
 
@@ -60,7 +60,7 @@ const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
       </span>
 
       {category && (
-        <span class="text-[0.65rem] font-medium text-zinc-400 uppercase tracking-wider">
+        <span class="text-[0.65rem] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">
           {category}
         </span>
       )}
@@ -112,13 +112,13 @@ const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
     {/* Stats row */}
     <div class="grid grid-cols-2 gap-4">
       <div>
-        <p class="text-[0.6rem] font-semibold uppercase tracking-wider text-zinc-400 mb-1">Pricing</p>
+        <p class="text-[0.6rem] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1">Pricing</p>
         <span class:list={['inline-flex px-2 py-0.5 rounded-md text-[0.72rem] font-semibold capitalize', pColor.bg, pColor.text]}>
           {pricing}
         </span>
       </div>
       <div>
-        <p class="text-[0.6rem] font-semibold uppercase tracking-wider text-zinc-400 mb-1">Best for</p>
+        <p class="text-[0.6rem] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1">Best for</p>
         <div class="flex flex-wrap gap-1">
           {bestFor.slice(0, 3).map((b) => (
             <span class="text-[0.7rem] text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded">

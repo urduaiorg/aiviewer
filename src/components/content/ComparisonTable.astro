@@ -33,7 +33,7 @@ function renderValue(val: boolean | string | number) {
 }
 ---
 
-<div class="comparison-table-wrap my-8">
+<div class="comparison-table-wrap not-prose my-8">
   {/* Title */}
   <div class="flex items-center gap-2 mb-4">
     <svg class="w-5 h-5 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -47,7 +47,7 @@ function renderValue(val: boolean | string | number) {
       {/* Header — tool names */}
       <thead>
         <tr>
-          <th class="text-left py-3 px-4 text-[0.7rem] font-semibold text-zinc-400 uppercase tracking-wider w-[180px] min-w-[160px]">
+          <th class="text-left py-3 px-4 text-[0.7rem] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider w-[180px] min-w-[160px]">
             Feature
           </th>
           {tools.map((tool) => (
@@ -82,7 +82,7 @@ function renderValue(val: boolean | string | number) {
             <td class="py-3 px-4">
               <span class="font-medium text-zinc-700 dark:text-zinc-300">{feature.name}</span>
               {feature.description && (
-                <span class="block text-[0.7rem] text-zinc-400 mt-0.5">{feature.description}</span>
+                <span class="block text-[0.7rem] text-zinc-400 dark:text-zinc-500 mt-0.5">{feature.description}</span>
               )}
             </td>
             {feature.values.map((val, vi) => (

@@ -1,0 +1,47 @@
+---
+title: "Turn Spreadsheet Data into Business Insights"
+description: "A prompt for small business owners to quickly analyze raw financial or customer data and extract actionable strategic insights."
+role: "small-business"
+toolFor: "ChatGPT"
+task: "Turn spreadsheet data into business insights"
+publishedDate: 2026-03-12
+tags: ["data-analysis", "business-strategy", "chatgpt", "small-business", "operations"]
+draft: false
+---
+
+import PromptBlock from '../../components/content/PromptBlock.astro';
+
+Small business owners often have access to data (like sales spreadsheets or customer feedback logs) but lack the time to analyze it. This prompt leverages [ChatGPT](/tools/chatgpt/) (specifically GPT-5.4's Advanced Data Analysis) to digest raw data and output clear, actionable business recommendations.
+
+## The Prompt
+
+<PromptBlock 
+  tool="ChatGPT"
+  prompt={`Act as an expert business analyst and fractional CFO. I am going to provide you with raw data representing my small business's [TYPE OF DATA, e.g., monthly sales for 2025]. 
+
+Please analyze this data and provide the following:
+1. Executive Summary: A 3-sentence overview of the primary trend.
+2. Key Anomalies: Identify any surprising spikes, drops, or patterns that stand out.
+3. Profitability Opportunities: Suggest 3 specific, actionable ways I can cut costs or increase revenue based on this data.
+4. Next Steps: Recommend the top 2 immediate actions I should take this week.
+
+Here is the data:
+[PASTE DATA OR ATTACH CSV HERE]`}
+/>
+
+## Example Output
+
+When you run this prompt with a pasted sales report, ChatGPT will generate a concise executive brief:
+
+> **Executive Summary:**
+> Your business experienced a steady 15% revenue growth throughout Q1 and Q2, but saw a sharp 22% drop in Q3, specifically in the "Consulting Services" tier. Overall, your software subscription revenue remained stable, acting as a reliable baseline during the Q3 dip.
+> 
+> **Key Anomalies:**
+> - **August Slump:** August sales were 40% below the yearly average. This correlates with the drop in consulting hours billed.
+> - **High-Margin Winner:** Your "Premium Support" package accounts for only 10% of total sales volume but 35% of total profit margin.
+
+## Tips for Customization
+
+* **Sanitize your data:** Before pasting, remove any Personally Identifiable Information (PII) like customer names or exact credit card details.
+* **Provide context:** Let the AI know what industry you're in (e.g., "I run a local coffee shop") so its recommendations are tailored to your physical reality.
+* **Ask for charts:** If you are using ChatGPT Plus, you can add "Please generate a bar chart visualizing this trend" to get presentation-ready graphics.

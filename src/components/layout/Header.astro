@@ -1,18 +1,20 @@
 ---
 import Search from './Search.astro';
+import SearchDialog from '../content/SearchDialog.astro';
 import ThemeToggle from './ThemeToggle.astro';
 
 const navItems = [
   { label: 'Playbooks', href: '/playbooks/' },
   { label: 'Tools', href: '/tools/' },
   { label: 'Guides', href: '/guides/' },
+  { label: 'AI & Society', href: '/reports/' },
   { label: 'About', href: '/about/' },
 ];
 
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-100 dark:border-zinc-800" slot="header">
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-100 dark:border-zinc-800" slot="header" transition:persist>
   <div class="page-container">
     <div class="flex items-center justify-between h-[4.25rem]">
 
@@ -28,7 +30,7 @@ const currentPath = Astro.url.pathname;
           <a
             href={item.href}
             class:list={[
-              'px-3.5 py-2 text-[0.84rem] font-medium rounded-lg transition-all duration-200',
+              'nav-link-underline px-3.5 py-2 text-[0.84rem] font-medium rounded-lg transition-all duration-200',
               currentPath.startsWith(item.href)
                 ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30'
                 : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-800',
@@ -41,25 +43,28 @@ const currentPath = Astro.url.pathname;
         <ThemeToggle />
         <Search />
         <a
-          href="/tools/"
-          class="ml-2 px-4 py-2 text-[0.84rem] font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors duration-200"
+          href="/finder/"
+          class="group ml-2 inline-flex items-center gap-1.5 px-4 py-2 text-[0.84rem] font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-all duration-200 active:scale-[0.97]"
         >
-          Find AI Tools
+          AI Tool Finder
+          <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
         </a>
       </nav>
 
-      <!-- Mobile menu button -->
+      <!-- Mobile menu button — animated hamburger -->
       <div class="flex items-center gap-2 md:hidden">
         <ThemeToggle />
         <Search />
         <button
           id="mobile-menu-btn"
-          class="flex items-center justify-center w-10 h-10 rounded-lg text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+          class="hamburger-btn flex items-center justify-center w-10 h-10 rounded-lg text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
           aria-label="Open menu"
           aria-expanded="false"
         >
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
+            <line class="hamburger-top" x1="4" y1="7" x2="20" y2="7" />
+            <line class="hamburger-mid" x1="4" y1="12" x2="20" y2="12" />
+            <line class="hamburger-bot" x1="4" y1="17" x2="20" y2="17" />
           </svg>
         </button>
       </div>
@@ -68,9 +73,9 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <!-- Mobile overlay menu -->
-<div id="mobile-menu" class="fixed inset-0 z-[60] hidden">
-  <div id="mobile-menu-backdrop" class="absolute inset-0 bg-black/20 backdrop-blur-sm"></div>
-  <div class="absolute right-0 top-0 h-full w-[17rem] bg-white dark:bg-zinc-900 shadow-2xl">
+<div id="mobile-menu" class="mobile-menu-container" aria-hidden="true">
+  <div id="mobile-menu-backdrop" class="mobile-menu-backdrop"></div>
+  <div class="mobile-menu-panel">
     <!-- Close -->
     <div class="flex items-center justify-between px-5 h-[4.25rem] border-b border-zinc-100 dark:border-zinc-800">
       <span class="text-sm font-semibold text-zinc-400 uppercase tracking-wider">Menu</span>
@@ -102,28 +107,137 @@ const currentPath = Astro.url.pathname;
       ))}
       <div class="my-2 border-t border-zinc-100 dark:border-zinc-800"></div>
       <a
-        href="/tools/"
-        class="mx-3 mt-1 flex items-center justify-center px-4 py-2.5 text-[0.92rem] font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
+        href="/finder/"
+        class="group mx-3 mt-1 flex items-center justify-center gap-1.5 px-4 py-2.5 text-[0.92rem] font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-all"
       >
-        Find AI Tools
+        AI Tool Finder
+        <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
       </a>
     </nav>
   </div>
 </div>
 
-<script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  const closeBtn = document.getElementById('mobile-menu-close');
-  const backdrop = document.getElementById('mobile-menu-backdrop');
+<!-- Search dialog — rendered once, shared by desktop + mobile triggers -->
+<SearchDialog />
 
-  function toggle(open: boolean) {
-    menu?.classList.toggle('hidden', !open);
-    btn?.setAttribute('aria-expanded', String(open));
-    document.body.style.overflow = open ? 'hidden' : '';
+<style>
+  /* ── Mobile menu slide animation ── */
+  .mobile-menu-container {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .mobile-menu-container.is-open {
+    pointer-events: auto;
+    visibility: visible;
   }
 
-  btn?.addEventListener('click', () => toggle(true));
-  closeBtn?.addEventListener('click', () => toggle(false));
-  backdrop?.addEventListener('click', () => toggle(false));
+  .mobile-menu-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0);
+    transition: background 0.3s ease, backdrop-filter 0.3s ease;
+  }
+  .mobile-menu-container.is-open .mobile-menu-backdrop {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+  }
+
+  .mobile-menu-panel {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 17rem;
+    background: white;
+    box-shadow: -8px 0 30px rgba(0, 0, 0, 0.08);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  :global([data-theme="dark"]) .mobile-menu-panel {
+    background: #18181b;
+  }
+  .mobile-menu-container.is-open .mobile-menu-panel {
+    transform: translateX(0);
+  }
+
+  /* ── Hamburger morph animation ── */
+  .hamburger-top,
+  .hamburger-mid,
+  .hamburger-bot {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+    transform-origin: center;
+  }
+  .hamburger-btn.is-active .hamburger-top {
+    transform: translateY(5px) rotate(45deg);
+  }
+  .hamburger-btn.is-active .hamburger-mid {
+    opacity: 0;
+  }
+  .hamburger-btn.is-active .hamburger-bot {
+    transform: translateY(-5px) rotate(-45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu-backdrop,
+    .mobile-menu-panel,
+    .hamburger-top,
+    .hamburger-mid,
+    .hamburger-bot {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initMobileMenu() {
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const closeBtn = document.getElementById('mobile-menu-close');
+    const backdrop = document.getElementById('mobile-menu-backdrop');
+
+    if (!btn || !menu) return;
+    // Prevent double-binding on View Transitions
+    if (btn.dataset.bound === 'true') return;
+    btn.dataset.bound = 'true';
+
+    function open() {
+      menu!.classList.add('is-open');
+      menu!.setAttribute('aria-hidden', 'false');
+      btn!.classList.add('is-active');
+      btn!.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      menu!.classList.remove('is-open');
+      menu!.setAttribute('aria-hidden', 'true');
+      btn!.classList.remove('is-active');
+      btn!.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    btn.addEventListener('click', () => {
+      if (menu!.classList.contains('is-open')) {
+        close();
+      } else {
+        open();
+      }
+    });
+    closeBtn?.addEventListener('click', close);
+    backdrop?.addEventListener('click', close);
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu!.classList.contains('is-open')) {
+        close();
+      }
+    });
+  }
+
+  initMobileMenu();
+  document.addEventListener('astro:page-load', initMobileMenu);
 </script>

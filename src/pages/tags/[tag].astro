@@ -1,0 +1,300 @@
+---
+/**
+ * Tag Detail — Shows all content across every collection for a single tag.
+ *
+ * Dynamically generates a page for every unique tag found in playbooks,
+ * tools, guides, reports, and prompts. Grouped by collection type with
+ * premium editorial card design.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import { formatDateShort } from '../../utils/formatDate';
+import { categoryLabels, roleLabels, pricingConfig } from '../../data/site.config';
+import { slugifyTag } from '../../utils/slugifyTag';
+
+// ── Generate static paths for every tag ──────────────────────────
+export async function getStaticPaths() {
+  const [playbooks, tools, guides, reports, prompts] = await Promise.all([
+    getCollection('playbooks', ({ data }) => !data.draft),
+    getCollection('tools', ({ data }) => !data.draft),
+    getCollection('guides', ({ data }) => !data.draft),
+    getCollection('reports', ({ data }) => !data.draft),
+    getCollection('prompts', ({ data }) => !data.draft),
+  ]);
+
+  // Build a map of slug → { lowered key, display form }
+  // Display form keeps the first-seen casing (e.g. "ChatGPT", "UI/UX")
+  const tagMap = new Map<string, { key: string; display: string }>();
+  const addTags = (entries: { data: { tags: string[] } }[]) => {
+    for (const entry of entries) {
+      for (const tag of entry.data.tags) {
+        const slug = slugifyTag(tag);
+        if (!tagMap.has(slug)) tagMap.set(slug, { key: tag.toLowerCase(), display: tag });
+      }
+    }
+  };
+  addTags(playbooks);
+  addTags(tools);
+  addTags(guides);
+  addTags(reports);
+  addTags(prompts);
+
+  return [...tagMap.entries()].map(([slug, { key, display }]) => ({
+    params: { tag: slug },
+    props: { tag: key, displayTag: display },
+  }));
+}
+
+interface Props { tag: string; displayTag: string }
+const { tag, displayTag } = Astro.props;
+
+// ── Fetch all content matching this tag ──────────────────────────
+const matchTag = (entry: { data: { tags: string[] } }) =>
+  entry.data.tags.some((t) => t.toLowerCase() === tag);
+
+const [playbooks, tools, guides, reports, prompts] = await Promise.all([
+  getCollection('playbooks', ({ data }) => !data.draft),
+  getCollection('tools', ({ data }) => !data.draft),
+  getCollection('guides', ({ data }) => !data.draft),
+  getCollection('reports', ({ data }) => !data.draft),
+  getCollection('prompts', ({ data }) => !data.draft),
+]);
+
+const taggedPlaybooks = playbooks.filter(matchTag).sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+const taggedTools = tools.filter(matchTag).sort((a, b) => b.data.rating - a.data.rating);
+const taggedGuides = guides.filter(matchTag).sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+const taggedReports = reports.filter(matchTag).sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+const taggedPrompts = prompts.filter(matchTag);
+
+const totalItems = taggedPlaybooks.length + taggedTools.length + taggedGuides.length + taggedReports.length + taggedPrompts.length;
+
+// ── Collection section config ────────────────────────────────────
+const sections = [
+  { key: 'guides', label: 'Guides', icon: 'book', accent: 'emerald', items: taggedGuides },
+  { key: 'playbooks', label: 'Playbooks', icon: 'workflow', accent: 'violet', items: taggedPlaybooks },
+  { key: 'tools', label: 'Tool Reviews', icon: 'tool', accent: 'blue', items: taggedTools },
+  { key: 'reports', label: 'AI & Society', icon: 'chart', accent: 'amber', items: taggedReports },
+  { key: 'prompts', label: 'Prompts', icon: 'prompt', accent: 'rose', items: taggedPrompts },
+].filter((s) => s.items.length > 0);
+
+const accentColors: Record<string, { badge: string; border: string }> = {
+  emerald: {
+    badge: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300',
+    border: 'border-emerald-200 dark:border-emerald-800',
+  },
+  violet: {
+    badge: 'bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300',
+    border: 'border-violet-200 dark:border-violet-800',
+  },
+  blue: {
+    badge: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
+    border: 'border-blue-200 dark:border-blue-800',
+  },
+  amber: {
+    badge: 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300',
+    border: 'border-amber-200 dark:border-amber-800',
+  },
+  rose: {
+    badge: 'bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300',
+    border: 'border-rose-200 dark:border-rose-800',
+  },
+};
+
+// displayTag comes from props — preserves original casing like "ChatGPT", "UI/UX"
+---
+
+<BaseLayout
+  title={`${displayTag} — Tags`}
+  description={`Browse ${totalItems} article${totalItems !== 1 ? 's' : ''} tagged "${tag}" across AIViewer.ai — guides, playbooks, tool reviews, reports, and prompts.`}
+>
+  <Header />
+
+  <!-- ── Hero ── -->
+  <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
+    <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.14),_transparent_42%),radial-gradient(circle_at_bottom_right,_rgba(240,199,94,0.12),_transparent_38%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.06),_transparent_42%),radial-gradient(circle_at_bottom_right,_rgba(240,199,94,0.06),_transparent_38%)]"></div>
+    <div class="page-container relative py-12 md:py-16">
+      <Breadcrumbs items={[{ label: 'Tags', href: '/tags/' }, { label: displayTag }]} />
+
+      <div class="max-w-3xl" data-reveal>
+        <span class="inline-flex items-center gap-2 rounded-full border border-indigo-200 dark:border-indigo-700 bg-indigo-50 dark:bg-indigo-900/30 px-3.5 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-indigo-700 dark:text-indigo-300">
+          <!-- Tag icon -->
+          <svg class="h-3 w-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1.5 9.5 7 15l7.5-7.5V2A.5.5 0 0 0 14 1.5H8.5L1.5 9.5Z" />
+            <circle cx="11" cy="5" r="1" fill="currentColor" stroke="none" />
+          </svg>
+          Tag
+        </span>
+        <h1 class="mt-5 text-zinc-950 dark:text-zinc-50">{displayTag}</h1>
+        <p class="mt-4 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+          {totalItems} article{totalItems !== 1 ? 's' : ''} across {sections.length} collection{sections.length !== 1 ? 's' : ''}.
+        </p>
+
+        {/* Jump links */}
+        {sections.length > 1 && (
+          <nav class="mt-6 flex flex-wrap gap-2" aria-label="Jump to collection">
+            {sections.map((s) => (
+              <a
+                href={`#${s.key}`}
+                class:list={[
+                  'rounded-full border px-3 py-1 text-xs font-medium transition-colors hover:border-indigo-200 dark:hover:border-indigo-700',
+                  accentColors[s.accent]?.badge ?? 'bg-zinc-100 text-zinc-600',
+                ]}
+              >
+                {s.label} <span class="text-[0.65rem] opacity-70">({s.items.length})</span>
+              </a>
+            ))}
+          </nav>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Content sections by collection ── -->
+  {sections.map((section) => (
+    <section id={section.key} class="border-b border-zinc-200/70 dark:border-zinc-800 bg-[var(--color-bg)] last:border-b-0">
+      <div class="page-container py-10 md:py-14">
+        <div class="mb-8 flex items-center gap-3" data-reveal>
+          <span class:list={[
+            'rounded-full px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em]',
+            accentColors[section.accent]?.badge ?? 'bg-zinc-100 text-zinc-600',
+          ]}>
+            {section.label}
+          </span>
+          <span class="text-sm text-zinc-400 dark:text-zinc-500">{section.items.length} result{section.items.length !== 1 ? 's' : ''}</span>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {/* ── Guides ── */}
+          {section.key === 'guides' && section.items.map((entry) => (
+            <a
+              href={`/guides/${entry.id}/`}
+              class="group flex flex-col rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 dark:hover:border-indigo-700 hover:shadow-[var(--shadow-card-hover)]"
+              data-reveal
+            >
+              <span class="inline-flex w-fit rounded-full bg-emerald-50 dark:bg-emerald-900/30 px-2.5 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-300">
+                {categoryLabels[entry.data.category] ?? entry.data.category}
+              </span>
+              <h3 class="mt-3 text-[1.1rem] font-semibold leading-snug text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{entry.data.title}</h3>
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 line-clamp-3">{entry.data.description}</p>
+              <div class="mt-4 flex items-center justify-between border-t border-zinc-100 dark:border-zinc-800 pt-3">
+                <span class="text-xs text-zinc-400">{formatDateShort(entry.data.publishedDate)}</span>
+                <span class="text-xs font-medium text-indigo-600 dark:text-indigo-400">Read guide</span>
+              </div>
+            </a>
+          ))}
+
+          {/* ── Playbooks ── */}
+          {section.key === 'playbooks' && section.items.map((entry) => (
+            <a
+              href={`/playbooks/${entry.id}/`}
+              class="group flex flex-col rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 dark:hover:border-indigo-700 hover:shadow-[var(--shadow-card-hover)]"
+              data-reveal
+            >
+              <div class="flex items-center gap-2">
+                <span class="inline-flex rounded-full bg-violet-50 dark:bg-violet-900/30 px-2.5 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-violet-700 dark:text-violet-300">
+                  {roleLabels[entry.data.role] ?? entry.data.role}
+                </span>
+                <span class="rounded-full bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-[0.6rem] font-medium text-zinc-500 dark:text-zinc-400">
+                  {entry.data.difficulty}
+                </span>
+              </div>
+              <h3 class="mt-3 text-[1.1rem] font-semibold leading-snug text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{entry.data.title}</h3>
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 line-clamp-3">{entry.data.description}</p>
+              <div class="mt-4 flex items-center justify-between border-t border-zinc-100 dark:border-zinc-800 pt-3">
+                <span class="text-xs text-zinc-400">{entry.data.workflows} workflows · {entry.data.timeToComplete}</span>
+                <span class="text-xs font-medium text-indigo-600 dark:text-indigo-400">View playbook</span>
+              </div>
+            </a>
+          ))}
+
+          {/* ── Tools ── */}
+          {section.key === 'tools' && section.items.map((entry) => (
+            <a
+              href={`/tools/${entry.id}/`}
+              class="group flex flex-col rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 dark:hover:border-indigo-700 hover:shadow-[var(--shadow-card-hover)]"
+              data-reveal
+            >
+              <div class="flex items-center justify-between">
+                <span class:list={['inline-flex rounded-full px-2.5 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em]', pricingConfig[entry.data.pricing]?.color ?? 'bg-zinc-100 text-zinc-600']}>
+                  {pricingConfig[entry.data.pricing]?.label ?? entry.data.pricing}
+                </span>
+                <div class="text-right">
+                  <span class="text-lg font-bold text-zinc-900 dark:text-zinc-50">{entry.data.rating.toFixed(1)}</span>
+                  <span class="text-[0.6rem] text-zinc-400 ml-0.5">/5</span>
+                </div>
+              </div>
+              <h3 class="mt-3 text-[1.1rem] font-semibold leading-snug text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{entry.data.toolName}</h3>
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 line-clamp-3">{entry.data.description}</p>
+              <div class="mt-4 flex items-center justify-between border-t border-zinc-100 dark:border-zinc-800 pt-3">
+                <span class="text-xs text-zinc-400">{categoryLabels[entry.data.category] ?? entry.data.category}</span>
+                <span class="text-xs font-medium text-indigo-600 dark:text-indigo-400">Read review</span>
+              </div>
+            </a>
+          ))}
+
+          {/* ── Reports ── */}
+          {section.key === 'reports' && section.items.map((entry) => (
+            <a
+              href={`/reports/${entry.id}/`}
+              class="group flex flex-col rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 dark:hover:border-indigo-700 hover:shadow-[var(--shadow-card-hover)]"
+              data-reveal
+            >
+              <span class="inline-flex w-fit rounded-full bg-amber-50 dark:bg-amber-900/30 px-2.5 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-amber-700 dark:text-amber-300">
+                {entry.data.source} · {entry.data.reportYear}
+              </span>
+              <h3 class="mt-3 text-[1.1rem] font-semibold leading-snug text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{entry.data.title}</h3>
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 line-clamp-3">{entry.data.description}</p>
+              <div class="mt-4 border-t border-zinc-100 dark:border-zinc-800 pt-3">
+                <span class="text-xs font-medium text-indigo-600 dark:text-indigo-400">Read summary</span>
+              </div>
+            </a>
+          ))}
+
+          {/* ── Prompts ── */}
+          {section.key === 'prompts' && section.items.map((entry) => (
+            <a
+              href={`/prompts/${entry.id}/`}
+              class="group flex flex-col rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 dark:hover:border-indigo-700 hover:shadow-[var(--shadow-card-hover)]"
+              data-reveal
+            >
+              <div class="flex items-center gap-2">
+                <span class="inline-flex rounded-full bg-rose-50 dark:bg-rose-900/30 px-2.5 py-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-rose-700 dark:text-rose-300">
+                  {entry.data.toolFor}
+                </span>
+                <span class="rounded-full bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-[0.6rem] font-medium text-zinc-500 dark:text-zinc-400">
+                  {roleLabels[entry.data.role] ?? entry.data.role}
+                </span>
+              </div>
+              <h3 class="mt-3 text-[1.1rem] font-semibold leading-snug text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{entry.data.title}</h3>
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 line-clamp-3">{entry.data.description}</p>
+              <div class="mt-4 flex items-center justify-between border-t border-zinc-100 dark:border-zinc-800 pt-3">
+                <span class="text-xs text-zinc-400">{entry.data.task}</span>
+                <span class="text-xs font-medium text-indigo-600 dark:text-indigo-400">View prompt</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- ── Back to all tags ── -->
+  <section class="bg-white dark:bg-zinc-900 border-t border-zinc-200/70 dark:border-zinc-800">
+    <div class="page-container py-10 text-center" data-reveal>
+      <a
+        href="/tags/"
+        class="inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-5 py-2.5 text-sm font-medium text-zinc-700 dark:text-zinc-300 transition-colors hover:border-indigo-200 dark:hover:border-indigo-700 hover:text-indigo-600 dark:hover:text-indigo-400"
+      >
+        <svg class="h-4 w-4 rotate-180" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 3l5 5-5 5" />
+        </svg>
+        All topics
+      </a>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

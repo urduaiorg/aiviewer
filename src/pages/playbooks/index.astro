@@ -5,6 +5,7 @@ import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
 import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
 import EditorialCover from '../../components/content/EditorialCover.astro';
+import CollectionSchema from '../../components/seo/CollectionSchema.astro';
 import { formatDate, formatDateShort } from '../../utils/formatDate';
 import { getReadingTime } from '../../utils/readingTime';
 import { roleLabels, difficultyConfig } from '../../data/site.config';
@@ -24,6 +25,10 @@ const roleToCategory: Record<string, string> = {
   'content-creators': 'design',
   researchers: 'research',
   freelancers: 'productivity',
+  developers: 'technology',
+  designers: 'design',
+  lawyers: 'business',
+  marketers: 'business',
   entrepreneurs: 'business',
   farmers: 'agriculture',
   'job-seekers': 'general',
@@ -36,14 +41,22 @@ const roleToCategory: Record<string, string> = {
   title="AI Playbooks"
   description="Browse practical AI playbooks for teachers, students, businesses, and teams. Each one is built around repeatable workflows, tools, and outcomes."
 >
+  <Fragment slot="head">
+    <CollectionSchema
+      name="AI Playbooks"
+      description="Browse practical AI playbooks for teachers, students, businesses, and teams. Each one is built around repeatable workflows, tools, and outcomes."
+      url="/playbooks/"
+      numberOfItems={playbooks.length}
+    />
+  </Fragment>
   <Header />
 
   <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
-    <div class="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.22),_transparent_45%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.10),_transparent_40%)]"></div>
+    <div class="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.22),_transparent_45%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.10),_transparent_40%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.08),_transparent_45%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.06),_transparent_40%)]"></div>
     <div class="page-container relative py-12 md:py-16">
       <Breadcrumbs items={[{ label: 'Playbooks' }]} />
 
-      <div class="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_24rem] lg:items-end">
+      <div class="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_24rem] lg:items-end" data-reveal>
         <div class="max-w-3xl">
           <span class="inline-flex items-center gap-2 rounded-full border border-amber-200 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-300">
             Workflow library

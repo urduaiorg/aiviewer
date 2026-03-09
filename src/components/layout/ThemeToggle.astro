@@ -1,72 +1,106 @@
 ---
+/**
+ * ThemeToggle — Animated sun/moon morph toggle
+ *
+ * Replaces the instant .hidden swap with a smooth rotation + crossfade.
+ * Both icons overlap absolutely, toggled via opacity + rotation.
+ * Works with Astro View Transitions via astro:page-load.
+ * Supports multiple instances (desktop + mobile nav).
+ */
 ---
 
 <button
-  id="theme-toggle"
-  class="flex items-center justify-center p-2 rounded-full text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors"
+  class="theme-toggle-btn flex items-center justify-center w-9 h-9 rounded-full text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800 transition-colors"
   aria-label="Toggle dark mode"
 >
-  <svg
-    id="theme-toggle-dark-icon"
-    class="w-5 h-5 hidden"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    stroke-width="2"
-  >
-    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-  </svg>
-  <svg
-    id="theme-toggle-light-icon"
-    class="w-5 h-5 hidden"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    stroke-width="2"
-  >
-    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-  </svg>
+  <span class="theme-toggle-icons">
+    <!-- Moon icon (shown in light mode → click to go dark) -->
+    <svg
+      class="theme-icon theme-icon-moon"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    </svg>
+    <!-- Sun icon (shown in dark mode → click to go light) -->
+    <svg
+      class="theme-icon theme-icon-sun"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+  </span>
 </button>
 
-<script>
-  // Setup theme
-  const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-  const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-  const themeToggleBtn = document.getElementById('theme-toggle');
-
-  const updateIcons = (theme: string) => {
-    if (theme === 'dark') {
-      themeToggleLightIcon?.classList.remove('hidden');
-      themeToggleDarkIcon?.classList.add('hidden');
-    } else {
-      themeToggleDarkIcon?.classList.remove('hidden');
-      themeToggleLightIcon?.classList.add('hidden');
-    }
-  };
-
-  // Check initial state
-  if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.dataset.theme = 'dark';
-    document.documentElement.classList.add('dark');
-    updateIcons('dark');
-  } else {
-    document.documentElement.dataset.theme = 'light';
-    document.documentElement.classList.remove('dark');
-    updateIcons('light');
+<style>
+  .theme-toggle-icons {
+    position: relative;
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
-  // Handle click
-  themeToggleBtn?.addEventListener('click', function() {
-    if (localStorage.getItem('theme') === 'dark') {
-      document.documentElement.dataset.theme = 'light';
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-      updateIcons('light');
-    } else {
-      document.documentElement.dataset.theme = 'dark';
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-      updateIcons('dark');
+  .theme-icon {
+    position: absolute;
+    inset: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Light mode: show moon (click to go dark) */
+  .theme-icon-moon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+  .theme-icon-sun {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.6);
+  }
+
+  /* Dark mode: show sun (click to go light) */
+  :global([data-theme="dark"]) .theme-icon-moon {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.6);
+  }
+  :global([data-theme="dark"]) .theme-icon-sun {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-icon {
+      transition: none;
     }
-  });
+  }
+</style>
+
+<script>
+  function initThemeToggle() {
+    document.querySelectorAll('.theme-toggle-btn').forEach((btn) => {
+      // Prevent double-binding on View Transitions re-run
+      if ((btn as HTMLElement).dataset.bound === 'true') return;
+      (btn as HTMLElement).dataset.bound = 'true';
+
+      btn.addEventListener('click', () => {
+        const isDark = document.documentElement.dataset.theme === 'dark';
+        const newTheme = isDark ? 'light' : 'dark';
+
+        document.documentElement.dataset.theme = newTheme;
+        if (newTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        localStorage.setItem('theme', newTheme);
+      });
+    });
+  }
+
+  initThemeToggle();
+  document.addEventListener('astro:page-load', initThemeToggle);
 </script>

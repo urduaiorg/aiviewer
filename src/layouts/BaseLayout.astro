@@ -1,5 +1,8 @@
 ---
 import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+import ScrollReveal from '../components/layout/ScrollReveal.astro';
+import { siteConfig } from '../data/site.config';
 
 interface Props {
   title: string;
@@ -9,20 +12,23 @@ interface Props {
   type?: 'website' | 'article';
   publishedDate?: string;
   updatedDate?: string;
+  articleSection?: string;
+  noindex?: boolean;
 }
 
 const {
   title,
   description,
-  ogImage = '/og-default.png',
+  ogImage = siteConfig.seo.ogImage,
   canonicalUrl,
   type = 'website',
   publishedDate,
   updatedDate,
+  articleSection,
+  noindex = false,
 } = Astro.props;
 
-const siteTitle = 'AIViewer.ai';
-const fullTitle = title === siteTitle ? title : `${title} — ${siteTitle}`;
+const fullTitle = title === siteConfig.name ? title : `${title} — ${siteConfig.name}`;
 const canonical = canonicalUrl || Astro.url.href;
 const ogImageUrl = new URL(ogImage, Astro.site).href;
 ---
@@ -38,19 +44,28 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="alternate" type="application/rss+xml" title="AIViewer.ai RSS Feed" href="/rss.xml" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="author" content="AIViewer.ai" />
+    <link rel="alternate" type="application/rss+xml" title={`${siteConfig.name} RSS Feed`} href="/rss.xml" />
+    {noindex
+      ? <meta name="robots" content="noindex, nofollow" />
+      : <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    }
+    <meta name="author" content={siteConfig.name} />
     <meta name="theme-color" content="#F0C75E" />
     <script is:inline>
-      // Early inline script to prevent flash of wrong theme
-      if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.dataset.theme = 'dark';
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.dataset.theme = 'light';
-        document.documentElement.classList.remove('dark');
-      }
+      // Early inline script to prevent flash of wrong theme (runs on initial page load)
+      (function() {
+        var isDark = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+        if (isDark) document.documentElement.classList.add('dark');
+        else document.documentElement.classList.remove('dark');
+      })();
+      // Also run on View Transitions swap to maintain theme across navigation
+      document.addEventListener('astro:after-swap', function() {
+        var isDark = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+        if (isDark) document.documentElement.classList.add('dark');
+        else document.documentElement.classList.remove('dark');
+      });
     </script>
 
     <!-- Favicon -->
@@ -61,6 +76,11 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&family=Montserrat:wght@700;800;900&display=swap"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&family=Montserrat:wght@700;800;900&display=swap"
       rel="stylesheet"
     />
@@ -69,31 +89,58 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content={siteConfig.seo.ogImageWidth.toString()} />
+    <meta property="og:image:height" content={siteConfig.seo.ogImageHeight.toString()} />
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content={type} />
-    <meta property="og:site_name" content={siteTitle} />
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content={siteConfig.seo.twitterCard} />
+    <meta name="twitter:site" content="@QRoonjha" />
+    <meta name="twitter:creator" content="@QRoonjha" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <!-- Article dates (if article) -->
+    <!-- Article metadata (if article) -->
     {publishedDate && <meta property="article:published_time" content={publishedDate} />}
     {updatedDate && <meta property="article:modified_time" content={updatedDate} />}
+    {articleSection && <meta property="article:section" content={articleSection} />}
 
     <!-- Schema: Website (homepage) or overridden by page-level components -->
     <slot name="head" />
+
+    <!-- View Transitions for smooth page navigation -->
+    <ViewTransitions />
 
     <!-- Cloudflare Web Analytics placeholder -->
     <!-- <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "YOUR_TOKEN"}'></script> -->
   </head>
   <body class="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
     <slot name="header" />
-    <main class="flex-1">
+    <main class="flex-1" transition:animate="fade">
       <slot />
     </main>
     <slot name="footer" />
+    <ScrollReveal />
+    <script>
+      // Card glow — cursor-tracking radial highlight
+      function initCardGlow() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        document.querySelectorAll('.card-glow').forEach((card) => {
+          card.addEventListener('mousemove', (e: Event) => {
+            const el = card as HTMLElement;
+            const rect = el.getBoundingClientRect();
+            const me = e as MouseEvent;
+            el.style.setProperty('--glow-x', `${me.clientX - rect.left}px`);
+            el.style.setProperty('--glow-y', `${me.clientY - rect.top}px`);
+          });
+        });
+      }
+      initCardGlow();
+      document.addEventListener('astro:page-load', initCardGlow);
+    </script>
   </body>
 </html>

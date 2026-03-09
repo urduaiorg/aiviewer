@@ -1,0 +1,43 @@
+---
+import { siteConfig } from '../../data/site.config';
+
+/**
+ * CollectionSchema — JSON-LD for index/listing pages.
+ * Outputs a Schema.org CollectionPage entity so Google understands
+ * these pages aggregate content from a particular section.
+ */
+
+export interface Props {
+  name: string;
+  description: string;
+  url: string;
+  numberOfItems: number;
+}
+
+const { name, description, url, numberOfItems } = Astro.props;
+
+const siteUrl = siteConfig.url;
+const pageUrl = url.startsWith('http') ? url : new URL(url, siteUrl).toString();
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": name,
+  "description": description,
+  "url": pageUrl,
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": siteConfig.name,
+    "url": siteUrl,
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": siteConfig.name,
+    "url": siteUrl,
+  },
+  "numberOfItems": numberOfItems,
+  "inLanguage": "en-US",
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

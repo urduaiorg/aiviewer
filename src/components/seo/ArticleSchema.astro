@@ -1,4 +1,6 @@
 ---
+import { siteConfig } from '../../data/site.config';
+
 export interface Props {
   title: string;
   description: string;
@@ -6,6 +8,8 @@ export interface Props {
   publishedDate: Date;
   updatedDate?: Date;
   authorName?: string;
+  authorUrl?: string;
+  canonicalUrl?: string;
 }
 
 const {
@@ -14,11 +18,14 @@ const {
   image,
   publishedDate,
   updatedDate,
-  authorName = "AIViewer Editor",
+  authorName = siteConfig.author.name,
+  authorUrl = siteConfig.author.linkedin,
+  canonicalUrl,
 } = Astro.props;
 
-const siteUrl = Astro.site ? Astro.site.toString() : 'https://aiviewer.ai';
-const imageUrl = image ? new URL(image, siteUrl).toString() : new URL('/og-default.png', siteUrl).toString();
+const siteUrl = siteConfig.url;
+const pageUrl = canonicalUrl || Astro.url.href;
+const imageUrl = image ? new URL(image, siteUrl).toString() : new URL(siteConfig.seo.ogImage, siteUrl).toString();
 
 const schema = {
   "@context": "https://schema.org",
@@ -27,19 +34,25 @@ const schema = {
   "description": description,
   "image": imageUrl,
   "datePublished": publishedDate.toISOString(),
-  ...(updatedDate && { "dateModified": updatedDate.toISOString() }),
+  "dateModified": (updatedDate ?? publishedDate).toISOString(),
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": pageUrl,
+  },
   "author": {
     "@type": "Person",
     "name": authorName,
+    "url": authorUrl,
   },
   "publisher": {
     "@type": "Organization",
-    "name": "AIViewer.ai",
+    "name": siteConfig.name,
+    "url": siteUrl,
     "logo": {
       "@type": "ImageObject",
-      "url": new URL('/logo.png', siteUrl).toString()
-    }
-  }
+      "url": new URL('/logo.png', siteUrl).toString(),
+    },
+  },
 };
 ---
 

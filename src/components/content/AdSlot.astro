@@ -35,7 +35,7 @@ const sizeClasses: Record<string, string> = {
     'ad-slot relative overflow-hidden rounded-xl',
     sizeClasses[size],
     variant === 'light'
-      ? 'bg-zinc-50/80 border border-dashed border-zinc-200'
+      ? 'bg-zinc-50/80 dark:bg-zinc-800/50 border border-dashed border-zinc-200 dark:border-zinc-700'
       : 'bg-transparent',
   ]}
   role="complementary"
@@ -44,7 +44,7 @@ const sizeClasses: Record<string, string> = {
 >
   {/* Sponsored label */}
   <div class="absolute top-2 right-2 z-10">
-    <span class="text-[0.55rem] font-medium text-zinc-300 uppercase tracking-widest">
+    <span class="text-[0.55rem] font-medium text-zinc-300 dark:text-zinc-600 uppercase tracking-widest">
       Sponsored
     </span>
   </div>
@@ -56,17 +56,17 @@ const sizeClasses: Record<string, string> = {
   >
     {/* Fallback shown when no ad loads */}
     <div class="ad-fallback flex flex-col items-center justify-center gap-3 py-8 px-6 text-center">
-      <div class="w-10 h-10 rounded-xl bg-zinc-100 flex items-center justify-center">
-        <svg class="w-5 h-5 text-zinc-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <div class="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+        <svg class="w-5 h-5 text-zinc-300 dark:text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
         </svg>
       </div>
-      <p class="text-[0.75rem] text-zinc-300 max-w-[200px] leading-relaxed">
+      <p class="text-[0.75rem] text-zinc-300 dark:text-zinc-600 max-w-[200px] leading-relaxed">
         {fallbackText}
       </p>
       <a
         href="/advertise/"
-        class="text-[0.65rem] font-medium text-zinc-300 hover:text-indigo-500 transition-colors underline underline-offset-2"
+        class="text-[0.65rem] font-medium text-zinc-300 dark:text-zinc-600 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors underline underline-offset-2"
       >
         Advertise with us
       </a>

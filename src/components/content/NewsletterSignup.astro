@@ -1,10 +1,11 @@
 ---
 /**
- * NewsletterSignup — Email capture component
+ * NewsletterSignup — Live email capture via Beehiiv (AI for Education Briefing)
  *
- * Clean, minimal newsletter signup form. Works as a standalone section
- * or inline component. Form action is a placeholder — wire to your
- * email provider (ConvertKit, Buttondown, etc.) when ready.
+ * Premium AIViewer design wrapper around the Beehiiv subscription form.
+ * Feeds subscribers into the aiforedu.ai Beehiiv publication list.
+ * Section variant: full-width hero CTA with Beehiiv embed
+ * Inline variant: compact card for use inside articles
  */
 interface Props {
   /** Heading text */
@@ -20,62 +21,62 @@ const {
   subtitle = 'One email per week. No spam, no hype — just the most useful AI developments, tools, and tactics.',
   variant = 'section',
 } = Astro.props;
+
+const beehiivSrc = 'https://subscribe-forms.beehiiv.com/df762eb2-5183-49d6-bb1e-fafb3683f2e0';
 ---
 
 {variant === 'section' ? (
   <section class="relative overflow-hidden rounded-[1.75rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)]">
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(240,199,94,0.12),_transparent_50%),radial-gradient(circle_at_bottom_left,_rgba(79,70,229,0.08),_transparent_50%)] dark:bg-[radial-gradient(circle_at_top_right,_rgba(240,199,94,0.08),_transparent_50%),radial-gradient(circle_at_bottom_left,_rgba(79,70,229,0.06),_transparent_50%)]"></div>
-    <div class="relative px-6 py-10 md:px-10 md:py-12">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Newsletter</p>
-        <h2 class="mt-3 text-2xl font-bold text-zinc-950 dark:text-zinc-50 md:text-3xl">{heading}</h2>
-        <p class="mt-3 text-[0.95rem] leading-7 text-zinc-600 dark:text-zinc-400">{subtitle}</p>
-
-        {/* TODO: Wire form action to email provider (ConvertKit, Buttondown, etc.) */}
-        <form class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center" data-newsletter-form>
-          <label class="sr-only" for="newsletter-email">Email address</label>
-          <input
-            id="newsletter-email"
-            type="email"
-            name="email"
-            required
-            placeholder="you@example.com"
-            class="h-12 w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:border-indigo-300 dark:focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/50 sm:max-w-xs"
-          />
-          <button
-            type="submit"
-            class="h-12 shrink-0 rounded-xl bg-zinc-950 dark:bg-white px-6 text-sm font-semibold text-white dark:text-zinc-900 transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-2 dark:focus:ring-offset-zinc-900"
-          >
-            Subscribe
-          </button>
-        </form>
-        <p class="mt-4 text-xs text-zinc-400 dark:text-zinc-500">Free forever. Unsubscribe anytime.</p>
+    <div class="relative px-4 py-4 md:px-6 md:py-6">
+      <div class="overflow-hidden rounded-xl">
+        <iframe
+          src={beehiivSrc}
+          title="Subscribe to the AI Briefing newsletter"
+          class="beehiiv-embed w-full"
+          frameborder="0"
+          scrolling="no"
+          style="margin:0;border-radius:0!important;background-color:transparent;box-shadow:0 0 #0000;max-width:100%;height:340px;"
+        ></iframe>
+      </div>
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-zinc-400 dark:text-zinc-500">
+        <span>Free forever</span>
+        <span class="text-zinc-300 dark:text-zinc-700">·</span>
+        <span>Unsubscribe anytime</span>
+        <span class="text-zinc-300 dark:text-zinc-700">·</span>
+        <a href="https://updates.aiforedu.ai/" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-zinc-600 dark:hover:text-zinc-300">View archive</a>
       </div>
     </div>
   </section>
 ) : (
-  <div class="not-prose my-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-900 p-6">
+  <div class="not-prose my-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-900 p-5">
     <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Newsletter</p>
     <p class="mt-2 text-base font-semibold text-zinc-900 dark:text-zinc-50">{heading}</p>
     <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{subtitle}</p>
 
-    {/* TODO: Wire form action to email provider */}
-    <form class="mt-4 flex gap-2" data-newsletter-form>
-      <label class="sr-only" for="newsletter-email-inline">Email address</label>
-      <input
-        id="newsletter-email-inline"
-        type="email"
-        name="email"
-        required
-        placeholder="you@example.com"
-        class="h-10 flex-1 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:border-indigo-300 dark:focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/50"
-      />
-      <button
-        type="submit"
-        class="h-10 shrink-0 rounded-lg bg-zinc-950 dark:bg-white px-5 text-sm font-semibold text-white dark:text-zinc-900 transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-100"
-      >
-        Subscribe
-      </button>
-    </form>
+    <div class="mt-4 overflow-hidden rounded-lg">
+      <iframe
+        src={beehiivSrc}
+        title="Subscribe to the AI Briefing newsletter"
+        class="beehiiv-embed w-full"
+        frameborder="0"
+        scrolling="no"
+        style="margin:0;border-radius:0!important;background-color:transparent;box-shadow:0 0 #0000;max-width:100%;height:340px;"
+      ></iframe>
+    </div>
   </div>
 )}
+
+<script>
+  // Auto-resize Beehiiv iframes to fit content
+  window.addEventListener('message', (event) => {
+    if (event.origin !== 'https://subscribe-forms.beehiiv.com') return;
+    if (typeof event.data === 'object' && event.data.type === 'beehiiv:resize') {
+      document.querySelectorAll<HTMLIFrameElement>('.beehiiv-embed').forEach((iframe) => {
+        if (iframe.contentWindow === event.source) {
+          iframe.style.height = `${event.data.height}px`;
+        }
+      });
+    }
+  });
+</script>

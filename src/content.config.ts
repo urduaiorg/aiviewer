@@ -10,6 +10,7 @@ const playbooks = defineCollection({
       'teachers', 'students', 'small-business',
       'ngos', 'researchers', 'content-creators',
       'farmers', 'job-seekers', 'freelancers', 'entrepreneurs',
+      'developers', 'lawyers', 'designers', 'marketers',
     ]),
     difficulty: z.enum(['beginner', 'intermediate', 'advanced']),
     timeToComplete: z.string(),
@@ -97,6 +98,7 @@ const prompts = defineCollection({
     role: z.enum([
       'teachers', 'students', 'small-business',
       'ngos', 'researchers', 'content-creators', 'general',
+      'developers',
     ]),
     toolFor: z.string(),
     task: z.string(),

@@ -1,0 +1,53 @@
+---
+title: "Generate a Standards-Aligned Lesson Plan"
+description: "A prompt for teachers to create a comprehensive, engaging lesson plan complete with objectives, activities, and assessment methods."
+role: "teachers"
+toolFor: "Claude"
+task: "Generate a standards-aligned lesson plan"
+publishedDate: 2026-03-12
+tags: ["lesson-planning", "teaching", "education", "claude", "curriculum"]
+draft: false
+---
+
+import PromptBlock from '../../components/content/PromptBlock.astro';
+
+This prompt uses Claude (like [Claude Opus 4.6](/tools/claude-ai/)) to construct a highly detailed, standards-aligned lesson plan. It asks the AI to act as an expert curriculum designer, ensuring the output includes clear objectives, step-by-step activities, and differentiation strategies.
+
+## The Prompt
+
+<PromptBlock 
+  tool="Claude"
+  prompt={`Act as an expert curriculum designer and master teacher. I need a comprehensive, 60-minute lesson plan for a [GRADE LEVEL] class on the topic of [TOPIC].
+
+Please structure the lesson plan to include:
+1. Learning Objectives (aligned with [SPECIFIC STANDARDS, e.g., Common Core])
+2. Materials Needed
+3. Hook / Introduction (5 mins) to grab students' attention
+4. Direct Instruction (15 mins) explaining the core concepts
+5. Guided Practice (20 mins) with a specific activity
+6. Independent Practice (15 mins) to check for understanding
+7. Closure / Exit Ticket (5 mins)
+8. Differentiation strategies for students who need extra support and for those who need an advanced challenge.
+
+Ensure the tone is engaging, age-appropriate, and practical for a busy classroom.`}
+/>
+
+## Example Output
+
+When you run this prompt, Claude will produce a structured outline:
+
+> **Grade Level:** 8th Grade
+> **Topic:** The Causes of the American Revolution
+> 
+> **1. Learning Objectives**
+> - Students will be able to identify and explain at least three primary causes of the American Revolution.
+> - Students will analyze primary source excerpts to understand colonial grievances.
+> 
+> **3. Hook / Introduction (5 mins)**
+> *The "Unfair Tax" Activity:* As students walk in, hand them "class currency" tokens. Immediately announce a new "desk tax" where they must pay tokens just to sit down. Discuss how this makes them feel to introduce the concept of "taxation without representation."
+
+## Tips for Customization
+
+* **Be specific with standards:** If your state or country uses specific educational standards, mention them explicitly by name or code.
+* **Adjust the timing:** You can modify the minutes allocated to each section if you have a block schedule.
+* **Provide context:** Mention any background knowledge your students already have so the AI doesn't spend time reviewing concepts they've already mastered.

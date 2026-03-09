@@ -1,0 +1,110 @@
+---
+title: "How to Use AI for Legal Document Review"
+description: "A complete playbook for using AI to review contracts, find loopholes, and summarize complex legal documents safely and securely."
+role: "lawyers"
+difficulty: "intermediate"
+timeToComplete: "30 min"
+toolsUsed: ["Claude Sonnet 4.6", "ChatGPT", "Perplexity"]
+workflows: 3
+publishedDate: 2026-03-09
+coverImage: "/images/playbooks/legal-document-review.jpg"
+tags: ["legal", "contracts", "document review", "Claude", "ChatGPT"]
+featured: false
+draft: false
+---
+
+import PromptBlock from '../../components/content/PromptBlock.astro';
+import AnswerBox from '../../components/content/AnswerBox.astro';
+import ToolPickBox from '../../components/content/ToolPickBox.astro';
+
+<AnswerBox
+  question="Can AI review legal documents and contracts?"
+  answer="Yes, AI models like Claude Sonnet 4.6 are highly capable of reviewing contracts, identifying missing clauses, and explaining complex legal terms in plain English. However, AI should assist rather than replace a qualified human attorney for final decisions."
+/>
+
+Reviewing legal documents can be tedious, expensive, and stressful for small business owners and freelancers. Modern AI assistants can act as your first line of defense, rapidly scanning 50-page contracts to highlight risks, summarize obligations, and ensure your interests are protected.
+
+## 1. Context: Why Use AI for Contracts?
+
+When you receive a Non-Disclosure Agreement (NDA), Master Services Agreement (MSA), or a commercial lease, you need to understand the material terms before signing. Instead of paying hundreds of dollars just to get a high-level summary from a lawyer, you can use AI to do the preliminary pass. This saves your attorney time and saves you money.
+
+### Ground Rules for Legal AI
+- **Anonymize your data**: Always remove specific names, addresses, and sensitive financial figures before pasting a document into a public LLM.
+- **Use secure models**: If you are dealing with highly confidential business data, use an enterprise tier (like ChatGPT Enterprise or Claude for Work) where your data is not used for model training.
+- **Always verify**: LLMs can "hallucinate" or misinterpret nuanced legal precedent. Use them to *find* the clauses, but read the clauses yourself.
+
+---
+
+## 2. Step-by-Step Workflow
+
+### Step 1: Document Preparation and Anonymization
+Before you upload anything, create a sanitized version of your contract. Search and replace your company name with "[My Company]" and the counterparty's name with "[Counterparty]". 
+
+### Step 2: The High-Level Summary
+Upload the sanitized document to **Claude Sonnet 4.6** (which excels at large document analysis) or **ChatGPT (GPT-5.4)**. Start with a prompt to simply understand the landscape of the agreement.
+
+<PromptBlock 
+  tool="Claude" 
+  prompt="I am uploading a standard Master Services Agreement (MSA). Please act as an expert corporate lawyer. Provide a plain-English summary of this document. Identify the core obligations for both parties, the payment terms, and the exact termination conditions." 
+/>
+
+### Step 3: Hunting for Red Flags
+Once you understand the basic terms, ask the AI to aggressively hunt for unbalanced or dangerous clauses. 
+
+<PromptBlock 
+  tool="ChatGPT" 
+  prompt="Review the attached NDA. Identify any clauses that are highly favorable to the other party or potentially risky for my small business. Specifically check for unusually long confidentiality periods, non-compete clauses hidden inside, or unbalanced indemnification requirements. Quote the specific sections." 
+/>
+
+### Step 4: Suggesting Revisions
+If you find a clause that needs to be softened, you can ask the AI to draft alternative language.
+
+<PromptBlock 
+  tool="Claude" 
+  prompt="Section 4.2 states that I am liable for all indirect damages. Draft three alternative versions of this clause that are more balanced and standard for a freelancer consulting agreement. Explain the strategic benefit of each alternative." 
+/>
+
+---
+
+## 3. Best AI Tools for Legal Review
+
+If you are building an AI stack for legal document processing, these are the tools we recommend for 2026:
+
+<ToolPickBox 
+  name="Claude (Anthropic)"
+  verdict="Best overall for complex document analysis"
+  description="Claude's Opus 4.6 and Sonnet 4.6 models have massive context windows and demonstrate superior reasoning when navigating long, dense legal texts without losing track of details."
+  rating={4.8}
+  pricing="freemium"
+  bestFor={["Long contracts", "Complex reasoning", "Nuanced summaries"]}
+  website="https://claude.ai"
+/>
+
+<ToolPickBox 
+  name="ChatGPT"
+  verdict="Best for quick revisions and drafting"
+  description="ChatGPT (GPT-5.4) is excellent for rapidly generating alternative clause drafts and brainstorming negotiation strategies."
+  rating={4.6}
+  pricing="freemium"
+  bestFor={["Drafting clauses", "Quick Q&A", "Negotiation strategy"]}
+  website="https://chatgpt.com"
+/>
+
+---
+
+## 4. Next Steps
+After the AI has highlighted the potential issues, compile a list of your concerns. Take this organized, specific list to your actual attorney. Instead of paying them to read the entire document from scratch and guess your priorities, you can direct them exactly to Section 4.2 and ask for a localized legal opinion.
+
+## Frequently Asked Questions
+
+### Can I completely replace my lawyer with AI?
+No. AI is excellent for preliminary review, finding hidden clauses, and summarizing terms, but it cannot provide legally binding advice or represent you in court. It is a paralegal assistant, not a replacement for a qualified attorney.
+
+### Is it safe to upload confidential contracts to ChatGPT?
+If you are on a free or standard "Plus" plan, your data may be used to train future models. You should always anonymize sensitive information first. For full privacy, use an Enterprise plan or API access where data retention is strictly opted-out.
+
+### Which AI model is best for legal documents in 2026?
+Claude Sonnet 4.6 and Opus 4.6 are widely considered the best models for legal text because of their massive context windows and low hallucination rates when reading complex documents.
+
+### How do I stop AI from hallucinating legal facts?
+Always prompt the AI to "quote the exact section from the uploaded text" when making a claim. This forces the model to ground its analysis in your specific document rather than generating generic legal fiction.

@@ -1,0 +1,49 @@
+---
+title: "Draft a Compelling Grant Proposal Section"
+description: "A prompt for NGOs and nonprofits to overcome writer's block and draft persuasive, structured grant proposal narratives."
+role: "ngos"
+toolFor: "Claude"
+task: "Draft a compelling grant proposal section"
+publishedDate: 2026-03-12
+tags: ["grant-writing", "non-profit", "fundraising", "claude", "ngos"]
+draft: false
+---
+
+import PromptBlock from '../../components/content/PromptBlock.astro';
+
+Grant writing requires a delicate balance of emotional storytelling and rigorous data presentation. This prompt uses [Claude](/tools/claude-ai/)—known for its nuanced, natural writing style—to help nonprofit leaders draft the heavy narrative sections of a grant proposal.
+
+## The Prompt
+
+<PromptBlock 
+  tool="Claude"
+  prompt={`Act as a professional grant writer with a high success rate in securing funding for NGOs. I need you to draft the [SECTION NAME, e.g., "Statement of Need" or "Project Methodology"] section for a grant proposal we are submitting to [NAME OF FOUNDATION]. 
+
+Our organization's mission is: [INSERT MISSION].
+The specific project we are seeking funding for is: [INSERT PROJECT DESCRIPTION].
+The key data points/statistics we must include are: [INSERT 2-3 DATA POINTS].
+
+Please write a compelling, 3-4 paragraph draft that:
+1. Opens with a strong, urgent hook highlighting the specific problem.
+2. Seamlessly integrates our data points to prove the severity of the need.
+3. Positions our organization's specific project as the most logical, effective solution.
+4. Uses clear, persuasive, and professional language without relying on overly emotional jargon or cliches.
+
+Please format the draft with clear paragraph breaks.`}
+/>
+
+## Example Output
+
+When you run this prompt, Claude will deliver a polished narrative draft:
+
+> **Statement of Need Draft:**
+> 
+> In the Riverdale district, access to early childhood literacy resources is not just an educational gap; it is an escalating community crisis. Currently, 65% of third graders in the district are reading below grade level, a statistic that directly correlates with long-term systemic poverty and reduced high school graduation rates. Without immediate, targeted intervention during these critical developmental years, these children face compounding academic hurdles that outpace the capacity of our local public school system.
+> 
+> The Riverdale Community Center's "Read to Lead" initiative is uniquely positioned to address this gap...
+
+## Tips for Customization
+
+* **Match the funder's priorities:** If the foundation specifically funds "innovative tech solutions" or "community-led initiatives," instruct Claude to weave those specific phrases into the narrative.
+* **Iterate on the tone:** If the first draft feels too academic, reply with: "Make this slightly more conversational and focus more on the human impact."
+* **Use for multiple sections:** You can easily adapt this prompt by changing the `[SECTION NAME]` to generate your Executive Summary, Evaluation Plan, or Organizational Capacity sections.

@@ -1,0 +1,48 @@
+---
+/**
+ * ScrollReveal — IntersectionObserver-based reveal system
+ *
+ * Add [data-reveal] to any element to animate it in on scroll.
+ * Add [data-reveal-delay="150"] for stagger timing (ms).
+ *
+ * Include this component once in BaseLayout.astro.
+ * Works with Astro View Transitions via astro:page-load.
+ */
+---
+
+<script>
+  function initScrollReveal() {
+    // Respect reduced motion preference
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const elements = document.querySelectorAll('[data-reveal]:not(.revealed)');
+    if (elements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const delay = el.dataset.revealDelay;
+          if (delay) {
+            el.style.animationDelay = `${delay}ms`;
+          }
+          el.classList.add('revealed');
+          observer.unobserve(el);
+        });
+      },
+      {
+        threshold: 0.08,
+        rootMargin: '0px 0px -48px 0px',
+      }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+  }
+
+  // Run on initial load
+  initScrollReveal();
+
+  // Re-run on View Transitions navigation
+  document.addEventListener('astro:page-load', initScrollReveal);
+</script>

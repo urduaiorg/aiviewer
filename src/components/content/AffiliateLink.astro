@@ -28,8 +28,8 @@ const {
 
 const variantClasses: Record<string, string> = {
   primary: 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm hover:shadow-md',
-  subtle: 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-100',
-  outline: 'bg-white text-zinc-700 hover:text-indigo-600 border border-zinc-200 hover:border-indigo-300',
+  subtle: 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 border border-indigo-100 dark:border-indigo-800',
+  outline: 'bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 border border-zinc-200 dark:border-zinc-700 hover:border-indigo-300 dark:hover:border-indigo-700',
 };
 
 const sizeClasses: Record<string, string> = {
@@ -59,7 +59,7 @@ const sizeClasses: Record<string, string> = {
   </a>
 
   {showDisclosure && (
-    <span class="mt-1.5 text-[0.58rem] text-zinc-300 italic leading-tight">
+    <span class="mt-1.5 text-[0.58rem] text-zinc-300 dark:text-zinc-600 italic leading-tight">
       This is an affiliate link — we may earn a small commission at no extra cost to you.
     </span>
   )}

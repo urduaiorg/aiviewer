@@ -10,7 +10,10 @@ import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 import { formatDate } from '../../utils/formatDate';
 import { getReadingTime } from '../../utils/readingTime';
 import AuthorBio from '../../components/content/AuthorBio.astro';
+import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
+import ReadingProgress from '../../components/content/ReadingProgress.astro';
 import { roleLabels, difficultyConfig } from '../../data/site.config';
+import { slugifyTag } from '../../utils/slugifyTag';
 
 export async function getStaticPaths() {
   const playbooks = await getCollection('playbooks', ({ data }) => !data.draft);
@@ -51,16 +54,17 @@ const relatedEntries = (await getCollection('playbooks', ({ data }) => !data.dra
     ]}
   />
   <Header />
+  <ReadingProgress />
 
-  <section class="relative overflow-hidden border-b border-zinc-200/70 bg-white">
-    <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,_rgba(79,70,229,0.12),_transparent_42%),linear-gradient(180deg,rgba(240,199,94,0.15),transparent_75%)]"></div>
+  <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
+    <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,_rgba(79,70,229,0.12),_transparent_42%),linear-gradient(180deg,rgba(240,199,94,0.15),transparent_75%)] dark:bg-[radial-gradient(circle_at_top,_rgba(79,70,229,0.06),_transparent_42%),linear-gradient(180deg,rgba(240,199,94,0.07),transparent_75%)]"></div>
     <div class="page-container relative py-12 md:py-16">
       <Breadcrumbs items={[{ label: 'Playbooks', href: '/playbooks/' }, { label: entry.data.title }]} />
 
       <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_19rem]">
-        <div class="max-w-3xl">
-          <div class="flex flex-wrap items-center gap-3 text-sm text-zinc-500">
-            <span class="rounded-full bg-indigo-50 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-indigo-600">
+        <div class="max-w-3xl" data-reveal>
+          <div class="flex flex-wrap items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
+            <span class="rounded-full bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-indigo-600 dark:text-indigo-400">
               {roleLabels[entry.data.role] ?? entry.data.role}
             </span>
             <span>{formatDate(entry.data.publishedDate)}</span>
@@ -68,26 +72,26 @@ const relatedEntries = (await getCollection('playbooks', ({ data }) => !data.dra
             <span>{getReadingTime(entry.body)}</span>
           </div>
 
-          <h1 class="mt-5 max-w-3xl text-zinc-950">{entry.data.title}</h1>
-          <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600">{entry.data.description}</p>
+          <h1 class="mt-5 max-w-3xl text-zinc-950 dark:text-zinc-50">{entry.data.title}</h1>
+          <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">{entry.data.description}</p>
 
           <div class="mt-8 grid gap-4 sm:grid-cols-3">
-            <div class="rounded-2xl border border-zinc-200 bg-zinc-50 px-5 py-4">
+            <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-5 py-4">
               <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-zinc-400">Difficulty</p>
-              <p class="mt-2 text-base font-semibold capitalize text-zinc-950">{entry.data.difficulty}</p>
+              <p class="mt-2 text-base font-semibold capitalize text-zinc-950 dark:text-zinc-50">{entry.data.difficulty}</p>
             </div>
-            <div class="rounded-2xl border border-zinc-200 bg-zinc-50 px-5 py-4">
+            <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-5 py-4">
               <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-zinc-400">Time to complete</p>
-              <p class="mt-2 text-base font-semibold text-zinc-950">{entry.data.timeToComplete}</p>
+              <p class="mt-2 text-base font-semibold text-zinc-950 dark:text-zinc-50">{entry.data.timeToComplete}</p>
             </div>
-            <div class="rounded-2xl border border-zinc-200 bg-zinc-50 px-5 py-4">
+            <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-5 py-4">
               <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-zinc-400">Workflows</p>
-              <p class="mt-2 text-base font-semibold text-zinc-950">{entry.data.workflows}</p>
+              <p class="mt-2 text-base font-semibold text-zinc-950 dark:text-zinc-50">{entry.data.workflows}</p>
             </div>
           </div>
         </div>
 
-        <aside class="rounded-[1.75rem] border border-zinc-200 bg-zinc-950 p-6 text-white shadow-[0_24px_80px_rgba(9,9,11,0.14)]">
+        <aside class="rounded-[1.75rem] border border-zinc-200 dark:border-zinc-800 bg-zinc-950 p-6 text-white shadow-[0_24px_80px_rgba(9,9,11,0.14)]">
           <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Tools used</p>
           <div class="mt-5 flex flex-wrap gap-2">
             {entry.data.toolsUsed.map((tool) => (
@@ -98,7 +102,7 @@ const relatedEntries = (await getCollection('playbooks', ({ data }) => !data.dra
             <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Tags</p>
             <div class="mt-4 flex flex-wrap gap-2">
               {entry.data.tags.map((tag) => (
-                <span class="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-300">{tag}</span>
+                <a href={`/tags/${slugifyTag(tag)}/`} class="rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-300 transition-colors hover:border-white/30 hover:text-white">{tag}</a>
               ))}
             </div>
           </div>
@@ -110,11 +114,12 @@ const relatedEntries = (await getCollection('playbooks', ({ data }) => !data.dra
   <section class="bg-[var(--color-bg)]">
     <div class="page-container py-12 md:py-16">
       <div class="grid gap-12 xl:grid-cols-[minmax(0,1fr)_16rem]">
-        <article data-pagefind-body class="min-w-0 rounded-[1.75rem] border border-zinc-200 bg-white px-6 py-8 shadow-[var(--shadow-card)] md:px-10 md:py-10">
-          <div class="prose max-w-none prose-headings:scroll-mt-24">
+        <article data-pagefind-body class="min-w-0 rounded-[1.75rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-6 py-8 shadow-[var(--shadow-card)] md:px-10 md:py-10">
+          <div class="prose dark:prose-invert max-w-none prose-headings:scroll-mt-24">
             <Content />
           </div>
           <AuthorBio compact />
+          <NewsletterSignup variant="inline" />
         </article>
 
         <TableOfContents headings={headings} label="Playbook outline" />
@@ -123,21 +128,21 @@ const relatedEntries = (await getCollection('playbooks', ({ data }) => !data.dra
   </section>
 
   {relatedEntries.length > 0 && (
-    <section class="border-t border-zinc-200/70 bg-white">
+    <section class="border-t border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
       <div class="page-container py-12 md:py-16">
-        <div class="mb-8">
-          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600">Related</p>
-          <h2 class="mt-2 text-zinc-950">More for {roleLabels[entry.data.role] ?? entry.data.role}.</h2>
+        <div class="mb-8" data-reveal>
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Related</p>
+          <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">More for {roleLabels[entry.data.role] ?? entry.data.role}.</h2>
         </div>
         <div class="grid gap-5 md:grid-cols-3">
           {relatedEntries.map((candidate) => (
             <a
               href={`/playbooks/${candidate.id}/`}
-              class="group rounded-[1.4rem] border border-zinc-200 bg-white p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
+              class="group rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
             >
               <p class="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-400">{candidate.data.timeToComplete}</p>
-              <h3 class="mt-3 text-xl text-zinc-950 group-hover:text-indigo-600">{candidate.data.title}</h3>
-              <p class="mt-3 text-sm leading-6 text-zinc-600">{candidate.data.description}</p>
+              <h3 class="mt-3 text-xl text-zinc-950 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{candidate.data.title}</h3>
+              <p class="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{candidate.data.description}</p>
             </a>
           ))}
         </div>
