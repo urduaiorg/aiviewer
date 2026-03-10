@@ -38,6 +38,11 @@ export const siteConfig = {
     robotsPolicy: 'index, follow',
   },
 
+  // ── Model Tracker API ──
+  api: {
+    workerBase: 'https://aiviewer-benchmark-api.qaisar-roonjha.workers.dev',
+  },
+
   // ── Analytics ──
   analytics: {
     // Cloudflare Web Analytics — set token when ready

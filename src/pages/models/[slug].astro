@@ -6,9 +6,10 @@ import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
 import WebsiteSchema from '../../components/seo/WebsiteSchema.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import { formatDate } from '../../utils/formatDate';
+import { siteConfig } from '../../data/site.config';
 import modelCatalogSnapshot from '../../data/model-catalog.snapshot.json';
 
-const API_BASE = 'https://aiviewer-benchmark-api.qaisar-roonjha.workers.dev';
+const API_BASE = siteConfig.api.workerBase;
 
 interface ModelRecord {
   id: string;
@@ -137,6 +138,33 @@ const timeline = model.releaseHistory.length > 0
 >
   <Fragment slot="head">
     <WebsiteSchema />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": model.name,
+      "description": model.description ?? `Live model profile for ${model.name}.`,
+      "url": `https://aiviewer.ai/models/${model.slug}/`,
+      "datePublished": model.releaseDate ?? undefined,
+      "dateModified": model.lastSeenAt ?? model.releaseDate ?? undefined,
+      "author": { "@type": "Organization", "name": "AIViewer.ai", "url": "https://aiviewer.ai" },
+      "publisher": { "@type": "Organization", "name": "AIViewer.ai", "url": "https://aiviewer.ai" },
+      "mainEntityOfPage": { "@type": "WebPage", "@id": `https://aiviewer.ai/models/${model.slug}/` },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": model.name,
+        "applicationCategory": "AI Model",
+        "operatingSystem": "Cloud",
+        ...(model.providerLabel && { "author": { "@type": "Organization", "name": model.providerLabel } }),
+        ...(model.inputPricePerMillion !== null && model.inputPricePerMillion !== undefined && {
+          "offers": {
+            "@type": "Offer",
+            "price": model.inputPricePerMillion,
+            "priceCurrency": "USD",
+            "description": `$${model.inputPricePerMillion}/M input tokens`,
+          }
+        }),
+      },
+    })} />
   </Fragment>
 
   <Header />
