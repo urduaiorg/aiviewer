@@ -1,0 +1,67 @@
+---
+/**
+ * WebVitals — Core Web Vitals monitoring + dev debug overlay.
+ *
+ * Production: silently reports CWV data via Cloudflare beacon (already present).
+ * Development: shows a floating overlay with live LCP, CLS, INP scores.
+ */
+---
+
+<script>
+  import { onCLS, onINP, onLCP, onFCP, onTTFB } from 'web-vitals';
+
+  const isDev = import.meta.env.DEV;
+
+  // Rating thresholds (Google's official)
+  const thresholds: Record<string, [number, number]> = {
+    LCP: [2500, 4000],
+    INP: [200, 500],
+    CLS: [0.1, 0.25],
+    FCP: [1800, 3000],
+    TTFB: [800, 1800],
+  };
+
+  function getRating(name: string, value: number): 'good' | 'needs-improvement' | 'poor' {
+    const [good, poor] = thresholds[name] || [Infinity, Infinity];
+    if (value <= good) return 'good';
+    if (value <= poor) return 'needs-improvement';
+    return 'poor';
+  }
+
+  // Dev overlay
+  if (isDev) {
+    const overlay = document.createElement('div');
+    overlay.id = 'cwv-overlay';
+    overlay.setAttribute('style', `
+      position: fixed; bottom: 12px; right: 12px; z-index: 9999;
+      background: rgba(9,9,11,0.92); color: #e4e4e7; padding: 10px 14px;
+      border-radius: 10px; font-family: ui-monospace, monospace;
+      font-size: 11px; line-height: 1.6; backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1); pointer-events: none;
+      opacity: 0; transition: opacity 0.3s ease;
+    `);
+    overlay.innerHTML = '<div style="font-weight:600;margin-bottom:2px;color:#a1a1aa">CWV</div>';
+    document.body.appendChild(overlay);
+
+    const metrics: Record<string, string> = {};
+    let hasData = false;
+
+    function updateOverlay(name: string, value: number) {
+      const rating = getRating(name, value);
+      const color = rating === 'good' ? '#22c55e' : rating === 'needs-improvement' ? '#eab308' : '#ef4444';
+      const display = name === 'CLS' ? value.toFixed(3) : `${Math.round(value)}ms`;
+      metrics[name] = `<span style="color:${color}">${name}</span> ${display}`;
+      hasData = true;
+
+      overlay.innerHTML = '<div style="font-weight:600;margin-bottom:2px;color:#a1a1aa">CWV</div>' +
+        Object.values(metrics).join('<br>');
+      overlay.style.opacity = '1';
+    }
+
+    onLCP((m) => updateOverlay('LCP', m.value));
+    onCLS((m) => updateOverlay('CLS', m.value));
+    onINP((m) => updateOverlay('INP', m.value));
+    onFCP((m) => updateOverlay('FCP', m.value));
+    onTTFB((m) => updateOverlay('TTFB', m.value));
+  }
+</script>

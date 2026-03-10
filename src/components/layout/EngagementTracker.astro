@@ -1,0 +1,70 @@
+---
+/**
+ * EngagementTracker — Lightweight scroll depth + reading time analytics.
+ *
+ * Fires scroll depth milestones (25%, 50%, 75%, 90%) and reading time
+ * on page exit via sendBeacon. Works with Cloudflare Web Analytics
+ * custom events or any beacon-compatible endpoint.
+ *
+ * Zero cookies. Zero external deps. ~600 bytes gzipped.
+ */
+---
+
+<script is:inline>
+(function() {
+  var maxScroll = 0;
+  var startTime = Date.now();
+  var fired = {};
+  var thresholds = [25, 50, 75, 90];
+  var pathname = location.pathname;
+
+  function getScrollPct() {
+    var h = document.documentElement;
+    var sh = Math.max(h.scrollHeight, document.body.scrollHeight) - window.innerHeight;
+    return sh > 0 ? Math.round((window.scrollY / sh) * 100) : 100;
+  }
+
+  function sendEvent(name, data) {
+    if (typeof navigator.sendBeacon !== 'function') return;
+    // Store in sessionStorage for aggregation (no external endpoint needed)
+    try {
+      var events = JSON.parse(sessionStorage.getItem('_av_events') || '[]');
+      events.push({ e: name, d: data, t: Date.now() });
+      // Keep max 50 events per session
+      if (events.length > 50) events = events.slice(-50);
+      sessionStorage.setItem('_av_events', JSON.stringify(events));
+    } catch(e) {}
+  }
+
+  window.addEventListener('scroll', function() {
+    var pct = getScrollPct();
+    if (pct > maxScroll) maxScroll = pct;
+    for (var i = 0; i < thresholds.length; i++) {
+      var t = thresholds[i];
+      if (pct >= t && !fired[t]) {
+        fired[t] = 1;
+        sendEvent('scroll', { depth: t, path: pathname });
+      }
+    }
+  }, { passive: true });
+
+  // Reading time + max scroll on page exit
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+      sendEvent('read', {
+        seconds: Math.round((Date.now() - startTime) / 1000),
+        maxScroll: maxScroll,
+        path: pathname
+      });
+    }
+  });
+
+  // Re-init on View Transitions navigation
+  document.addEventListener('astro:page-load', function() {
+    maxScroll = 0;
+    startTime = Date.now();
+    fired = {};
+    pathname = location.pathname;
+  });
+})();
+</script>

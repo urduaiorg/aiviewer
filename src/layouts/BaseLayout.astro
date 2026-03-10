@@ -3,6 +3,8 @@ import '../styles/global.css';
 import '../styles/print.css';
 import { ViewTransitions } from 'astro:transitions';
 import ScrollReveal from '../components/layout/ScrollReveal.astro';
+import WebVitals from '../components/layout/WebVitals.astro';
+import EngagementTracker from '../components/layout/EngagementTracker.astro';
 import { siteConfig } from '../data/site.config';
 
 interface Props {
@@ -148,6 +150,8 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     </main>
     <slot name="footer" />
     <ScrollReveal />
+    <WebVitals />
+    <EngagementTracker />
     <script>
       // Card glow — cursor-tracking radial highlight
       function initCardGlow() {
