@@ -1,9 +1,13 @@
 User-agent: *
 Allow: /
 
-# Exclude private directories if any
+# Exclude private/internal paths
 Disallow: /api/
 Disallow: /admin/
 Disallow: /preview/
+Disallow: /download/
+
+# Crawl-delay for polite bots
+Crawl-delay: 1
 
 Sitemap: https://aiviewer.ai/sitemap-index.xml

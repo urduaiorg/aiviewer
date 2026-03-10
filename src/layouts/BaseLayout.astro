@@ -71,9 +71,13 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
       });
     </script>
 
-    <!-- Favicon -->
+    <!-- Favicon & Manifest -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- DNS-prefetch for analytics CDN -->
+    <link rel="dns-prefetch" href="https://static.cloudflareinsights.com" />
 
     <!-- Fonts: Self-hosted Inter (body) + Inter Tight (headings) + Montserrat (logo) -->
     <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -144,8 +148,9 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     )}
   </head>
   <body class="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-indigo-600 focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2">Skip to content</a>
     <slot name="header" />
-    <main class="flex-1" transition:animate="fade">
+    <main id="main-content" class="flex-1" transition:animate="fade">
       <slot />
     </main>
     <slot name="footer" />

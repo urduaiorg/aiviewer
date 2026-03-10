@@ -1,0 +1,21 @@
+{
+  "name": "AIViewer.ai",
+  "short_name": "AIViewer",
+  "description": "Practical AI knowledge for everyone. Playbooks, tool reviews, and guides.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFAFA",
+  "theme_color": "#F0C75E",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    }
+  ]
+}

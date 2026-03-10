@@ -26,10 +26,11 @@ const currentPath = Astro.url.pathname;
       </a>
 
       <!-- Desktop Navigation -->
-      <nav class="hidden md:flex items-center gap-1">
+      <nav class="hidden md:flex items-center gap-1" aria-label="Main navigation">
         {navItems.map((item) => (
           <a
             href={item.href}
+            aria-current={currentPath.startsWith(item.href) ? 'page' : undefined}
             class:list={[
               'nav-link-underline px-3.5 py-2 text-[0.84rem] font-medium rounded-lg transition-all duration-200',
               currentPath.startsWith(item.href)
@@ -45,6 +46,7 @@ const currentPath = Astro.url.pathname;
         <Search />
         <a
           href="/finder/"
+          aria-current={currentPath.startsWith('/finder/') ? 'page' : undefined}
           class="group ml-2 inline-flex items-center gap-1.5 px-4 py-2 text-[0.84rem] font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-all duration-200 active:scale-[0.97]"
         >
           AI Tool Finder
@@ -92,10 +94,11 @@ const currentPath = Astro.url.pathname;
     </div>
 
     <!-- Links -->
-    <nav class="px-3 py-4 flex flex-col gap-0.5">
+    <nav class="px-3 py-4 flex flex-col gap-0.5" aria-label="Mobile navigation">
       {navItems.map((item) => (
         <a
           href={item.href}
+          aria-current={currentPath.startsWith(item.href) ? 'page' : undefined}
           class:list={[
             'px-3 py-2.5 text-[0.92rem] font-medium rounded-lg transition-all',
             currentPath.startsWith(item.href)
@@ -109,6 +112,7 @@ const currentPath = Astro.url.pathname;
       <div class="my-2 border-t border-zinc-100 dark:border-zinc-800"></div>
       <a
         href="/finder/"
+        aria-current={currentPath.startsWith('/finder/') ? 'page' : undefined}
         class="group mx-3 mt-1 flex items-center justify-center gap-1.5 px-4 py-2.5 text-[0.92rem] font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-all"
       >
         AI Tool Finder
