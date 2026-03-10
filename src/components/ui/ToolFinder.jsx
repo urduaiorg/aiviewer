@@ -506,7 +506,7 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
           </div>
 
           <div className="mt-8 grid gap-4 xl:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)]">
-            <div className="rounded-[1.6rem] border border-indigo-200 bg-gradient-to-br from-indigo-50 to-white p-6 dark:border-indigo-800 dark:from-indigo-900/20 dark:to-zinc-900">
+            <div className="rounded-[var(--radius-lg)] border border-indigo-200 bg-gradient-to-br from-indigo-50 to-white p-6 dark:border-indigo-800 dark:from-indigo-900/20 dark:to-zinc-900">
               <div className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-300">Primary tool</div>
               <h3 className="mt-3 text-2xl font-bold text-zinc-950 dark:text-zinc-50">{primaryTool?.name || 'Primary recommendation'}</h3>
               <p className="mt-3 text-sm leading-7 text-zinc-600 dark:text-zinc-400">{primaryTool?.description || 'AIViewer will expand this recommendation as more review coverage is added.'}</p>
@@ -531,7 +531,7 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
             </div>
 
             <div className="space-y-4">
-              <a href={blueprint.model.url} className="block rounded-[1.5rem] border border-zinc-200 bg-zinc-50/80 p-5 transition-colors hover:border-indigo-200 dark:border-zinc-800 dark:bg-zinc-950/50 dark:hover:border-indigo-800">
+              <a href={blueprint.model.url} className="block rounded-[var(--radius-lg)] border border-zinc-200 bg-zinc-50/80 p-5 transition-colors hover:border-indigo-200 dark:border-zinc-800 dark:bg-zinc-950/50 dark:hover:border-indigo-800">
                 <div className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-300">Model pick</div>
                 <h3 className="mt-3 text-xl font-bold text-zinc-950 dark:text-zinc-50">{blueprint.model.label}</h3>
                 {(() => {
@@ -572,7 +572,7 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
               </a>
 
               {playbook && (
-                <a href={playbook.url} className="block rounded-[1.5rem] border border-zinc-200 bg-zinc-50/80 p-5 transition-colors hover:border-indigo-200 dark:border-zinc-800 dark:bg-zinc-950/50 dark:hover:border-indigo-800">
+                <a href={playbook.url} className="block rounded-[var(--radius-lg)] border border-zinc-200 bg-zinc-50/80 p-5 transition-colors hover:border-indigo-200 dark:border-zinc-800 dark:bg-zinc-950/50 dark:hover:border-indigo-800">
                   <div className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-300">Playbook</div>
                   <h3 className="mt-3 text-xl font-bold text-zinc-950 dark:text-zinc-50">{playbook.title}</h3>
                   <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-400">{playbook.description}</p>
@@ -583,7 +583,7 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
 
           <div className="mt-6 grid gap-4 lg:grid-cols-2">
             {secondaryTool && (
-              <div className="rounded-[1.5rem] border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-950/40">
+              <div className="rounded-[var(--radius-lg)] border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-950/40">
                 <div className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Runner-up tool</div>
                 <h3 className="mt-3 text-xl font-bold text-zinc-950 dark:text-zinc-50">{secondaryTool.name}</h3>
                 <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-400">{secondaryTool.description}</p>
@@ -594,7 +594,7 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
             )}
 
             {cheaperTool && (
-              <div className="rounded-[1.5rem] border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-950/40">
+              <div className="rounded-[var(--radius-lg)] border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-950/40">
                 <div className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Lower-cost fallback</div>
                 <h3 className="mt-3 text-xl font-bold text-zinc-950 dark:text-zinc-50">{cheaperTool.name}</h3>
                 <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-400">{cheaperTool.description}</p>
@@ -615,7 +615,7 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
             </a>
           </div>
 
-          <div className="mt-6 rounded-[1.6rem] border border-zinc-200 bg-zinc-50/80 p-6 dark:border-zinc-800 dark:bg-zinc-950/50">
+          <div className="mt-6 rounded-[var(--radius-lg)] border border-zinc-200 bg-zinc-50/80 p-6 dark:border-zinc-800 dark:bg-zinc-950/50">
             <div className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-300">Execution notes</div>
             <div className="mt-5 space-y-3">
               {blueprint.executionNotes.map((note) => (
@@ -660,7 +660,7 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
           <button
             key={option.id}
             onClick={() => handleSelect(currentQuestion.id, option.id)}
-            className="group rounded-[1.4rem] border border-zinc-200 bg-zinc-50/70 p-5 text-left transition-colors hover:border-indigo-200 hover:bg-indigo-50/70 dark:border-zinc-800 dark:bg-zinc-950/50 dark:hover:border-indigo-800 dark:hover:bg-indigo-900/10"
+            className="group rounded-[var(--radius-lg)] border border-zinc-200 bg-zinc-50/70 p-5 text-left transition-colors hover:border-indigo-200 hover:bg-indigo-50/70 dark:border-zinc-800 dark:bg-zinc-950/50 dark:hover:border-indigo-800 dark:hover:bg-indigo-900/10"
           >
             <div className="flex items-start justify-between gap-4">
               <div>

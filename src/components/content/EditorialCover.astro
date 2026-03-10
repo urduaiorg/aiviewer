@@ -303,7 +303,7 @@ const copyWidth = compact ? 'max-w-[14rem]' : 'max-w-[21rem]';
   {showTitle && layout === 'frame' && (
     <div class="absolute right-4 top-16 sm:right-6 sm:top-18">
       <div class:list={[
-        'rounded-[1.5rem] border border-white/10 bg-black/25 p-5 backdrop-blur-lg',
+        'rounded-[var(--radius-lg)] border border-white/10 bg-black/25 p-5 backdrop-blur-lg',
         compact ? 'w-[12.5rem] sm:w-[13.5rem]' : 'w-[15rem] sm:w-[18rem]',
       ]}>
         {subtitle && (

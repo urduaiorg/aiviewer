@@ -90,7 +90,7 @@ const uniqueTools = [...new Set(prompts.map((p) => p.data.toolFor))];
           {prompts.map((entry) => (
             <a
               href={`/prompts/${entry.id}/`}
-              class="prompt-card card-glow group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
+              class="prompt-card card-glow group flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
               data-role={entry.data.role}
               data-reveal
             >

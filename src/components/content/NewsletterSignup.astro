@@ -33,10 +33,10 @@ const beehiivSrc = 'https://subscribe-forms.beehiiv.com/df762eb2-5183-49d6-bb1e-
         <iframe
           src={beehiivSrc}
           title="Subscribe to the AI Briefing newsletter"
-          class="beehiiv-embed w-full"
+          class="beehiiv-embed beehiiv-section w-full"
           frameborder="0"
           scrolling="no"
-          style="margin:0;border-radius:0!important;background-color:transparent;box-shadow:0 0 #0000;max-width:100%;height:450px;min-height:450px;"
+          style="margin:0;border-radius:0!important;background-color:transparent;box-shadow:0 0 #0000;max-width:100%;"
         ></iframe>
       </div>
       <div class="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-zinc-400 dark:text-zinc-500">
@@ -49,7 +49,7 @@ const beehiivSrc = 'https://subscribe-forms.beehiiv.com/df762eb2-5183-49d6-bb1e-
     </div>
   </section>
 ) : (
-  <div class="not-prose my-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-900 p-5">
+  <div class="not-prose my-8 -mx-6 rounded-none border-x-0 border-y border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-900 px-3 py-4 sm:mx-0 sm:rounded-2xl sm:border sm:p-5">
     <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Newsletter</p>
     <p class="mt-2 text-base font-semibold text-zinc-900 dark:text-zinc-50">{heading}</p>
     <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{subtitle}</p>
@@ -58,14 +58,33 @@ const beehiivSrc = 'https://subscribe-forms.beehiiv.com/df762eb2-5183-49d6-bb1e-
       <iframe
         src={beehiivSrc}
         title="Subscribe to the AI Briefing newsletter"
-        class="beehiiv-embed w-full"
+        class="beehiiv-embed beehiiv-inline w-full"
         frameborder="0"
         scrolling="no"
-        style="margin:0;border-radius:0!important;background-color:transparent;box-shadow:0 0 #0000;max-width:100%;height:450px;min-height:450px;"
+        style="margin:0;border-radius:0!important;background-color:transparent;box-shadow:0 0 #0000;max-width:100%;"
       ></iframe>
     </div>
   </div>
 )}
+
+<style>
+  /* Default desktop height */
+  .beehiiv-embed {
+    height: 550px;
+    min-height: 550px;
+  }
+  /* Mobile: Beehiiv content wraps at narrow widths — needs more vertical space */
+  @media (max-width: 640px) {
+    .beehiiv-section {
+      height: 700px;
+      min-height: 700px;
+    }
+    .beehiiv-inline {
+      height: 700px;
+      min-height: 700px;
+    }
+  }
+</style>
 
 <script>
   // Auto-resize Beehiiv iframes to fit content

@@ -82,7 +82,7 @@ const categories = [...new Set(tools.map((entry) => entry.data.category))];
       <div class="page-container py-10 md:py-14">
         <a
           href={`/tools/${featuredTool.id}/`}
-          class="card-glow group grid gap-6 overflow-hidden rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] md:grid-cols-[minmax(0,1fr)_15rem]"
+          class="card-glow group grid gap-6 overflow-hidden rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] md:grid-cols-[minmax(0,1fr)_15rem]"
           data-reveal
         >
           <div class="border-b border-zinc-200 dark:border-zinc-800 md:border-b-0 md:border-r">
@@ -106,7 +106,7 @@ const categories = [...new Set(tools.map((entry) => entry.data.category))];
             </div>
           </div>
 
-          <div class="rounded-[1.4rem] bg-zinc-950 p-5 text-white">
+          <div class="rounded-[var(--radius-lg)] bg-zinc-950 p-5 text-white">
             <p class="text-sm text-zinc-400">Rating</p>
             <div class="mt-2 text-4xl font-bold text-white">{featuredTool.data.rating.toFixed(1)}</div>
             <p class="mt-4 text-sm text-zinc-400">Pricing</p>
@@ -133,7 +133,7 @@ const categories = [...new Set(tools.map((entry) => entry.data.category))];
           {tools.map((entry, i) => (
             <a
               href={`/tools/${entry.id}/`}
-              class="tool-card card-glow group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
+              class="tool-card card-glow group flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
               data-category={entry.data.category}
               data-reveal
               data-reveal-delay={`${i * 80}`}

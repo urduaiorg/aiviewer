@@ -308,7 +308,7 @@ const pricingTiers = inferPricingTiers();
           {relatedEntries.map((candidate) => (
             <a
               href={`/tools/${candidate.id}/`}
-              class="group rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
+              class="group rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
             >
               <div class="flex items-center justify-between gap-3">
                 <p class="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-400">{candidate.data.pricing}</p>

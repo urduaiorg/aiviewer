@@ -116,7 +116,7 @@ const description = `Side-by-side comparison of ${modelA.name} and ${modelB.name
       <div class="page-container py-12 md:py-16">
 
         <!-- Verdict -->
-        <div class="rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)]">
+        <div class="rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)]">
           <div class="flex flex-wrap items-center gap-3">
             <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Verdict</p>
             <span class:list={[
@@ -171,7 +171,7 @@ const description = `Side-by-side comparison of ${modelA.name} and ${modelB.name
         </div>
 
         <!-- Side-by-side specs -->
-        <div class="mt-6 rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)]">
+        <div class="mt-6 rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)]">
           <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Side-by-side</p>
           <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">Technical specifications</h2>
 
@@ -253,7 +253,7 @@ const description = `Side-by-side comparison of ${modelA.name} and ${modelB.name
         </div>
 
         <!-- Dimension scores -->
-        <div class="mt-6 rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)]">
+        <div class="mt-6 rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)]">
           <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Scoring breakdown</p>
           <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">How each dimension compares</h2>
 
@@ -285,7 +285,7 @@ const description = `Side-by-side comparison of ${modelA.name} and ${modelB.name
 
         <!-- Related comparisons -->
         {relatedPairs.length > 0 && (
-          <section class="mt-6 rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)]">
+          <section class="mt-6 rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)]">
             <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Related comparisons</p>
             <div class="mt-4 grid gap-3 sm:grid-cols-2">
               {relatedPairs.map((rp) => {

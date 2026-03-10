@@ -54,7 +54,7 @@ const categories = [...new Set(guides.map((entry) => entry.data.category))];
       <div class="page-container py-10 md:py-14">
         <a
           href={`/guides/${featuredGuide.id}/`}
-          class="group grid gap-7 overflow-hidden rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] lg:grid-cols-[minmax(0,1fr)_18rem]"
+          class="group grid gap-7 overflow-hidden rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] lg:grid-cols-[minmax(0,1fr)_18rem]"
         >
           <div class="border-b border-zinc-200 dark:border-zinc-800 lg:border-b-0 lg:border-r">
             <EditorialCover
@@ -77,7 +77,7 @@ const categories = [...new Set(guides.map((entry) => entry.data.category))];
             </div>
           </div>
 
-          <div class="rounded-[1.4rem] bg-zinc-950 p-6 text-white">
+          <div class="rounded-[var(--radius-lg)] bg-zinc-950 p-6 text-white">
             <p class="text-xs uppercase tracking-[0.14em] text-zinc-500">Category</p>
             <div class="mt-2 text-xl font-semibold capitalize text-white">{categoryLabels[featuredGuide.data.category] ?? featuredGuide.data.category}</div>
             <p class="mt-6 text-xs uppercase tracking-[0.14em] text-zinc-500">Collection spread</p>

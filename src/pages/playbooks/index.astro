@@ -108,7 +108,7 @@ const roleToCategory: Record<string, string> = {
           {featuredPlaybooks.map((entry) => (
             <a
               href={`/playbooks/${entry.id}/`}
-              class="group overflow-hidden rounded-[1.6rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
+              class="group overflow-hidden rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
             >
               <div class="border-b border-zinc-200 dark:border-zinc-800">
                 <EditorialCover
@@ -199,7 +199,7 @@ const roleToCategory: Record<string, string> = {
           {playbooks.map((entry) => (
             <a
               href={`/playbooks/${entry.id}/`}
-              class="playbook-card group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
+              class="playbook-card group flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
               data-role={entry.data.role}
             >
               <div class="border-b border-zinc-200 dark:border-zinc-800">

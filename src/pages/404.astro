@@ -19,7 +19,7 @@ import Footer from '../components/layout/Footer.astro';
       <div class="relative mb-8 w-full max-w-md overflow-hidden" data-reveal>
         <div class="text-[10rem] md:text-[14rem] font-extrabold leading-none tracking-tighter text-zinc-100 dark:text-zinc-800/60 select-none text-center" aria-hidden="true">404</div>
         <div class="absolute inset-0 flex items-center justify-center">
-          <div class="flex h-20 w-20 items-center justify-center rounded-[1.4rem] border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)]">
+          <div class="flex h-20 w-20 items-center justify-center rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)]">
             <svg class="h-10 w-10 text-[#F0C75E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
             </svg>
@@ -48,15 +48,15 @@ import Footer from '../components/layout/Footer.astro';
 
       <!-- Quick nav cards -->
       <div class="mt-16 grid gap-4 sm:grid-cols-3 max-w-2xl w-full" data-reveal>
-        <a href="/playbooks/" class="group rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] text-left">
+        <a href="/playbooks/" class="group rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] text-left">
           <p class="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-zinc-400">Playbooks</p>
           <p class="mt-2 text-sm font-medium text-zinc-950 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Role-based workflows</p>
         </a>
-        <a href="/guides/" class="group rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] text-left">
+        <a href="/guides/" class="group rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] text-left">
           <p class="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-zinc-400">Guides</p>
           <p class="mt-2 text-sm font-medium text-zinc-950 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">AI explainers</p>
         </a>
-        <a href="/prompts/" class="group rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] text-left">
+        <a href="/prompts/" class="group rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] text-left">
           <p class="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-zinc-400">Prompts</p>
           <p class="mt-2 text-sm font-medium text-zinc-950 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Copy-paste library</p>
         </a>

@@ -25,7 +25,7 @@ const {
 } = Astro.props;
 ---
 
-<div class="not-prose my-10 relative overflow-hidden bg-white dark:bg-zinc-900 rounded-[1.5rem] border border-zinc-200/80 dark:border-zinc-800 shadow-[var(--shadow-card)] transition-shadow hover:shadow-[var(--shadow-card-hover)]">
+<div class="not-prose my-10 relative overflow-hidden bg-white dark:bg-zinc-900 rounded-[var(--radius-lg)] border border-zinc-200/80 dark:border-zinc-800 shadow-[var(--shadow-card)] transition-shadow hover:shadow-[var(--shadow-card-hover)]">
   {/* Subtle gradient overlay to make it feel special */}
   <div class="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-transparent dark:from-indigo-900/10 pointer-events-none" aria-hidden="true"></div>
   

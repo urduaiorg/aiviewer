@@ -88,7 +88,7 @@ const sources = [...new Set(reports.map((r) => r.data.source))];
           {reports.map((entry) => (
             <a
               href={`/reports/${entry.id}/`}
-              class="report-card card-glow group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
+              class="report-card card-glow group flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
               data-source={entry.data.source}
               data-reveal
             >

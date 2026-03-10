@@ -163,7 +163,7 @@ const collectionColors: Record<string, { badge: string; icon: string }> = {
           return (
             <a
               href={item.href}
-              class="group flex flex-col rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 dark:hover:border-indigo-800 hover:shadow-[var(--shadow-card-hover)]"
+              class="group flex flex-col rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 dark:hover:border-indigo-800 hover:shadow-[var(--shadow-card-hover)]"
             >
               <span class={`self-start rounded-full px-2.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.14em] ${colors.badge}`}>
                 {collectionLabels[item.collection]}

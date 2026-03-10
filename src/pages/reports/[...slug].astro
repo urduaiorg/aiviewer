@@ -149,7 +149,7 @@ const relatedEntries = (await getCollection('reports', ({ data }) => !data.draft
           {relatedEntries.map((candidate) => (
             <a
               href={`/reports/${candidate.id}/`}
-              class="group rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
+              class="group rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
               data-reveal
             >
               <div class="flex items-center gap-2">
