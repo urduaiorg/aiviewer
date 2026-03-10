@@ -69,6 +69,12 @@ const relatedEntries = (await getCollection('reports', ({ data }) => !data.draft
             {entry.data.source} &middot; {entry.data.reportYear}
           </span>
           <span>{formatDate(entry.data.publishedDate)}</span>
+          {entry.data.updatedDate && entry.data.updatedDate.getTime() !== entry.data.publishedDate.getTime() && (
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2.5 py-0.5 text-[0.7rem] font-medium text-emerald-700 dark:text-emerald-400">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true"></span>
+              Updated {formatDate(entry.data.updatedDate)}
+            </span>
+          )}
           <span aria-hidden="true">&middot;</span>
           <span>{getReadingTime(entry.body)}</span>
         </div>

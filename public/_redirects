@@ -1,0 +1,14 @@
+# 301 Redirects — Cannibalization consolidation
+# Canonical Claude vs GPT comparison
+/guides/claude-opus-vs-gpt-5-4/ /guides/chatgpt-vs-claude-2026/ 301
+/guides/claude-opus-vs-gpt-5-4 /guides/chatgpt-vs-claude-2026/ 301
+/guides/claude-opus-vs-gpt5/ /guides/chatgpt-vs-claude-2026/ 301
+/guides/claude-opus-vs-gpt5 /guides/chatgpt-vs-claude-2026/ 301
+
+# Canonical Midjourney vs DALL-E comparison
+/guides/midjourney-vs-dalle3-vs-stable-diffusion/ /guides/midjourney-vs-dalle-vs-stable-diffusion/ 301
+/guides/midjourney-vs-dalle3-vs-stable-diffusion /guides/midjourney-vs-dalle-vs-stable-diffusion/ 301
+
+# Canonical Cursor vs GitHub Copilot comparison
+/guides/copilot-vs-cursor-coding-ai/ /guides/cursor-vs-github-copilot-2026/ 301
+/guides/copilot-vs-cursor-coding-ai /guides/cursor-vs-github-copilot-2026/ 301

@@ -4,6 +4,7 @@ import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
 import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import CollectionSchema from '../../components/seo/CollectionSchema.astro';
 import FreshnessIndicator from '../../components/content/FreshnessIndicator.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import { detectRecentLaunches, type ChangeEntry } from '../../utils/snapshotDiff';
@@ -35,6 +36,12 @@ const description = 'Track what changed in the AI model landscape — new launch
 
 <BaseLayout title={title} description={description}>
   <Fragment slot="head">
+    <CollectionSchema
+      name="AI Model Changes"
+      description={description}
+      url="/changes/"
+      numberOfItems={changes.length}
+    />
     <BreadcrumbSchema items={[
       { name: 'Home', url: '/' },
       { name: 'Changes', url: '/changes/' },

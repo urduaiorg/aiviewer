@@ -35,12 +35,14 @@ const relatedEntries = (await getCollection('prompts', ({ data }) => !data.draft
   description={entry.data.description}
   type="article"
   publishedDate={entry.data.publishedDate.toISOString()}
+  updatedDate={entry.data.updatedDate?.toISOString()}
 >
   <ArticleSchema
     slot="head"
     title={entry.data.title}
     description={entry.data.description}
     publishedDate={entry.data.publishedDate}
+    updatedDate={entry.data.updatedDate}
   />
   <BreadcrumbSchema
     slot="head"
@@ -68,6 +70,12 @@ const relatedEntries = (await getCollection('prompts', ({ data }) => !data.draft
             {roleLabels[entry.data.role] ?? entry.data.role}
           </span>
           <span>{formatDate(entry.data.publishedDate)}</span>
+          {entry.data.updatedDate && entry.data.updatedDate.getTime() !== entry.data.publishedDate.getTime() && (
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2.5 py-0.5 text-[0.7rem] font-medium text-emerald-700 dark:text-emerald-400">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true"></span>
+              Updated {formatDate(entry.data.updatedDate)}
+            </span>
+          )}
           <span aria-hidden="true">&middot;</span>
           <span>{getReadingTime(entry.body)}</span>
         </div>

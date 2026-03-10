@@ -14,6 +14,8 @@ import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
 import { formatDateShort } from '../../utils/formatDate';
 import { categoryLabels, roleLabels, pricingConfig } from '../../data/site.config';
 import { slugifyTag } from '../../utils/slugifyTag';
+import CollectionSchema from '../../components/seo/CollectionSchema.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 
 // ── Generate static paths for every tag ──────────────────────────
 export async function getStaticPaths() {
@@ -110,6 +112,21 @@ const accentColors: Record<string, { badge: string; border: string }> = {
   title={`${displayTag} — Tags`}
   description={`Browse ${totalItems} article${totalItems !== 1 ? 's' : ''} tagged "${tag}" across AIViewer.ai — guides, playbooks, tool reviews, reports, and prompts.`}
 >
+  <CollectionSchema
+    slot="head"
+    name={`${displayTag} — AIViewer.ai`}
+    description={`Browse ${totalItems} article${totalItems !== 1 ? 's' : ''} tagged "${displayTag}" across AIViewer.ai.`}
+    url={`/tags/${Astro.params.tag}/`}
+    numberOfItems={totalItems}
+  />
+  <BreadcrumbSchema
+    slot="head"
+    items={[
+      { name: 'Home', url: '/' },
+      { name: 'Tags', url: '/tags/' },
+      { name: displayTag, url: `/tags/${Astro.params.tag}/` },
+    ]}
+  />
   <Header />
 
   <!-- ── Hero ── -->

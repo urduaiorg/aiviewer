@@ -13,6 +13,8 @@ export interface Props {
   authorUrl?: string;
   datePublished: Date;
   dateModified?: Date;
+  aggregateRatingValue?: number;
+  aggregateReviewCount?: number;
 }
 
 const {
@@ -27,6 +29,8 @@ const {
   authorUrl = siteConfig.author.linkedin,
   datePublished,
   dateModified,
+  aggregateRatingValue,
+  aggregateReviewCount = 1,
 } = Astro.props;
 
 const siteUrl = siteConfig.url;
@@ -50,6 +54,15 @@ const schema = {
   },
   "name": `Review of ${itemName}`,
   ...(reviewBody && { "reviewBody": reviewBody }),
+  ...(aggregateRatingValue && {
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": aggregateRatingValue.toString(),
+      "bestRating": bestRating.toString(),
+      "worstRating": worstRating.toString(),
+      "reviewCount": aggregateReviewCount.toString(),
+    },
+  }),
   "author": {
     "@type": "Person",
     "name": authorName,
