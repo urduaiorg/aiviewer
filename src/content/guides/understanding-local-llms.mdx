@@ -56,14 +56,73 @@ You buy a $4,000 MacBook M4 Max with 128GB of RAM, and you can generate infinite
 If Local LLMs are private, fast, and free, why does ChatGPT still exist?
 
 ### 1. The Intelligence "Ceiling"
-The absolute smartest models on Earth (GPT-5.4, Claude Opus 4.6) are "closed-source." They are so massive (often exceeding 1.5 Trillion parameters) that they require thousands of specialized GPUs to run. No laptop can fit them in memory.
+The absolute smartest models on Earth ([GPT-5.4](/tools/chatgpt/), [Claude Opus 4.6](/tools/claude-ai/)) are "closed-source." They are so massive (often exceeding 1.5 Trillion parameters) that they require thousands of specialized GPUs to run. No laptop can fit them in memory.
 Local LLMs are smaller (typically 8 Billion to 70 Billion parameters). They are brilliant at specific tasks, but they lack the vast, generalized "world knowledge" of the behemoth cloud models.
 
 ### 2. The Hardware Requirement
 To run a good Local LLM, your computer needs VRAM (Video RAM). The average cheap Windows laptop with 8GB of standard RAM will crash if it tries to load a capable AI model. The rise of Apple Silicon (which shares RAM between the CPU and GPU) is the primary reason Local AI became viable for consumers.
 
+## How to Get Started With Local LLMs
+
+If you want to run your first local model today, here is the practical path.
+
+### Step 1: Check Your Hardware
+
+You need a machine with substantial unified memory or VRAM. The minimum viable setup in 2026:
+- **Mac users:** Any Apple Silicon Mac with 16GB of unified memory can run 7B-8B parameter models comfortably. For 70B models, you want 64GB or more.
+- **Windows/Linux users:** A dedicated NVIDIA GPU with at least 12GB of VRAM (RTX 4070 or better). Alternatively, if your CPU has 32GB+ of system RAM, you can run quantized models more slowly.
+
+### Step 2: Install a Runtime
+
+Two tools dominate the local LLM runtime space:
+- **Ollama:** A command-line tool that makes downloading and running models as simple as `ollama run llama3`. It handles model management, quantization, and serving.
+- **LM Studio:** A desktop application with a visual interface. You browse a model library, click "Download," and start chatting. LM Studio is ideal if you prefer not to use a terminal.
+
+Both tools are free and open-source.
+
+### Step 3: Choose a Model
+
+Not all local models are equal. Here is the 2026 hierarchy:
+- **Llama 3 (8B):** The best general-purpose small model. Fast, capable, and runs on almost anything.
+- **Llama 3 (70B):** Near cloud-model quality for most tasks. Requires 64GB+ unified memory or a multi-GPU setup.
+- **DeepSeek Coder V3:** Exceptional for code generation and technical writing. If you are a developer, this is the model to run.
+- **Mistral Large:** Strong multilingual capabilities and excellent instruction-following.
+- **Phi-3 (Microsoft):** Surprisingly capable for its tiny size (3.8B parameters). Runs on almost any modern laptop.
+
+### Step 4: Test With a Real Task
+
+Do not judge a local model by chatting with it casually. Give it a task you actually need done: summarizing a contract, writing a product description, analyzing a CSV file. Compare the output to what ChatGPT or Claude would produce. For many focused tasks, you will find the local model's output is indistinguishable from the cloud.
+
+## Common Mistakes When Running Local LLMs
+
+### Running Too Large a Model
+
+If your model barely fits in memory, every response will be painfully slow. A 70B model on a 32GB machine will run at 1-2 tokens per second — practically unusable for interactive work. It is better to run a well-quantized smaller model quickly than a massive model slowly.
+
+### Ignoring Quantization
+
+Quantization reduces the precision of a model's mathematical weights (from 16-bit to 8-bit or 4-bit) to fit into less memory. A 4-bit quantized 70B model can run in roughly 40GB of memory with minimal quality loss. Tools like Ollama handle quantization automatically.
+
+### Expecting Cloud-Level General Knowledge
+
+Local models are trained on the same internet data as cloud models, but they are smaller. They will sometimes struggle with obscure trivia, niche cultural references, or multi-step reasoning chains that GPT-5.4 handles effortlessly. Use local models for tasks where accuracy is verifiable, not for open-ended "tell me everything about X" queries.
+
 ## The 2026 Verdict
 
 The future of AI is hybrid.
-- **The Cloud** is for asking vast, unstructured questions ("Plan my vacation to Japan").
-- **The Local Edge** is for high-volume, highly-secure tactical tasks ("Proofread these 500 patient NDAs immediately").
+- **The Cloud** is for asking vast, unstructured questions ("Plan my vacation to Japan") and for tasks requiring the absolute highest intelligence.
+- **The Local Edge** is for high-volume, highly-secure tactical tasks ("Proofread these 500 patient NDAs immediately") and for offline, cost-free generation.
+
+## Frequently Asked Questions
+
+### Can I run a local LLM on my phone?
+Yes, but with significant limitations. Apps like MLC Chat can run small models (under 3B parameters) on modern phones, but the experience is slow and the output quality is noticeably lower than desktop-class models.
+
+### Is it legal to run open-weight models for commercial use?
+Most major open-weight models (Llama 3, Mistral, DeepSeek) include licenses that permit commercial use. Always read the specific license for the model you choose — some have revenue thresholds or attribution requirements.
+
+### How does the quality compare to ChatGPT?
+For focused tasks (summarization, code generation, data extraction), the best local models produce output that is comparable to ChatGPT and Claude. For broad creative writing, complex reasoning chains, or tasks requiring up-to-date internet knowledge, cloud models still have a measurable edge.
+
+### Do local LLMs receive updates?
+Open-weight models receive periodic version releases (Llama 3 → Llama 4), but they do not update continuously like cloud models. You manually download new model versions when they are released.

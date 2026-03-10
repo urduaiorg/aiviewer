@@ -60,16 +60,55 @@ Specify how you want the final output structured.
 **The Final Prompt:**
 "Act as an expert copywriter (Action). I am launching a new organic dog food brand (Context). Brainstorm 5 potential Instagram ad captions (Request). They must be funny, under 50 words each, and not use the word 'healthy' (Explanation). Format them as a numbered list (Type)."
 
+## Common Prompting Mistakes to Avoid
+
+Even experienced users make these errors. Eliminating them will immediately improve your output quality.
+
+### Being Too Vague
+
+"Write something about marketing" gives the AI no direction. It will produce the most statistically average marketing content ever written — because that is literally what it is designed to do when given no constraints. Always specify the audience, the goal, and the format.
+
+### Giving Contradictory Instructions
+
+"Write a comprehensive, detailed analysis in under 100 words" is a contradiction. The AI will either ignore the word limit or produce a surface-level response. When you set constraints, make sure they are compatible with each other.
+
+### Ignoring Iteration
+
+Your first prompt is a hypothesis, not a final product. If the output is not what you wanted, do not start over. Instead, refine: *"That's good, but make the opening sentence more direct and remove the third paragraph entirely."* Iterative refinement almost always produces better results than rewriting the entire prompt from scratch.
+
+### Overloading a Single Prompt
+
+If you need an AI to research a topic, write an outline, draft an article, and format it for publication — do not put all of that into one prompt. Break complex tasks into sequential steps. First: *"Research the top 5 trends in renewable energy."* Then: *"Based on those trends, write an outline for a 1,500-word article."* Then: *"Write the article based on this outline."*
+
+## Prompt Templates You Can Use Today
+
+Here are three ready-to-use templates for common tasks.
+
+### Email Template
+*"Act as a [your role]. Write a [type of email] to [recipient and their role]. The purpose is to [specific goal]. The tone should be [tone]. Keep it under [word count]. Do not use [words or phrases to avoid]."*
+
+### Content Creation Template
+*"You are a [type of writer] writing for [target audience]. Write a [format: blog post / social media caption / newsletter] about [topic]. Include [specific elements to include]. The tone should be [tone]. Length: [word count or paragraph count]."*
+
+### Analysis Template
+*"Analyze the following [type of content]. First, identify the three main strengths. Second, identify the three main weaknesses. Third, provide specific recommendations to improve each weakness. Format your response as a numbered list with bold headings."*
+
 ## Frequently Asked Questions
 
 ### What is prompt engineering?
-Prompt engineering is the practice of crafting precise instructions to guide an AI model to produce the exact output you want.
+Prompt engineering is the practice of crafting precise instructions to guide an AI model to produce the exact output you want. It is the single most important skill for anyone using AI tools regularly.
 
 ### Does spelling and grammar matter in a prompt?
-While AI models can usually understand typos, clear grammar and structured formatting lead to more accurate and reliable responses.
+While AI models can usually understand typos, clear grammar and structured formatting lead to more accurate and reliable responses. Think of your prompt as a professional brief — the clearer it is, the better the output.
 
 ### How long should a prompt be?
-A prompt should be as long as necessary to provide adequate context. A good prompt is often 3-4 paragraphs of detailed instructions.
+A prompt should be as long as necessary to provide adequate context. For simple tasks, a sentence or two is fine. For complex tasks (writing articles, conducting analysis, generating structured data), a good prompt is often 3-4 paragraphs of detailed instructions. There is no penalty for being thorough.
 
 ### Should I be polite to the AI?
-Saying "please" and "thank you" doesn't change the model's intelligence, but using clear, direct, and professional language often yields cleaner results.
+Saying "please" and "thank you" does not change the model's intelligence, but using clear, direct, and professional language often yields cleaner results. Avoid filler words and get to the point.
+
+### Can I save and reuse good prompts?
+Absolutely. Building a personal prompt library is one of the highest-leverage habits you can develop. When you find a prompt that consistently produces great results, save it as a template with placeholder variables that you can customize for each new use.
+
+### What is the difference between a system prompt and a user prompt?
+A user prompt is what you type into the chat. A system prompt is a set of background instructions that define how the AI should behave across all interactions. System prompts are available through API access and some advanced chat interfaces. For a deeper dive, read our guide on [Prompt Engineering 201](/guides/prompt-engineering-handbook/).
