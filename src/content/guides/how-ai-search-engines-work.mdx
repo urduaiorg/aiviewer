@@ -3,8 +3,9 @@ title: "How AI Search Engines Work: Perplexity vs Google SGE in 2026"
 description: "Why users are abandoning Google for Answer Engines. A breakdown of how RAG (Retrieval-Augmented Generation) powers the new search ecosystem."
 category: "technology"
 publishedDate: 2026-03-09
+updatedDate: 2026-03-10
 coverImage: "/images/guides/ai-search-engines.jpg"
-tags: ["ai-search", "perplexity", "google-sge", "rag", "seo", "answer-engines"]
+tags: ["ai-search", "perplexity", "rag", "explainer"]
 draft: false
 ---
 
@@ -20,15 +21,15 @@ Since the late 1990s, the paradigm of the internet has been **"Search and Click.
 
 In 2026, the paradigm is **"Ask and Answer."** 
 
-This shift is driven entirely by a technology called **RAG (Retrieval-Augmented Generation)**. Here is exactly how Answer Engines like Perplexity and Google's SGE (Search Generative Experience) actually work under the hood.
+This shift is driven entirely by a technology called **RAG (Retrieval-Augmented Generation)**. For a deeper technical breakdown of RAG and when to use it, see our guide on [fine-tuning vs RAG](/guides/fine-tuning-vs-rag/). Here is exactly how Answer Engines like Perplexity and Google's SGE (Search Generative Experience) actually work under the hood.
 
 ## The Secret Sauce: RAG
 
-If you ask a standard AI model (like ChatGPT) an obscure question about yesterday's news, it will fail. AI models are trained on massive datasets that have a strict "cut-off date." They do not natively know the live internet.
+If you ask a standard AI model (like [ChatGPT](/tools/chatgpt/)) an obscure question about yesterday's news, it will fail. AI models are trained on massive datasets that have a strict "cut-off date." They do not natively know the live internet.
 
 **RAG is the solution.**
 
-When you type a query into an AI Search Engine like Perplexity, here is the chronological pipeline that executes in the ~1.5 seconds before your answer appears:
+When you type a query into an AI Search Engine like [Perplexity](/tools/perplexity-ai/), here is the chronological pipeline that executes in the ~1.5 seconds before your answer appears:
 
 ### 1. The Query Expansion (Understanding You)
 You type: *“Best lightweight laptops under $1000 for coding.”*
@@ -42,7 +43,7 @@ The engine runs a massive, high-speed search across billions of indexed web page
 The AI scans all 20 articles and extracts only the sentences relevant to your exact constraints (under $1000, 16GB RAM, under 3 lbs). It throws away all the ad copy, the recipes, and the SEO filler text.
 
 ### 4. The Generation (The Synthesis)
-The Answer Engine takes all those extracted facts and feeds them into its core LLM (often a proprietary model or a tuned version of Claude 3.5). The prompt to the LLM essentially says: 
+The Answer Engine takes all those extracted facts and feeds them into its core LLM (often a proprietary model or a tuned version of [Claude](/tools/claude-ai/) 3.5). The prompt to the LLM essentially says: 
 
 *"Based strictly on these 20 extracted facts, write a conversational summary answering the user's question. Attach footnote citations [1][2][3] to every claim."*
 
@@ -83,7 +84,7 @@ If you want your site to be cited as a footnote `[1]` in an AI search engine, yo
 
 While Perplexity and Google dominate the market, several other players are carving out niches in the AI search space:
 
-- **You.com:** Offers a chat-based search experience with the ability to switch between different AI models (GPT-4o, Claude, Llama). Its "Research" mode generates comprehensive reports with citations, aimed at academic and professional users.
+- **You.com:** Offers a chat-based search experience with the ability to switch between different AI models (GPT-4o, Claude, Llama). For a head-to-head comparison of these underlying models, see our [ChatGPT vs Claude breakdown](/guides/chatgpt-vs-claude-2026/). Its "Research" mode generates comprehensive reports with citations, aimed at academic and professional users.
 - **Bing Chat (Microsoft Copilot):** Microsoft integrated GPT-4 directly into Bing Search, creating a hybrid experience similar to Google SGE. Its advantage is deep integration with the Microsoft ecosystem (Edge browser, Windows, Office).
 - **Brave Search with Leo:** The privacy-focused Brave browser includes an AI assistant (Leo) that can summarize search results without sending your query to external servers — appealing to users who prioritize data privacy.
 

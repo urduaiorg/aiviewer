@@ -9,7 +9,17 @@ import react from '@astrojs/react';
 export default defineConfig({
   site: 'https://aiviewer.ai',
   output: 'static',
-  integrations: [mdx(), sitemap(), react()],
+  integrations: [
+    mdx(),
+    sitemap({
+      serialize(item) {
+        // Add lastmod to all sitemap entries for crawl efficiency
+        item.lastmod = new Date().toISOString();
+        return item;
+      },
+    }),
+    react(),
+  ],
   vite: {
     plugins: [tailwindcss()],
     build: {
