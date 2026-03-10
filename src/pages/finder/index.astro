@@ -1,24 +1,84 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
 import ToolFinder from '../../components/ui/ToolFinder.jsx';
 
-const title = "AI Tool Finder Quiz (2026)";
-const description = "Answer 5 quick questions and we'll match you with the exact AI tool for your workflow and budget.";
+const tools = (await getCollection('tools', ({ data }) => !data.draft)).map((entry) => ({
+  id: entry.id,
+  name: entry.data.toolName,
+  description: entry.data.description,
+  pricing: entry.data.pricing,
+  rating: entry.data.rating,
+  category: entry.data.category,
+  bestFor: entry.data.bestFor,
+  url: `/tools/${entry.id}/`,
+}));
+
+const playbooks = (await getCollection('playbooks', ({ data }) => !data.draft)).map((entry) => ({
+  id: entry.id,
+  title: entry.data.title,
+  description: entry.data.description,
+  role: entry.data.role,
+  difficulty: entry.data.difficulty,
+  url: `/playbooks/${entry.id}/`,
+}));
+
+const title = 'AI Stack Finder | AIViewer';
+const description = 'Answer a few practical questions and AIViewer will recommend the right AI tool, model, and playbook for your workflow.';
 ---
 
 <BaseLayout title={title} description={description}>
-  <div className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-    <div className="text-center mb-12">
-      <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl border-b-0">
-        AI Tool Finder Quiz
-      </h1>
-      <p className="mt-4 text-xl text-gray-500 dark:text-gray-400">
-        Stop guessing. Tell us your role, your goal, and your budget, and our routing engine will recommend the exact AI tool you need in 2026.
-      </p>
-    </div>
+  <Header />
 
-    {/* React Island for the dynamic quiz */}
-    <ToolFinder client:load />
+  <main class="pt-28 pb-24">
+    <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
+      <div class="absolute inset-x-0 top-0 h-96 bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.14),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.18),_transparent_36%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.06),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.08),_transparent_36%)]"></div>
+      <div class="page-container relative py-12 md:py-16">
+        <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
+          <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-2 rounded-full border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-700 dark:text-indigo-300">
+              AI decision engine
+            </div>
+            <h1 class="mt-5 text-zinc-950 dark:text-zinc-50">Find the right AI stack for the work you actually do.</h1>
+            <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+              This is not a toy quiz. Tell AIViewer about your role, task, privacy sensitivity, budget, and team setup, and it will recommend the tool, model, and playbook most likely to fit.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+              <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-1">Tool recommendation</span>
+              <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-1">Model recommendation</span>
+              <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-1">Playbook follow-through</span>
+              <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-1">Cheaper fallback</span>
+            </div>
+          </div>
 
-  </div>
+          <aside class="rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-zinc-950 p-6 text-white shadow-[0_24px_80px_rgba(9,9,11,0.18)]">
+            <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Coverage inside AIViewer</p>
+            <div class="mt-6 grid grid-cols-2 gap-4">
+              <div>
+                <div class="text-3xl font-bold text-white">{tools.length}</div>
+                <p class="mt-1 text-sm text-zinc-400">Reviewed tools</p>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-[#F0C75E]">{playbooks.length}</div>
+                <p class="mt-1 text-sm text-zinc-400">Operational playbooks</p>
+              </div>
+            </div>
+            <p class="mt-6 text-sm leading-7 text-zinc-300">
+              Recommendations are grounded in the tools and playbooks already published on AIViewer, then paired with model picks from the live model tracker.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-[var(--color-bg)]">
+      <div class="page-container py-12 md:py-16">
+        <ToolFinder client:load tools={tools} playbooks={playbooks} />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
 </BaseLayout>

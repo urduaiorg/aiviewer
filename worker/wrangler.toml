@@ -1,0 +1,11 @@
+name = "aiviewer-benchmark-api"
+main = "src/index.ts"
+compatibility_date = "2024-03-09"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "aiviewer-benchmarks"
+database_id = "3044160f-757e-43a3-b9af-82e2cb00665f"
+
+[triggers]
+crons = ["0 */12 * * *"] # Run every 12 hours
