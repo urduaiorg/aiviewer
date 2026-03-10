@@ -6,13 +6,15 @@ import Footer from '../../components/layout/Footer.astro';
 import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
 import ArticleSchema from '../../components/seo/ArticleSchema.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import FAQSchema from '../../components/seo/FAQSchema.astro';
 import AuthorBio from '../../components/content/AuthorBio.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import ReadingProgress from '../../components/content/ReadingProgress.astro';
+import ShareButtons from '../../components/content/ShareButtons.astro';
 import { formatDate } from '../../utils/formatDate';
 import { getReadingTime } from '../../utils/readingTime';
 import { slugifyTag } from '../../utils/slugifyTag';
-import { roleLabels } from '../../data/site.config';
+import { siteConfig, roleLabels } from '../../data/site.config';
 
 export async function getStaticPaths() {
   const entries = await getCollection('prompts', ({ data }) => !data.draft);
@@ -23,16 +25,43 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 const relatedEntries = (await getCollection('prompts', ({ data }) => !data.draft))
   .filter((candidate) => candidate.id !== entry.id && (candidate.data.role === entry.data.role || candidate.data.toolFor === entry.data.toolFor))
   .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime())
   .slice(0, 3);
+
+// Parse FAQ headings into FAQSchema format
+const faqs = [];
+let inFaqSection = false;
+let currentQuestion = '';
+
+for (const heading of headings) {
+  if (heading.depth === 2 && heading.text.toLowerCase().includes('frequently asked questions')) {
+    inFaqSection = true;
+    continue;
+  }
+  if (inFaqSection && heading.depth === 2) {
+    break; // Hit a new H2 section, end of FAQs
+  }
+  if (inFaqSection && heading.depth === 3) {
+    currentQuestion = heading.text;
+    const questionRegex = new RegExp(`### ${currentQuestion}\\s*\\n+([^#]+)`, 'i');
+    const match = entry.body?.match(questionRegex);
+    if (match && match[1]) {
+      faqs.push({
+        question: currentQuestion,
+        answer: match[1].trim()
+      });
+    }
+  }
+}
 ---
 
 <BaseLayout
   title={entry.data.title}
   description={entry.data.description}
+  ogImage={entry.data.coverImage}
   type="article"
   publishedDate={entry.data.publishedDate.toISOString()}
   updatedDate={entry.data.updatedDate?.toISOString()}
@@ -41,6 +70,7 @@ const relatedEntries = (await getCollection('prompts', ({ data }) => !data.draft
     slot="head"
     title={entry.data.title}
     description={entry.data.description}
+  ogImage={entry.data.coverImage}
     publishedDate={entry.data.publishedDate}
     updatedDate={entry.data.updatedDate}
   />
@@ -52,6 +82,7 @@ const relatedEntries = (await getCollection('prompts', ({ data }) => !data.draft
       { name: entry.data.title, url: `/prompts/${entry.id}/` },
     ]}
   />
+  {faqs.length > 0 && <FAQSchema slot="head" faqs={faqs} />}
   <Header />
   <ReadingProgress />
 
@@ -87,6 +118,10 @@ const relatedEntries = (await getCollection('prompts', ({ data }) => !data.draft
           {entry.data.tags.map((tag) => (
             <a href={`/tags/${slugifyTag(tag)}/`} class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-3 py-1 text-sm text-zinc-600 dark:text-zinc-300 transition-colors hover:border-indigo-200 dark:hover:border-indigo-700 hover:text-indigo-600 dark:hover:text-indigo-400">{tag}</a>
           ))}
+        </div>
+
+        <div class="mt-5">
+          <ShareButtons title={entry.data.title} url={`${siteConfig.url}${Astro.url.pathname}`} />
         </div>
       </div>
     </div>

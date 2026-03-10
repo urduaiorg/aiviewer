@@ -78,6 +78,7 @@ function formatDate(value: string | null | undefined) {
 }
 
 const API_DASHBOARD_URL = `${siteConfig.api.workerBase}/api/dashboard`;
+import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 ---
 
 <BaseLayout
@@ -351,6 +352,12 @@ const API_DASHBOARD_URL = `${siteConfig.api.workerBase}/api/dashboard`;
       </div>
     </section>
   </main>
+
+
+  <!-- Newsletter signup -->
+  <section class="page-container py-16">
+    <NewsletterSignup variant="inline" />
+  </section>
 
   <Footer />
 </BaseLayout>

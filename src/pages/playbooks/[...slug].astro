@@ -7,13 +7,15 @@ import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
 import TableOfContents from '../../components/content/TableOfContents.astro';
 import ArticleSchema from '../../components/seo/ArticleSchema.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import FAQSchema from '../../components/seo/FAQSchema.astro';
 import { formatDate } from '../../utils/formatDate';
 import { getReadingTime } from '../../utils/readingTime';
 import AuthorBio from '../../components/content/AuthorBio.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import ReadingProgress from '../../components/content/ReadingProgress.astro';
 import RelatedContent from '../../components/content/RelatedContent.astro';
-import { roleLabels, difficultyConfig } from '../../data/site.config';
+import ShareButtons from '../../components/content/ShareButtons.astro';
+import { siteConfig, roleLabels, difficultyConfig } from '../../data/site.config';
 import { slugifyTag } from '../../utils/slugifyTag';
 
 export async function getStaticPaths() {
@@ -29,11 +31,38 @@ const { Content, headings } = await render(entry);
 const relatedEntries = (await getCollection('playbooks', ({ data }) => !data.draft))
   .filter((candidate) => candidate.id !== entry.id && candidate.data.role === entry.data.role)
   .slice(0, 3);
+
+// Parse FAQ headings into FAQSchema format
+const faqs = [];
+let inFaqSection = false;
+let currentQuestion = '';
+
+for (const heading of headings) {
+  if (heading.depth === 2 && heading.text.toLowerCase().includes('frequently asked questions')) {
+    inFaqSection = true;
+    continue;
+  }
+  if (inFaqSection && heading.depth === 2) {
+    break; // Hit a new H2 section, end of FAQs
+  }
+  if (inFaqSection && heading.depth === 3) {
+    currentQuestion = heading.text;
+    const questionRegex = new RegExp(`### ${currentQuestion}\\s*\\n+([^#]+)`, 'i');
+    const match = entry.body?.match(questionRegex);
+    if (match && match[1]) {
+      faqs.push({
+        question: currentQuestion,
+        answer: match[1].trim()
+      });
+    }
+  }
+}
 ---
 
 <BaseLayout
   title={entry.data.title}
   description={entry.data.description}
+  ogImage={entry.data.coverImage}
   type="article"
   publishedDate={entry.data.publishedDate.toISOString()}
   updatedDate={entry.data.updatedDate?.toISOString()}
@@ -42,6 +71,7 @@ const relatedEntries = (await getCollection('playbooks', ({ data }) => !data.dra
     slot="head"
     title={entry.data.title}
     description={entry.data.description}
+  ogImage={entry.data.coverImage}
     image={entry.data.coverImage}
     publishedDate={entry.data.publishedDate}
     updatedDate={entry.data.updatedDate}
@@ -54,6 +84,7 @@ const relatedEntries = (await getCollection('playbooks', ({ data }) => !data.dra
       { name: entry.data.title, url: `/playbooks/${entry.id}/` },
     ]}
   />
+  {faqs.length > 0 && <FAQSchema slot="head" faqs={faqs} />}
   <Header />
   <ReadingProgress />
 
@@ -81,6 +112,10 @@ const relatedEntries = (await getCollection('playbooks', ({ data }) => !data.dra
 
           <h1 class="mt-5 max-w-3xl text-zinc-950 dark:text-zinc-50">{entry.data.title}</h1>
           <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">{entry.data.description}</p>
+
+          <div class="mt-5">
+            <ShareButtons title={entry.data.title} url={`${siteConfig.url}${Astro.url.pathname}`} />
+          </div>
 
           <div class="mt-8 grid gap-4 sm:grid-cols-3">
             <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-5 py-4">

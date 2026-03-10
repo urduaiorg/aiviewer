@@ -193,16 +193,63 @@ const currentPath = Astro.url.pathname;
 </style>
 
 <script>
+  /**
+   * createFocusTrap — Reusable focus trap for WCAG 2.4.3 compliance
+   *
+   * Constrains Tab/Shift+Tab cycling within a container element.
+   * Returns a destroy function to remove the listener when the
+   * trap is no longer needed.
+   */
+  function createFocusTrap(container: HTMLElement): () => void {
+    const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    function handleKeydown(e: KeyboardEvent) {
+      if (e.key !== 'Tab') return;
+
+      const focusable = Array.from(
+        container.querySelectorAll<HTMLElement>(FOCUSABLE)
+      ).filter(el => el.offsetParent !== null); // Only visible elements
+
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        // Shift+Tab: if on first element, wrap to last
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        // Tab: if on last element, wrap to first
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeydown);
+    return () => document.removeEventListener('keydown', handleKeydown);
+  }
+
+  // Expose for SearchDialog to reuse
+  (window as any).__createFocusTrap = createFocusTrap;
+
   function initMobileMenu() {
     const btn = document.getElementById('mobile-menu-btn');
     const menu = document.getElementById('mobile-menu');
     const closeBtn = document.getElementById('mobile-menu-close');
     const backdrop = document.getElementById('mobile-menu-backdrop');
+    const panel = menu?.querySelector('.mobile-menu-panel') as HTMLElement | null;
 
     if (!btn || !menu) return;
     // Prevent double-binding on View Transitions
     if (btn.dataset.bound === 'true') return;
     btn.dataset.bound = 'true';
+
+    let destroyFocusTrap: (() => void) | null = null;
 
     function open() {
       menu!.classList.add('is-open');
@@ -210,6 +257,12 @@ const currentPath = Astro.url.pathname;
       btn!.classList.add('is-active');
       btn!.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
+
+      // WCAG 2.4.3 — Focus trap: move focus to close button, trap within panel
+      if (panel) {
+        destroyFocusTrap = createFocusTrap(panel);
+      }
+      closeBtn?.focus();
     }
 
     function close() {
@@ -218,6 +271,13 @@ const currentPath = Astro.url.pathname;
       btn!.classList.remove('is-active');
       btn!.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
+
+      // WCAG 2.4.3 — Tear down focus trap, return focus to hamburger button
+      if (destroyFocusTrap) {
+        destroyFocusTrap();
+        destroyFocusTrap = null;
+      }
+      btn!.focus();
     }
 
     btn.addEventListener('click', () => {
@@ -230,7 +290,7 @@ const currentPath = Astro.url.pathname;
     closeBtn?.addEventListener('click', close);
     backdrop?.addEventListener('click', close);
 
-    // Close on Escape
+    // Close on Escape — inside the bound guard to prevent duplicate listeners
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && menu!.classList.contains('is-open')) {
         close();

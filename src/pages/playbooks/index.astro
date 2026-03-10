@@ -35,6 +35,7 @@ const roleToCategory: Record<string, string> = {
   ngos: 'government',
   general: 'general',
 };
+import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 ---
 
 <BaseLayout
@@ -294,6 +295,12 @@ const roleToCategory: Record<string, string> = {
       });
     }
   </script>
+
+
+  <!-- Newsletter signup -->
+  <section class="page-container py-16">
+    <NewsletterSignup variant="inline" />
+  </section>
 
   <Footer />
 </BaseLayout>

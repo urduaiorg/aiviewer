@@ -243,6 +243,8 @@
     let pagefindLoading = false;
     let searchTimeout: ReturnType<typeof setTimeout>;
     let activeIndex = -1;
+    let triggerElement: HTMLElement | null = null;
+    let destroyFocusTrap: (() => void) | null = null;
 
     // ── Pagefind lazy loader ──
     async function loadPagefind() {
@@ -264,6 +266,9 @@
 
     // ── Open / close ──
     function openDialog() {
+      // WCAG 2.4.3 — Remember which element triggered the dialog so we can return focus
+      triggerElement = document.activeElement as HTMLElement | null;
+
       backdrop.classList.remove('hidden');
       // Force reflow so transition plays
       void backdrop.offsetWidth;
@@ -271,11 +276,30 @@
       input.focus();
       document.body.style.overflow = 'hidden';
       loadPagefind();
+
+      // WCAG 2.4.3 — Activate focus trap within the dialog panel
+      const dialog = document.getElementById('search-dialog');
+      if (dialog && typeof (window as any).__createFocusTrap === 'function') {
+        destroyFocusTrap = (window as any).__createFocusTrap(dialog);
+      }
     }
 
     function closeDialog() {
       backdrop.classList.remove('is-open');
       document.body.style.overflow = '';
+
+      // WCAG 2.4.3 — Tear down focus trap
+      if (destroyFocusTrap) {
+        destroyFocusTrap();
+        destroyFocusTrap = null;
+      }
+
+      // WCAG 2.4.3 — Return focus to the element that triggered the dialog
+      if (triggerElement && typeof triggerElement.focus === 'function') {
+        triggerElement.focus();
+        triggerElement = null;
+      }
+
       // Wait for exit animation then hide
       const onEnd = () => {
         backdrop.classList.add('hidden');

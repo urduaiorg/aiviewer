@@ -16,6 +16,7 @@ const guides = (await getCollection('guides', ({ data }) => !data.draft)).sort(
 
 const featuredGuide = guides.find((entry) => entry.data.featured) ?? guides[0];
 const categories = [...new Set(guides.map((entry) => entry.data.category))];
+import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 ---
 
 <BaseLayout
@@ -202,6 +203,12 @@ const categories = [...new Set(guides.map((entry) => entry.data.category))];
       });
     }
   </script>
+
+
+  <!-- Newsletter signup -->
+  <section class="page-container py-16">
+    <NewsletterSignup variant="inline" />
+  </section>
 
   <Footer />
 </BaseLayout>

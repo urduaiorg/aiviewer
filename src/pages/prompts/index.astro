@@ -12,6 +12,7 @@ const prompts = (await getCollection('prompts', ({ data }) => !data.draft)).sort
 
 const roles = [...new Set(prompts.map((p) => p.data.role))];
 const uniqueTools = [...new Set(prompts.map((p) => p.data.toolFor))];
+import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 ---
 
 <BaseLayout
@@ -167,6 +168,12 @@ const uniqueTools = [...new Set(prompts.map((p) => p.data.toolFor))];
       });
     }
   </script>
+
+
+  <!-- Newsletter signup -->
+  <section class="page-container py-16">
+    <NewsletterSignup variant="inline" />
+  </section>
 
   <Footer />
 </BaseLayout>

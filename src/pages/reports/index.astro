@@ -14,6 +14,7 @@ const reports = (await getCollection('reports', ({ data }) => !data.draft)).sort
 
 const uniqueSources = [...new Set(reports.map((r) => r.data.source))];
 const sources = [...new Set(reports.map((r) => r.data.source))];
+import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 ---
 
 <BaseLayout
@@ -177,6 +178,12 @@ const sources = [...new Set(reports.map((r) => r.data.source))];
       });
     }
   </script>
+
+
+  <!-- Newsletter signup -->
+  <section class="page-container py-16">
+    <NewsletterSignup variant="inline" />
+  </section>
 
   <Footer />
 </BaseLayout>
