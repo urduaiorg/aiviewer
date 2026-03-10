@@ -1,47 +1,41 @@
 ---
 /**
- * FreshnessIndicator — Trust signal showing data recency.
+ * FreshnessIndicator — Shows how fresh data is with a colored dot
  *
- * Colored dot + formatted date:
- *   - Green: data ≤ 7 days old
- *   - Yellow: 8-30 days old
- *   - Red: > 30 days old
+ * Thresholds: green (< 7 days), yellow (< 30 days), red (> 30 days)
  */
 interface Props {
-  date: string | Date;
+  date: string;
   label?: string;
-  /** Custom thresholds in days [fresh, stale] — defaults to [7, 30] */
-  thresholds?: [number, number];
+  thresholds?: { fresh: number; stale: number };
 }
 
-const { date, label = 'Data as of', thresholds = [7, 30] } = Astro.props;
+const {
+  date,
+  label = 'Updated',
+  thresholds = { fresh: 7, stale: 30 },
+} = Astro.props;
 
-const dateObj = typeof date === 'string' ? new Date(date) : date;
-const daysSince = Math.floor((Date.now() - dateObj.getTime()) / (1000 * 60 * 60 * 24));
+const dateObj = new Date(date);
+const now = new Date();
+const daysAgo = Math.floor((now.getTime() - dateObj.getTime()) / (1000 * 60 * 60 * 24));
+
+const status = daysAgo <= thresholds.fresh ? 'fresh' : daysAgo <= thresholds.stale ? 'recent' : 'stale';
+
+const colors = {
+  fresh: 'bg-emerald-500',
+  recent: 'bg-amber-500',
+  stale: 'bg-red-500',
+};
 
 const formatted = dateObj.toLocaleDateString('en-US', {
   month: 'short',
   day: 'numeric',
   year: 'numeric',
 });
-
-let dotClass: string;
-let srLabel: string;
-
-if (daysSince <= thresholds[0]) {
-  dotClass = 'bg-emerald-500';
-  srLabel = 'Fresh data';
-} else if (daysSince <= thresholds[1]) {
-  dotClass = 'bg-amber-500';
-  srLabel = 'Recent data';
-} else {
-  dotClass = 'bg-red-500';
-  srLabel = 'Stale data';
-}
 ---
 
 <span class="inline-flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-  <span class={`w-1.5 h-1.5 rounded-full ${dotClass} flex-shrink-0`} aria-hidden="true"></span>
-  <span class="sr-only">{srLabel}:</span>
-  <span>{label} {formatted}</span>
+  <span class={`h-1.5 w-1.5 rounded-full ${colors[status]}`} aria-hidden="true"></span>
+  {label} {formatted}
 </span>

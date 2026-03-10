@@ -93,7 +93,9 @@ const beehiivSrc = 'https://subscribe-forms.beehiiv.com/df762eb2-5183-49d6-bb1e-
     if (typeof event.data === 'object' && event.data.type === 'beehiiv:resize') {
       document.querySelectorAll<HTMLIFrameElement>('.beehiiv-embed').forEach((iframe) => {
         if (iframe.contentWindow === event.source) {
-          iframe.style.height = `${event.data.height}px`;
+          const minH = window.innerWidth <= 640 ? 700 : 550;
+          const safeHeight = Math.max(event.data.height, minH);
+          iframe.style.height = `${safeHeight}px`;
         }
       });
     }

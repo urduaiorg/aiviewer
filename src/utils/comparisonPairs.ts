@@ -1,12 +1,28 @@
 /**
- * comparisonPairs — Generate canonical model comparison pairs from snapshot data.
+ * comparisonPairs — Generate canonical model comparison pairs
  *
- * Tiers models by output pricing, then produces:
- *   - same-tier cross-provider pairs (Claude Opus vs GPT-5.4 Pro)
- *   - same-provider sibling pairs (GPT-5.4 vs GPT-5.4 Pro)
- *
- * Alphabetical slug ordering ensures one canonical URL per pair.
+ * Tiers models by output pricing, then generates meaningful pairs:
+ * - Same-tier cross-provider comparisons (most SEO value)
+ * - Same-provider sibling comparisons
+ * - Alphabetical slug ordering for canonical URLs
  */
+
+interface Model {
+  slug: string;
+  name: string;
+  provider: string;
+  providerLabel: string;
+  outputPricePerMillion?: number | null;
+  inputPricePerMillion?: number | null;
+  contextWindow?: number | null;
+  maxOutputTokens?: number | null;
+  supportsToolUse?: boolean;
+  supportsVision?: boolean;
+  supportsAudio?: boolean;
+  supportsReasoning?: boolean;
+  releaseDate?: string | null;
+  lastSeenAt?: string | null;
+}
 
 export interface ComparisonPair {
   slugA: string;
@@ -19,133 +35,70 @@ export interface ComparisonPair {
   pairType: 'cross-provider' | 'same-provider';
 }
 
-interface SnapshotModel {
-  slug: string;
-  name: string;
-  provider: string;
-  providerLabel: string;
-  outputPricePerMillion?: number | null;
-  inputPricePerMillion?: number | null;
-  releaseDate?: string | null;
-}
+type Tier = 'flagship' | 'mid' | 'budget';
 
-/** Pricing tier thresholds (output price per million tokens) */
-const TIER_THRESHOLDS = {
-  flagship: 10,  // ≥ $10/M
-  mid: 2,        // $2-10/M
-  // budget: < $2/M
-} as const;
-
-function getTier(outputPrice: number | null | undefined): 'flagship' | 'mid' | 'budget' {
-  if (outputPrice == null) return 'mid'; // default for unpriced models
-  if (outputPrice >= TIER_THRESHOLDS.flagship) return 'flagship';
-  if (outputPrice >= TIER_THRESHOLDS.mid) return 'mid';
+function getTier(model: Model): Tier {
+  const price = model.outputPricePerMillion;
+  if (price == null) return 'mid';
+  if (price >= 10) return 'flagship';
+  if (price >= 2) return 'mid';
   return 'budget';
 }
 
-/** Canonical slug order: alphabetical so A-vs-B === B-vs-A */
-function canonicalOrder(a: string, b: string): [string, string] {
-  return a < b ? [a, b] : [b, a];
+/** Canonical alphabetical slug for a pair — ensures one URL per pair */
+export function comparisonSlug(slugA: string, slugB: string): string {
+  const [first, second] = slugA < slugB ? [slugA, slugB] : [slugB, slugA];
+  return `${first}-vs-${second}`;
 }
 
-export function generateComparisonPairs(models: SnapshotModel[]): ComparisonPair[] {
-  const pairs = new Map<string, ComparisonPair>();
+/** Generate all meaningful comparison pairs from the model catalog */
+export function generateComparisonPairs(models: Model[]): ComparisonPair[] {
+  const pairs: ComparisonPair[] = [];
+  const seen = new Set<string>();
 
-  // Group models by tier
-  const byTier: Record<string, SnapshotModel[]> = { flagship: [], mid: [], budget: [] };
+  const byTier: Record<Tier, Model[]> = { flagship: [], mid: [], budget: [] };
   for (const m of models) {
-    byTier[getTier(m.outputPricePerMillion)].push(m);
+    byTier[getTier(m)].push(m);
   }
 
-  // Group models by provider
-  const byProvider = new Map<string, SnapshotModel[]>();
-  for (const m of models) {
-    const list = byProvider.get(m.provider) || [];
-    list.push(m);
-    byProvider.set(m.provider, list);
-  }
-
-  // 1. Same-tier cross-provider pairs
-  for (const [tier, tierModels] of Object.entries(byTier)) {
+  for (const tier of ['flagship', 'mid', 'budget'] as Tier[]) {
+    const tierModels = byTier[tier];
     for (let i = 0; i < tierModels.length; i++) {
       for (let j = i + 1; j < tierModels.length; j++) {
         const a = tierModels[i];
         const b = tierModels[j];
-        if (a.provider === b.provider) continue; // skip same-provider (handled below)
+        const slug = comparisonSlug(a.slug, b.slug);
+        if (seen.has(slug)) continue;
+        seen.add(slug);
 
-        const [slugA, slugB] = canonicalOrder(a.slug, b.slug);
-        const key = `${slugA}--${slugB}`;
-        if (pairs.has(key)) continue;
-
-        const modelA = slugA === a.slug ? a : b;
-        const modelB = slugA === a.slug ? b : a;
-
-        pairs.set(key, {
-          slugA,
-          slugB,
-          nameA: modelA.name,
-          nameB: modelB.name,
-          providerA: modelA.provider,
-          providerB: modelB.provider,
-          tier: tier as ComparisonPair['tier'],
-          pairType: 'cross-provider',
+        const [first, second] = a.slug < b.slug ? [a, b] : [b, a];
+        pairs.push({
+          slugA: first.slug,
+          slugB: second.slug,
+          nameA: first.name,
+          nameB: second.name,
+          providerA: first.providerLabel,
+          providerB: second.providerLabel,
+          tier,
+          pairType: a.provider === b.provider ? 'same-provider' : 'cross-provider',
         });
       }
     }
   }
 
-  // 2. Same-provider sibling pairs
-  for (const [, providerModels] of byProvider) {
-    if (providerModels.length < 2) continue;
+  pairs.sort((a, b) => {
+    if (a.pairType !== b.pairType) return a.pairType === 'cross-provider' ? -1 : 1;
+    return comparisonSlug(a.slugA, a.slugB).localeCompare(comparisonSlug(b.slugA, b.slugB));
+  });
 
-    // Sort by release date descending so we prefer recent pairings
-    const sorted = [...providerModels].sort((a, b) => {
-      const da = a.releaseDate ? new Date(a.releaseDate).getTime() : 0;
-      const db = b.releaseDate ? new Date(b.releaseDate).getTime() : 0;
-      return db - da;
-    });
+  return pairs;
+}
 
-    // Only pair models within 2 positions of each other to avoid explosion
-    for (let i = 0; i < sorted.length; i++) {
-      const limit = Math.min(i + 3, sorted.length);
-      for (let j = i + 1; j < limit; j++) {
-        const a = sorted[i];
-        const b = sorted[j];
-        const [slugA, slugB] = canonicalOrder(a.slug, b.slug);
-        const key = `${slugA}--${slugB}`;
-        if (pairs.has(key)) continue;
-
-        const modelA = slugA === a.slug ? a : b;
-        const modelB = slugA === a.slug ? b : a;
-
-        pairs.set(key, {
-          slugA,
-          slugB,
-          nameA: modelA.name,
-          nameB: modelB.name,
-          providerA: modelA.provider,
-          providerB: modelB.provider,
-          tier: getTier(modelA.outputPricePerMillion),
-          pairType: 'same-provider',
-        });
-      }
-    }
+/** Group pairs by tier for the hub page */
+export function getPairsByTier(pairs: ComparisonPair[]): Record<Tier, ComparisonPair[]> {
+  const result: Record<Tier, ComparisonPair[]> = { flagship: [], mid: [], budget: [] };
+  for (const pair of pairs) {
+    result[pair.tier].push(pair);
   }
-
-  return [...pairs.values()];
-}
-
-/** Get pairs grouped by tier for the hub page */
-export function getPairsByTier(pairs: ComparisonPair[]) {
-  return {
-    flagship: pairs.filter((p) => p.tier === 'flagship'),
-    mid: pairs.filter((p) => p.tier === 'mid'),
-    budget: pairs.filter((p) => p.tier === 'budget'),
-  };
-}
-
-/** Build URL-safe comparison slug: model-a-vs-model-b */
-export function comparisonSlug(slugA: string, slugB: string): string {
-  const [a, b] = canonicalOrder(slugA, slugB);
-  return `${a}-vs-${b}`;
+  return result;
 }

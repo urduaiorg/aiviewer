@@ -1,67 +1,46 @@
 ---
 /**
- * ComparisonSchema — Structured data for model comparison pages.
- * WebPage with two SoftwareApplication entities.
+ * ComparisonSchema — WebPage with two SoftwareApplication entities
+ * for AI model comparison pages
  */
+interface Model {
+  name: string;
+  slug: string;
+  providerLabel: string;
+  description?: string;
+}
+
 interface Props {
-  modelA: {
-    name: string;
-    slug: string;
-    provider: string;
-    description?: string | null;
-    inputPricePerMillion?: number | null;
-  };
-  modelB: {
-    name: string;
-    slug: string;
-    provider: string;
-    description?: string | null;
-    inputPricePerMillion?: number | null;
-  };
+  modelA: Model;
+  modelB: Model;
   url: string;
 }
 
 const { modelA, modelB, url } = Astro.props;
----
 
-<script type="application/ld+json" set:html={JSON.stringify({
+const schema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": `${modelA.name} vs ${modelB.name} — AI Model Comparison`,
-  "description": `Side-by-side comparison of ${modelA.name} and ${modelB.name} covering pricing, context window, capabilities, and use cases.`,
+  "description": `Side-by-side comparison of ${modelA.name} and ${modelB.name}. Compare pricing, context window, capabilities, and find the right model for your workflow.`,
   "url": url,
-  "mainEntity": [
+  "about": [
     {
       "@type": "SoftwareApplication",
       "name": modelA.name,
       "applicationCategory": "AI Model",
       "operatingSystem": "Cloud",
-      "author": { "@type": "Organization", "name": modelA.provider },
-      ...(modelA.inputPricePerMillion != null && {
-        "offers": {
-          "@type": "Offer",
-          "price": modelA.inputPricePerMillion,
-          "priceCurrency": "USD",
-          "description": `$${modelA.inputPricePerMillion}/M input tokens`,
-        },
-      }),
+      "creator": { "@type": "Organization", "name": modelA.providerLabel },
     },
     {
       "@type": "SoftwareApplication",
       "name": modelB.name,
       "applicationCategory": "AI Model",
       "operatingSystem": "Cloud",
-      "author": { "@type": "Organization", "name": modelB.provider },
-      ...(modelB.inputPricePerMillion != null && {
-        "offers": {
-          "@type": "Offer",
-          "price": modelB.inputPricePerMillion,
-          "priceCurrency": "USD",
-          "description": `$${modelB.inputPricePerMillion}/M input tokens`,
-        },
-      }),
+      "creator": { "@type": "Organization", "name": modelB.providerLabel },
     },
   ],
-  "author": { "@type": "Organization", "name": "AIViewer.ai", "url": "https://aiviewer.ai" },
-  "publisher": { "@type": "Organization", "name": "AIViewer.ai", "url": "https://aiviewer.ai" },
-})} />
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

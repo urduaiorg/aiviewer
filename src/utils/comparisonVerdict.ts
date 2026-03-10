@@ -1,23 +1,17 @@
 /**
- * comparisonVerdict — Deterministic scoring engine for model-vs-model comparisons.
+ * comparisonVerdict — Score 2 models on 5 dimensions and generate a verdict
  *
- * Scores 2 models on 5 dimensions:
- *   1. Price (lower = better) — input + output weighted average
- *   2. Context window (larger = better)
- *   3. Capability breadth (more features = better)
- *   4. Output capacity (max output tokens)
- *   5. Recency (newer release = better)
- *
- * Returns: winner, confidence level, verdict text, and best-for arrays.
+ * Dimensions: price, context, capability breadth, output capacity, recency
+ * Confidence: strong (>25% gap), moderate (10-25%), marginal (<10%)
  */
 
-interface ModelData {
+interface Model {
   slug: string;
   name: string;
   provider: string;
   providerLabel: string;
-  inputPricePerMillion?: number | null;
   outputPricePerMillion?: number | null;
+  inputPricePerMillion?: number | null;
   contextWindow?: number | null;
   maxOutputTokens?: number | null;
   supportsToolUse?: boolean;
@@ -27,26 +21,42 @@ interface ModelData {
   releaseDate?: string | null;
 }
 
-export interface ComparisonVerdict {
-  winner: string | null; // slug of winner, null if tie
-  winnerName: string | null;
-  confidence: 'strong' | 'moderate' | 'marginal';
-  verdictText: string;
-  dimensionScores: DimensionScore[];
-  bestForA: string[];
-  bestForB: string[];
-}
-
 interface DimensionScore {
-  dimension: string;
   label: string;
   valueA: string;
   valueB: string;
   advantageSlug: string | null;
-  gap: number; // percentage gap 0-100
+  gap: number;
 }
 
-function capabilityCount(m: ModelData): number {
+export interface Verdict {
+  winner: string | null;
+  winnerName: string;
+  confidence: 'strong' | 'moderate' | 'marginal';
+  verdictText: string;
+  bestForA: string[];
+  bestForB: string[];
+  dimensionScores: DimensionScore[];
+}
+
+function formatPrice(value?: number | null): string {
+  if (value == null) return 'TBD';
+  if (value < 1) return `$${value.toFixed(2)}/M tokens`;
+  return `$${value.toFixed(0)}/M tokens`;
+}
+
+function formatCtx(value?: number | null): string {
+  if (value == null) return 'N/A';
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M tokens`;
+  return `${Math.round(value / 1000)}K tokens`;
+}
+
+function formatTokens(value?: number | null): string {
+  if (value == null) return 'N/A';
+  return `${Math.round(value / 1000)}K tokens`;
+}
+
+function capCount(m: Model): number {
   let count = 0;
   if (m.supportsToolUse) count++;
   if (m.supportsVision) count++;
@@ -55,170 +65,116 @@ function capabilityCount(m: ModelData): number {
   return count;
 }
 
-function formatPrice(price: number | null | undefined): string {
-  if (price == null) return 'N/A';
-  if (price < 1) return `$${price.toFixed(2)}/M`;
-  return `$${price.toFixed(0)}/M`;
-}
-
-function formatContext(ctx: number | null | undefined): string {
-  if (ctx == null) return 'N/A';
-  if (ctx >= 1_000_000) return `${(ctx / 1_000_000).toFixed(1)}M`;
-  return `${Math.round(ctx / 1000)}K`;
-}
-
-function formatTokens(tokens: number | null | undefined): string {
-  if (tokens == null) return 'N/A';
-  return `${Math.round(tokens / 1000)}K`;
-}
-
-function percentGap(a: number, b: number): number {
-  if (a === 0 && b === 0) return 0;
+function normalizedGap(a: number, b: number): number {
   const max = Math.max(a, b);
   if (max === 0) return 0;
-  return Math.abs(a - b) / max * 100;
+  return Math.abs(a - b) / max;
 }
 
-export function generateVerdict(modelA: ModelData, modelB: ModelData): ComparisonVerdict {
-  const scores: DimensionScore[] = [];
-  let aWins = 0;
-  let bWins = 0;
-  let totalGap = 0;
+export function generateVerdict(modelA: Model, modelB: Model): Verdict {
+  const dimensions: DimensionScore[] = [];
 
-  // 1. Price (lower = better) — weighted: 30% input, 70% output
-  const priceA = ((modelA.inputPricePerMillion ?? 0) * 0.3 + (modelA.outputPricePerMillion ?? 0) * 0.7);
-  const priceB = ((modelB.inputPricePerMillion ?? 0) * 0.3 + (modelB.outputPricePerMillion ?? 0) * 0.7);
-  const priceGap = percentGap(priceA, priceB);
-  const priceAdvantage = priceA < priceB ? modelA.slug : priceB < priceA ? modelB.slug : null;
-  if (priceAdvantage === modelA.slug) aWins++;
-  else if (priceAdvantage === modelB.slug) bWins++;
-  totalGap += priceGap;
-  scores.push({
-    dimension: 'price',
+  // 1. Price (lower is better)
+  const priceA = modelA.outputPricePerMillion ?? Infinity;
+  const priceB = modelB.outputPricePerMillion ?? Infinity;
+  const priceGap = (priceA !== Infinity && priceB !== Infinity) ? normalizedGap(priceA, priceB) : 0;
+  dimensions.push({
     label: 'Price',
-    valueA: `${formatPrice(modelA.inputPricePerMillion)} in / ${formatPrice(modelA.outputPricePerMillion)} out`,
-    valueB: `${formatPrice(modelB.inputPricePerMillion)} in / ${formatPrice(modelB.outputPricePerMillion)} out`,
-    advantageSlug: priceAdvantage,
+    valueA: formatPrice(modelA.outputPricePerMillion),
+    valueB: formatPrice(modelB.outputPricePerMillion),
+    advantageSlug: priceGap > 0.05 ? (priceA < priceB ? modelA.slug : modelB.slug) : null,
     gap: priceGap,
   });
 
-  // 2. Context window (larger = better)
+  // 2. Context window (higher is better)
   const ctxA = modelA.contextWindow ?? 0;
   const ctxB = modelB.contextWindow ?? 0;
-  const ctxGap = percentGap(ctxA, ctxB);
-  const ctxAdv = ctxA > ctxB ? modelA.slug : ctxB > ctxA ? modelB.slug : null;
-  if (ctxAdv === modelA.slug) aWins++;
-  else if (ctxAdv === modelB.slug) bWins++;
-  totalGap += ctxGap;
-  scores.push({
-    dimension: 'context',
+  const ctxGap = normalizedGap(ctxA, ctxB);
+  dimensions.push({
     label: 'Context Window',
-    valueA: formatContext(modelA.contextWindow),
-    valueB: formatContext(modelB.contextWindow),
-    advantageSlug: ctxAdv,
+    valueA: formatCtx(modelA.contextWindow),
+    valueB: formatCtx(modelB.contextWindow),
+    advantageSlug: ctxGap > 0.05 ? (ctxA > ctxB ? modelA.slug : modelB.slug) : null,
     gap: ctxGap,
   });
 
-  // 3. Capability breadth
-  const capA = capabilityCount(modelA);
-  const capB = capabilityCount(modelB);
-  const capGap = percentGap(capA, capB);
-  const capAdv = capA > capB ? modelA.slug : capB > capA ? modelB.slug : null;
-  if (capAdv === modelA.slug) aWins++;
-  else if (capAdv === modelB.slug) bWins++;
-  totalGap += capGap;
-  scores.push({
-    dimension: 'capabilities',
+  // 3. Capabilities (more is better)
+  const capsA = capCount(modelA);
+  const capsB = capCount(modelB);
+  const capsGap = normalizedGap(capsA, capsB);
+  dimensions.push({
     label: 'Capabilities',
-    valueA: `${capA}/4 features`,
-    valueB: `${capB}/4 features`,
-    advantageSlug: capAdv,
-    gap: capGap,
+    valueA: `${capsA}/4`,
+    valueB: `${capsB}/4`,
+    advantageSlug: capsGap > 0.05 ? (capsA > capsB ? modelA.slug : modelB.slug) : null,
+    gap: capsGap,
   });
 
-  // 4. Output capacity
+  // 4. Output capacity (higher is better)
   const outA = modelA.maxOutputTokens ?? 0;
   const outB = modelB.maxOutputTokens ?? 0;
-  const outGap = percentGap(outA, outB);
-  const outAdv = outA > outB ? modelA.slug : outB > outA ? modelB.slug : null;
-  if (outAdv === modelA.slug) aWins++;
-  else if (outAdv === modelB.slug) bWins++;
-  totalGap += outGap;
-  scores.push({
-    dimension: 'output',
+  const outGap = normalizedGap(outA, outB);
+  dimensions.push({
     label: 'Max Output',
     valueA: formatTokens(modelA.maxOutputTokens),
     valueB: formatTokens(modelB.maxOutputTokens),
-    advantageSlug: outAdv,
+    advantageSlug: outGap > 0.05 ? (outA > outB ? modelA.slug : modelB.slug) : null,
     gap: outGap,
   });
 
-  // 5. Recency
+  // 5. Recency (newer is better)
   const dateA = modelA.releaseDate ? new Date(modelA.releaseDate).getTime() : 0;
   const dateB = modelB.releaseDate ? new Date(modelB.releaseDate).getTime() : 0;
-  const recencyGap = percentGap(dateA, dateB);
-  const recAdv = dateA > dateB ? modelA.slug : dateB > dateA ? modelB.slug : null;
-  if (recAdv === modelA.slug) aWins++;
-  else if (recAdv === modelB.slug) bWins++;
-  totalGap += recencyGap;
-  scores.push({
-    dimension: 'recency',
-    label: 'Release Date',
-    valueA: modelA.releaseDate ? new Date(modelA.releaseDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A',
-    valueB: modelB.releaseDate ? new Date(modelB.releaseDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A',
-    advantageSlug: recAdv,
-    gap: recencyGap,
+  const maxDate = Math.max(dateA, dateB);
+  const dateGap = maxDate > 0 ? normalizedGap(dateA, dateB) : 0;
+  dimensions.push({
+    label: 'Recency',
+    valueA: modelA.releaseDate ? new Date(modelA.releaseDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'N/A',
+    valueB: modelB.releaseDate ? new Date(modelB.releaseDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'N/A',
+    advantageSlug: dateGap > 0.05 ? (dateA > dateB ? modelA.slug : modelB.slug) : null,
+    gap: dateGap,
   });
 
-  // Determine winner
-  const avgGap = totalGap / 5;
-  let winner: string | null = null;
-  let winnerName: string | null = null;
-
-  if (aWins > bWins) {
-    winner = modelA.slug;
-    winnerName = modelA.name;
-  } else if (bWins > aWins) {
-    winner = modelB.slug;
-    winnerName = modelB.name;
+  // Tally
+  let winsA = 0;
+  let winsB = 0;
+  let totalGap = 0;
+  for (const dim of dimensions) {
+    if (dim.advantageSlug === modelA.slug) { winsA++; totalGap += dim.gap; }
+    else if (dim.advantageSlug === modelB.slug) { winsB++; totalGap += dim.gap; }
   }
 
-  // Confidence
-  let confidence: ComparisonVerdict['confidence'];
-  if (avgGap > 25) confidence = 'strong';
-  else if (avgGap > 10) confidence = 'moderate';
-  else confidence = 'marginal';
+  const avgGap = dimensions.length > 0 ? totalGap / dimensions.length : 0;
+  const confidence: Verdict['confidence'] = avgGap > 0.25 ? 'strong' : avgGap > 0.1 ? 'moderate' : 'marginal';
 
-  // Best-for arrays
+  let winner: string | null = null;
+  let winnerName = '';
+  if (winsA > winsB) { winner = modelA.slug; winnerName = modelA.name; }
+  else if (winsB > winsA) { winner = modelB.slug; winnerName = modelB.name; }
+
   const bestForA: string[] = [];
   const bestForB: string[] = [];
+  if (priceA < priceB && priceGap > 0.1) bestForA.push('Budget-conscious workflows');
+  if (priceB < priceA && priceGap > 0.1) bestForB.push('Budget-conscious workflows');
+  if (ctxA > ctxB && ctxGap > 0.1) bestForA.push('Long document processing');
+  if (ctxB > ctxA && ctxGap > 0.1) bestForB.push('Long document processing');
+  if (capsA > capsB) bestForA.push('Multi-modal tasks');
+  if (capsB > capsA) bestForB.push('Multi-modal tasks');
+  if (outA > outB && outGap > 0.1) bestForA.push('Long-form content generation');
+  if (outB > outA && outGap > 0.1) bestForB.push('Long-form content generation');
+  if (dateA > dateB && dateGap > 0.05) bestForA.push('Cutting-edge capabilities');
+  if (dateB > dateA && dateGap > 0.05) bestForB.push('Cutting-edge capabilities');
 
-  if (priceAdvantage === modelA.slug) bestForA.push('Cost-conscious teams');
-  else if (priceAdvantage === modelB.slug) bestForB.push('Cost-conscious teams');
-
-  if (ctxAdv === modelA.slug) bestForA.push('Long-document workflows');
-  else if (ctxAdv === modelB.slug) bestForB.push('Long-document workflows');
-
-  if (capAdv === modelA.slug) bestForA.push('Multimodal use cases');
-  else if (capAdv === modelB.slug) bestForB.push('Multimodal use cases');
-
-  if (outAdv === modelA.slug) bestForA.push('Long-form generation');
-  else if (outAdv === modelB.slug) bestForB.push('Long-form generation');
-
-  if (recAdv === modelA.slug) bestForA.push('Cutting-edge features');
-  else if (recAdv === modelB.slug) bestForB.push('Cutting-edge features');
-
-  // Verdict text
   let verdictText: string;
   if (!winner) {
-    verdictText = `${modelA.name} and ${modelB.name} are closely matched. The right choice depends on whether you prioritize ${bestForA[0]?.toLowerCase() || 'specific strengths'} or ${bestForB[0]?.toLowerCase() || 'different strengths'}.`;
-  } else if (confidence === 'strong') {
-    verdictText = `${winnerName} leads clearly, winning on ${aWins > bWins ? aWins : bWins} of 5 dimensions. Choose ${winnerName} unless your workflow specifically requires ${winner === modelA.slug ? modelB.name : modelA.name}'s advantages.`;
-  } else if (confidence === 'moderate') {
-    verdictText = `${winnerName} has a meaningful edge overall, but ${winner === modelA.slug ? modelB.name : modelA.name} is stronger in specific areas. Your use case determines the right pick.`;
+    verdictText = `${modelA.name} and ${modelB.name} are closely matched across pricing, context, and capabilities. Your choice depends on workflow-specific factors like provider ecosystem preference and existing integrations.`;
   } else {
-    verdictText = `The gap between these models is narrow. ${winnerName} edges ahead slightly, but either is a solid choice depending on your priorities.`;
+    const loser = winner === modelA.slug ? modelB : modelA;
+    const winnerModel = winner === modelA.slug ? modelA : modelB;
+    const advantages = dimensions.filter(d => d.advantageSlug === winner).map(d => d.label.toLowerCase());
+    const loserAdvantages = dimensions.filter(d => d.advantageSlug === loser.slug).map(d => d.label.toLowerCase());
+    verdictText = `${winnerModel.name} leads in ${advantages.join(' and ')}, making it the stronger choice for most workflows.${loserAdvantages.length > 0 ? ` ${loser.name} remains competitive with advantages in ${loserAdvantages.join(' and ')}.` : ` ${loser.name} remains a solid alternative depending on your specific needs.`}`;
   }
 
-  return { winner, winnerName, confidence, verdictText, dimensionScores: scores, bestForA, bestForB };
+  return { winner, winnerName, confidence, verdictText, bestForA, bestForB, dimensionScores: dimensions };
 }
