@@ -1,0 +1,55 @@
+---
+title: "The Interview Prep Coach"
+description: "Turn Claude into a realistic, adaptive hiring manager that conducts dynamic mock interviews for any job role."
+role: "general"
+toolFor: "Claude"
+task: "Act as a mock interviewer for job seekers"
+publishedDate: 2026-03-09
+tags: ["interview-prep", "job-seekers", "career", "mock-interview", "hiring"]
+draft: false
+---
+
+import PromptBlock from '../../components/content/PromptBlock.astro';
+
+Preparing for a job interview can be stressful, especially when you don't know what questions the hiring manager will ask. This prompt transforms Claude Opus 4.6 into a seasoned hiring manager tailored to your specific industry and role. 
+
+Instead of just giving you a list of questions, this prompt forces Claude to conduct an interactive back-and-forth mock interview, complete with follow-up questions and constructive feedback at the end.
+
+## The Prompt
+
+<PromptBlock 
+  tool="Claude Opus 4.6" 
+  prompt={`Act as a Senior Hiring Manager interviewing me for the role of [Target Job Title] at [Target Company or Industry]. 
+
+Here is my background: [Briefly summarize your resume/experience] 
+
+We are going to conduct a realistic, dynamic mock interview. Please follow these rules strictly:
+1. Ask only ONE question at a time. Do not give me a list. Wait for my response before proceeding.
+2. Ask a mix of behavioral (STAR method), technical, and situational questions.
+3. If my answer is weak or brief, push back with a challenging follow-up question.
+4. After 5 questions, conclude the interview and provide a detailed critique: 
+   - What I did well.
+   - Where my answers fell flat or lacked detail.
+   - An example of how I could have answered the weakest question better.
+
+Start by introducing yourself as the hiring manager and asking the first question.`}
+/>
+
+## Example Output
+
+**Target Job Title:** Senior Product Marketing Manager
+**Role:** B2B SaaS
+
+*Claude's Output:*
+"Hi, I'm Sarah, the VP of Marketing here. Thanks for taking the time to speak with us today about the Senior Product Marketing Manager role. Looking at your background, it seems you have some solid experience taking B2B products to market. 
+
+Let's dive right in. Can you tell me about a time you had to launch a product feature that the sales team wasn't excited about? Walk me through how you handled the internal resistance and ultimately measured the success of that launch."
+
+*(You type your response, and Claude adapts to your answer.)*
+
+## Tips for Best Results
+
+* **Paste the Job Description:** To make the mock interview even harder and more realistic, paste the exact job description of the role you are applying for right after your background summary.
+* **Use Voice Mode:** If you use the Claude mobile app or the ChatGPT app, use the Voice mode to practice answering these questions out loud instead of typing them. It builds confidence much faster.
+
+Check our [Claude Opus 4.6](/tools/claude-ai/) review to see why its conversational memory makes it slightly better at role-play than GPT-5.4.

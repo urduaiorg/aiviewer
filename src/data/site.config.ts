@@ -75,12 +75,12 @@ export const siteConfig = {
   // ── Navigation ──
   nav: {
     main: [
-      { label: 'Playbooks', href: '/playbooks/' },
       { label: 'Tools', href: '/tools/' },
-      { label: 'Compare', href: '/compare/' },
-      { label: 'Changes', href: '/changes/' },
       { label: 'Guides', href: '/guides/' },
-      { label: 'About', href: '/about/' },
+      { label: 'Playbooks', href: '/playbooks/' },
+      { label: 'Models', href: '/models/' },
+      { label: 'Prompts', href: '/prompts/' },
+      { label: 'Compare', href: '/compare/' },
     ],
     cta: { label: 'Find AI Tools Quiz', href: '/finder/' },
     footer: {
@@ -92,6 +92,7 @@ export const siteConfig = {
       ],
       resources: [
         { label: 'Prompt Library', href: '/prompts/' },
+        { label: 'AI Glossary', href: '/glossary/' },
         { label: 'About', href: '/about/' },
         { label: 'Advertise', href: '/advertise/' },
       ],

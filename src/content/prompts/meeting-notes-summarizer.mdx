@@ -1,0 +1,70 @@
+---
+title: "The Meeting Notes Summarizer"
+description: "Turn messy audio transcripts into structured, actionable meeting minutes with clear owners and deadlines."
+role: "general"
+toolFor: "Gemini 3 Pro"
+task: "Transcribe and summarize meeting notes into action items"
+publishedDate: 2026-03-09
+tags: ["productivity", "meetings", "transcripts", "summarization", "action-items"]
+draft: false
+---
+
+import PromptBlock from '../../components/content/PromptBlock.astro';
+
+We all hate the tedious administrative work of cleaning up meeting notes. If your company uses Zoom or Google Meet to automatically transcribe meetings, you usually end up with a massive block of unformatted text.
+
+This prompt takes that raw, messy transcript and organizes it into a professional, structured document that highlights the key decisions made and exactly who is responsible for what.
+
+## The Prompt
+
+<PromptBlock 
+tool="Gemini 3 Pro" 
+prompt={`You are a highly efficient Executive Assistant.
+
+I am providing you with the raw, unedited transcript of a team meeting. 
+
+Your task is to summarize this transcript into the following structured format:
+
+1. **Executive Summary:** A 2-3 sentence overview of the meeting's primary purpose and final outcome.
+2. **Key Decisions:** A bulleted list of any final decisions or approvals made during the call. If none were made, say "No final decisions reached."
+3. **Action Items:** A checklist of tasks assigned during the meeting formatted exactly as follows:
+   - [ ] Task Description - @[Assignee Name] (Due: [Deadline or "TBD"])
+4. **Important Context/Debate:** Briefly summarize the main arguments for the most contentious topic discussed.
+5. **Parking Lot:** List any topics mentioned that were tabled for a future discussion.
+
+Here is the transcript:
+[Paste your raw transcript here]`}
+/>
+
+## Example Output
+
+**Transcript Topic:** Q3 Marketing Budget Review
+
+*Gemini's Output:*
+
+1. **Executive Summary:**
+The marketing team reviewed the proposed Q3 budget allocations. The primary focus was shifting spend away from underperforming paid search campaigns toward influencer partnerships for the upcoming fall product launch. The overall budget remains capped at $150k for the quarter.
+
+2. **Key Decisions:**
+* Reallocate $20k from Google Ads to Instagram influencer partnerships.
+* Proceed with the "Autumn Tech" video series production using an external agency.
+* Pause all LinkedIn sponsored campaigns indefinitely.
+
+3. **Action Items:**
+* [ ] Finalize a list of 10 micro-influencers - @Sarah (Due: Friday)
+* [ ] Send RFP to the three shortlisted video agencies - @David (Due: Wednesday EOD)
+* [ ] Export LinkedIn historic campaign data before pausing accounts - @Ahmed (Due: TBD)
+
+4. **Important Context/Debate:**
+David argued against pausing LinkedIn entirely, noting it historically drives high-value B2B leads. Sarah countered that the CAC (Customer Acquisition Cost) on LinkedIn has tripled in 6 months. It was agreed to pause for Q3 and re-evaluate for Q4.
+
+5. **Parking Lot:**
+* Restructuring the SEO team for 2027.
+* Pricing changes for the Enterprise tier.
+
+## Tips for Best Results
+
+* **Speaker Diarization:** If your transcript doesn't map names to the speakers (e.g., Speaker 1, Speaker 2), add a sentence before the transcript clarifying who was in the room: *"Note: Speaker 1 is Sarah, Speaker 2 is David, Speaker 3 is Ahmed."*
+* **Context Windows:** If it was a 2-hour all-hands meeting, the transcript will be massive. We recommend using Claude Opus 4.6 or Gemini 3 Pro (both have over a 1M token context window) so the AI doesn't "forget" the beginning of the meeting.
+
+To find more tools capable of large-document summarization, check our guide on the [Best Free AI Tools](/guides/best-free-ai-tools-2026/).

@@ -64,6 +64,18 @@ CREATE TABLE IF NOT EXISTS capability_snapshots (
   FOREIGN KEY(model_id) REFERENCES models(id)
 );
 
+CREATE TABLE IF NOT EXISTS model_editorial (
+  model_id TEXT PRIMARY KEY,
+  editorial_description TEXT,
+  editorial_strengths TEXT,
+  editorial_watchouts TEXT,
+  generated_by TEXT DEFAULT 'auto',
+  approved INTEGER NOT NULL DEFAULT 1,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(model_id) REFERENCES models(id)
+);
+
 CREATE UNIQUE INDEX IF NOT EXISTS idx_models_slug_unique ON models(slug);
 CREATE INDEX IF NOT EXISTS idx_models_provider ON models(provider);
 CREATE INDEX IF NOT EXISTS idx_models_release_date ON models(release_date);

@@ -1,6 +1,7 @@
 export interface Env {
   DB: D1Database;
   OPENROUTER_API_KEY?: string;
+  SNAPSHOT_KEY?: string;
 }
 
 interface OpenRouterModel {
@@ -109,6 +110,28 @@ export default {
         });
       }
 
+      // ── Protected endpoints (require SNAPSHOT_KEY) ──
+      if (pathname === "/api/snapshot" && request.method === "GET") {
+        if (!env.SNAPSHOT_KEY || url.searchParams.get("key") !== env.SNAPSHOT_KEY) {
+          return json({ success: false, error: "Unauthorized" }, 401);
+        }
+        const models = await getModels(env.DB, { limit: 200 });
+        return jsonNoCache({
+          success: true,
+          models,
+          filters: { provider: null, limit: 200 },
+        });
+      }
+
+      if (pathname === "/api/editorial/generate" && request.method === "POST") {
+        if (!env.SNAPSHOT_KEY || url.searchParams.get("key") !== env.SNAPSHOT_KEY) {
+          return json({ success: false, error: "Unauthorized" }, 401);
+        }
+        const body = await request.json().catch(() => ({})) as { slugs?: string[]; all_missing?: boolean };
+        const result = await generateEditorials(env.DB, body);
+        return jsonNoCache({ success: true, ...result });
+      }
+
       if (request.method !== "GET") {
         return json({ success: false, error: "Method not allowed" }, 405);
       }
@@ -204,6 +227,13 @@ async function refreshCatalog(env: Env) {
   const BATCH_SIZE = 80;
   for (let i = 0; i < statements.length; i += BATCH_SIZE) {
     await env.DB.batch(statements.slice(i, i + BATCH_SIZE));
+  }
+
+  // Auto-generate editorial for any models that lack it
+  try {
+    await generateEditorials(env.DB, { all_missing: true });
+  } catch (error) {
+    console.warn("Auto editorial generation failed after catalog sync", error);
   }
 
   try {
@@ -550,6 +580,21 @@ async function ensureSchema(db: D1Database) {
   if (missingTables.length > 0) {
     throw new Error(`Database schema is missing required tables: ${missingTables.join(", ")}. Run the D1 schema migration first.`);
   }
+
+  // Auto-create model_editorial table if it doesn't exist (added post-launch)
+  await db.prepare(`
+    CREATE TABLE IF NOT EXISTS model_editorial (
+      model_id TEXT PRIMARY KEY,
+      editorial_description TEXT,
+      editorial_strengths TEXT,
+      editorial_watchouts TEXT,
+      generated_by TEXT DEFAULT 'auto',
+      approved INTEGER NOT NULL DEFAULT 1,
+      created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+      updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY(model_id) REFERENCES models(id)
+    )
+  `).run();
 }
 
 /**
@@ -1061,18 +1106,37 @@ async function getModelDetail(db: D1Database, identifier: string) {
     LIMIT 6
   `;
 
-  const [releaseHistoryResult, pricingHistoryResult, relatedModelsResult, capabilityHistoryResult] = await Promise.all([
+  const editorialQuery = `
+    SELECT editorial_description, editorial_strengths, editorial_watchouts
+    FROM model_editorial
+    WHERE model_id = ? AND approved = 1
+  `;
+
+  const [releaseHistoryResult, pricingHistoryResult, relatedModelsResult, capabilityHistoryResult, editorialResult] = await Promise.all([
     db.prepare(releaseHistoryQuery).bind(model.id).all<QueryRecord>(),
     db.prepare(pricingHistoryQuery).bind(model.id).all<QueryRecord>(),
     db.prepare(relatedModelsQuery).bind(model.provider, model.id).all<QueryRecord>(),
     db.prepare(capabilityHistoryQuery).bind(model.id).all<QueryRecord>(),
+    db.prepare(editorialQuery).bind(model.id).first<QueryRecord>(),
   ]);
+
+  // Prefer editorial overrides over algorithmic defaults
+  let strengths = buildModelStrengths(model);
+  let watchouts = buildModelWatchouts(model);
+  if (editorialResult) {
+    try {
+      const editStrengths = JSON.parse(String(editorialResult.editorial_strengths ?? "[]"));
+      const editWatchouts = JSON.parse(String(editorialResult.editorial_watchouts ?? "[]"));
+      if (Array.isArray(editStrengths) && editStrengths.length > 0) strengths = editStrengths;
+      if (Array.isArray(editWatchouts) && editWatchouts.length > 0) watchouts = editWatchouts;
+    } catch { /* keep algorithmic defaults on parse error */ }
+  }
 
   return {
     ...model,
     providerWebsiteUrl: TRACKED_PROVIDERS[model.provider]?.websiteUrl ?? null,
-    strengths: buildModelStrengths(model),
-    watchouts: buildModelWatchouts(model),
+    strengths,
+    watchouts,
     releaseHistory: (releaseHistoryResult.results ?? []).map((row) => ({
       eventType: String(row.event_type),
       title: String(row.title),
@@ -1150,6 +1214,216 @@ function buildModelWatchouts(model: ReturnType<typeof normalizeModelRow>) {
   }
 
   return watchouts.slice(0, 3);
+}
+
+// ── Batch editorial generation ────────────────────────────────────────
+
+async function generateEditorials(
+  db: D1Database,
+  options: { slugs?: string[]; all_missing?: boolean },
+) {
+  // Get models that need editorial
+  let models: NormalizedModel[];
+
+  if (options.all_missing) {
+    const result = await db.prepare(`
+      SELECT m.id, COALESCE(m.slug, REPLACE(m.id, '/', '-')) AS slug, m.name, m.provider,
+        COALESCE(m.provider_label, m.provider) AS provider_label, m.model_family, m.description,
+        COALESCE(m.release_date, m.announced_at, m.first_seen_at) AS release_date,
+        lc.context_window, lc.max_output_tokens,
+        lc.supports_tool_use, lc.supports_vision, lc.supports_audio, lc.supports_reasoning,
+        lp.input_price_per_million, lp.output_price_per_million, lp.cached_input_price_per_million,
+        lp.currency, lb.benchmark_name, lb.score AS benchmark_score,
+        COALESCE(m.last_seen_at, m.last_updated) AS last_seen_at
+      FROM models m
+      LEFT JOIN (SELECT model_id, context_window, max_output_tokens, supports_tool_use, supports_vision, supports_audio, supports_reasoning, ROW_NUMBER() OVER (PARTITION BY model_id ORDER BY recorded_at DESC, id DESC) AS rn FROM capability_snapshots) lc ON lc.model_id = m.id AND lc.rn = 1
+      LEFT JOIN (SELECT model_id, input_price_per_million, output_price_per_million, cached_input_price_per_million, currency, ROW_NUMBER() OVER (PARTITION BY model_id ORDER BY recorded_at DESC, id DESC) AS rn FROM pricing_snapshots) lp ON lp.model_id = m.id AND lp.rn = 1
+      LEFT JOIN (SELECT model_id, benchmark_name, score, ROW_NUMBER() OVER (PARTITION BY model_id ORDER BY recorded_at DESC, id DESC) AS rn FROM benchmarks) lb ON lb.model_id = m.id AND lb.rn = 1
+      LEFT JOIN model_editorial me ON me.model_id = m.id
+      WHERE COALESCE(m.is_active, 1) = 1 AND me.model_id IS NULL
+    `).all<QueryRecord>();
+    models = (result.results ?? []).map(normalizeModelRow);
+  } else if (options.slugs && options.slugs.length > 0) {
+    const placeholders = options.slugs.map(() => "?").join(",");
+    const result = await db.prepare(`
+      SELECT m.id, COALESCE(m.slug, REPLACE(m.id, '/', '-')) AS slug, m.name, m.provider,
+        COALESCE(m.provider_label, m.provider) AS provider_label, m.model_family, m.description,
+        COALESCE(m.release_date, m.announced_at, m.first_seen_at) AS release_date,
+        lc.context_window, lc.max_output_tokens,
+        lc.supports_tool_use, lc.supports_vision, lc.supports_audio, lc.supports_reasoning,
+        lp.input_price_per_million, lp.output_price_per_million, lp.cached_input_price_per_million,
+        lp.currency, lb.benchmark_name, lb.score AS benchmark_score,
+        COALESCE(m.last_seen_at, m.last_updated) AS last_seen_at
+      FROM models m
+      LEFT JOIN (SELECT model_id, context_window, max_output_tokens, supports_tool_use, supports_vision, supports_audio, supports_reasoning, ROW_NUMBER() OVER (PARTITION BY model_id ORDER BY recorded_at DESC, id DESC) AS rn FROM capability_snapshots) lc ON lc.model_id = m.id AND lc.rn = 1
+      LEFT JOIN (SELECT model_id, input_price_per_million, output_price_per_million, cached_input_price_per_million, currency, ROW_NUMBER() OVER (PARTITION BY model_id ORDER BY recorded_at DESC, id DESC) AS rn FROM pricing_snapshots) lp ON lp.model_id = m.id AND lp.rn = 1
+      LEFT JOIN (SELECT model_id, benchmark_name, score, ROW_NUMBER() OVER (PARTITION BY model_id ORDER BY recorded_at DESC, id DESC) AS rn FROM benchmarks) lb ON lb.model_id = m.id AND lb.rn = 1
+      WHERE COALESCE(m.is_active, 1) = 1 AND m.slug IN (${placeholders})
+    `).bind(...options.slugs).all<QueryRecord>();
+    models = (result.results ?? []).map(normalizeModelRow);
+  } else {
+    return { generated: 0, skipped: 0, message: "Provide slugs or set all_missing: true" };
+  }
+
+  if (models.length === 0) {
+    return { generated: 0, skipped: 0, message: "All models already have editorial" };
+  }
+
+  const statements: D1PreparedStatement[] = [];
+  for (const model of models) {
+    const editorial = generateEditorialForModel(model);
+    statements.push(
+      db.prepare(`
+        INSERT INTO model_editorial (model_id, editorial_description, editorial_strengths, editorial_watchouts, generated_by, approved, updated_at)
+        VALUES (?, ?, ?, ?, 'auto', 1, CURRENT_TIMESTAMP)
+        ON CONFLICT(model_id) DO UPDATE SET
+          editorial_description = excluded.editorial_description,
+          editorial_strengths = excluded.editorial_strengths,
+          editorial_watchouts = excluded.editorial_watchouts,
+          generated_by = excluded.generated_by,
+          updated_at = CURRENT_TIMESTAMP
+      `).bind(
+        model.id,
+        editorial.description,
+        JSON.stringify(editorial.strengths),
+        JSON.stringify(editorial.watchouts),
+      )
+    );
+  }
+
+  // Batch insert
+  const BATCH_SIZE = 80;
+  for (let i = 0; i < statements.length; i += BATCH_SIZE) {
+    await db.batch(statements.slice(i, i + BATCH_SIZE));
+  }
+
+  return { generated: models.length, skipped: 0 };
+}
+
+// ── Editorial generation ──────────────────────────────────────────────
+// Produces unique, model-specific editorial by combining provider identity,
+// pricing tier, context window tier, and capability mix.
+
+type NormalizedModel = ReturnType<typeof normalizeModelRow>;
+
+function classifyPricingTier(inputPrice: number | null): "free" | "budget" | "mid" | "premium" | "ultra" {
+  if (inputPrice === null || inputPrice === 0) return "free";
+  if (inputPrice <= 0.5) return "budget";
+  if (inputPrice <= 3) return "mid";
+  if (inputPrice <= 10) return "premium";
+  return "ultra";
+}
+
+function classifyContextTier(ctx: number | null): "standard" | "large" | "ultra" {
+  if (!ctx || ctx < 128_000) return "standard";
+  if (ctx < 500_000) return "large";
+  return "ultra";
+}
+
+function generateEditorialForModel(model: NormalizedModel) {
+  const priceTier = classifyPricingTier(model.inputPricePerMillion);
+  const ctxTier = classifyContextTier(model.contextWindow);
+
+  // Capability vector
+  const caps: string[] = [];
+  if (model.supportsToolUse) caps.push("tool use");
+  if (model.supportsVision) caps.push("vision");
+  if (model.supportsAudio) caps.push("audio");
+  if (model.supportsReasoning) caps.push("reasoning");
+  const capSummary = caps.length > 0 ? caps.join(", ") : "text generation";
+
+  // Determine model positioning
+  const isMultimodal = model.supportsVision || model.supportsAudio;
+  const isAgentic = model.supportsToolUse && model.supportsReasoning;
+
+  // ── Build description ──
+  const ctxLabel = model.contextWindow
+    ? `${Math.round(model.contextWindow / 1000)}K-token context window`
+    : "standard context window";
+
+  let description: string;
+  if (isAgentic && ctxTier === "ultra") {
+    description = `${model.name} pairs a ${ctxLabel} with ${capSummary} — positioned as ${model.providerLabel}'s offering for complex agentic workflows and long-horizon tasks.`;
+  } else if (isMultimodal) {
+    description = `${model.name} is a multimodal model from ${model.providerLabel} with ${capSummary} support across a ${ctxLabel}, suited for workflows that mix text with other input types.`;
+  } else if (priceTier === "budget" || priceTier === "free") {
+    description = `${model.name} is a cost-efficient model from ${model.providerLabel} with a ${ctxLabel}, designed for high-volume or latency-sensitive workloads where per-token cost matters.`;
+  } else if (priceTier === "ultra") {
+    description = `${model.name} is a premium-tier model from ${model.providerLabel} with a ${ctxLabel} and ${capSummary}, targeting use cases where output quality justifies higher per-token spend.`;
+  } else {
+    description = `${model.name} from ${model.providerLabel} offers ${capSummary} with a ${ctxLabel}, positioned as a balanced option across the provider's model lineup.`;
+  }
+
+  // ── Build strengths ──
+  const strengths: string[] = [];
+
+  if (ctxTier === "ultra") {
+    strengths.push(`Offers a ${ctxLabel}, enabling full-document and multi-file analysis without chunking.`);
+  } else if (ctxTier === "large") {
+    strengths.push(`${ctxLabel} handles longer documents and multi-turn conversations without truncation.`);
+  }
+
+  if (model.supportsToolUse && model.supportsReasoning) {
+    strengths.push(`Combines tool use with reasoning — a strong baseline for agentic and multi-step workflows.`);
+  } else if (model.supportsToolUse) {
+    strengths.push(`Tool use support makes it viable for function-calling and agentic pipelines.`);
+  } else if (model.supportsReasoning) {
+    strengths.push(`Reasoning capability positions it for multi-step analysis and chain-of-thought tasks.`);
+  }
+
+  if (isMultimodal) {
+    const modalities = [model.supportsVision ? "vision" : null, model.supportsAudio ? "audio" : null].filter(Boolean).join(" and ");
+    strengths.push(`Multimodal input (${modalities}) extends it beyond text-only workflows.`);
+  }
+
+  if (priceTier === "budget" || priceTier === "free") {
+    const priceStr = model.inputPricePerMillion !== null ? `$${model.inputPricePerMillion}/M input` : "minimal cost";
+    strengths.push(`${priceStr} makes it practical for always-on agents, batch processing, or high-volume classification.`);
+  }
+
+  if (model.benchmarkScore) {
+    strengths.push(`Tracked benchmark score of ${model.benchmarkScore.toLocaleString()} on Arena Leaderboard provides a competitive reference point.`);
+  }
+
+  if (strengths.length === 0) {
+    strengths.push(`Actively tracked in the AIViewer catalog with current pricing and capability data from ${model.providerLabel}.`);
+  }
+
+  // ── Build watchouts ──
+  const watchouts: string[] = [];
+
+  if (priceTier === "ultra") {
+    const outPrice = model.outputPricePerMillion;
+    watchouts.push(`Output pricing${outPrice ? ` ($${outPrice}/M)` : ""} puts it at the high end — monitor generation length for cost control.`);
+  } else if (priceTier === "premium" && (model.outputPricePerMillion ?? 0) >= 15) {
+    watchouts.push(`Mid-to-premium output pricing means long generations can add up in production workloads.`);
+  }
+
+  if (!model.supportsToolUse) {
+    watchouts.push(`No tool-use capability is currently tracked, which limits its fit for agentic or function-calling patterns.`);
+  }
+
+  if (!isMultimodal) {
+    watchouts.push(`Text-only input — image or audio workflows require a separate model in the pipeline.`);
+  }
+
+  if (ctxTier === "standard" && model.contextWindow) {
+    watchouts.push(`${Math.round(model.contextWindow / 1000)}K context window is shorter than the longest-context frontier models available today.`);
+  }
+
+  if (!model.benchmarkScore) {
+    watchouts.push(`No benchmark score currently tracked — evaluate using task-specific testing alongside pricing and capability data.`);
+  }
+
+  if (watchouts.length === 0) {
+    watchouts.push(`Compare task fit, pricing, and benchmark coverage before committing to a production integration.`);
+  }
+
+  return {
+    description,
+    strengths: strengths.slice(0, 4),
+    watchouts: watchouts.slice(0, 3),
+  };
 }
 
 function normalizeModelRow(row: QueryRecord) {

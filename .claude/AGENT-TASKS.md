@@ -34,12 +34,22 @@
 - **Transitions**: Use `transition-card`, `shadow-[var(--shadow-card)]`, `hover:shadow-[var(--shadow-card-hover)]` for cards
 - **No emojis in UI**. No emoji badges, no emoji labels
 
-### 5. Reporting
+### 5. Editorial Integrity (ZERO TOLERANCE — Full policy: `docs/EDITORIAL-POLICY.md`)
+> This rule exists because Agent 4 published 4 fabricated URLs and 1 fake company while claiming "100% verified." Never again.
+
+- **Never publish a URL you haven't fetched.** "Looks right" is not verified. HTTP 200 with relevant content = verified. Everything else = not verified.
+- **Never invent a company, product, or program name.** If you can't find it in a web search, it doesn't go in our content. Use a generic descriptor instead.
+- **Never fabricate statistics.** Every number must trace to a named, verifiable source. "Approximately" is honest; false precision is fabrication.
+- **Never present estimated SEO data as measured data.** You don't have Ahrefs. Say "Estimated — no tool data" or don't include numbers.
+- **Never inflate self-assessments.** List what's missing alongside any score. Honesty beats optimism.
+- **On task completion, include a VERIFICATION STATUS checklist** (template in `docs/EDITORIAL-POLICY.md` Section 7). Unchecked boxes = not ready for publication.
+
+### 6. Reporting
 - When you finish a task, update your status in this file to `DONE`
 - List any known issues under `Issues / Follow-up` in your section
 - If you create a file not in the file structure reference, add it
 
-### 6. Content Freshness (CRITICAL — March 2026)
+### 7. Content Freshness (CRITICAL — March 2026)
 **All content MUST reflect the current AI landscape as of March 2026.**
 - **Claude models**: Opus 4.6 (Feb 2026), Sonnet 4.6 (Feb 2026), Haiku 4.5 (Oct 2025)
 - **OpenAI models**: GPT-5.4 (March 5, 2026), GPT-5.4 Thinking, GPT-5.3 Instant
@@ -48,7 +58,7 @@
 - If you're unsure about a model name or capability, ASK Agent 1 before publishing
 - Every article must read like it was written THIS WEEK, not 6 months ago
 
-### 7. What NOT To Do
+### 8. What NOT To Do
 - Don't modify files owned by another agent without asking Agent 1 first
 - Don't install new npm packages without noting it here
 - Don't change `astro.config.mjs`, `content.config.ts`, or `site.config.ts` without Agent 1 approval
@@ -2092,3 +2102,25 @@ The 11 reports in `src/content/reports/` (our "AI & Society" vertical) are usele
 - [ ] `how-we-test-ai.mdx` published and `<TrustBadge />` integrated on all tool pages.
 - [ ] 3 massive comparison guides published (Cursor vs Copilot, Image Gen showdown, Claude vs GPT).
 - [ ] 11 LinkedIn promotional posts drafted for the "AI & Society" reports.
+
+---
+## PENDING TASKS FROM RECENT AUDIT
+> **Status**: COMPLETE
+> **Updated by**: AIViewer Auditing Assistant — 2026-03-09
+
+The following critical Phase 7 and Phase 9 items remain open and require immediate execution:
+
+**1. Phase 9A & 9B: Trust Methodology & Money Pages (Agents 2 & 3)**
+- **`<TrustBadge />` Component missing**: Needs to be built and injected into all tool and comparison pages.
+- **`how-we-test-ai.mdx` missing**: Needs to document the 5-step testing methodology.
+- **Missing High-Intent Comparisons**: 
+  - `midjourney-vs-dalle3-vs-stable-diffusion.mdx`
+  - `claude-opus-vs-gpt5.mdx`
+
+**2. Phase 9C: Content Distribution (Agent 1)**
+- Draft 11 LinkedIn promotional posts for the "AI & Society" reports.
+- Draft 10 academic seeding cold emails for university tech-ethics departments.
+
+**3. Phase 7 Leftovers: Prompts & Linking Audit (Agent 3)**
+- **Missing Prompts**: Still need 3 prompts (Product Description Writer, Interview Prep Coach, Meeting Notes Summarizer) to complete the 10-prompt library.
+- **Internal Linking Audit pending**: Ensure every piece of content maps to at least 1-2 other relevant site pages.

@@ -1,0 +1,103 @@
+---
+import { siteConfig } from '../../data/site.config';
+
+export interface Props {
+  name: string;
+  description: string;
+  image?: string;
+  url: string;
+  category: string;
+  pricing: string;
+  pricingDetails: string;
+  rating: number;
+  datePublished: Date;
+  dateModified?: Date;
+}
+
+const {
+  name,
+  description,
+  image,
+  url,
+  category,
+  pricing,
+  pricingDetails,
+  rating,
+  datePublished,
+  dateModified,
+} = Astro.props;
+
+const siteUrl = siteConfig.url;
+const imageUrl = image
+  ? new URL(image, siteUrl).toString()
+  : new URL(siteConfig.seo.ogImage, siteUrl).toString();
+
+/**
+ * Map internal category slugs to schema.org applicationCategory values.
+ * @see https://schema.org/SoftwareApplication
+ */
+const categoryMap: Record<string, string> = {
+  coding: 'DeveloperApplication',
+  writing: 'BusinessApplication',
+  design: 'DesignApplication',
+  research: 'ReferenceApplication',
+  video: 'MultimediaApplication',
+  audio: 'MultimediaApplication',
+  productivity: 'BusinessApplication',
+  education: 'EducationalApplication',
+  data: 'BusinessApplication',
+  translation: 'ReferenceApplication',
+  presentation: 'BusinessApplication',
+};
+
+const applicationCategory = categoryMap[category] ?? 'BusinessApplication';
+
+/**
+ * Extract a numeric price from pricingDetails.
+ * Matches patterns like "$20", "$9.99/mo", "$199/year".
+ * Falls back to "0" for free tools and empty string for enterprise/custom.
+ */
+function extractPrice(pricingModel: string, details: string): string {
+  if (pricingModel === 'free') return '0';
+  const match = details.match(/\$([\d]+(?:\.[\d]{1,2})?)/);
+  if (match) return match[1];
+  if (pricingModel === 'enterprise') return '0';
+  return '0';
+}
+
+const price = extractPrice(pricing, pricingDetails);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": name,
+  "description": description,
+  "image": imageUrl,
+  "url": url,
+  "applicationCategory": applicationCategory,
+  "operatingSystem": "Web, iOS, Android",
+  "offers": {
+    "@type": "Offer",
+    "price": price,
+    "priceCurrency": "USD",
+    ...(pricing === 'free'
+      ? { "availability": "https://schema.org/InStock" }
+      : {}),
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": rating.toString(),
+    "bestRating": "5",
+    "ratingCount": "1",
+  },
+  "author": {
+    "@type": "Organization",
+    "name": siteConfig.name,
+    "url": siteUrl,
+  },
+  "datePublished": datePublished.toISOString(),
+  "dateModified": (dateModified ?? datePublished).toISOString(),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

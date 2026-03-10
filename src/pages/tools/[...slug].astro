@@ -6,6 +6,7 @@ import Footer from '../../components/layout/Footer.astro';
 import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
 import TableOfContents from '../../components/content/TableOfContents.astro';
 import ReviewSchema from '../../components/seo/ReviewSchema.astro';
+import ProductSchema from '../../components/seo/ProductSchema.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 import FAQSchema from '../../components/seo/FAQSchema.astro';
 import ProsCons from '../../components/content/ProsCons.astro';
@@ -170,6 +171,19 @@ const pricingTiers = inferPricingTiers();
     dateModified={entry.data.updatedDate}
     reviewBody={verdict}
     aggregateRatingValue={entry.data.rating}
+  />
+  <ProductSchema
+    slot="head"
+    name={entry.data.toolName}
+    description={entry.data.description}
+    image={entry.data.coverImage}
+    url={entry.data.website}
+    category={entry.data.category}
+    pricing={entry.data.pricing}
+    pricingDetails={entry.data.pricingDetails}
+    rating={entry.data.rating}
+    datePublished={entry.data.publishedDate}
+    dateModified={entry.data.updatedDate}
   />
   <BreadcrumbSchema
     slot="head"

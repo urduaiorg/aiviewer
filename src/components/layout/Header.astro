@@ -3,14 +3,9 @@ import Search from './Search.astro';
 import SearchDialog from '../content/SearchDialog.astro';
 import ThemeToggle from './ThemeToggle.astro';
 
-const navItems = [
-  { label: 'Playbooks', href: '/playbooks/' },
-  { label: 'Tools', href: '/tools/' },
-  { label: 'Compare', href: '/compare/' },
-  { label: 'Changes', href: '/changes/' },
-  { label: 'Guides', href: '/guides/' },
-  { label: 'About', href: '/about/' },
-];
+import { siteConfig } from '../../data/site.config';
+
+const navItems = siteConfig.nav.main;
 
 const currentPath = Astro.url.pathname;
 ---

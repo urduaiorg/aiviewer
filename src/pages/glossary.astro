@@ -1,0 +1,404 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Breadcrumbs from '../components/layout/Breadcrumbs.astro';
+import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
+
+/* ── Glossary Data ──────────────────────────────────────────────
+   Each term: { term, definition, link? }
+   link is an optional internal AIViewer page for deeper reading. */
+
+const glossaryTerms = [
+  // ── A ──
+  { term: 'AGI (Artificial General Intelligence)', definition: 'A hypothetical form of AI that can understand, learn, and apply knowledge across any intellectual task a human can do. No AGI system exists today; current AI is narrow, meaning it excels at specific tasks but cannot generalize the way people do.' },
+  { term: 'AI Agent', definition: 'Software that uses a large language model to plan steps, call tools, and complete multi-step tasks with minimal human oversight. Agents can browse the web, write code, or manage workflows autonomously.', link: '/guides/what-is-agentic-ai/' },
+  { term: 'AI Alignment', definition: 'The research discipline focused on ensuring AI systems behave in ways that match human intentions and values. Alignment work ranges from reward modeling to constitutional AI methods that constrain model outputs.' },
+  { term: 'Anomaly Detection', definition: 'A machine-learning technique that identifies data points, events, or observations that deviate significantly from expected patterns. Widely used in fraud detection, cybersecurity, and manufacturing quality control.' },
+  { term: 'API (Application Programming Interface)', definition: 'A set of rules that lets one piece of software talk to another. In AI, an API is how developers send prompts to a model and receive responses, typically over HTTP with JSON payloads.' },
+  { term: 'Attention Mechanism', definition: 'The core innovation inside Transformers. Instead of reading text one word at a time, attention lets the model weigh every word against every other word simultaneously, capturing long-range relationships in a single pass.' },
+  { term: 'Autoregressive Model', definition: 'A model that generates output one token at a time, where each new token is conditioned on all previously generated tokens. GPT-series models and most modern LLMs are autoregressive.' },
+
+  // ── B ──
+  { term: 'Benchmark', definition: 'A standardized test used to measure and compare AI model performance. Examples include MMLU for general knowledge, HumanEval for coding, and HellaSwag for commonsense reasoning.' },
+  { term: 'Bias (AI)', definition: 'Systematic errors in AI outputs caused by skewed training data, flawed labeling, or design choices that favor certain groups over others. Bias can surface as stereotyped language, unequal accuracy across demographics, or exclusionary recommendations.' },
+  { term: 'BERT (Bidirectional Encoder Representations from Transformers)', definition: 'A landmark language model from Google (2018) that reads text in both directions simultaneously. BERT excels at understanding context and powers many search and classification systems, though it does not generate long-form text like GPT-style models.' },
+
+  // ── C ──
+  { term: 'Chain-of-Thought (CoT)', definition: 'A prompting technique that asks the model to show its reasoning step by step before giving a final answer. CoT dramatically improves accuracy on math, logic, and multi-step reasoning tasks.' },
+  { term: 'ChatGPT', definition: 'OpenAI\'s conversational AI product built on GPT-series models. It popularized the chat-based interface for interacting with LLMs and remains one of the most widely used AI tools globally.', link: '/tools/chatgpt/' },
+  { term: 'Claude', definition: 'Anthropic\'s family of large language models, designed with a focus on safety, honesty, and helpfulness. Claude models support long context windows and are available through API and consumer products.', link: '/tools/claude-ai/' },
+  { term: 'CLIP (Contrastive Language-Image Pre-training)', definition: 'An OpenAI model trained to understand the relationship between images and text by learning from millions of image-caption pairs. CLIP enables zero-shot image classification and powers many text-to-image search systems.' },
+  { term: 'Computer Vision', definition: 'The branch of AI that enables machines to interpret and act on visual information such as photos, videos, and medical scans. Applications range from facial recognition to autonomous vehicles to quality inspection on factory lines.' },
+  { term: 'Constitutional AI', definition: 'An alignment technique developed by Anthropic where the model critiques and revises its own outputs according to a set of written principles (a "constitution"), reducing the need for human feedback on every example.' },
+  { term: 'Context Window', definition: 'The maximum number of tokens a model can process in a single conversation. A larger context window means the model can reference more prior text. Modern models range from 8K to over 1M tokens.' },
+
+  // ── D ──
+  { term: 'Data Augmentation', definition: 'Techniques for expanding a training dataset by creating modified versions of existing data, such as rotating images, paraphrasing text, or adding noise. Augmentation helps models generalize better without collecting new data.' },
+  { term: 'Deep Learning', definition: 'A subset of machine learning that uses neural networks with many layers ("deep" architectures) to learn patterns from large amounts of data. Deep learning drives breakthroughs in vision, language, speech, and game-playing AI.' },
+  { term: 'Diffusion Model', definition: 'A generative model that creates images by starting with random noise and gradually removing it, step by step, until a coherent image emerges. Stable Diffusion, DALL-E, and Midjourney all use diffusion-based architectures.' },
+  { term: 'Discriminator', definition: 'In a GAN (Generative Adversarial Network), the discriminator is the model that tries to distinguish real data from fake data produced by the generator. The two models train against each other in a competitive loop.' },
+  { term: 'Distillation', definition: 'The process of training a smaller, faster model to replicate the behavior of a larger, more capable model. Distillation preserves much of the large model\'s quality while drastically reducing compute costs and latency.' },
+
+  // ── E ──
+  { term: 'Embedding', definition: 'A numerical representation of text, images, or other data as a dense vector of numbers. Embeddings capture meaning so that semantically similar items end up close together in vector space, enabling search, clustering, and recommendation systems.' },
+  { term: 'Encoder', definition: 'The part of a neural network that compresses input data into a compact internal representation. In Transformer architectures, encoder-only models like BERT are used for understanding tasks, while encoder-decoder models like T5 handle translation and summarization.' },
+  { term: 'Ethical AI', definition: 'An umbrella term for practices, principles, and governance frameworks that aim to make AI development and deployment fair, transparent, accountable, and respectful of human rights.' },
+  { term: 'Evaluation Metric', definition: 'A quantitative measure used to assess model performance. Common metrics include accuracy, F1 score, perplexity, BLEU (for translation), and human preference ratings (for conversational AI).' },
+
+  // ── F ──
+  { term: 'Few-Shot Learning', definition: 'A technique where a model learns to perform a task from just a handful of examples, typically provided in the prompt. Few-shot learning lets you customize model behavior without fine-tuning or retraining.' },
+  { term: 'Fine-Tuning', definition: 'The process of taking a pre-trained model and continuing its training on a smaller, task-specific dataset. Fine-tuning adapts general capabilities to specialized domains like medical diagnosis, legal analysis, or brand voice.', link: '/guides/fine-tuning-vs-rag/' },
+  { term: 'Foundation Model', definition: 'A large AI model trained on broad data at scale that can be adapted to many downstream tasks. GPT-4, Claude, Llama, and Gemini are all foundation models. The term emphasizes their role as a starting point, not a finished product.' },
+  { term: 'Frontier Model', definition: 'The most capable AI model available at any given time, typically defined by leading performance on benchmarks and emergent abilities not seen in smaller models. Frontier models raise the most urgent safety and policy questions.' },
+
+  // ── G ──
+  { term: 'GAN (Generative Adversarial Network)', definition: 'A framework where two neural networks, a generator and a discriminator, compete against each other. The generator creates synthetic data, and the discriminator tries to tell it apart from real data. GANs were groundbreaking for image generation before diffusion models overtook them.' },
+  { term: 'Gemini', definition: 'Google DeepMind\'s family of multimodal AI models, capable of processing text, images, audio, and video. Gemini competes directly with GPT-4 and Claude in the frontier model space.' },
+  { term: 'Generative AI', definition: 'AI systems that create new content, whether text, images, music, code, or video, rather than just classifying or analyzing existing data. The generative AI wave began with GPT-3 and accelerated with ChatGPT, Midjourney, and Stable Diffusion.', link: '/guides/getting-started-with-ai/' },
+  { term: 'GPT (Generative Pre-trained Transformer)', definition: 'A family of autoregressive language models created by OpenAI. "Generative" means it produces text; "Pre-trained" means it learned from a massive corpus before being fine-tuned; "Transformer" is the underlying architecture.' },
+  { term: 'Gradient Descent', definition: 'The core optimization algorithm used to train neural networks. It works by calculating how wrong the model\'s predictions are, then nudging the model\'s weights in the direction that reduces that error, step by step.' },
+  { term: 'Grounding', definition: 'Connecting a model\'s outputs to verifiable external sources such as databases, documents, or search results. Grounding reduces hallucination by anchoring responses in real, retrievable information.' },
+  { term: 'Guardrails', definition: 'Safety mechanisms that constrain AI model behavior, such as content filters, output validators, and policy layers. Guardrails prevent models from generating harmful, off-topic, or policy-violating content.' },
+
+  // ── H ──
+  { term: 'Hallucination', definition: 'When an AI model generates information that sounds plausible but is factually wrong or entirely fabricated. Hallucinations are a fundamental limitation of current LLMs and a major obstacle to trustworthy AI deployment.', link: '/guides/ai-safety-and-risks-2026/' },
+  { term: 'Hyperparameter', definition: 'A setting chosen before training begins, such as learning rate, batch size, or number of layers, that controls how the model learns. Unlike regular parameters (weights), hyperparameters are not learned from data.' },
+  { term: 'Human-in-the-Loop (HITL)', definition: 'A design pattern where human judgment is integrated into an AI workflow, either to review outputs, correct errors, or make final decisions. HITL systems balance automation speed with human accountability.' },
+
+  // ── I ──
+  { term: 'Inference', definition: 'The process of running a trained model to produce outputs from new inputs. When you send a prompt to ChatGPT and receive a response, that\'s inference. It is computationally cheaper than training but still significant at scale.' },
+  { term: 'Instruction Tuning', definition: 'A fine-tuning method where the model is trained on datasets of instructions paired with desired responses. This teaches the model to follow human directions more reliably and is a key step in making raw LLMs usable as assistants.' },
+
+  // ── J ──
+  { term: 'JSON Mode', definition: 'A model configuration that constrains the output to valid JSON format. JSON mode is essential for building reliable AI pipelines where downstream code needs structured, parseable data instead of free-form text.' },
+
+  // ── K ──
+  { term: 'Knowledge Distillation', definition: 'A training technique where a smaller "student" model learns to mimic the outputs of a larger "teacher" model. The student captures most of the teacher\'s capability at a fraction of the size and cost, making deployment more practical.' },
+  { term: 'Knowledge Graph', definition: 'A structured database of entities and their relationships, often represented as nodes and edges. AI systems use knowledge graphs to answer factual queries, power recommendations, and ground language model outputs in verified facts.' },
+
+  // ── L ──
+  { term: 'Large Language Model (LLM)', definition: 'A neural network trained on massive text datasets that can generate, summarize, translate, and reason about language. LLMs like GPT-4, Claude, and Llama are the engines behind modern conversational AI, coding assistants, and content tools.', link: '/guides/understanding-local-llms/' },
+  { term: 'Latent Space', definition: 'The compressed, high-dimensional representation space that a model uses internally. In image generation, the latent space is where the model manipulates abstract features before decoding them into visible pixels.' },
+  { term: 'Llama', definition: 'Meta\'s family of open-weight large language models. Llama models can be downloaded, fine-tuned, and deployed locally, making them central to the open-source AI ecosystem.' },
+  { term: 'LoRA (Low-Rank Adaptation)', definition: 'An efficient fine-tuning technique that trains only a small number of additional parameters instead of updating the entire model. LoRA dramatically reduces the memory and compute needed to customize large models for specific tasks.' },
+
+  // ── M ──
+  { term: 'Machine Learning (ML)', definition: 'The broad field of computer science where systems learn patterns from data rather than following explicit rules. Machine learning encompasses supervised, unsupervised, and reinforcement learning, and is the foundation on which deep learning and modern AI are built.' },
+  { term: 'Midjourney', definition: 'A generative AI tool that creates images from text descriptions. Known for its distinctive artistic style and high-quality outputs, Midjourney operates through a Discord-based interface and a web platform.', link: '/tools/midjourney/' },
+  { term: 'Mixture of Experts (MoE)', definition: 'An architecture where a model contains multiple specialized sub-networks ("experts") and a routing mechanism that activates only a few experts for each input. MoE allows models to scale to trillions of parameters while keeping inference costs manageable.' },
+  { term: 'Model Collapse', definition: 'A degradation that occurs when AI models are trained on AI-generated data. Over successive generations, the model\'s output distribution narrows, loses diversity, and eventually produces repetitive or nonsensical results.' },
+  { term: 'Multimodal', definition: 'Describes AI systems that can process and generate more than one type of data, such as text and images, text and audio, or text, images, and video simultaneously. GPT-4V, Gemini, and Claude with vision are multimodal models.', link: '/guides/what-is-multimodal-ai/' },
+
+  // ── N ──
+  { term: 'Natural Language Processing (NLP)', definition: 'The branch of AI focused on enabling machines to understand, interpret, and generate human language. NLP powers chatbots, translation services, sentiment analysis, search engines, and voice assistants.' },
+  { term: 'Neural Network', definition: 'A computing system inspired by the structure of biological brains, consisting of layers of interconnected nodes ("neurons") that process data by passing signals forward and adjusting connection weights during training.' },
+  { term: 'Next-Token Prediction', definition: 'The training objective of autoregressive language models: given a sequence of tokens, predict the next one. Despite its simplicity, this objective, applied at scale, produces models capable of reasoning, coding, and creative writing.' },
+
+  // ── O ──
+  { term: 'ONNX (Open Neural Network Exchange)', definition: 'An open-source format for representing machine learning models. ONNX lets you train a model in one framework (like PyTorch) and deploy it in another (like TensorFlow), improving portability across tools and hardware.' },
+  { term: 'Open Source AI', definition: 'AI models and tools released with publicly available weights, code, or training data. Open-source AI democratizes access, enables transparency, and allows communities to build on and audit each other\'s work. Llama and Mistral are prominent examples.' },
+  { term: 'Overfitting', definition: 'When a model performs well on training data but poorly on new, unseen data because it has memorized specific examples rather than learning generalizable patterns. Overfitting is one of the most common failure modes in machine learning.' },
+
+  // ── P ──
+  { term: 'Parameter', definition: 'A learned value inside a neural network, essentially a number (weight or bias) that the model adjusts during training. Modern LLMs have billions to trillions of parameters; more parameters generally enable greater capability but require more compute.' },
+  { term: 'Perplexity', definition: 'A metric that measures how well a language model predicts text. Lower perplexity means the model is less "surprised" by the data, indicating better language understanding. It is commonly used to compare language models during development.' },
+  { term: 'Pre-Training', definition: 'The initial phase of training where a model learns general patterns from a massive, diverse dataset. Pre-training gives the model broad knowledge and language ability before it is fine-tuned or instruction-tuned for specific tasks.' },
+  { term: 'Prompt Engineering', definition: 'The practice of crafting effective instructions (prompts) to get better, more reliable outputs from AI models. Techniques include few-shot examples, chain-of-thought, system prompts, and structured output formatting.', link: '/guides/prompt-engineering-handbook/' },
+
+  // ── Q ──
+  { term: 'Quantization', definition: 'Reducing the precision of a model\'s numerical weights (e.g., from 32-bit to 4-bit) to shrink file size and speed up inference. Quantization enables large models to run on consumer hardware with modest quality trade-offs.' },
+  { term: 'Query', definition: 'In AI context, a query is the input sent to a model, database, or search system to retrieve or generate information. In RAG systems, the user\'s question is encoded as a query vector and matched against a knowledge base.' },
+
+  // ── R ──
+  { term: 'RAG (Retrieval-Augmented Generation)', definition: 'A technique that combines a language model with an external knowledge retrieval system. Before generating an answer, the model searches relevant documents and uses that retrieved context to produce more accurate, grounded responses.', link: '/guides/fine-tuning-vs-rag/' },
+  { term: 'Reasoning Model', definition: 'A model specifically trained or prompted to perform multi-step logical reasoning before producing an answer. Examples include OpenAI\'s o1 and o3 series, which use internal chain-of-thought to solve complex problems.' },
+  { term: 'Reinforcement Learning (RL)', definition: 'A machine learning paradigm where an agent learns by taking actions in an environment and receiving rewards or penalties. RL is how game-playing AIs like AlphaGo learn, and it is a key component of RLHF for language models.' },
+  { term: 'Retrieval', definition: 'The process of finding and fetching relevant documents or data from a knowledge base, search index, or vector database. In RAG pipelines, retrieval quality directly determines the accuracy of the model\'s final output.' },
+  { term: 'RLHF (Reinforcement Learning from Human Feedback)', definition: 'A training technique where human evaluators rank model outputs by quality, and those rankings are used to train a reward model that guides the AI\'s behavior. RLHF is how models like ChatGPT learn to be helpful, harmless, and honest.' },
+
+  // ── S ──
+  { term: 'Self-Supervised Learning', definition: 'A training approach where the model creates its own labels from raw data, such as predicting masked words in a sentence or the next frame in a video. Self-supervised learning enables training on vast unlabeled datasets and is the backbone of LLM pre-training.' },
+  { term: 'Semantic Search', definition: 'Search that matches queries to results based on meaning rather than exact keyword overlap. Semantic search uses embeddings to understand that "affordable apartments" and "cheap flats" are asking for the same thing.' },
+  { term: 'Stable Diffusion', definition: 'An open-source diffusion model for generating images from text prompts. Unlike DALL-E and Midjourney, Stable Diffusion can be downloaded and run locally, making it a cornerstone of the open-source AI art ecosystem.' },
+  { term: 'Synthetic Data', definition: 'Data generated by AI models rather than collected from real-world sources. Synthetic data is used to augment training sets, protect privacy, and create examples for rare edge cases that are difficult to gather organically.' },
+  { term: 'System Prompt', definition: 'A hidden instruction given to a language model at the start of a conversation that defines its role, personality, constraints, and behavior. System prompts shape how the model responds but are not visible to end users.' },
+
+  // ── T ──
+  { term: 'Temperature', definition: 'A setting that controls randomness in a model\'s output. Low temperature (e.g., 0.1) makes responses more predictable and focused; high temperature (e.g., 1.0) makes them more creative and varied. A temperature of 0 is nearly deterministic.' },
+  { term: 'Token', definition: 'The basic unit of text that a language model processes. A token is roughly 3-4 characters in English; "hamburger" might be split into "ham," "bur," and "ger." Pricing, context limits, and speed are all measured in tokens.' },
+  { term: 'Tool Use (Function Calling)', definition: 'The ability of an AI model to invoke external tools, APIs, or functions during a conversation. Tool use lets models check the weather, query databases, run code, or interact with other software in real time.' },
+  { term: 'Training Data', definition: 'The dataset used to teach an AI model patterns and relationships. Training data quality, size, and diversity directly determine model capabilities and biases. Modern LLMs are trained on trillions of tokens from the internet, books, and code.' },
+  { term: 'Transfer Learning', definition: 'The technique of taking knowledge learned on one task and applying it to a different but related task. Transfer learning is why you can fine-tune a general-purpose LLM on 1,000 medical examples and get a competent medical assistant.' },
+  { term: 'Transformer', definition: 'The neural network architecture introduced in 2017 that powers nearly all modern language and vision models. Transformers use self-attention to process all tokens in parallel, making them vastly more efficient and capable than earlier sequential architectures like RNNs.' },
+
+  // ── U ──
+  { term: 'Underfitting', definition: 'When a model is too simple to capture the patterns in its training data, resulting in poor performance on both training and test sets. Underfitting often means the model needs more parameters, more training time, or better features.' },
+  { term: 'Unsupervised Learning', definition: 'A machine learning approach where the model finds patterns in data without labeled examples. Clustering customers by behavior, detecting anomalies in network traffic, and learning word embeddings are all forms of unsupervised learning.' },
+
+  // ── V ──
+  { term: 'Vector Database', definition: 'A database optimized for storing and searching high-dimensional vectors (embeddings). Vector databases like Pinecone, Weaviate, and Chroma power semantic search, RAG systems, and recommendation engines by finding the nearest neighbors in embedding space.' },
+  { term: 'Vision-Language Model (VLM)', definition: 'A model that can process both images and text, enabling tasks like describing photos, answering questions about diagrams, or extracting data from screenshots. GPT-4V and Claude with vision are prominent VLMs.' },
+  { term: 'ViT (Vision Transformer)', definition: 'An architecture that applies the Transformer model, originally designed for text, to image recognition. ViT splits images into patches and processes them like tokens, achieving state-of-the-art results in computer vision tasks.' },
+
+  // ── W ──
+  { term: 'Weight', definition: 'A numerical value in a neural network that determines the strength of the connection between neurons. During training, weights are adjusted to minimize prediction errors. A model\'s "weights" are the complete set of learned parameters.' },
+  { term: 'Word Embedding', definition: 'A technique that maps words to dense numerical vectors where similar words are positioned close together. Word2Vec and GloVe are classic word embedding methods; modern embeddings from Transformers capture richer contextual meaning.' },
+
+  // ── X ──
+  { term: 'XAI (Explainable AI)', definition: 'Methods and techniques that make AI decision-making transparent and interpretable to humans. XAI is critical in healthcare, finance, and legal contexts where users need to understand why a model made a particular prediction or recommendation.' },
+
+  // ── Z ──
+  { term: 'Zero-Shot Learning', definition: 'A model\'s ability to perform a task it was never explicitly trained on, based solely on its general knowledge and the natural-language instruction given at inference time. Strong zero-shot ability is a hallmark of capable foundation models.' },
+];
+
+/* ── Group terms by first letter ── */
+type GlossaryTerm = { term: string; definition: string; link?: string };
+const grouped: Record<string, GlossaryTerm[]> = {};
+
+glossaryTerms.forEach((entry) => {
+  const letter = entry.term.charAt(0).toUpperCase();
+  if (!grouped[letter]) grouped[letter] = [];
+  grouped[letter].push(entry);
+});
+
+const letters = Object.keys(grouped).sort();
+const allLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+/* ── Slug helper for term IDs ── */
+function termToId(term: string): string {
+  return term
+    .toLowerCase()
+    .replace(/\(.*?\)/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
+/* ── DefinedTermSet Schema (JSON-LD) ── */
+const definedTermSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  name: 'AI Glossary',
+  description: 'A comprehensive glossary of artificial intelligence terms explained in plain English for non-technical audiences.',
+  url: 'https://aiviewer.ai/glossary/',
+  publisher: {
+    '@type': 'Organization',
+    name: 'AIViewer.ai',
+    url: 'https://aiviewer.ai',
+  },
+  hasDefinedTerm: glossaryTerms.map((entry) => ({
+    '@type': 'DefinedTerm',
+    name: entry.term.replace(/\s*\(.*?\)/, ''),
+    description: entry.definition,
+    url: `https://aiviewer.ai/glossary/#${termToId(entry.term)}`,
+    inDefinedTermSet: 'https://aiviewer.ai/glossary/',
+  })),
+};
+
+const breadcrumbItems = [
+  { name: 'Home', url: '/' },
+  { name: 'AI Glossary', url: '/glossary/' },
+];
+---
+
+<BaseLayout
+  title="AI Glossary — Every AI Term Explained in Plain English"
+  description="80+ artificial intelligence terms defined in plain language. From AGI to zero-shot learning, understand the vocabulary of AI without a PhD."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbItems} />
+    <script type="application/ld+json" set:html={JSON.stringify(definedTermSchema)} />
+  </Fragment>
+
+  <Header />
+
+  <!-- ── Hero ── -->
+  <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
+    <!-- Background gradient orbs -->
+    <div class="absolute inset-x-0 top-0 h-80 bg-[radial-gradient(circle_at_30%_10%,_rgba(240,199,94,0.18),_transparent_42%),radial-gradient(circle_at_75%_20%,_rgba(79,70,229,0.10),_transparent_40%)] dark:bg-[radial-gradient(circle_at_30%_10%,_rgba(240,199,94,0.07),_transparent_42%),radial-gradient(circle_at_75%_20%,_rgba(79,70,229,0.06),_transparent_40%)]"></div>
+
+    <div class="page-container relative py-12 md:py-16">
+      <Breadcrumbs items={[{ label: 'AI Glossary' }]} />
+
+      <div class="max-w-3xl" data-reveal>
+        <span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-600 dark:text-zinc-400">
+          Reference
+        </span>
+        <h1 class="mt-5 text-zinc-950 dark:text-zinc-50">AI Glossary</h1>
+        <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+          Every AI term explained in plain English — no jargon, no PhD required.
+        </p>
+        <p class="mt-3 text-sm text-zinc-500 dark:text-zinc-500">
+          {glossaryTerms.length} terms defined &middot; Updated March 2026
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Letter Navigation ── -->
+  <section class="sticky top-0 z-30 border-b border-zinc-200/80 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md">
+    <div class="page-container">
+      <nav aria-label="Alphabetical navigation" class="flex items-center gap-0.5 py-3 overflow-x-auto scrollbar-hide">
+        {allLetters.map((letter) => {
+          const hasTerms = letters.includes(letter);
+          return hasTerms ? (
+            <a
+              href={`#letter-${letter}`}
+              class="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-lg text-sm font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+            >
+              {letter}
+            </a>
+          ) : (
+            <span class="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-lg text-sm font-medium text-zinc-300 dark:text-zinc-700 cursor-default">
+              {letter}
+            </span>
+          );
+        })}
+      </nav>
+    </div>
+  </section>
+
+  <!-- ── Glossary Content ── -->
+  <section class="bg-[var(--color-bg)]">
+    <div class="page-container py-10 md:py-14">
+
+      {letters.map((letter, letterIdx) => (
+        <div id={`letter-${letter}`} class={`scroll-mt-20 ${letterIdx > 0 ? 'mt-12 md:mt-16' : ''}`} data-reveal>
+
+          <!-- Letter heading -->
+          <div class="flex items-center gap-4 mb-6">
+            <span class="flex items-center justify-center w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60 text-xl font-bold text-indigo-600 dark:text-indigo-400 font-[var(--font-heading)]">
+              {letter}
+            </span>
+            <div class="flex-1 h-px bg-zinc-200 dark:bg-zinc-800"></div>
+            <span class="text-xs font-medium text-zinc-400 dark:text-zinc-600">
+              {grouped[letter].length} {grouped[letter].length === 1 ? 'term' : 'terms'}
+            </span>
+          </div>
+
+          <!-- Term cards -->
+          <div class="grid gap-4">
+            {grouped[letter].map((entry) => (
+              <article
+                id={termToId(entry.term)}
+                class="group rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 md:p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-200 scroll-mt-20"
+              >
+                <div class="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-5">
+                  <div class="flex-1 min-w-0">
+                    <h3 class="text-zinc-950 dark:text-zinc-50 leading-snug">
+                      <a href={`#${termToId(entry.term)}`} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                        {entry.term}
+                      </a>
+                    </h3>
+                    <p class="mt-2 text-[0.94rem] leading-7 text-zinc-600 dark:text-zinc-400">
+                      {entry.definition}
+                    </p>
+                    {entry.link && (
+                      <a
+                        href={entry.link}
+                        class="inline-flex items-center gap-1.5 mt-3 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
+                      >
+                        <span>Read our deep dive</span>
+                        <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                    )}
+                  </div>
+                  <!-- Anchor copy button -->
+                  <button
+                    data-copy-link={`#${termToId(entry.term)}`}
+                    class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                    title="Copy link to term"
+                    aria-label={`Copy link to ${entry.term}`}
+                  >
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                    </svg>
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <!-- ── Back to top ── -->
+      <div class="mt-16 flex justify-center" data-reveal>
+        <a
+          href="#letter-A"
+          class="inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-5 py-2.5 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:border-indigo-300 dark:hover:border-indigo-700 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors shadow-sm"
+        >
+          <svg class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+          Back to top
+        </a>
+      </div>
+
+      <!-- ── Suggest a term CTA ── -->
+      <div class="mt-10 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-6 md:p-8 text-center" data-reveal>
+        <h2 class="text-lg text-zinc-950 dark:text-zinc-50">Missing a term?</h2>
+        <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400 max-w-lg mx-auto">
+          AI vocabulary grows every week. If there is a term you want defined, let us know and we will add it.
+        </p>
+        <a
+          href="https://x.com/QRoonjha"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 mt-5 rounded-xl bg-indigo-600 hover:bg-indigo-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors shadow-sm"
+        >
+          Suggest a term
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<!-- ── Copy link script ── -->
+<script>
+  function initGlossaryCopyLinks() {
+    document.querySelectorAll('[data-copy-link]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const hash = (btn as HTMLElement).dataset.copyLink;
+        const url = `${window.location.origin}${window.location.pathname}${hash}`;
+        try {
+          await navigator.clipboard.writeText(url);
+          const el = btn as HTMLElement;
+          el.title = 'Copied!';
+          el.classList.add('text-emerald-600', 'dark:text-emerald-400');
+          setTimeout(() => {
+            el.title = 'Copy link to term';
+            el.classList.remove('text-emerald-600', 'dark:text-emerald-400');
+          }, 1500);
+        } catch {
+          // Fallback for older browsers
+          const input = document.createElement('input');
+          input.value = url;
+          document.body.appendChild(input);
+          input.select();
+          document.execCommand('copy');
+          document.body.removeChild(input);
+        }
+      });
+    });
+  }
+  initGlossaryCopyLinks();
+  document.addEventListener('astro:page-load', initGlossaryCopyLinks);
+</script>
+
+<!-- ── Scrollbar hide utility ── -->
+<style>
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+</style>

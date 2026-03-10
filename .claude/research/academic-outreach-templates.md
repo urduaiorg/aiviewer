@@ -1,49 +1,85 @@
-# AIViewer: Academic Outreach Pitch Templates
+# Academic Outreach Templates: AI & Society
 
-> **Goal:** Secure high-domain-authority (.edu and .org) backlinks by offering our "AI & Society" deep-dives to university tech-ethics professors as open-source syllabus material.
-
----
-
-## Template 1: For Law & Ethics Professors (Focus: AI in Justice)
-
-**Subject:** Syllabus Resource: New 2026 data on AI Predictive Policing & CCOPS Laws
-
-Hi Professor [Last Name],
-
-I was reviewing the syllabus for your [Course Name] class this semester, specifically the week where you cover algorithmic bias and civil liberties. 
-
-Our research team at AIViewer just completed a massive 2026 deep-dive analyzing Amnesty International and AI Now Institute data regarding the use of predictive policing models in the US and UK. We specifically broke down the grassroots rise of Community Control Over Police Surveillance (CCOPS) laws as a legislative countermeasure.
-
-Given your recent paper on [Insert related topic if applicable, e.g., facial recognition regulation], I thought this might be a highly relevant piece of supplemental reading for your students to see how these theories are playing out in real municipal governments this year. 
-
-Here is the open-access report: [Link to ai-justice-and-policing.mdx]
-
-We intentionally wrote this to bridge the gap between academic data and journalistic accessibility for undergrads. Let me know if this is helpful for your reading list!
-
-Best regards,
-[My Name]
-AIViewer Research Team
+**Objective:** Secure high-authority `.edu` backlinks for AIViewer's "AI & Society" vertical by offering our heavily researched 2026 reports as open educational resources for university tech-ethics, law, and sociology syllabi.
 
 ---
 
-## Template 2: For Political Science / Media Studies Professors (Focus: AI Democracy)
+## Template 1: For Tech-Ethics & AI Law Professors (Global AI Regulation Tracker)
 
-**Subject:** 2024-2026 Election Cycle Data: The "Liar's Dividend"
+**Subject:** Open Resource for Your [Course Name] Syllabus: The 2026 Global AI Regulation Tracker
 
 Hi Professor [Last Name],
 
-I noticed your [Course Name] curriculum touches on digital media and political campaigning. 
+I was reviewing the syllabus for your [Course Name] class this semester, and I appreciated your focus on the intersection of technology and governance—specifically your coverage of [insert specific topic from their research/syllabus].
 
-The 2024-2026 global election super-cycle provided us with the first hard data on how generative AI actually impacts voter behavior at scale. Our team just published a comprehensive synthesis of the Brookings and Freedom House 2025/2026 post-mortems. 
+At AIViewer, our research team just published the **2026 Global AI Regulation Tracker**, a comprehensive breakdown of how global policy has evolved over the last year. It provides an independent, side-by-side analysis of:
+- The enforcement timeline for the finalized EU AI Act.
+- The recent US Executive Orders regarding AI deregulation.
+- The structural differences in how China approaches algorithmic governance.
 
-Instead of focusing on the AI generation side, we specifically analyzed "The Liar's Dividend"—how politicians successfully used the *threat* of deepfakes to dismiss genuine evidence of misconduct during the last cycle.
+Given your students are exploring these exact themes, we wanted to offer this report as an open-access resource for your course readings or supplementary materials: [Link to Regulation Tracker]
 
-If you are updating your course modules to reflect the 2026 digital landscape, this report provides a clean, data-backed summary of the global regulatory response.
-
-You can view the full un-paywalled breakdown here: [Link to ai-and-democracy.mdx]
-
-Thanks for your time and your continuing work on digital literacy in politics.
+All our research is free, independent, and verified against primary sources like the EU Commission and the NIST AI RMF.
 
 Best regards,
-[My Name]
-AIViewer Research Team
+
+[Your Name]
+Editorial Team, AIViewer.ai
+
+---
+
+## Template 2: For Sociology & Criminology Departments (AI in Justice & Policing)
+
+**Subject:** Resource for [Course Name]: New Research on Predictive Policing and Bias
+
+Hi Professor [Last Name],
+
+Your work on [insert specific research focus, e.g., algorithmic bias in the criminal justice system] is exactly what is needed given the rapid acceleration of surveillance technologies in 2025 and 2026. 
+
+Our team at AIViewer recently synthesized the latest verified data from Amnesty International, the AI Now Institute, and ProPublica into a comprehensive open-access report: **AI in Justice & Policing—Bias, Surveillance, and Civil Liberties**.
+
+The report covers:
+- The empirical error rates of facial recognition technologies in 2026.
+- A global map of cities that have successfully banned predictive policing algorithms.
+- The use of AI in courtroom sentencing guidelines and the ongoing civil liberties debates.
+
+We believe this could serve as a valuable supplementary reading for your students in [Course Name], providing them with a highly current overview of the 2026 landscape: [Link to AI Justice Report]
+
+Thank you for your ongoing commitment to this critical field of study.
+
+Best regards,
+
+[Your Name]
+Editorial Team, AIViewer.ai
+
+---
+
+## Template 3: For Global Studies & Economics (AI in the Global South)
+
+**Subject:** Open-Access Research for [Course Name]: AI Adoption Beyond Silicon Valley
+
+Hi Professor [Last Name],
+
+I'm reaching out because I saw your recent [paper/lecture/article] on [insert specific topic, e.g., digital economies in emerging markets], and I thought you might find our latest research valuable for your upcoming seminars.
+
+Mainstream narratives often restrict the AI boom to Silicon Valley. To counter this, AIViewer has published a deep-dive data report on **AI Adoption in the Global South**, analyzing localized tech infrastructure and the realities of "AI colonialism."
+
+The report distills 2025-2026 data from the World Bank and the OECD AI Policy Observatory to examine:
+- M-Pesa AI integration in Kenya and localized fintech.
+- India's national AI stack and Aadhaar-linked machine learning.
+- The risks and realities of algorithmic dependence on Western foundation models.
+
+If you are looking for current, 2026 case studies to share with your students, the full report is freely available here: [Link to Global South Report]
+
+Best regards,
+
+[Your Name]
+Editorial Team, AIViewer.ai
+
+---
+
+### Outreach Execution Strategy (Agent 1 target list):
+1. Identify 50 professors teaching "AI Ethics," "Technology & Society," or "Cyberlaw."
+2. Personalize the `[Course Name]` and `[insert specific topic]` placeholders.
+3. Send emails on Tuesdays or Wednesdays at 9:00 AM local time.
+4. Follow up once after 5 business days with a brief, polite nudge.
