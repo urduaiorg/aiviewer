@@ -29,6 +29,17 @@ interface ProviderMeta {
   websiteUrl: string;
 }
 
+interface ArenaLeaderboardRow {
+  sourceUrl: string;
+  modelUrl: string | null;
+  modelTitle: string;
+  modelName: string;
+  canonicalHint: string | null;
+  provider: string | null;
+  score: number;
+  voteCount: number | null;
+}
+
 type QueryRecord = Record<string, unknown>;
 
 const TRACKED_PROVIDERS: Record<string, ProviderMeta> = {
@@ -54,14 +65,29 @@ const CORS_HEADERS = {
 const JSON_HEADERS = {
   ...CORS_HEADERS,
   "Content-Type": "application/json; charset=utf-8",
+  "Cache-Control": "public, max-age=300, s-maxage=300",
+};
+
+const JSON_HEADERS_NO_CACHE = {
+  ...CORS_HEADERS,
+  "Content-Type": "application/json; charset=utf-8",
   "Cache-Control": "no-store",
 };
 
 const OPENROUTER_MODELS_URL = "https://openrouter.ai/api/v1/models";
+const ARENA_LEADERBOARD_URL = "https://lmarena.ai/leaderboard";
+const ARENA_BENCHMARK_NAME = "Arena Leaderboard";
+const BENCHMARK_STALE_HOURS = 24;
 
 export default {
   async scheduled(_event: ScheduledEvent, env: Env, ctx: ExecutionContext) {
-    ctx.waitUntil(refreshCatalog(env));
+    ctx.waitUntil(
+      refreshCatalog(env).then(() =>
+        refreshBenchmarksIfStale(env.DB).catch((err) =>
+          console.warn("Scheduled benchmark refresh failed", err)
+        )
+      )
+    );
   },
 
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -76,7 +102,7 @@ export default {
       const pathname = url.pathname.replace(/\/+$/, "") || "/";
 
       if (pathname === "/api/health" && request.method === "GET") {
-        return json({
+        return jsonNoCache({
           success: true,
           status: "ok",
           timestamp: new Date().toISOString(),
@@ -87,7 +113,11 @@ export default {
         return json({ success: false, error: "Method not allowed" }, 405);
       }
 
-      await bootstrapCatalogIfEmpty(env);
+      // Bootstrap only if the DB is truly empty — avoids hitting D1 + OpenRouter on every request
+      const bootstrapResult = await env.DB.prepare("SELECT COUNT(*) AS count FROM models").first<{ count: number | string }>();
+      if (Number(bootstrapResult?.count ?? 0) === 0) {
+        await refreshCatalog(env);
+      }
 
       if (pathname === "/api/dashboard") {
         const dashboard = await getDashboard(env.DB);
@@ -168,18 +198,341 @@ async function refreshCatalog(env: Env) {
   const models = Array.isArray(payload.data) ? payload.data : [];
   const trackedModels = models.filter((model) => inferProvider(model.id) !== null);
 
-  for (const model of trackedModels) {
-    await upsertTrackedModel(env.DB, model);
+  // Batch all model upserts to reduce D1 round-trips
+  const statements = trackedModels.flatMap((model) => buildUpsertStatements(env.DB, model)).filter(Boolean);
+  // D1 batch limit is ~100 statements; chunk if needed
+  const BATCH_SIZE = 80;
+  for (let i = 0; i < statements.length; i += BATCH_SIZE) {
+    await env.DB.batch(statements.slice(i, i + BATCH_SIZE));
+  }
+
+  try {
+    await refreshArenaBenchmarks(env.DB);
+  } catch (error) {
+    console.warn("Arena benchmark refresh failed after catalog sync", error);
   }
 }
 
-async function bootstrapCatalogIfEmpty(env: Env) {
-  const result = await env.DB.prepare("SELECT COUNT(*) AS count FROM models").first<{ count: number | string }>();
-  const count = Number(result?.count ?? 0);
+async function refreshBenchmarksIfStale(db: D1Database) {
+  const result = await db.prepare(`
+    SELECT MAX(recorded_at) AS last_recorded_at
+    FROM benchmarks
+    WHERE benchmark_name = ?
+  `).bind(ARENA_BENCHMARK_NAME).first<QueryRecord>();
 
-  if (count === 0) {
-    await refreshCatalog(env);
+  const lastRecordedAt = stringOrNull(result?.last_recorded_at);
+  if (!lastRecordedAt) {
+    await refreshArenaBenchmarks(db);
+    return;
   }
+
+  const recordedAt = new Date(lastRecordedAt).getTime();
+  if (!Number.isFinite(recordedAt)) {
+    await refreshArenaBenchmarks(db);
+    return;
+  }
+
+  const staleAfterMs = BENCHMARK_STALE_HOURS * 60 * 60 * 1000;
+  if (Date.now() - recordedAt > staleAfterMs) {
+    await refreshArenaBenchmarks(db);
+  }
+}
+
+async function refreshArenaBenchmarks(db: D1Database) {
+  const response = await fetch(ARENA_LEADERBOARD_URL, {
+    headers: {
+      "User-Agent": "AIViewer benchmark worker",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Arena leaderboard request failed with ${response.status}`);
+  }
+
+  const html = await response.text();
+  const rows = parseArenaLeaderboardRows(html);
+  if (rows.length === 0) {
+    throw new Error("Arena leaderboard parser returned zero rows");
+  }
+
+  const candidates = await getBenchmarkCandidates(db);
+  const matchedRows = new Map<string, ArenaLeaderboardRow>();
+
+  for (const row of rows) {
+    const modelId = matchArenaRowToModel(row, candidates);
+    if (!modelId) {
+      continue;
+    }
+
+    const existing = matchedRows.get(modelId);
+    if (!existing || row.score > existing.score) {
+      matchedRows.set(modelId, row);
+    }
+  }
+
+  for (const [modelId, row] of matchedRows.entries()) {
+    const latest = await db.prepare(`
+      SELECT score
+      FROM benchmarks
+      WHERE model_id = ?
+        AND benchmark_name = ?
+      ORDER BY recorded_at DESC, id DESC
+      LIMIT 1
+    `).bind(modelId, ARENA_BENCHMARK_NAME).first<QueryRecord>();
+
+    const latestScore = numberOrNull(latest?.score);
+    if (latestScore !== null && latestScore === row.score) {
+      continue;
+    }
+
+    await db.prepare(`
+      INSERT INTO benchmarks (
+        model_id,
+        benchmark_name,
+        score
+      )
+      VALUES (?, ?, ?)
+    `).bind(modelId, ARENA_BENCHMARK_NAME, row.score).run();
+  }
+}
+
+async function getBenchmarkCandidates(db: D1Database) {
+  const result = await db.prepare(`
+    SELECT
+      id,
+      provider,
+      COALESCE(slug, REPLACE(id, '/', '-')) AS slug,
+      name,
+      model_family
+    FROM models
+    WHERE COALESCE(is_active, 1) = 1
+  `).all<QueryRecord>();
+
+  return (result.results ?? []).map((row) => ({
+    id: String(row.id),
+    provider: String(row.provider),
+    slug: String(row.slug),
+    name: String(row.name),
+    modelFamily: stringOrNull(row.model_family),
+  }));
+}
+
+function parseArenaLeaderboardRows(html: string) {
+  const tbodyStart = html.indexOf("<tbody");
+  const tbodyEnd = html.indexOf("</tbody>", tbodyStart);
+  if (tbodyStart === -1 || tbodyEnd === -1) {
+    return [];
+  }
+
+  const tbody = html.slice(tbodyStart, tbodyEnd);
+  const rowRegex = /<tr[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*title="([^"]+)"[\s\S]*?<span class="max-w-full truncate">([^<]+)<\/span>[\s\S]*?<td[^>]*>\s*<span class="text-sm">([0-9,]+)<\/span>\s*<\/td>[\s\S]*?<td[^>]*>\s*<span class="text-sm">([0-9,]+)<\/span>\s*<\/td>[\s\S]*?<\/tr>/g;
+  const rows: ArenaLeaderboardRow[] = [];
+
+  for (const match of tbody.matchAll(rowRegex)) {
+    const sourceUrl = decodeHtmlEntities(match[1] ?? "");
+    const modelTitle = decodeHtmlEntities(match[2] ?? "").trim();
+    const modelName = decodeHtmlEntities(match[3] ?? "").trim();
+    const score = numberOrNull(String(match[4] ?? "").replaceAll(",", ""));
+    const voteCount = numberOrNull(String(match[5] ?? "").replaceAll(",", ""));
+
+    if (!sourceUrl || !modelName || score === null) {
+      continue;
+    }
+
+    rows.push({
+      sourceUrl: ARENA_LEADERBOARD_URL,
+      modelUrl: sourceUrl,
+      modelTitle,
+      modelName,
+      canonicalHint: extractArenaCanonicalHint(sourceUrl, modelTitle || modelName),
+      provider: inferProviderFromUrl(sourceUrl, modelTitle || modelName),
+      score,
+      voteCount,
+    });
+  }
+
+  return rows;
+}
+
+function matchArenaRowToModel(
+  row: ArenaLeaderboardRow,
+  candidates: Array<{ id: string; provider: string; slug: string; name: string; modelFamily: string | null }>,
+) {
+  const scopedCandidates = row.provider
+    ? candidates.filter((candidate) => candidate.provider === row.provider)
+    : candidates;
+
+  const rowHints = uniqueComparableValues([
+    row.canonicalHint,
+    normalizeArenaVariantName(row.modelTitle),
+    normalizeArenaVariantName(row.modelName),
+    row.modelTitle,
+    row.modelName,
+  ]);
+
+  let bestMatch: string | null = null;
+  let bestScore = 0;
+
+  for (const candidate of scopedCandidates) {
+    const tail = candidate.id.split("/").pop() ?? candidate.id;
+    const slugTail = candidate.slug.replace(new RegExp(`^${candidate.provider}-`), "");
+    const displayName = candidate.name.replace(/^[^:]+:\s*/, "");
+    const candidateHints = uniqueComparableValues([
+      tail,
+      slugTail,
+      candidate.modelFamily,
+      displayName,
+    ]);
+
+    let candidateScore = 0;
+    for (const rowHint of rowHints) {
+      for (const candidateHint of candidateHints) {
+        candidateScore = Math.max(candidateScore, scoreComparableValues(candidateHint, rowHint));
+      }
+    }
+
+    if (candidateScore > bestScore) {
+      bestScore = candidateScore;
+      bestMatch = candidate.id;
+    }
+  }
+
+  return bestScore >= 80 ? bestMatch : null;
+}
+
+function scoreComparableValues(candidate: string, hint: string) {
+  const candidateCompact = compactComparableValue(candidate);
+  const hintCompact = compactComparableValue(hint);
+  if (!candidateCompact || !hintCompact) {
+    return 0;
+  }
+
+  if (candidateCompact === hintCompact) {
+    return 120;
+  }
+
+  if (candidateCompact.startsWith(hintCompact)) {
+    return 105 - Math.min(20, candidateCompact.length - hintCompact.length);
+  }
+
+  if (hintCompact.startsWith(candidateCompact)) {
+    return 92 - Math.min(20, hintCompact.length - candidateCompact.length);
+  }
+
+  if (candidateCompact.includes(hintCompact) || hintCompact.includes(candidateCompact)) {
+    return 72;
+  }
+
+  const candidateTokens = tokenizeComparableValue(candidate);
+  const hintTokens = tokenizeComparableValue(hint);
+  const sharedTokens = hintTokens.filter((token) => candidateTokens.includes(token));
+
+  if (hintTokens.length > 0 && sharedTokens.length === hintTokens.length) {
+    return 82 - Math.max(0, candidateTokens.length - hintTokens.length);
+  }
+
+  if (sharedTokens.length >= Math.max(2, Math.min(candidateTokens.length, hintTokens.length) - 1)) {
+    return 58;
+  }
+
+  return 0;
+}
+
+function inferProviderFromUrl(sourceUrl: string, fallbackName?: string) {
+  try {
+    const url = new URL(sourceUrl);
+    const host = url.hostname.toLowerCase();
+
+    if (host.includes("openai.com")) return "openai";
+    if (host.includes("anthropic.com")) return "anthropic";
+    if (host.includes("google")) return "google";
+    if (host === "x.ai" || host.endsWith(".x.ai")) return "x-ai";
+    if (host.includes("mistral.ai")) return "mistralai";
+    if (host.includes("perplexity.ai")) return "perplexity";
+    if (host.includes("moonshot.ai")) return "moonshotai";
+    if (host.includes("deepseek.com")) return "deepseek";
+    if (host.includes("qwen")) return "qwen";
+  } catch {
+    // Fall through to name inference.
+  }
+
+  const normalizedName = normalizeComparableValue(fallbackName ?? "");
+  if (normalizedName.includes("claude")) return "anthropic";
+  if (normalizedName.includes("gpt")) return "openai";
+  if (normalizedName.includes("gemini")) return "google";
+  if (normalizedName.includes("grok")) return "x-ai";
+  if (normalizedName.includes("qwen")) return "qwen";
+  if (normalizedName.includes("kimi")) return "moonshotai";
+  if (normalizedName.includes("mistral")) return "mistralai";
+  if (normalizedName.includes("perplexity")) return "perplexity";
+  if (normalizedName.includes("deepseek")) return "deepseek";
+
+  return null;
+}
+
+function extractArenaCanonicalHint(sourceUrl: string, fallbackName: string) {
+  try {
+    const url = new URL(sourceUrl);
+    const segments = url.pathname.split("/").filter(Boolean);
+
+    if (segments.length > 0) {
+      const modelsIndex = segments.findIndex((segment) => segment === "models");
+      if (modelsIndex !== -1 && segments[modelsIndex + 1]) {
+        return normalizeArenaVariantName(segments[modelsIndex + 1]);
+      }
+
+      const lastSegment = segments[segments.length - 1];
+      if (lastSegment) {
+        return normalizeArenaVariantName(lastSegment);
+      }
+    }
+  } catch {
+    // Fallback to the rendered model name.
+  }
+
+  return normalizeArenaVariantName(fallbackName);
+}
+
+function normalizeArenaVariantName(value: string) {
+  return value
+    .replace(/-thinking(?:-\d+k)?$/i, "")
+    .replace(/-high$/i, "")
+    .replace(/-latest(?:-\d{8})?$/i, "")
+    .replace(/-\d{8}(?:-thinking(?:-\d+k)?)?$/i, "")
+    .replace(/-api$/i, "")
+    .trim();
+}
+
+function uniqueComparableValues(values: Array<string | null | undefined>) {
+  return [...new Set(values.map((value) => normalizeComparableValue(value)).filter(Boolean))];
+}
+
+function normalizeComparableValue(value?: string | null) {
+  if (!value) {
+    return "";
+  }
+
+  return decodeHtmlEntities(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function compactComparableValue(value?: string | null) {
+  return normalizeComparableValue(value).replace(/\s+/g, "");
+}
+
+function tokenizeComparableValue(value?: string | null) {
+  return normalizeComparableValue(value).split(" ").filter(Boolean);
+}
+
+function decodeHtmlEntities(value: string) {
+  return value
+    .replaceAll("&amp;", "&")
+    .replaceAll("&quot;", "\"")
+    .replaceAll("&#39;", "'")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">");
 }
 
 async function ensureSchema(db: D1Database) {
@@ -199,12 +552,16 @@ async function ensureSchema(db: D1Database) {
   }
 }
 
-async function upsertTrackedModel(db: D1Database, model: OpenRouterModel) {
+/**
+ * Returns an array of prepared D1 statements for a single model upsert.
+ * Uses INSERT OR IGNORE for release_events (dedup by design).
+ * Pricing and capability snapshots are always inserted — dedup happens
+ * downstream via ROW_NUMBER() window queries, so the cost is only storage.
+ * The batch() call in refreshCatalog wraps all of these into a single D1 round-trip.
+ */
+function buildUpsertStatements(db: D1Database, model: OpenRouterModel) {
   const provider = inferProvider(model.id);
-
-  if (!provider) {
-    return;
-  }
+  if (!provider) return [];
 
   const modelName = model.name?.trim() || readableModelName(model.id);
   const slug = slugify(`${provider.slug}-${model.id.split("/").pop() ?? model.id}`);
@@ -214,111 +571,40 @@ async function upsertTrackedModel(db: D1Database, model: OpenRouterModel) {
   const sourceUrl = `https://openrouter.ai/api/v1/models`;
   const modelFamily = inferModelFamily(model.id, modelName);
 
-  await db.prepare(`
+  const modelStmt = db.prepare(`
     INSERT INTO models (
-      id,
-      slug,
-      name,
-      provider,
-      provider_label,
-      model_family,
-      release_date,
-      context_window,
-      description,
-      url,
-      announced_at,
-      first_seen_at,
-      last_seen_at,
-      is_active,
-      last_updated
+      id, slug, name, provider, provider_label, model_family,
+      release_date, context_window, description, url, announced_at,
+      first_seen_at, last_seen_at, is_active, last_updated
     )
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP)
     ON CONFLICT(id) DO UPDATE SET
-      slug = excluded.slug,
-      name = excluded.name,
-      provider = excluded.provider,
-      provider_label = excluded.provider_label,
+      slug = excluded.slug, name = excluded.name,
+      provider = excluded.provider, provider_label = excluded.provider_label,
       model_family = excluded.model_family,
       release_date = COALESCE(excluded.release_date, models.release_date),
-      context_window = excluded.context_window,
-      description = excluded.description,
+      context_window = excluded.context_window, description = excluded.description,
       url = excluded.url,
       announced_at = COALESCE(excluded.announced_at, models.announced_at),
-      last_seen_at = CURRENT_TIMESTAMP,
-      is_active = 1,
-      last_updated = CURRENT_TIMESTAMP
-  `).bind(
-    model.id,
-    slug,
-    modelName,
-    provider.slug,
-    provider.label,
-    modelFamily,
-    announcedAt,
-    contextWindow,
-    description,
-    sourceUrl,
-    announcedAt,
-  ).run();
+      last_seen_at = CURRENT_TIMESTAMP, is_active = 1, last_updated = CURRENT_TIMESTAMP
+  `).bind(model.id, slug, modelName, provider.slug, provider.label, modelFamily, announcedAt, contextWindow, description, sourceUrl, announcedAt);
 
-  await db.prepare(`
-    INSERT OR IGNORE INTO release_events (
-      model_id,
-      event_type,
-      title,
-      summary,
-      source_url,
-      released_at
-    )
+  const releaseStmt = db.prepare(`
+    INSERT OR IGNORE INTO release_events (model_id, event_type, title, summary, source_url, released_at)
     VALUES (?, 'release', ?, ?, ?, ?)
-  `).bind(
-    model.id,
-    `${modelName} entered the tracked catalog`,
-    description,
-    sourceUrl,
-    announcedAt ?? new Date().toISOString(),
-  ).run();
+  `).bind(model.id, `${modelName} entered the tracked catalog`, description, sourceUrl, announcedAt ?? new Date().toISOString());
 
-  await db.prepare(`
-    INSERT INTO pricing_snapshots (
-      model_id,
-      input_price_per_million,
-      output_price_per_million,
-      cached_input_price_per_million,
-      currency,
-      source_url
-    )
+  const pricingStmt = db.prepare(`
+    INSERT INTO pricing_snapshots (model_id, input_price_per_million, output_price_per_million, cached_input_price_per_million, currency, source_url)
     VALUES (?, ?, ?, ?, 'USD', ?)
-  `).bind(
-    model.id,
-    parsePricePerMillion(model.pricing?.prompt),
-    parsePricePerMillion(model.pricing?.completion),
-    parsePricePerMillion(model.pricing?.input_cache_read),
-    sourceUrl,
-  ).run();
+  `).bind(model.id, parsePricePerMillion(model.pricing?.prompt), parsePricePerMillion(model.pricing?.completion), parsePricePerMillion(model.pricing?.input_cache_read), sourceUrl);
 
-  await db.prepare(`
-    INSERT INTO capability_snapshots (
-      model_id,
-      context_window,
-      max_output_tokens,
-      supports_tool_use,
-      supports_vision,
-      supports_audio,
-      supports_reasoning,
-      source_url
-    )
+  const capabilityStmt = db.prepare(`
+    INSERT INTO capability_snapshots (model_id, context_window, max_output_tokens, supports_tool_use, supports_vision, supports_audio, supports_reasoning, source_url)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `).bind(
-    model.id,
-    contextWindow,
-    numberOrNull(model.top_provider?.max_completion_tokens),
-    booleanFlag(supportsToolUse(model)),
-    booleanFlag(supportsVision(model)),
-    booleanFlag(supportsAudio(model)),
-    booleanFlag(supportsReasoning(model)),
-    sourceUrl,
-  ).run();
+  `).bind(model.id, contextWindow, numberOrNull(model.top_provider?.max_completion_tokens), booleanFlag(supportsToolUse(model)), booleanFlag(supportsVision(model)), booleanFlag(supportsAudio(model)), booleanFlag(supportsReasoning(model)), sourceUrl);
+
+  return [modelStmt, releaseStmt, pricingStmt, capabilityStmt];
 }
 
 async function getDashboard(db: D1Database) {
@@ -338,8 +624,8 @@ async function getDashboard(db: D1Database) {
         purpose: "Catalog metadata, pricing, context windows, and capability snapshots",
       },
       {
-        label: "AIViewer benchmark table",
-        purpose: "Optional benchmark snapshots when available; scores are not blended into a single universal rank",
+        label: "Arena Leaderboard snapshot",
+        purpose: "Live benchmark snapshot matched to tracked models when AIViewer can map a row confidently",
       },
     ],
   };
@@ -1010,5 +1296,12 @@ function json(data: Record<string, unknown>, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
     headers: JSON_HEADERS,
+  });
+}
+
+function jsonNoCache(data: Record<string, unknown>, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: JSON_HEADERS_NO_CACHE,
   });
 }
