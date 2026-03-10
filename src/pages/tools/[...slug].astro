@@ -16,6 +16,7 @@ import AuthorBio from '../../components/content/AuthorBio.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import ReadingProgress from '../../components/content/ReadingProgress.astro';
 import RelatedContent from '../../components/content/RelatedContent.astro';
+import StillRecommended from '../../components/content/StillRecommended.astro';
 import { formatDate } from '../../utils/formatDate';
 import { getReadingTime } from '../../utils/readingTime';
 import { categoryLabels, pricingConfig } from '../../data/site.config';
@@ -197,6 +198,13 @@ const pricingTiers = inferPricingTiers();
 
           <h1 class="mt-5 max-w-3xl text-zinc-950 dark:text-zinc-50">{entry.data.title}</h1>
           <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">{entry.data.description}</p>
+
+          <div class="mt-4">
+            <StillRecommended
+              lastVerifiedDate={entry.data.updatedDate ?? entry.data.publishedDate}
+              toolName={entry.data.toolName}
+            />
+          </div>
 
           <div class="mt-8 grid gap-4 sm:grid-cols-3">
             <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-5 py-4">

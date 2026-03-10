@@ -8,6 +8,8 @@ import { pricingConfig, categoryLabels } from '../data/site.config';
 import { getReadingTime } from '../utils/readingTime';
 import { formatDateShort } from '../utils/formatDate';
 import NewsletterSignup from '../components/content/NewsletterSignup.astro';
+import { detectRecentLaunches } from '../utils/snapshotDiff';
+import modelCatalogSnapshot from '../data/model-catalog.snapshot.json';
 
 // Pull latest reports for AI & Society showcase
 const allReports = await getCollection('reports', ({ data }) => !data.draft);
@@ -32,6 +34,12 @@ const latestGuides = allGuides
 // Pull featured playbooks for badges
 const allPlaybooks = await getCollection('playbooks', ({ data }) => !data.draft);
 const featuredPlaybooks = allPlaybooks.filter((p) => p.data.featured);
+
+// Pull recent model changes for the live-feed strip
+const snapshotModels = Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : [];
+const recentChanges = detectRecentLaunches(snapshotModels, 60)
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 3);
 ---
 
 <BaseLayout
@@ -99,6 +107,35 @@ const featuredPlaybooks = allPlaybooks.filter((p) => p.data.featured);
       </div>
     </div>
   </section>
+
+
+  <!-- ═══════════════════ LIVE CHANGES STRIP ═══════════════════ -->
+  {recentChanges.length > 0 && (
+    <section class="py-5 border-t border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50">
+      <div class="page-container">
+        <div class="flex items-center gap-4 overflow-x-auto scrollbar-hide">
+          <a href="/changes/" class="flex-shrink-0 inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-amber-700 dark:text-amber-300">
+            <span class="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+            Live feed
+          </a>
+          <div class="w-px h-4 bg-zinc-200 dark:bg-zinc-700 flex-shrink-0"></div>
+          {recentChanges.map((change) => {
+            const formattedDate = new Date(change.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            const typeColor = change.changeType === 'launch' ? 'text-indigo-600 dark:text-indigo-400' : change.changeType === 'price-change' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400';
+            return (
+              <a href={`/models/${change.slug}/`} class="flex-shrink-0 group flex items-center gap-2 text-[0.8rem] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">
+                <span class={`font-semibold ${typeColor}`}>{change.name}</span>
+                <span class="text-zinc-400 dark:text-zinc-500">{formattedDate}</span>
+              </a>
+            );
+          })}
+          <a href="/changes/" class="flex-shrink-0 ml-auto text-[0.78rem] font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors whitespace-nowrap">
+            View all &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
 
 
   <!-- ═══════════════════ PLAYBOOKS SECTION ═══════════════════ -->

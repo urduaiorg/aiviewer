@@ -1,0 +1,67 @@
+---
+/**
+ * ComparisonSchema — Structured data for model comparison pages.
+ * WebPage with two SoftwareApplication entities.
+ */
+interface Props {
+  modelA: {
+    name: string;
+    slug: string;
+    provider: string;
+    description?: string | null;
+    inputPricePerMillion?: number | null;
+  };
+  modelB: {
+    name: string;
+    slug: string;
+    provider: string;
+    description?: string | null;
+    inputPricePerMillion?: number | null;
+  };
+  url: string;
+}
+
+const { modelA, modelB, url } = Astro.props;
+---
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": `${modelA.name} vs ${modelB.name} — AI Model Comparison`,
+  "description": `Side-by-side comparison of ${modelA.name} and ${modelB.name} covering pricing, context window, capabilities, and use cases.`,
+  "url": url,
+  "mainEntity": [
+    {
+      "@type": "SoftwareApplication",
+      "name": modelA.name,
+      "applicationCategory": "AI Model",
+      "operatingSystem": "Cloud",
+      "author": { "@type": "Organization", "name": modelA.provider },
+      ...(modelA.inputPricePerMillion != null && {
+        "offers": {
+          "@type": "Offer",
+          "price": modelA.inputPricePerMillion,
+          "priceCurrency": "USD",
+          "description": `$${modelA.inputPricePerMillion}/M input tokens`,
+        },
+      }),
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": modelB.name,
+      "applicationCategory": "AI Model",
+      "operatingSystem": "Cloud",
+      "author": { "@type": "Organization", "name": modelB.provider },
+      ...(modelB.inputPricePerMillion != null && {
+        "offers": {
+          "@type": "Offer",
+          "price": modelB.inputPricePerMillion,
+          "priceCurrency": "USD",
+          "description": `$${modelB.inputPricePerMillion}/M input tokens`,
+        },
+      }),
+    },
+  ],
+  "author": { "@type": "Organization", "name": "AIViewer.ai", "url": "https://aiviewer.ai" },
+  "publisher": { "@type": "Organization", "name": "AIViewer.ai", "url": "https://aiviewer.ai" },
+})} />

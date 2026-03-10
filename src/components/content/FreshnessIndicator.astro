@@ -1,0 +1,47 @@
+---
+/**
+ * FreshnessIndicator — Trust signal showing data recency.
+ *
+ * Colored dot + formatted date:
+ *   - Green: data ≤ 7 days old
+ *   - Yellow: 8-30 days old
+ *   - Red: > 30 days old
+ */
+interface Props {
+  date: string | Date;
+  label?: string;
+  /** Custom thresholds in days [fresh, stale] — defaults to [7, 30] */
+  thresholds?: [number, number];
+}
+
+const { date, label = 'Data as of', thresholds = [7, 30] } = Astro.props;
+
+const dateObj = typeof date === 'string' ? new Date(date) : date;
+const daysSince = Math.floor((Date.now() - dateObj.getTime()) / (1000 * 60 * 60 * 24));
+
+const formatted = dateObj.toLocaleDateString('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+});
+
+let dotClass: string;
+let srLabel: string;
+
+if (daysSince <= thresholds[0]) {
+  dotClass = 'bg-emerald-500';
+  srLabel = 'Fresh data';
+} else if (daysSince <= thresholds[1]) {
+  dotClass = 'bg-amber-500';
+  srLabel = 'Recent data';
+} else {
+  dotClass = 'bg-red-500';
+  srLabel = 'Stale data';
+}
+---
+
+<span class="inline-flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+  <span class={`w-1.5 h-1.5 rounded-full ${dotClass} flex-shrink-0`} aria-hidden="true"></span>
+  <span class="sr-only">{srLabel}:</span>
+  <span>{label} {formatted}</span>
+</span>

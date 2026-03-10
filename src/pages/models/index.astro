@@ -4,6 +4,7 @@ import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
 import WebsiteSchema from '../../components/seo/WebsiteSchema.astro';
 import { siteConfig } from '../../data/site.config';
+import FreshnessIndicator from '../../components/content/FreshnessIndicator.astro';
 import modelCatalogSnapshot from '../../data/model-catalog.snapshot.json';
 
 // ── Build-time data from snapshot ──
@@ -131,6 +132,14 @@ const API_DASHBOARD_URL = `${siteConfig.api.workerBase}/api/dashboard`;
     <section class="bg-[var(--color-bg)]">
       <div class="page-container py-10 md:py-14">
         <div id="models-dashboard" class="relative space-y-8" data-api-url={API_DASHBOARD_URL}>
+
+          <!-- Freshness signal -->
+          {lastSyncedAt && (
+            <div class="flex items-center justify-between">
+              <FreshnessIndicator date={lastSyncedAt} label="Catalog synced" />
+              <a href="/changes/" class="text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:underline">View all changes</a>
+            </div>
+          )}
 
           <!-- Stats row -->
           <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4" data-reveal>
@@ -266,7 +275,7 @@ const API_DASHBOARD_URL = `${siteConfig.api.workerBase}/api/dashboard`;
           </div>
 
           <!-- Model Grid -->
-          <section class="rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-[var(--shadow-card)]" data-reveal data-reveal-delay="240">
+          <section class="rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-[var(--shadow-card)]">
             <div class="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Tracked models</p>

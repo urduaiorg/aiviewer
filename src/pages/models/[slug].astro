@@ -5,8 +5,11 @@ import Footer from '../../components/layout/Footer.astro';
 import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
 import WebsiteSchema from '../../components/seo/WebsiteSchema.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
+import FreshnessIndicator from '../../components/content/FreshnessIndicator.astro';
+import WhatChanged from '../../components/content/WhatChanged.astro';
 import { formatDate } from '../../utils/formatDate';
 import { siteConfig } from '../../data/site.config';
+import { generateComparisonPairs, comparisonSlug } from '../../utils/comparisonPairs';
 import modelCatalogSnapshot from '../../data/model-catalog.snapshot.json';
 
 const API_BASE = siteConfig.api.workerBase;
@@ -129,6 +132,38 @@ const timeline = model.releaseHistory.length > 0
       sourceUrl: model.providerWebsiteUrl ?? null,
       releasedAt: model.releaseDate ?? null,
     }];
+
+// Build pricing change history for WhatChanged
+const whatChangedItems: { type: 'launch' | 'price' | 'capability' | 'release'; description: string; date?: string | null; detail?: string | null }[] = [];
+if (model.releaseDate) {
+  whatChangedItems.push({ type: 'launch', description: `${model.providerLabel} launched ${model.name}`, date: model.releaseDate });
+}
+if (model.pricingHistory && model.pricingHistory.length > 1) {
+  for (let i = 0; i < model.pricingHistory.length - 1; i++) {
+    const newer = model.pricingHistory[i];
+    const older = model.pricingHistory[i + 1];
+    if (newer.outputPricePerMillion != null && older.outputPricePerMillion != null && newer.outputPricePerMillion !== older.outputPricePerMillion) {
+      whatChangedItems.push({
+        type: 'price',
+        description: `Output price changed`,
+        detail: `$${older.outputPricePerMillion}/M → $${newer.outputPricePerMillion}/M`,
+        date: newer.recordedAt,
+      });
+    }
+  }
+}
+for (const event of model.releaseHistory) {
+  if (event.eventType !== 'release') {
+    whatChangedItems.push({ type: 'release', description: event.title, date: event.releasedAt });
+  }
+}
+
+// Generate comparison links for this model
+const allModels = Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : [];
+const allPairs = generateComparisonPairs(allModels);
+const modelPairs = allPairs
+  .filter((p) => p.slugA === model.slug || p.slugB === model.slug)
+  .slice(0, 6);
 ---
 
 <BaseLayout
@@ -185,7 +220,7 @@ const timeline = model.releaseHistory.length > 0
               {lastSeenDate && (
                 <>
                   <span aria-hidden="true">·</span>
-                  <span>Last synced {formatDate(lastSeenDate)}</span>
+                  <FreshnessIndicator date={lastSeenDate} label="Synced" />
                 </>
               )}
             </div>
@@ -352,6 +387,43 @@ const timeline = model.releaseHistory.length > 0
             )}
           </div>
         </section>
+
+        {whatChangedItems.length > 0 && (
+          <div class="mt-6">
+            <WhatChanged changes={whatChangedItems} limit={4} />
+          </div>
+        )}
+
+        {modelPairs.length > 0 && (
+          <section class="mt-6 rounded-[1.8rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)]">
+            <div class="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Compare</p>
+                <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">See how {model.name} stacks up.</h2>
+              </div>
+              <a href="/compare/" class="text-sm font-medium text-indigo-600 dark:text-indigo-400">All comparisons</a>
+            </div>
+            <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {modelPairs.map((pair) => {
+                const otherName = pair.slugA === model.slug ? pair.nameB : pair.nameA;
+                const slug = comparisonSlug(pair.slugA, pair.slugB);
+                return (
+                  <a
+                    href={`/compare/${slug}/`}
+                    class="group rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-950/50 p-4 transition-colors hover:border-indigo-200 dark:hover:border-indigo-800"
+                  >
+                    <p class="text-sm font-semibold text-zinc-950 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-300">
+                      vs {otherName}
+                    </p>
+                    <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                      Side-by-side pricing, context, and capabilities
+                    </p>
+                  </a>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         <div class="mt-6">
           <NewsletterSignup

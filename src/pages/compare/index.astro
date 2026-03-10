@@ -1,0 +1,204 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import FreshnessIndicator from '../../components/content/FreshnessIndicator.astro';
+import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
+import { generateComparisonPairs, getPairsByTier, comparisonSlug } from '../../utils/comparisonPairs';
+import modelCatalogSnapshot from '../../data/model-catalog.snapshot.json';
+
+const models = Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : [];
+const pairs = generateComparisonPairs(models);
+const byTier = getPairsByTier(pairs);
+
+const lastSyncTimes = models.map((m) => m.lastSeenAt).filter(Boolean) as string[];
+const lastSyncedAt = lastSyncTimes.length > 0 ? lastSyncTimes.sort().reverse()[0] : null;
+
+const tierLabels = {
+  flagship: { title: 'Flagship', desc: 'Premium models for demanding workflows', color: 'text-amber-600 dark:text-amber-400' },
+  mid: { title: 'Mid-Tier', desc: 'Strong performance at moderate cost', color: 'text-indigo-600 dark:text-indigo-400' },
+  budget: { title: 'Budget', desc: 'Cost-efficient for high-volume or basic tasks', color: 'text-emerald-600 dark:text-emerald-400' },
+};
+
+const title = 'AI Model Comparisons | AIViewer';
+const description = 'Side-by-side comparisons of frontier AI models. Compare pricing, context windows, capabilities, and find the right model for your workflow.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[
+      { name: 'Home', url: '/' },
+      { name: 'Compare', url: '/compare/' },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "AI Model Comparisons",
+      "description": description,
+      "url": "https://aiviewer.ai/compare/",
+      "numberOfItems": pairs.length,
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": pairs.slice(0, 30).map((p, i) => ({
+          "@type": "ListItem",
+          "position": i + 1,
+          "name": `${p.nameA} vs ${p.nameB}`,
+          "url": `https://aiviewer.ai/compare/${comparisonSlug(p.slugA, p.slugB)}/`,
+        })),
+      },
+    })} />
+  </Fragment>
+
+  <Header />
+
+  <main class="pt-28 pb-24">
+    <!-- Hero -->
+    <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
+      <div class="absolute inset-x-0 top-0 h-80 bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.14),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.16),_transparent_36%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.06),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.08),_transparent_36%)]"></div>
+      <div class="page-container relative py-12 md:py-16">
+        <Breadcrumbs items={[{ label: 'Compare' }]} />
+
+        <div class="max-w-3xl">
+          <div class="inline-flex items-center gap-2 rounded-full border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-700 dark:text-indigo-300">
+            {pairs.length} comparisons
+          </div>
+          <h1 class="mt-5 text-zinc-950 dark:text-zinc-50">Compare AI models side by side.</h1>
+          <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+            Data-driven comparisons across pricing, context window, capabilities, and output capacity. No fake universal scores.
+          </p>
+          {lastSyncedAt && (
+            <div class="mt-4">
+              <FreshnessIndicator date={lastSyncedAt} label="Data synced" />
+            </div>
+          )}
+        </div>
+
+        <!-- Comparison builder -->
+        <div class="mt-8 rounded-[1.6rem] border border-zinc-200 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-950/50 p-6">
+          <p class="text-sm font-semibold text-zinc-950 dark:text-zinc-50">Build a comparison</p>
+          <div class="mt-4 flex flex-wrap items-end gap-3">
+            <div class="flex-1 min-w-[180px]">
+              <label for="model-a" class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">Model A</label>
+              <select id="model-a" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100">
+                <option value="">Select a model</option>
+                {models.map((m) => (
+                  <option value={m.slug}>{m.name}</option>
+                ))}
+              </select>
+            </div>
+            <span class="text-sm font-medium text-zinc-400 pb-2">vs</span>
+            <div class="flex-1 min-w-[180px]">
+              <label for="model-b" class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">Model B</label>
+              <select id="model-b" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100">
+                <option value="">Select a model</option>
+                {models.map((m) => (
+                  <option value={m.slug}>{m.name}</option>
+                ))}
+              </select>
+            </div>
+            <button id="compare-btn" class="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white hover:bg-indigo-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+              Compare
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison grids by tier -->
+    <section class="bg-[var(--color-bg)]">
+      <div class="page-container py-12 md:py-16">
+        {Object.entries(byTier).map(([tier, tierPairs]) => {
+          if (tierPairs.length === 0) return null;
+          const config = tierLabels[tier as keyof typeof tierLabels];
+          return (
+            <div class="mb-12 last:mb-0">
+              <div class="flex items-center gap-3 mb-6">
+                <h2 class={`text-lg font-bold ${config.color}`}>{config.title}</h2>
+                <span class="text-xs text-zinc-400 dark:text-zinc-500">{config.desc}</span>
+                <span class="rounded-full bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-[0.65rem] font-medium text-zinc-500 dark:text-zinc-400">
+                  {tierPairs.length} pairs
+                </span>
+              </div>
+              <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {tierPairs.slice(0, 12).map((pair) => {
+                  const slug = comparisonSlug(pair.slugA, pair.slugB);
+                  return (
+                    <a
+                      href={`/compare/${slug}/`}
+                      class="group rounded-[1.4rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 transition-all hover:border-indigo-200 dark:hover:border-indigo-800 hover:shadow-md"
+                    >
+                      <div class="flex items-start justify-between gap-2">
+                        <div>
+                          <p class="text-sm font-semibold text-zinc-950 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-300">
+                            {pair.nameA}
+                          </p>
+                          <p class="text-xs text-zinc-400 mt-0.5">vs</p>
+                          <p class="text-sm font-semibold text-zinc-950 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 mt-0.5">
+                            {pair.nameB}
+                          </p>
+                        </div>
+                        <svg class="mt-1 h-4 w-4 text-zinc-300 dark:text-zinc-700 transition-colors group-hover:text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                        </svg>
+                      </div>
+                      <div class="mt-3 flex items-center gap-2">
+                        <span class="rounded-full bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-[0.6rem] text-zinc-500 dark:text-zinc-400 capitalize">
+                          {pair.pairType === 'cross-provider' ? 'Cross-provider' : pair.providerA}
+                        </span>
+                      </div>
+                    </a>
+                  );
+                })}
+              </div>
+              {tierPairs.length > 12 && (
+                <p class="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
+                  + {tierPairs.length - 12} more {config.title.toLowerCase()} comparisons
+                </p>
+              )}
+            </div>
+          );
+        })}
+
+        <div class="mt-8">
+          <NewsletterSignup
+            heading="Model comparison updates"
+            subtitle="Get notified when new models enter the catalog or pricing shifts reshape the competitive landscape."
+          />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  function initCompareBuilder() {
+    const selectA = document.getElementById('model-a') as HTMLSelectElement | null;
+    const selectB = document.getElementById('model-b') as HTMLSelectElement | null;
+    const btn = document.getElementById('compare-btn') as HTMLButtonElement | null;
+    if (!selectA || !selectB || !btn) return;
+
+    function updateBtn() {
+      const a = selectA!.value;
+      const b = selectB!.value;
+      btn!.disabled = !a || !b || a === b;
+    }
+
+    selectA.addEventListener('change', updateBtn);
+    selectB.addEventListener('change', updateBtn);
+
+    btn.addEventListener('click', () => {
+      const a = selectA.value;
+      const b = selectB.value;
+      if (!a || !b || a === b) return;
+      const [first, second] = a < b ? [a, b] : [b, a];
+      window.location.href = `/compare/${first}-vs-${second}/`;
+    });
+  }
+
+  initCompareBuilder();
+  document.addEventListener('astro:page-load', initCompareBuilder);
+</script>

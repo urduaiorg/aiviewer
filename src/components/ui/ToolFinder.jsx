@@ -443,7 +443,7 @@ function answerLabel(questionId, answerId) {
   return options.find((option) => option.id === answerId)?.label || answerId;
 }
 
-export default function ToolFinder({ tools = [], playbooks = [] }) {
+export default function ToolFinder({ tools = [], playbooks = [], modelData = {} }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isComplete, setIsComplete] = useState(false);
@@ -534,7 +534,41 @@ export default function ToolFinder({ tools = [], playbooks = [] }) {
               <a href={blueprint.model.url} className="block rounded-[1.5rem] border border-zinc-200 bg-zinc-50/80 p-5 transition-colors hover:border-indigo-200 dark:border-zinc-800 dark:bg-zinc-950/50 dark:hover:border-indigo-800">
                 <div className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-300">Model pick</div>
                 <h3 className="mt-3 text-xl font-bold text-zinc-950 dark:text-zinc-50">{blueprint.model.label}</h3>
-                <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-400">Pair the tool recommendation with this model when you need stronger capability fit, pricing context, and release tracking.</p>
+                {(() => {
+                  const slug = blueprint.model.url.match(/\/models\/([^/]+)\/?$/)?.[1];
+                  const liveModel = slug && modelData[slug];
+                  if (!liveModel) return (
+                    <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-400">Pair the tool recommendation with this model when you need stronger capability fit, pricing context, and release tracking.</p>
+                  );
+                  return (
+                    <>
+                      <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                        <div className="rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 px-2.5 py-1.5">
+                          <span className="text-zinc-400">Input</span>
+                          <span className="ml-1 font-semibold text-zinc-950 dark:text-zinc-50">
+                            {liveModel.inputPricePerMillion != null ? `$${liveModel.inputPricePerMillion < 1 ? liveModel.inputPricePerMillion.toFixed(2) : liveModel.inputPricePerMillion}/M` : 'TBD'}
+                          </span>
+                        </div>
+                        <div className="rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 px-2.5 py-1.5">
+                          <span className="text-zinc-400">Output</span>
+                          <span className="ml-1 font-semibold text-zinc-950 dark:text-zinc-50">
+                            {liveModel.outputPricePerMillion != null ? `$${liveModel.outputPricePerMillion < 1 ? liveModel.outputPricePerMillion.toFixed(2) : liveModel.outputPricePerMillion}/M` : 'TBD'}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="mt-2 flex flex-wrap gap-1">
+                        {liveModel.contextWindow && (
+                          <span className="rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 text-[0.65rem] text-zinc-500 dark:text-zinc-400">
+                            {liveModel.contextWindow >= 1000000 ? `${(liveModel.contextWindow / 1000000).toFixed(1)}M ctx` : `${Math.round(liveModel.contextWindow / 1000)}K ctx`}
+                          </span>
+                        )}
+                        {liveModel.supportsReasoning && <span className="rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 px-2 py-0.5 text-[0.65rem] text-indigo-600 dark:text-indigo-400">Reasoning</span>}
+                        {liveModel.supportsVision && <span className="rounded-full bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 px-2 py-0.5 text-[0.65rem] text-amber-600 dark:text-amber-400">Vision</span>}
+                        {liveModel.supportsToolUse && <span className="rounded-full bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 px-2 py-0.5 text-[0.65rem] text-emerald-600 dark:text-emerald-400">Tool use</span>}
+                      </div>
+                    </>
+                  );
+                })()}
               </a>
 
               {playbook && (
@@ -569,6 +603,16 @@ export default function ToolFinder({ tools = [], playbooks = [] }) {
                 </a>
               </div>
             )}
+          </div>
+
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="/compare/" className="inline-flex items-center gap-2 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/20 px-5 py-2.5 text-sm font-semibold text-indigo-600 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors">
+              Compare recommended models
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            </a>
+            <a href="/changes/" className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+              Latest model changes
+            </a>
           </div>
 
           <div className="mt-6 rounded-[1.6rem] border border-zinc-200 bg-zinc-50/80 p-6 dark:border-zinc-800 dark:bg-zinc-950/50">

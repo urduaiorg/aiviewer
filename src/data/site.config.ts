@@ -77,6 +77,8 @@ export const siteConfig = {
     main: [
       { label: 'Playbooks', href: '/playbooks/' },
       { label: 'Tools', href: '/tools/' },
+      { label: 'Compare', href: '/compare/' },
+      { label: 'Changes', href: '/changes/' },
       { label: 'Guides', href: '/guides/' },
       { label: 'About', href: '/about/' },
     ],
