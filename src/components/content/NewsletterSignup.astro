@@ -68,20 +68,15 @@ const beehiivSrc = 'https://subscribe-forms.beehiiv.com/df762eb2-5183-49d6-bb1e-
 )}
 
 <style>
-  /* Default desktop height */
+  /* Start compact — let Beehiiv postMessage resize to actual content height */
   .beehiiv-embed {
-    height: 550px;
-    min-height: 550px;
+    height: 220px;
+    min-height: 150px;
+    transition: height 0.3s ease;
   }
-  /* Mobile: Beehiiv content wraps at narrow widths — needs more vertical space */
   @media (max-width: 640px) {
-    .beehiiv-section {
-      height: 700px;
-      min-height: 700px;
-    }
-    .beehiiv-inline {
-      height: 700px;
-      min-height: 700px;
+    .beehiiv-embed {
+      height: 280px;
     }
   }
 </style>
@@ -93,9 +88,8 @@ const beehiivSrc = 'https://subscribe-forms.beehiiv.com/df762eb2-5183-49d6-bb1e-
     if (typeof event.data === 'object' && event.data.type === 'beehiiv:resize') {
       document.querySelectorAll<HTMLIFrameElement>('.beehiiv-embed').forEach((iframe) => {
         if (iframe.contentWindow === event.source) {
-          const minH = window.innerWidth <= 640 ? 700 : 550;
-          const safeHeight = Math.max(event.data.height, minH);
-          iframe.style.height = `${safeHeight}px`;
+          const h = Math.max(event.data.height, 150);
+          iframe.style.height = `${h}px`;
         }
       });
     }
