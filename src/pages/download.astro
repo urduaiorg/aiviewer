@@ -182,36 +182,77 @@ const description = "Get the exact, battle-tested AI frameworks used by senior e
 </BaseLayout>
 
 <script>
-  // Client-side logic for the lead capture form
+  // Lead capture form — subscribes to Beehiiv + triggers download
   document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('lead-magnet-form');
     const formContainer = document.getElementById('form-container');
     const successContainer = document.getElementById('success-container');
-    
+
     const btnText = document.getElementById('btn-text');
     const btnIcon = document.getElementById('btn-icon');
     const btnSpinner = document.getElementById('btn-spinner');
     const submitBtn = document.getElementById('submit-btn');
 
+    const BEEHIIV_FORM_ID = 'df762eb2-5183-49d6-bb1e-fafb3683f2e0';
+
     if (form) {
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
+        const emailInput = form.querySelector<HTMLInputElement>('[name=email]');
+        const email = emailInput?.value?.trim();
+        if (!email) return;
+
         // 1. Show loading state
         if(btnText) btnText.textContent = "Processing...";
         if(btnIcon) btnIcon.classList.add('hidden');
         if(btnSpinner) btnSpinner.classList.remove('hidden');
         if(submitBtn) (submitBtn as HTMLButtonElement).disabled = true;
-        
-        // 2. Simulate API Call / Processing
+
+        // 2. Subscribe via Beehiiv embed endpoint (hidden iframe POST)
+        try {
+          const beehiivFrame = document.createElement('iframe');
+          beehiivFrame.name = 'beehiiv-subscribe';
+          beehiivFrame.style.display = 'none';
+          document.body.appendChild(beehiivFrame);
+
+          const beehiivForm = document.createElement('form');
+          beehiivForm.method = 'POST';
+          beehiivForm.action = `https://subscribe-forms.beehiiv.com/${BEEHIIV_FORM_ID}`;
+          beehiivForm.target = 'beehiiv-subscribe';
+
+          const emailField = document.createElement('input');
+          emailField.type = 'hidden';
+          emailField.name = 'email';
+          emailField.value = email;
+          beehiivForm.appendChild(emailField);
+
+          const utmSource = document.createElement('input');
+          utmSource.type = 'hidden';
+          utmSource.name = 'utm_source';
+          utmSource.value = 'aiviewer-download';
+          beehiivForm.appendChild(utmSource);
+
+          document.body.appendChild(beehiivForm);
+          beehiivForm.submit();
+
+          // Clean up after submission
+          setTimeout(() => {
+            beehiivForm.remove();
+            beehiivFrame.remove();
+          }, 3000);
+        } catch {
+          // Subscription failed silently — still deliver the download
+        }
+
+        // 3. Show success state + trigger download (don't block on subscription)
         setTimeout(() => {
-          // Hide form, show success state
           if(formContainer) formContainer.classList.add('hidden');
           if(successContainer) {
             successContainer.classList.remove('hidden');
             successContainer.classList.add('flex');
           }
-          
+
           // Trigger the download automatically
           const downloadLink = document.createElement('a');
           downloadLink.href = '/assets/2026-ultimate-ai-prompt-cheat-sheet.md';
@@ -219,11 +260,7 @@ const description = "Get the exact, battle-tested AI frameworks used by senior e
           document.body.appendChild(downloadLink);
           downloadLink.click();
           document.body.removeChild(downloadLink);
-          
-          // Note: In a real production app, we would send the email to a backend endpoint here
-          // e.g., fetch('/api/subscribe', { method: 'POST', body: new FormData(form) })
-          
-        }, 1200); // 1.2 second fake loading
+        }, 800);
       });
     }
   });

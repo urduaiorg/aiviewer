@@ -1,3 +1,7 @@
 # ads.txt — AIViewer.ai
-# Adsterra (update PUBLISHER_ID after registration)
-# aiviewer.ai, PUBLISHER_ID, DIRECT
+# ──────────────────────────────────────────────────────
+# SETUP: Register at publishers.adsterra.com
+# After approval, replace PUBLISHER_ID below and uncomment the line.
+# Adsterra typically approves sites within 24-48 hours.
+# ──────────────────────────────────────────────────────
+# adsterra.com, PUBLISHER_ID, DIRECT

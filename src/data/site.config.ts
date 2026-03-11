@@ -43,11 +43,11 @@ export const siteConfig = {
     workerBase: 'https://aiviewer-benchmark-api.qaisar-roonjha.workers.dev',
   },
 
-  // ── Analytics ──
+  // ── Analytics (SETUP REQUIRED) ──
+  // 1. Cloudflare: dash.cloudflare.com → Web Analytics → Add site → copy token
+  // 2. Google: search.google.com/search-console → Settings → Verify → HTML tag → copy content value
   analytics: {
-    // Cloudflare Web Analytics — set token when ready
     cloudflareToken: '',
-    // Google Search Console verification
     googleSiteVerification: '',
   },
 

@@ -329,6 +329,59 @@ const pricingTiers = inferPricingTiers();
     </div>
   </section>
 
+  {/* Affiliate CTA Banner — high-conversion placement between content and related tools */}
+  <section class="border-t border-zinc-200/70 dark:border-zinc-800 bg-gradient-to-br from-indigo-50/60 via-white to-blue-50/40 dark:from-indigo-950/20 dark:via-[var(--color-bg)] dark:to-blue-950/10">
+    <div class="page-container py-10 md:py-14">
+      <div class="relative overflow-hidden rounded-[1.75rem] border border-indigo-200/60 dark:border-indigo-900/40 bg-white dark:bg-zinc-900 shadow-[0_8px_40px_rgba(79,70,229,0.08)] dark:shadow-[0_8px_40px_rgba(79,70,229,0.04)]">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(79,70,229,0.06),_transparent_50%)] dark:bg-[radial-gradient(circle_at_top_right,_rgba(79,70,229,0.04),_transparent_50%)]" aria-hidden="true"></div>
+        <div class="relative flex flex-col items-center gap-6 px-6 py-10 text-center md:px-12 md:py-12">
+          <div class="inline-flex items-center gap-2 rounded-full bg-indigo-100 dark:bg-indigo-900/40 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-indigo-700 dark:text-indigo-300">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Reviewed & Verified
+          </div>
+
+          <h2 class="max-w-2xl text-2xl font-bold text-zinc-900 dark:text-zinc-50 md:text-3xl">
+            Ready to try {entry.data.toolName}?
+          </h2>
+          <p class="max-w-xl text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            {entry.data.rating >= 4.5
+              ? `We rated ${entry.data.toolName} ${entry.data.rating.toFixed(1)}/5 — one of the strongest tools in ${categoryLabels[entry.data.category] ?? entry.data.category}. ${entry.data.pricing === 'free' ? 'It\'s completely free to get started.' : entry.data.pricing === 'freemium' ? 'Start with the free tier and upgrade when you need more.' : `Plans start at ${entry.data.pricingDetails.match(/\$[\d]+/)?.[0] ?? 'affordable rates'}.`}`
+              : `${entry.data.toolName} scored ${entry.data.rating.toFixed(1)}/5 in our review — a solid choice for ${entry.data.bestFor[0]?.toLowerCase() ?? 'its core use case'}. ${entry.data.pricing === 'free' || entry.data.pricing === 'freemium' ? 'Try it free and decide for yourself.' : 'See if it fits your workflow.'}`
+            }
+          </p>
+
+          <div class="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+            <a
+              href={entry.data.affiliateUrl || entry.data.website}
+              target="_blank"
+              rel={entry.data.affiliateUrl ? 'sponsored noopener' : 'noopener'}
+              class="inline-flex items-center gap-2.5 rounded-xl bg-indigo-600 px-7 py-3.5 text-sm font-bold text-white shadow-[0_4px_16px_rgba(79,70,229,0.3)] transition-all hover:bg-indigo-700 hover:shadow-[0_4px_20px_rgba(79,70,229,0.45)] active:scale-[0.98]"
+            >
+              Try {entry.data.toolName} {entry.data.pricing === 'free' ? '— Free' : entry.data.pricing === 'freemium' ? '— Free to Start' : ''}
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+            <a
+              href="/tools/"
+              class="text-sm font-medium text-zinc-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+            >
+              Compare alternatives
+            </a>
+          </div>
+
+          {entry.data.affiliateUrl && (
+            <p class="text-[0.6rem] text-zinc-400 dark:text-zinc-600 italic">
+              This link may earn AIViewer a commission at no extra cost to you.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
   {relatedEntries.length > 0 && (
     <section class="border-t border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
       <div class="page-container py-12 md:py-16">
