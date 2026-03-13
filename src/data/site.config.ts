@@ -80,6 +80,7 @@ export const siteConfig = {
       { label: 'Playbooks', href: '/playbooks/' },
       { label: 'Models', href: '/models/' },
       { label: 'Prompts', href: '/prompts/' },
+      { label: 'Opportunities', href: '/opportunities/' },
       { label: 'Compare', href: '/compare/' },
     ],
     cta: { label: 'Find AI Tools Quiz', href: '/finder/' },
@@ -94,6 +95,7 @@ export const siteConfig = {
       ],
       resources: [
         { label: 'Prompt Library', href: '/prompts/' },
+        { label: 'AI Opportunities', href: '/opportunities/' },
         { label: 'AI Glossary', href: '/glossary/' },
         { label: 'AI Tool Finder', href: '/finder/' },
         { label: 'Tags', href: '/tags/' },
@@ -197,6 +199,24 @@ export const categoryLabels: Record<string, string> = {
   language: 'Language',
   general: 'General',
   technology: 'Technology',
+};
+
+/** Opportunity category display labels */
+export const opportunityCategoryLabels: Record<string, string> = {
+  course: 'Course',
+  grant: 'Grant',
+  fellowship: 'Fellowship',
+  competition: 'Competition',
+  toolkit: 'Toolkit',
+  scholarship: 'Scholarship',
+  certification: 'Certification',
+};
+
+/** Cost display config */
+export const costConfig: Record<string, { label: string; color: string }> = {
+  free: { label: 'Free', color: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' },
+  'partially-free': { label: 'Partially Free', color: 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' },
+  paid: { label: 'Paid', color: 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' },
 };
 
 /** Difficulty display config */

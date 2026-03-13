@@ -1,0 +1,150 @@
+---
+import { siteConfig } from '../../data/site.config';
+
+/**
+ * OpportunitySchema — Rich structured data for individual AI opportunities.
+ *
+ * Maps each category to the most specific Schema.org type:
+ *   course / certification → Course (with CourseFree offer when applicable)
+ *   grant / scholarship / fellowship → Grant (Schema.org MonetaryGrant)
+ *   competition → Event
+ *   toolkit → SoftwareApplication
+ *
+ * Also outputs an EducationalOrganization for providers of courses.
+ */
+
+export interface Props {
+  title: string;
+  description: string;
+  category: string;
+  provider: string;
+  url: string;
+  cost: string;
+  deadline?: Date;
+  publishedDate: Date;
+  updatedDate?: Date;
+  tags: string[];
+  pageUrl: string;
+}
+
+const {
+  title,
+  description,
+  category,
+  provider,
+  url,
+  cost,
+  deadline,
+  publishedDate,
+  updatedDate,
+  tags,
+  pageUrl,
+} = Astro.props;
+
+const siteUrl = siteConfig.url;
+const fullPageUrl = pageUrl.startsWith('http') ? pageUrl : new URL(pageUrl, siteUrl).toString();
+
+// Build the base WebPage schema
+const webPage = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": title,
+  "description": description,
+  "url": fullPageUrl,
+  "datePublished": publishedDate.toISOString(),
+  "dateModified": (updatedDate ?? publishedDate).toISOString(),
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": siteConfig.name,
+    "url": siteUrl,
+  },
+};
+
+// Category-specific schemas
+const schemas: Record<string, unknown>[] = [webPage];
+
+if (category === 'course' || category === 'certification') {
+  const courseSchema: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": title,
+    "description": description,
+    "url": url,
+    "provider": {
+      "@type": "Organization",
+      "name": provider,
+      "url": url,
+    },
+    "inLanguage": "en",
+    "isAccessibleForFree": cost === 'free',
+    "keywords": tags.join(', '),
+  };
+
+  if (cost === 'free') {
+    courseSchema["offers"] = {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "category": "Free",
+    };
+  }
+
+  schemas.push(courseSchema);
+}
+
+if (category === 'grant' || category === 'scholarship' || category === 'fellowship') {
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "MonetaryGrant",
+    "name": title,
+    "description": description,
+    "url": url,
+    "funder": {
+      "@type": "Organization",
+      "name": provider,
+    },
+    ...(deadline ? { "applicationDeadline": deadline.toISOString().split('T')[0] } : {}),
+    "keywords": tags.join(', '),
+  });
+}
+
+if (category === 'competition') {
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": title,
+    "description": description,
+    "url": url,
+    "organizer": {
+      "@type": "Organization",
+      "name": provider,
+    },
+    "isAccessibleForFree": cost === 'free',
+    "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+    ...(deadline ? { "endDate": deadline.toISOString().split('T')[0] } : {}),
+    "keywords": tags.join(', '),
+  });
+}
+
+if (category === 'toolkit') {
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": title,
+    "description": description,
+    "url": url,
+    "applicationCategory": "AI Tool",
+    "offers": {
+      "@type": "Offer",
+      "price": cost === 'free' ? "0" : undefined,
+      "priceCurrency": "USD",
+    },
+    "keywords": tags.join(', '),
+  });
+}
+---
+
+{schemas.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

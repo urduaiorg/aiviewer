@@ -1,0 +1,213 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import TableOfContents from '../../components/content/TableOfContents.astro';
+import OpportunitySchema from '../../components/seo/OpportunitySchema.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import AuthorBio from '../../components/content/AuthorBio.astro';
+import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
+import ShareButtons from '../../components/content/ShareButtons.astro';
+import { formatDate, formatDateShort } from '../../utils/formatDate';
+import { siteConfig, costConfig, opportunityCategoryLabels } from '../../data/site.config';
+import { slugifyTag } from '../../utils/slugifyTag';
+
+export async function getStaticPaths() {
+  const opportunities = await getCollection('opportunities', ({ data }) => !data.draft);
+  return opportunities.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+
+const relatedEntries = (await getCollection('opportunities', ({ data }) => !data.draft))
+  .filter((candidate) => candidate.id !== entry.id && candidate.data.category === entry.data.category)
+  .slice(0, 3);
+
+function formatDeadline(date?: Date): string {
+  if (!date) return 'Ongoing — no deadline';
+  const now = new Date();
+  if (date < now) return 'This opportunity has expired';
+  const days = Math.ceil((date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+  if (days <= 7) return `${days} day${days !== 1 ? 's' : ''} remaining`;
+  if (days <= 30) return `${Math.ceil(days / 7)} weeks remaining`;
+  return `Deadline: ${formatDateShort(date)}`;
+}
+
+const isExpired = entry.data.deadline ? entry.data.deadline < new Date() : false;
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  type="article"
+  publishedDate={entry.data.publishedDate.toISOString()}
+  updatedDate={entry.data.updatedDate?.toISOString()}
+>
+  <OpportunitySchema
+    slot="head"
+    title={entry.data.title}
+    description={entry.data.description}
+    category={entry.data.category}
+    provider={entry.data.provider}
+    url={entry.data.url}
+    cost={entry.data.cost}
+    deadline={entry.data.deadline}
+    publishedDate={entry.data.publishedDate}
+    updatedDate={entry.data.updatedDate}
+    tags={entry.data.tags}
+    pageUrl={`/opportunities/${entry.id}/`}
+  />
+  <BreadcrumbSchema
+    slot="head"
+    items={[
+      { name: 'Home', url: '/' },
+      { name: 'Opportunities', url: '/opportunities/' },
+      { name: entry.data.title, url: `/opportunities/${entry.id}/` },
+    ]}
+  />
+  <Header />
+
+  <!-- ── Hero ── -->
+  <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
+    <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,_rgba(240,199,94,0.16),_transparent_40%),linear-gradient(180deg,rgba(52,211,153,0.08),transparent_75%)] dark:bg-[radial-gradient(circle_at_top,_rgba(240,199,94,0.07),_transparent_40%),linear-gradient(180deg,rgba(52,211,153,0.05),transparent_75%)]"></div>
+    <div class="page-container relative py-12 md:py-16">
+      <Breadcrumbs items={[{ label: 'Opportunities', href: '/opportunities/' }, { label: entry.data.title }]} />
+
+      <div class="max-w-3xl" data-reveal>
+        <div class="flex flex-wrap items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
+          <span class="rounded-full bg-emerald-50 dark:bg-emerald-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">
+            {opportunityCategoryLabels[entry.data.category] ?? entry.data.category}
+          </span>
+          <span class:list={['rounded-full px-3 py-1 text-[0.68rem] font-semibold', costConfig[entry.data.cost]?.color ?? 'bg-zinc-100 text-zinc-600']}>
+            {costConfig[entry.data.cost]?.label ?? entry.data.cost}
+          </span>
+          <span>{formatDate(entry.data.publishedDate)}</span>
+        </div>
+
+        <h1 class="mt-5 max-w-3xl text-zinc-950 dark:text-zinc-50">{entry.data.title}</h1>
+        <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">{entry.data.description}</p>
+
+        <!-- ── Key metadata bar ── -->
+        <div class="mt-8 flex flex-wrap gap-4">
+          <div class="flex items-center gap-2 rounded-[var(--radius-sm)] border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-2.5">
+            <span class="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Provider</span>
+            <span class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{entry.data.provider}</span>
+          </div>
+          <div class:list={[
+            'flex items-center gap-2 rounded-[var(--radius-sm)] border px-4 py-2.5',
+            isExpired
+              ? 'border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20'
+              : 'border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900'
+          ]}>
+            <span class="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Status</span>
+            <span class:list={[
+              'text-sm font-semibold',
+              isExpired ? 'text-red-600 dark:text-red-400' : 'text-zinc-900 dark:text-zinc-100'
+            ]}>{formatDeadline(entry.data.deadline)}</span>
+          </div>
+          <div class="flex items-center gap-2 rounded-[var(--radius-sm)] border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20 px-4 py-2.5">
+            <span class="text-xs font-medium uppercase tracking-wide text-emerald-600 dark:text-emerald-400">Verified</span>
+            <span class="text-sm font-semibold text-emerald-700 dark:text-emerald-300">{formatDateShort(entry.data.verifiedDate)}</span>
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-wrap items-center gap-4">
+          <a
+            href={entry.data.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class:list={[
+              'inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors',
+              isExpired
+                ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400 cursor-not-allowed pointer-events-none'
+                : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm'
+            ]}
+          >
+            Visit this opportunity
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </a>
+          <ShareButtons title={entry.data.title} url={`${siteConfig.url}${Astro.url.pathname}`} />
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-2">
+          {entry.data.tags.map((tag) => (
+            <a href={`/tags/${slugifyTag(tag)}/`} class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-3 py-1 text-sm text-zinc-600 dark:text-zinc-300 transition-colors hover:border-emerald-200 dark:hover:border-emerald-700 hover:text-emerald-600 dark:hover:text-emerald-400">{tag}</a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Content ── -->
+  <section class="bg-[var(--color-bg)]">
+    <div class="page-container py-12 md:py-16">
+      <div class="grid gap-12 xl:grid-cols-[minmax(0,1fr)_16rem]">
+        <article data-pagefind-body class="min-w-0 rounded-[1.75rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-6 py-8 shadow-[var(--shadow-card)] md:px-10 md:py-10">
+          <div class="prose dark:prose-invert max-w-none prose-headings:scroll-mt-24">
+            <Content />
+          </div>
+
+          <!-- ── Prominent CTA after content ── -->
+          {!isExpired && (
+            <div class="mt-10 rounded-[var(--radius-md)] border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20 p-6 text-center">
+              <p class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">Ready to get started?</p>
+              <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">This opportunity is verified and active. Link checked on {formatDateShort(entry.data.verifiedDate)}.</p>
+              <a
+                href={entry.data.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 shadow-sm"
+              >
+                Visit {entry.data.provider}
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </a>
+            </div>
+          )}
+
+          <AuthorBio compact variant="team" />
+          <NewsletterSignup variant="inline" />
+        </article>
+
+        <TableOfContents headings={headings} label="On this page" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Related opportunities ── -->
+  {relatedEntries.length > 0 && (
+    <section class="border-t border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
+      <div class="page-container py-12 md:py-16">
+        <div class="mb-8" data-reveal>
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">More opportunities</p>
+          <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">Similar {opportunityCategoryLabels[entry.data.category]?.toLowerCase() ?? entry.data.category} opportunities.</h2>
+        </div>
+        <div class="grid gap-5 md:grid-cols-3">
+          {relatedEntries.map((candidate) => (
+            <a
+              href={`/opportunities/${candidate.id}/`}
+              class="group rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-emerald-200 hover:shadow-[var(--shadow-card-hover)]"
+            >
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-400">{opportunityCategoryLabels[candidate.data.category] ?? candidate.data.category}</span>
+                <span class:list={['rounded-full px-2 py-0.5 text-[0.65rem] font-medium', costConfig[candidate.data.cost]?.color ?? 'bg-zinc-100 text-zinc-600']}>
+                  {costConfig[candidate.data.cost]?.label ?? candidate.data.cost}
+                </span>
+              </div>
+              <h3 class="mt-3 text-xl text-zinc-950 dark:text-zinc-50 group-hover:text-emerald-600 dark:group-hover:text-emerald-400">{candidate.data.title}</h3>
+              <p class="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{candidate.data.description}</p>
+              <p class="mt-3 text-xs text-zinc-400">{candidate.data.provider}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,129 @@
+---
+import { siteConfig } from '../../data/site.config';
+
+/**
+ * OpportunityListSchema — ItemList + FAQPage structured data for the
+ * AI Opportunities listing page.
+ *
+ * Outputs:
+ *   1. ItemList — so Google can show a rich carousel/list of opportunities
+ *   2. FAQPage — targets "People Also Ask" boxes for high-value queries
+ *   3. CollectionPage — enhanced with keyword-rich metadata
+ */
+
+export interface OpportunityItem {
+  title: string;
+  url: string;
+  description: string;
+  category: string;
+  provider: string;
+  cost: string;
+  position: number;
+}
+
+export interface Props {
+  items: OpportunityItem[];
+  totalCount: number;
+  categoryCount: number;
+}
+
+const { items, totalCount, categoryCount } = Astro.props;
+const siteUrl = siteConfig.url;
+
+// Schema 1: ItemList for rich results
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Free AI Courses, Grants, and Funding Opportunities",
+  "description": "Curated and verified list of free AI courses, grants, fellowships, scholarships, and certifications. Every link manually checked.",
+  "url": new URL('/opportunities/', siteUrl).toString(),
+  "numberOfItems": totalCount,
+  "itemListElement": items.map((item) => ({
+    "@type": "ListItem",
+    "position": item.position,
+    "name": item.title,
+    "url": new URL(`/opportunities/${item.url}/`, siteUrl).toString(),
+    "description": item.description,
+  })),
+};
+
+// Schema 2: FAQPage targeting People Also Ask
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Where can I find free AI courses with certificates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AIViewer.ai maintains a curated, verified list of free AI courses from providers like Google, Microsoft, IBM, Coursera, and universities. Every course link is manually checked and includes details on certificates, duration, and prerequisites. Browse our full AI Opportunities board at aiviewer.ai/opportunities/."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What AI grants are available for nonprofits and community projects?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Organizations like the Internet Society (ISOC), Google.org, Mozilla Foundation, and various government programs offer grants for AI and digital inclusion projects. Our Opportunities board lists verified grants with amounts, eligibility requirements, and application deadlines. Filter by 'Grant' to see all current funding opportunities."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I learn AI for free in 2026?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The best free AI learning paths in 2026 include Google AI Essentials (10 hours, certificate included), Microsoft AI Skills Initiative (multiple learning paths), Elements of AI by University of Helsinki, and IBM SkillsBuild. AIViewer.ai curates these and more, verifying each link and providing honest descriptions so you can choose the right course for your level."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are there AI scholarships and fellowships for researchers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Major AI scholarships and fellowships include the Microsoft Research PhD Fellowship, NVIDIA Graduate Fellowship, Google DeepMind scholarships, and NSF AI research grants. Our Opportunities board tracks these with verified links, deadlines, and eligibility details. Filter by 'Fellowship' or 'Scholarship' to find the right fit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I get an AI certification for free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Several reputable providers offer free AI certifications: Google AI Essentials (Google Career Certificate), IBM SkillsBuild AI courses, Qualcomm AI Upskilling Certificate, and University of Maryland's AI and Career Empowerment certificate. Check our verified list for the latest free certification opportunities with direct enrollment links."
+      }
+    },
+  ],
+};
+
+// Schema 3: Enhanced CollectionPage
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Free AI Courses, Grants, Fellowships & Scholarships — Verified List",
+  "description": "Curated directory of free AI courses with certificates, AI grants for nonprofits, AI fellowships, scholarships, and competitions. Every opportunity verified with direct links. Updated regularly.",
+  "url": new URL('/opportunities/', siteUrl).toString(),
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": siteConfig.name,
+    "url": siteUrl,
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": siteConfig.name,
+    "url": siteUrl,
+  },
+  "numberOfItems": totalCount,
+  "about": [
+    { "@type": "Thing", "name": "Artificial Intelligence Education" },
+    { "@type": "Thing", "name": "AI Grants and Funding" },
+    { "@type": "Thing", "name": "Free Online Courses" },
+    { "@type": "Thing", "name": "AI Certifications" },
+  ],
+  "keywords": "free AI courses, AI grants, AI fellowships, AI scholarships, AI certification free, learn AI for free, AI funding opportunities, AI courses with certificates, AI competitions",
+  "inLanguage": "en-US",
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />

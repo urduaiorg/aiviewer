@@ -1,0 +1,306 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import EditorialCover from '../../components/content/EditorialCover.astro';
+import OpportunityListSchema from '../../components/seo/OpportunityListSchema.astro';
+import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
+import { formatDateShort } from '../../utils/formatDate';
+import { opportunityCategoryLabels, costConfig } from '../../data/site.config';
+import type { OpportunityItem } from '../../components/seo/OpportunityListSchema.astro';
+
+const opportunities = (await getCollection('opportunities', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime()
+);
+
+const featuredOpportunity = opportunities.find((entry) => entry.data.featured) ?? opportunities[0];
+const categories = [...new Set(opportunities.map((entry) => entry.data.category))];
+
+// Build schema items for OpportunityListSchema
+const schemaItems: OpportunityItem[] = opportunities.map((entry, index) => ({
+  title: entry.data.title,
+  url: entry.id,
+  description: entry.data.description,
+  category: entry.data.category,
+  provider: entry.data.provider,
+  cost: entry.data.cost,
+  position: index + 1,
+}));
+
+function formatDeadline(date?: Date): string {
+  if (!date) return 'Ongoing';
+  const now = new Date();
+  if (date < now) return 'Expired';
+  const days = Math.ceil((date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+  if (days <= 7) return `${days}d left`;
+  if (days <= 30) return `${Math.ceil(days / 7)}w left`;
+  return formatDateShort(date);
+}
+---
+
+<BaseLayout
+  title="Free AI Courses, Grants & Fellowships — Verified List (2026)"
+  description="Curated list of free AI courses with certificates, AI grants for nonprofits, fellowships, scholarships, and certifications. Every link verified. Updated regularly."
+>
+  <Fragment slot="head">
+    <OpportunityListSchema
+      items={schemaItems}
+      totalCount={opportunities.length}
+      categoryCount={categories.length}
+    />
+  </Fragment>
+  <Header />
+
+  <!-- ── Hero ── -->
+  <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
+    <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.18),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(52,211,153,0.08),_transparent_38%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.08),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(52,211,153,0.06),_transparent_38%)]"></div>
+    <div class="page-container relative py-12 md:py-16">
+      <Breadcrumbs items={[{ label: 'Opportunities' }]} />
+
+      <div class="max-w-3xl" data-reveal>
+        <span class="inline-flex items-center gap-2 rounded-full border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-emerald-700 dark:text-emerald-400">
+          Opportunity board
+        </span>
+        <h1 class="mt-5 text-zinc-950 dark:text-zinc-50">Free AI Courses, Grants, Fellowships & Scholarships — Every Link Verified</h1>
+        <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+          A curated directory of free AI courses with certificates, AI grants for nonprofits, research fellowships, and scholarship programs. Every link is manually verified and described honestly — no clutter, no dead links.
+        </p>
+      </div>
+
+      {opportunities.length > 0 && (
+        <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 max-w-xl" data-reveal>
+          <div class="rounded-[var(--radius-sm)] border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-4 text-center">
+            <p class="text-2xl font-bold text-zinc-950 dark:text-zinc-50">{opportunities.length}</p>
+            <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Opportunities</p>
+          </div>
+          <div class="rounded-[var(--radius-sm)] border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-4 text-center">
+            <p class="text-2xl font-bold text-zinc-950 dark:text-zinc-50">{categories.length}</p>
+            <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Categories</p>
+          </div>
+          <div class="rounded-[var(--radius-sm)] border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/30 p-4 text-center col-span-2 sm:col-span-1">
+            <p class="text-2xl font-bold text-emerald-700 dark:text-emerald-300">100%</p>
+            <p class="mt-1 text-xs text-emerald-600 dark:text-emerald-400">Verified links</p>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- ── Featured opportunity ── -->
+  {featuredOpportunity && (
+    <section class="border-b border-zinc-200/70 dark:border-zinc-800 bg-[linear-gradient(180deg,#fff,rgba(244,244,245,0.75))] dark:bg-[linear-gradient(180deg,var(--color-bg),rgba(24,24,27,0.75))]">
+      <div class="page-container py-10 md:py-14">
+        <a
+          href={`/opportunities/${featuredOpportunity.id}/`}
+          class="group grid gap-7 overflow-hidden rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-emerald-200 hover:shadow-[var(--shadow-card-hover)] lg:grid-cols-[minmax(0,1fr)_16rem]"
+        >
+          <div class="border-b border-zinc-200 dark:border-zinc-800 lg:border-b-0 lg:border-r">
+            <EditorialCover
+              title={featuredOpportunity.data.title}
+              subtitle={opportunityCategoryLabels[featuredOpportunity.data.category] ?? featuredOpportunity.data.category}
+              category={featuredOpportunity.data.category}
+              variant="opportunity"
+              badge="Featured opportunity"
+              layout="hero"
+            />
+          </div>
+
+          <div class="p-7">
+            <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">Featured opportunity</p>
+            <p class="mt-4 max-w-2xl text-[1rem] leading-7 text-zinc-600 dark:text-zinc-400">{featuredOpportunity.data.description}</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class:list={['rounded-full px-3 py-1 text-xs font-medium', costConfig[featuredOpportunity.data.cost]?.color ?? 'bg-zinc-100 text-zinc-600']}>
+                {costConfig[featuredOpportunity.data.cost]?.label ?? featuredOpportunity.data.cost}
+              </span>
+              <span class="rounded-full bg-zinc-100 dark:bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                {featuredOpportunity.data.provider}
+              </span>
+            </div>
+          </div>
+
+          <div class="rounded-[var(--radius-lg)] bg-zinc-950 p-6 text-white">
+            <p class="text-xs uppercase tracking-[0.14em] text-zinc-500">Provider</p>
+            <div class="mt-2 text-xl font-semibold text-white">{featuredOpportunity.data.provider}</div>
+            <p class="mt-5 text-xs uppercase tracking-[0.14em] text-zinc-500">Deadline</p>
+            <div class="mt-2 text-lg font-medium text-white">{formatDeadline(featuredOpportunity.data.deadline)}</div>
+            <p class="mt-5 text-xs uppercase tracking-[0.14em] text-zinc-500">Cost</p>
+            <div class="mt-2 text-lg font-medium capitalize text-emerald-400">{costConfig[featuredOpportunity.data.cost]?.label ?? featuredOpportunity.data.cost}</div>
+          </div>
+        </a>
+      </div>
+    </section>
+  )}
+
+  <!-- ── Grid with filters ── -->
+  <section class="bg-[var(--color-bg)]">
+    <div class="page-container py-12 md:py-16">
+      {categories.length > 0 && (
+        <nav class="mb-8 flex flex-wrap gap-2" aria-label="Category filters" data-filter-controls>
+          <button class="rounded-full border border-emerald-200 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-900/30 px-4 py-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300" data-filter="all">
+            All types
+          </button>
+          {categories.map((category) => (
+            <button class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-2 text-sm font-medium capitalize text-zinc-600 dark:text-zinc-400 transition-colors hover:border-emerald-200 hover:text-emerald-600" data-filter={category}>
+              {opportunityCategoryLabels[category] ?? category}
+            </button>
+          ))}
+        </nav>
+      )}
+
+      {opportunities.length === 0 ? (
+        <div class="rounded-[1.75rem] border border-dashed border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-8 py-16 text-center">
+          <h2 class="text-zinc-950 dark:text-zinc-50">No opportunities listed yet.</h2>
+          <p class="mt-3 text-zinc-500 dark:text-zinc-400">We're collecting verified AI courses, grants, and fellowships. Check back soon.</p>
+        </div>
+      ) : (
+        <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3" data-opportunity-grid>
+          {opportunities.map((entry, index) => (
+            <a
+              href={`/opportunities/${entry.id}/`}
+              class:list={[
+                'opportunity-card group flex h-full flex-col overflow-hidden rounded-[1.55rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] transition-card hover:border-emerald-200 hover:shadow-[var(--shadow-card-hover)]',
+                index % 4 === 0 ? 'xl:col-span-2' : '',
+              ]}
+              data-category={entry.data.category}
+            >
+              <div class="border-b border-zinc-200 dark:border-zinc-800">
+                <EditorialCover
+                  title={entry.data.title}
+                  subtitle={opportunityCategoryLabels[entry.data.category] ?? entry.data.category}
+                  category={entry.data.category}
+                  variant="opportunity"
+                  badge={costConfig[entry.data.cost]?.label ?? entry.data.cost}
+                  compact={true}
+                  layout={index % 3 === 0 ? 'frame' : 'panel'}
+                  showTitle={index % 4 === 0}
+                />
+              </div>
+
+              <div class="flex flex-1 flex-col p-6">
+                <div class="flex items-start justify-between gap-4">
+                  <span class="inline-flex rounded-full bg-zinc-100 dark:bg-zinc-800 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-zinc-600 dark:text-zinc-400">
+                    {opportunityCategoryLabels[entry.data.category] ?? entry.data.category}
+                  </span>
+                  <span class:list={[
+                    'rounded-full px-2.5 py-1 text-xs font-medium',
+                    entry.data.deadline && entry.data.deadline < new Date()
+                      ? 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400'
+                      : !entry.data.deadline
+                        ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400'
+                        : 'bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400'
+                  ]}>
+                    {formatDeadline(entry.data.deadline)}
+                  </span>
+                </div>
+
+                <h3 class="mt-5 text-[1.35rem] text-zinc-950 dark:text-zinc-50 group-hover:text-emerald-600">{entry.data.title}</h3>
+                <p class="mt-3 flex-1 text-[0.95rem] leading-7 text-zinc-600 dark:text-zinc-400">{entry.data.description}</p>
+
+                <div class="mt-auto pt-5 flex items-center justify-between border-t border-zinc-100 dark:border-zinc-800">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-medium text-zinc-500 dark:text-zinc-400">{entry.data.provider}</span>
+                    <span class="text-zinc-300 dark:text-zinc-700">&middot;</span>
+                    <span class:list={['rounded-full px-2.5 py-0.5 text-xs font-medium', costConfig[entry.data.cost]?.color ?? 'bg-zinc-100 text-zinc-600']}>
+                      {costConfig[entry.data.cost]?.label ?? entry.data.cost}
+                    </span>
+                  </div>
+                  <span class="text-xs text-zinc-400">{formatDateShort(entry.data.publishedDate)}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <script>
+    const controls = document.querySelector('[data-filter-controls]');
+    const grid = document.querySelector('[data-opportunity-grid]');
+    if (controls && grid) {
+      const buttons = Array.from(controls.querySelectorAll('button[data-filter]'));
+      const cards = Array.from(grid.querySelectorAll('.opportunity-card'));
+
+      const isDark = () => document.documentElement.getAttribute('data-theme') === 'dark';
+      const setFilter = (value: string) => {
+        buttons.forEach((button) => {
+          const active = (button as HTMLElement).dataset.filter === value;
+          const dark = isDark();
+          button.classList.toggle('border-emerald-200', active && !dark);
+          button.classList.toggle('border-emerald-700', active && dark);
+          button.classList.toggle('bg-emerald-50', active && !dark);
+          button.classList.toggle('bg-emerald-900/30', active && dark);
+          button.classList.toggle('text-emerald-700', active && !dark);
+          button.classList.toggle('text-emerald-300', active && dark);
+          button.classList.toggle('font-semibold', active);
+          button.classList.toggle('border-zinc-200', !active && !dark);
+          button.classList.toggle('border-zinc-700', !active && dark);
+          button.classList.toggle('bg-white', !active && !dark);
+          button.classList.toggle('bg-zinc-800', !active && dark);
+          button.classList.toggle('text-zinc-600', !active && !dark);
+          button.classList.toggle('text-zinc-400', !active && dark);
+          button.classList.toggle('font-medium', !active);
+        });
+
+        cards.forEach((card) => {
+          const matches = value === 'all' || (card as HTMLElement).dataset.category === value;
+          card.toggleAttribute('hidden', !matches);
+        });
+      };
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => setFilter((button as HTMLElement).dataset.filter ?? 'all'));
+      });
+    }
+  </script>
+
+  <!-- ── SEO content: How it works + FAQ ── -->
+  <section class="border-t border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
+    <div class="page-container py-12 md:py-16">
+      <div class="max-w-3xl" data-reveal>
+        <h2 class="text-zinc-950 dark:text-zinc-50">How to learn AI for free in 2026</h2>
+        <p class="mt-4 text-[1rem] leading-7 text-zinc-600 dark:text-zinc-400">
+          The best way to start learning AI is with free, self-paced courses from trusted providers. Google, Microsoft, IBM, and top universities offer courses that cover everything from AI fundamentals to advanced machine learning — many include free certificates. Our board collects these opportunities in one place so you don't have to search across dozens of sites.
+        </p>
+        <p class="mt-4 text-[1rem] leading-7 text-zinc-600 dark:text-zinc-400">
+          Beyond courses, we track AI grants for community organizations, research fellowships, scholarships for students, and competitions with real prizes. Every entry is manually verified — we click the link, confirm it works, and write an honest description of what you'll actually get.
+        </p>
+      </div>
+
+      <div class="mt-14 max-w-3xl" data-reveal>
+        <h2 class="text-zinc-950 dark:text-zinc-50">Frequently asked questions</h2>
+        <dl class="mt-6 divide-y divide-zinc-200 dark:divide-zinc-800">
+          <div class="py-5">
+            <dt class="text-[1rem] font-semibold text-zinc-900 dark:text-zinc-100">Where can I find free AI courses with certificates?</dt>
+            <dd class="mt-2 text-[0.95rem] leading-7 text-zinc-600 dark:text-zinc-400">We maintain a verified list of free AI courses from providers like Google, Microsoft, IBM, Coursera, and universities. Every course link is manually checked and includes details on certificates, duration, and prerequisites.</dd>
+          </div>
+          <div class="py-5">
+            <dt class="text-[1rem] font-semibold text-zinc-900 dark:text-zinc-100">What AI grants are available for nonprofits and community projects?</dt>
+            <dd class="mt-2 text-[0.95rem] leading-7 text-zinc-600 dark:text-zinc-400">Organizations like the Internet Society, Google.org, Mozilla Foundation, and government programs offer grants for AI and digital inclusion projects. Filter by "Grant" to see all current funding opportunities with amounts, eligibility, and deadlines.</dd>
+          </div>
+          <div class="py-5">
+            <dt class="text-[1rem] font-semibold text-zinc-900 dark:text-zinc-100">How do I learn AI for free in 2026?</dt>
+            <dd class="mt-2 text-[0.95rem] leading-7 text-zinc-600 dark:text-zinc-400">Start with Google AI Essentials (10 hours, certificate included), Microsoft AI Skills Initiative, Elements of AI by University of Helsinki, or IBM SkillsBuild. We curate these and more, verifying each link so you can choose the right course for your level.</dd>
+          </div>
+          <div class="py-5">
+            <dt class="text-[1rem] font-semibold text-zinc-900 dark:text-zinc-100">Are there AI scholarships and fellowships for researchers?</dt>
+            <dd class="mt-2 text-[0.95rem] leading-7 text-zinc-600 dark:text-zinc-400">Yes — major programs include the Microsoft Research PhD Fellowship, NVIDIA Graduate Fellowship, Google DeepMind scholarships, and NSF AI research grants. Filter by "Fellowship" or "Scholarship" to find programs with verified links and eligibility details.</dd>
+          </div>
+          <div class="py-5">
+            <dt class="text-[1rem] font-semibold text-zinc-900 dark:text-zinc-100">How can I get an AI certification for free?</dt>
+            <dd class="mt-2 text-[0.95rem] leading-7 text-zinc-600 dark:text-zinc-400">Several reputable providers offer free AI certifications: Google AI Essentials, IBM SkillsBuild AI courses, Qualcomm AI Upskilling Certificate, and University of Maryland's AI and Career Empowerment certificate. Check our verified list for the latest free certification opportunities.</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter signup -->
+  <section class="page-container py-16">
+    <NewsletterSignup variant="inline" />
+  </section>
+
+  <Footer />
+</BaseLayout>

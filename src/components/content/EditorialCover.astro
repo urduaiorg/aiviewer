@@ -26,7 +26,7 @@ interface Props {
   subtitle?: string;
   category?: string;
   image?: string;
-  variant?: 'playbook' | 'tool' | 'guide';
+  variant?: 'playbook' | 'tool' | 'guide' | 'opportunity';
   badge?: string;
   compact?: boolean;
   layout?: 'panel' | 'frame' | 'split' | 'hero';
@@ -77,6 +77,14 @@ const palettes: Record<string, { from: string; to: string; accent: string }> = {
   language:     { from: '#1e3a5f', to: '#0c1e33', accent: '#60A5FA' },
   technology:   { from: '#1e1b4b', to: '#0c2d3e', accent: '#818CF8' },
   general:      { from: '#1c1836', to: '#09090b', accent: '#818CF8' },
+  /* ── Opportunity categories ── */
+  course:       { from: '#0c2c4f', to: '#061729', accent: '#38BDF8' },
+  grant:        { from: '#06301a', to: '#021a0c', accent: '#34D399' },
+  fellowship:   { from: '#2e1065', to: '#180838', accent: '#A78BFA' },
+  competition:  { from: '#451a1a', to: '#200d0d', accent: '#FB7185' },
+  toolkit:      { from: '#1e293b', to: '#0f172a', accent: '#94A3B8' },
+  scholarship:  { from: '#172554', to: '#0c1437', accent: '#60A5FA' },
+  certification:{ from: '#422006', to: '#261304', accent: '#FBBF24' },
 };
 
 const C = palettes[category] ?? palettes.general;
@@ -137,6 +145,26 @@ const g = {
   // Large decorative circle — right side
   cx: 890 + pick(20, 180),  cy: 230 + pick(22, 110),
   cr: 100 + pick(24, 60),   ir: 38 + pick(26, 22),
+};
+
+/* ── OPPORTUNITIES — Gateway/staircase geometry ────── */
+/* Rising steps + floating diamond gems + beacon star   */
+const op = {
+  // Staircase steps — rising left to right
+  s1x: 80 + pick(2, 60),   s1y: 440 + pick(4, 40),
+  s2x: 240 + pick(6, 60),  s2y: 360 + pick(8, 40),
+  s3x: 400 + pick(10, 60), s3y: 280 + pick(12, 40),
+  s4x: 560 + pick(14, 60), s4y: 200 + pick(16, 40),
+  sw: 130 + pick(18, 40),  sh: 8 + pick(20, 6),
+  // Floating diamond gems
+  d1x: 780 + pick(22, 200), d1y: 120 + pick(24, 100), d1s: 18 + pick(26, 12),
+  d2x: 900 + pick(2, 160),  d2y: 280 + pick(4, 80),  d2s: 12 + pick(6, 8),
+  d3x: 680 + pick(8, 120),  d3y: 380 + pick(10, 60), d3s: 14 + pick(12, 10),
+  // Beacon star — top area
+  bx: 950 + pick(14, 160), by: 80 + pick(16, 80),
+  br: 40 + pick(18, 30),
+  // Connecting dotted line from steps to beacon
+  pathDy: 30 + pick(20, 40),
 };
 
 /* ── Layout sizing ─────────────────────────────────── */
@@ -226,6 +254,47 @@ const copyWidth = compact ? 'max-w-[14rem]' : 'max-w-[21rem]';
         <circle cx={pbM2x} cy={pbM2y} r={pb.n3} fill={C.accent} fill-opacity="0.22" />
         {/* End node */}
         <circle cx={pb.ex} cy={pb.ey} r={pb.n4} fill={GOLD} fill-opacity="0.3" />
+      </>
+    )}
+
+    {/* ─── Opportunities: Gateway staircase ─── */}
+    {variant === 'opportunity' && (
+      <>
+        {/* Rising staircase steps */}
+        <rect x={op.s1x} y={op.s1y} width={op.sw} height={op.sh} rx="4"
+          fill="white" fill-opacity="0.1" />
+        <rect x={op.s2x} y={op.s2y} width={op.sw} height={op.sh} rx="4"
+          fill="white" fill-opacity="0.12" />
+        <rect x={op.s3x} y={op.s3y} width={op.sw * 0.9} height={op.sh} rx="4"
+          fill={C.accent} fill-opacity="0.16" />
+        <rect x={op.s4x} y={op.s4y} width={op.sw * 0.8} height={op.sh} rx="4"
+          fill={GOLD} fill-opacity="0.2" />
+        {/* Dotted path connecting steps */}
+        <path
+          d={`M${op.s1x + op.sw / 2} ${op.s1y} Q${op.s2x} ${op.s2y - op.pathDy}, ${op.s2x + op.sw / 2} ${op.s2y} T${op.s3x + op.sw / 2} ${op.s3y} T${op.s4x + op.sw / 2} ${op.s4y}`}
+          fill="none" stroke="white" stroke-opacity="0.07"
+          stroke-width="1.5" stroke-dasharray="6 12" stroke-linecap="round" />
+        {/* Floating diamond gems */}
+        <rect x={op.d1x} y={op.d1y} width={op.d1s} height={op.d1s} rx="3"
+          transform={`rotate(45 ${op.d1x + op.d1s / 2} ${op.d1y + op.d1s / 2})`}
+          fill={GOLD} fill-opacity="0.22" />
+        <rect x={op.d2x} y={op.d2y} width={op.d2s} height={op.d2s} rx="2"
+          transform={`rotate(45 ${op.d2x + op.d2s / 2} ${op.d2y + op.d2s / 2})`}
+          fill={C.accent} fill-opacity="0.18" />
+        <rect x={op.d3x} y={op.d3y} width={op.d3s} height={op.d3s} rx="2"
+          transform={`rotate(45 ${op.d3x + op.d3s / 2} ${op.d3y + op.d3s / 2})`}
+          fill="white" fill-opacity="0.12" />
+        {/* Beacon star — outer glow */}
+        <circle cx={op.bx} cy={op.by} r={op.br}
+          fill={GOLD} fill-opacity="0.08" />
+        {/* Beacon star — inner core */}
+        <circle cx={op.bx} cy={op.by} r={op.br * 0.35}
+          fill={C.accent} fill-opacity="0.2" />
+        {/* Beacon cross rays */}
+        <line x1={op.bx} y1={op.by - op.br * 0.7} x2={op.bx} y2={op.by + op.br * 0.7}
+          stroke={GOLD} stroke-opacity="0.15" stroke-width="1.5" />
+        <line x1={op.bx - op.br * 0.7} y1={op.by} x2={op.bx + op.br * 0.7} y2={op.by}
+          stroke={GOLD} stroke-opacity="0.15" stroke-width="1.5" />
       </>
     )}
 

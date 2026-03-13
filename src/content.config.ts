@@ -108,4 +108,27 @@ const prompts = defineCollection({
   }),
 });
 
-export const collections = { playbooks, tools, guides, reports, prompts };
+const opportunities = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/opportunities' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().max(160),
+    category: z.enum([
+      'course', 'grant', 'fellowship', 'competition',
+      'toolkit', 'scholarship', 'certification',
+    ]),
+    provider: z.string(),
+    url: z.string().url(),
+    cost: z.enum(['free', 'partially-free', 'paid']),
+    deadline: z.coerce.date().optional(),
+    verified: z.boolean().default(true),
+    verifiedDate: z.coerce.date(),
+    publishedDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    tags: z.array(z.string()),
+    featured: z.boolean().default(false),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { playbooks, tools, guides, reports, prompts, opportunities };
