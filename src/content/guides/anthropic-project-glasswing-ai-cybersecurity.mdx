@@ -1,0 +1,88 @@
+---
+title: "Project Glasswing: How Anthropic Is Using AI to Find Zero-Day Vulnerabilities"
+description: "Anthropic's Project Glasswing unites 12 tech giants and Claude Mythos to hunt zero-day bugs in critical infrastructure. Here's what it means for cybersecurity."
+category: "technology"
+publishedDate: 2026-04-07
+updatedDate: 2026-04-07
+coverImage: "/images/guides/project-glasswing.jpg"
+tags: ["anthropic", "cybersecurity", "claude-mythos", "zero-day", "ai-security", "project-glasswing", "open-source"]
+featured: true
+draft: false
+---
+
+import AnswerBox from '../../components/content/AnswerBox.astro';
+
+<AnswerBox
+  question="What is Anthropic's Project Glasswing?"
+  answer="Project Glasswing is a cybersecurity initiative led by Anthropic that uses a specialized AI model, Claude Mythos Preview, to find zero-day software vulnerabilities in critical infrastructure. Twelve major companies — including Apple, Google, Microsoft, and NVIDIA — have joined the effort, backed by $100 million in usage credits and $4 million in donations to open-source security."
+/>
+
+Anthropic has launched Project Glasswing, a first-of-its-kind collaboration that deploys frontier AI defensively to identify software vulnerabilities hiding in critical systems. The project brings together twelve of the world's largest technology companies and introduces Claude Mythos Preview — a model purpose-built for vulnerability detection.
+
+## Why Glasswing Matters
+
+Most cybersecurity AI today is reactive: it flags known threats after they appear. Glasswing inverts that model. Claude Mythos Preview autonomously hunts for vulnerabilities that have escaped human detection — in some cases, for decades.
+
+The results so far are striking:
+
+- A **27-year-old flaw in OpenBSD** that allowed remote system crashes
+- A **16-year-old vulnerability in FFmpeg** that went undetected despite over 5 million automated test runs
+- Multiple **Linux kernel vulnerabilities** chainable for privilege escalation
+
+These are not hypothetical. These are production bugs in software that runs hospitals, banks, power grids, and the internet backbone.
+
+## Claude Mythos Preview: The Model Behind It
+
+Mythos Preview is not a general-purpose chatbot. It is a research model designed for deep code analysis and vulnerability reproduction. On standardized benchmarks, it significantly outperforms Claude Opus 4.6:
+
+| Benchmark | Claude Mythos Preview | Claude Opus 4.6 |
+|---|---|---|
+| Vulnerability reproduction (CyberGym) | 83.1% | 66.6% |
+| SWE-bench Pro | 77.8% | 53.4% |
+| SWE-bench Verified | 93.9% | 80.8% |
+
+Mythos Preview is available to researchers and partners via the Claude API, Amazon Bedrock, Google Vertex AI, and Microsoft Foundry at $25 per million input tokens and $125 per million output tokens. It is not available for general consumer use.
+
+## Who's Involved
+
+The coalition reads like a who's-who of global technology infrastructure:
+
+- **Cloud & Platform:** Amazon Web Services, Google, Microsoft
+- **Security:** CrowdStrike, Palo Alto Networks, Cisco, Broadcom
+- **Hardware:** NVIDIA, Apple
+- **Finance:** JPMorganChase
+- **Open Source:** Linux Foundation
+
+Anthropic has committed $100 million in usage credits alongside $4 million in direct donations to open-source security organizations through the Linux Foundation.
+
+## What This Means for You
+
+If you're a developer, open-source maintainer, or IT professional, Glasswing signals a shift in how the industry thinks about AI and security:
+
+1. **Defensive AI is now a category.** Expect more companies to invest in AI-powered vulnerability scanning rather than solely relying on human penetration testing.
+2. **Open-source benefits first.** The Linux Foundation partnership means findings flow back to maintainers of projects everyone depends on — not locked behind enterprise contracts.
+3. **The 90-day clock is ticking.** Glasswing operates under a responsible disclosure framework. Discoveries trigger a 90-day reporting period before public disclosure.
+
+## The Bigger Picture
+
+The announcement follows a broader trend: AI capabilities that could be used offensively are being proactively channeled into defense. By finding zero-days before attackers do and feeding fixes back to open-source maintainers, Glasswing creates a model where frontier AI actively reduces net risk rather than increasing it.
+
+Whether this approach scales — and whether the coalition holds — will be one of the most important stories in AI safety for the rest of 2026.
+
+## Frequently Asked Questions
+
+### What tools does Project Glasswing use?
+
+The core technology is Claude Mythos Preview, a frontier AI model built by Anthropic specifically for deep code analysis and vulnerability reproduction. It is deployed through the Claude API, Amazon Bedrock, Google Vertex AI, and Microsoft Foundry.
+
+### Is Claude Mythos Preview available to the public?
+
+Not yet. Mythos Preview is currently restricted to research partners and participants in the Glasswing initiative. Developers can access it via API at $25 per million input tokens, but it is not available through consumer Claude products.
+
+### How does AI find vulnerabilities that humans miss?
+
+AI models like Mythos can analyze millions of lines of code and trace execution paths at a scale no human team can match. They can also test unusual edge cases — such as the FFmpeg bug that survived 5 million automated tests but was caught by Mythos through a different analysis strategy.
+
+### Does this replace human security researchers?
+
+No. Glasswing positions AI as a force multiplier for human researchers, not a replacement. The model finds candidates; humans validate, prioritize, and develop fixes. The coalition structure ensures findings are reviewed by domain experts at each partner company.
