@@ -209,7 +209,7 @@ const reportCount = allReports.length;
             >
               {/* Branded Cover */}
               <div class="h-40 relative overflow-hidden">
-                <EditorialCover title={tool.data.title} collection="tools" category={tool.data.category} variant="compact" />
+                <EditorialCover title={tool.data.title} category={tool.data.category} variant="tool" compact={true} />
               </div>
 
               <div class="flex flex-col flex-1 p-5">
@@ -266,7 +266,7 @@ const reportCount = allReports.length;
       {featuredGuide && (
         <a href={`/guides/${featuredGuide.id}/`} class="card-glow group grid grid-cols-1 md:grid-cols-[280px_1fr] rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 overflow-hidden transition-card shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] mb-4" data-reveal>
           <div class="h-56 md:h-auto relative overflow-hidden">
-            <EditorialCover title={featuredGuide.data.title} collection="guides" category={featuredGuide.data.category} variant="frame" />
+            <EditorialCover title={featuredGuide.data.title} category={featuredGuide.data.category} variant="guide" layout="hero" showTitle={false} />
           </div>
           <div class="p-6 md:p-8 flex flex-col justify-center">
             <div class="flex items-center gap-3 mb-3">
@@ -296,7 +296,7 @@ const reportCount = allReports.length;
             data-reveal-delay={`${i * 60}`}
           >
             <div class="h-36 relative overflow-hidden">
-              <EditorialCover title={guide.data.title} collection="guides" category={guide.data.category} variant="compact" />
+              <EditorialCover title={guide.data.title} category={guide.data.category} variant="guide" compact={true} />
             </div>
             <div class="p-4 flex-1 flex flex-col">
               <span class="text-[0.65rem] font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-1.5">{categoryLabels[guide.data.category] ?? guide.data.category}</span>
