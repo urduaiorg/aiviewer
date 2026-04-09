@@ -1,0 +1,682 @@
+---
+title: "AI Pricing Compared: Every Plan From ChatGPT, Claude, Gemini, Copilot & More (2026)"
+description: "Side-by-side pricing for ChatGPT, Claude, Gemini, Grok, Perplexity, Cursor, GitHub Copilot, Mistral & more. Updated April 2026."
+category: "technology"
+publishedDate: 2026-04-09
+updatedDate: 2026-04-09
+coverImage: "/images/guides/ai-pricing-comparison-2026.jpg"
+tags: ["ai-pricing", "chatgpt", "claude", "gemini", "copilot", "grok", "perplexity", "cursor", "mistral", "comparison", "2026"]
+featured: true
+draft: false
+---
+
+import AnswerBox from '../../components/content/AnswerBox.astro';
+import PricingTable from '../../components/content/PricingTable.astro';
+import ComparisonTable from '../../components/content/ComparisonTable.astro';
+import WhatChanged from '../../components/content/WhatChanged.astro';
+
+<AnswerBox
+  question="How much does AI cost in 2026?"
+  answer="Most major AI services offer a free tier. Paid plans converge at $20/month for everyday use (ChatGPT Plus, Claude Pro, Copilot Pro, Perplexity Pro, Cursor Pro). Power-user tiers run $100–$200/month. GitHub Copilot Pro remains the cheapest premium coding AI at $10/month. Meta AI and open-source Llama models are entirely free."
+/>
+
+The AI pricing landscape shifted again today. OpenAI just launched a new $100/month ChatGPT Pro tier — a direct answer to Anthropic's Claude Max at the same price point. Below is every plan, every price, and every trade-off across the ten services that matter most, updated to reflect today's changes.
+
+## What Changed Today (April 9, 2026)
+
+<WhatChanged changes={[
+  { type: 'price', description: 'OpenAI launched a new $100/month ChatGPT Pro tier with 5x Plus usage and heavy Codex access', date: '2026-04-09', detail: 'Launch promo: 10x Codex usage through May 31' },
+  { type: 'price', description: 'ChatGPT Plus Codex promotion ended; usage rebalanced for more sessions across the week', date: '2026-04-09' },
+  { type: 'price', description: 'Original $200/month ChatGPT Pro remains available with 20x usage and exclusive models', date: '2026-04-09' },
+]} limit={3} />
+
+## ChatGPT (OpenAI)
+
+OpenAI now runs five consumer tiers — the most of any AI provider. The new $100 Pro sits between Plus and the original $200 Pro, targeting developers who need heavier Codex sessions without the full $200 commitment.
+
+<PricingTable
+  toolName="ChatGPT"
+  tiers={[
+    {
+      name: "Free",
+      price: "$0",
+      description: "GPT-5.3 with fallback to GPT-5.2 Mini. Includes ads (US, since Feb 2026).",
+      features: [
+        "~10 messages per 5-hour window",
+        "Basic Codex access",
+        "File upload and image generation",
+        "Limited web browsing"
+      ]
+    },
+    {
+      name: "Plus",
+      price: "$20",
+      period: "mo",
+      description: "Ad-free. Full model access. Codex with standard usage cap.",
+      features: [
+        "All GPT models including GPT-5.4",
+        "Codex (standard allocation)",
+        "DALL-E image generation",
+        "Advanced Voice Mode",
+        "Custom GPTs"
+      ],
+      isRecommended: true,
+      cta: "Try ChatGPT Plus",
+      ctaUrl: "https://chatgpt.com/pricing"
+    },
+    {
+      name: "Pro (New)",
+      price: "$100",
+      period: "mo",
+      description: "5x Plus usage. Built for heavy Codex sessions and power users.",
+      features: [
+        "5x usage vs Plus across all models",
+        "10x Codex usage (launch promo through May 31)",
+        "Exclusive Pro model access",
+        "Unlimited Instant and Thinking models",
+        "Priority capacity during peak hours"
+      ],
+      cta: "Try ChatGPT Pro",
+      ctaUrl: "https://chatgpt.com/pricing"
+    },
+    {
+      name: "Pro (Original)",
+      price: "$200",
+      period: "mo",
+      description: "20x Plus usage. Unlimited messages. Exclusive o1 Pro mode.",
+      features: [
+        "20x usage vs Plus",
+        "Unlimited messages across all models",
+        "GPT-5.4 Pro and o1 Pro mode",
+        "Maximum Codex allocation",
+        "Relaxed rate limits"
+      ],
+      cta: "Try ChatGPT Pro",
+      ctaUrl: "https://chatgpt.com/pricing"
+    }
+  ]}
+  disclaimer="Business: $25/user/mo (annual) or $30/user/mo (monthly). Enterprise: custom pricing for 150+ users with 128K+ context, SCIM, domain verification, and dedicated SLAs."
+/>
+
+## Claude (Anthropic)
+
+Anthropic's pricing mirrors OpenAI's at the $20 and $100 price points but includes Claude Code CLI access on every paid plan — no separate subscription required. The Max tiers offer multiplied token budgets rather than feature gating.
+
+<PricingTable
+  toolName="Claude"
+  tiers={[
+    {
+      name: "Free",
+      price: "$0",
+      description: "Sonnet 4.5 only. Usage-limited to roughly 30–100 messages per day.",
+      features: [
+        "Claude Sonnet 4.5",
+        "Basic file and image uploads",
+        "Standard context window",
+        "Web search"
+      ]
+    },
+    {
+      name: "Pro",
+      price: "$20",
+      period: "mo",
+      description: "Full model access including Opus. Claude Code CLI included.",
+      features: [
+        "Opus 4.5, Sonnet 4.5, Haiku 4.5",
+        "Claude Code CLI access",
+        "~44K tokens per 5-hour window",
+        "Google Workspace integration",
+        "Projects and custom instructions"
+      ],
+      isRecommended: true,
+      cta: "Try Claude Pro",
+      ctaUrl: "https://claude.ai/pricing"
+    },
+    {
+      name: "Max 5x",
+      price: "$100",
+      period: "mo",
+      description: "5x Pro usage. Priority access. Same models, more capacity.",
+      features: [
+        "~88K tokens per 5-hour window",
+        "5x Pro usage across all models",
+        "Claude Code CLI (higher limits)",
+        "Priority access during peak usage",
+        "Extended thinking for complex tasks"
+      ],
+      cta: "Try Claude Max",
+      ctaUrl: "https://claude.ai/pricing"
+    },
+    {
+      name: "Max 20x",
+      price: "$200",
+      period: "mo",
+      description: "20x Pro usage. Rate limits rarely a concern.",
+      features: [
+        "~220K tokens per 5-hour window",
+        "20x Pro usage across all models",
+        "Claude Code CLI (maximum limits)",
+        "Virtually no rate limiting",
+        "All Max 5x features"
+      ],
+      cta: "Try Claude Max",
+      ctaUrl: "https://claude.ai/pricing"
+    }
+  ]}
+  disclaimer="Team Standard: $25/seat/mo. Team Premium: $125/seat/mo (includes Claude Code). Enterprise: custom pricing with 500K context, SSO/SCIM, HIPAA-ready compliance."
+/>
+
+## Google Gemini
+
+Google restructured its AI offerings in early 2026, replacing the old Gemini Advanced tier with Google AI Pro and Google AI Ultra plans. The workspace add-ons remain separate, requiring an active Google Workspace base subscription.
+
+<PricingTable
+  toolName="Google Gemini"
+  tiers={[
+    {
+      name: "Free",
+      price: "$0",
+      description: "Gemini 2.5 Flash with limited 2.5 Pro. Deep Research, Gemini Live, Canvas.",
+      features: [
+        "Gemini 2.5 Flash",
+        "100 monthly AI credits for video gen",
+        "Deep Research",
+        "Gemini Live voice mode",
+        "Gems (custom bots)"
+      ]
+    },
+    {
+      name: "AI Pro",
+      price: "$19.99",
+      period: "mo",
+      description: "Gemini 3 access. 1,000 AI credits. First month free trial.",
+      features: [
+        "Gemini 3 model",
+        "1,000 AI credits per month",
+        "Enhanced Deep Research",
+        "Larger context window",
+        "Priority access"
+      ],
+      isRecommended: true,
+      cta: "Try Google AI Pro",
+      ctaUrl: "https://one.google.com/intl/en/about/google-ai-plans/"
+    },
+    {
+      name: "AI Ultra",
+      price: "$42",
+      period: "mo",
+      description: "Gemini 3 Pro. 25,000 AI credits. Maximum capabilities. Billed quarterly at $124.99.",
+      features: [
+        "Gemini 3 Pro (most powerful)",
+        "25,000 AI credits per month",
+        "Maximum context window",
+        "All Pro features",
+        "Highest priority access"
+      ],
+      cta: "Try Google AI Ultra",
+      ctaUrl: "https://one.google.com/intl/en/about/google-ai-plans/"
+    }
+  ]}
+  disclaimer="Gemini Business (Workspace add-on): $20/user/mo. Gemini Enterprise (Workspace add-on): $30–36/user/mo. Both require an active Google Workspace base subscription ($6–18/user/mo)."
+/>
+
+## Microsoft Copilot
+
+Microsoft's approach bundles AI into its existing Microsoft 365 ecosystem. The standalone Copilot Pro is for individuals; the business tiers integrate directly into Teams, Word, Excel, and PowerPoint.
+
+<PricingTable
+  toolName="Microsoft Copilot"
+  tiers={[
+    {
+      name: "Free (Copilot Chat)",
+      price: "$0",
+      description: "Included with eligible Microsoft 365 subscriptions. Basic AI assistance.",
+      features: [
+        "Basic AI chat",
+        "Web grounding",
+        "Limited daily usage",
+        "No Office app integration"
+      ]
+    },
+    {
+      name: "Copilot Pro",
+      price: "$20",
+      period: "mo",
+      description: "Individual. Priority models + Copilot in Office apps.",
+      features: [
+        "Priority access to latest models",
+        "Copilot in Word, Excel, PowerPoint",
+        "100 Copilot actions per day",
+        "Designer image creation",
+        "Copilot in Outlook"
+      ],
+      isRecommended: true,
+      cta: "Try Copilot Pro",
+      ctaUrl: "https://www.microsoft.com/en-us/microsoft-365-copilot/pricing"
+    },
+    {
+      name: "M365 Business",
+      price: "$21",
+      period: "user/mo",
+      description: "Requires qualifying M365 subscription. Annual commitment.",
+      features: [
+        "Everything in Pro",
+        "Copilot in Teams meetings",
+        "Business data grounding",
+        "IT admin controls",
+        "Microsoft Graph integration"
+      ]
+    },
+    {
+      name: "M365 Enterprise",
+      price: "$30",
+      period: "user/mo",
+      description: "Full enterprise with Copilot Studio and admin controls.",
+      features: [
+        "Everything in Business",
+        "Copilot Studio (custom agents)",
+        "Enterprise-grade compliance",
+        "Custom model fine-tuning",
+        "Advanced analytics"
+      ]
+    }
+  ]}
+  disclaimer="Microsoft announced commercial pricing updates for M365 suite subscriptions effective July 1, 2026. Enterprise requires M365 E3/E5 or Business Standard/Premium base."
+/>
+
+## Grok (xAI)
+
+Grok stands out for its real-time integration with X (formerly Twitter) and its transparent tiering. SuperGrok Heavy at $300/month is the most expensive consumer AI subscription currently available.
+
+<PricingTable
+  toolName="Grok"
+  tiers={[
+    {
+      name: "Free",
+      price: "$0",
+      description: "Limited daily queries. Grok 3 access.",
+      features: [
+        "Grok 3 model",
+        "Basic daily query limit",
+        "Real-time X data",
+        "Image understanding"
+      ]
+    },
+    {
+      name: "SuperGrok",
+      price: "$30",
+      period: "mo",
+      description: "Full Grok 4 and 4.1 access. 128K token memory. $300/yr if billed annually.",
+      features: [
+        "Grok 4 and 4.1",
+        "128K token memory",
+        "Unlimited usage",
+        "Real-time X data integration",
+        "DeepSearch and Think modes"
+      ],
+      isRecommended: true,
+      cta: "Try SuperGrok",
+      ctaUrl: "https://grok.com/plans"
+    },
+    {
+      name: "SuperGrok Heavy",
+      price: "$300",
+      period: "mo",
+      description: "Grok 4 Heavy preview. 428K token memory. Maximum compute.",
+      features: [
+        "Grok 4 Heavy preview model",
+        "428K token memory",
+        "Maximum compute priority",
+        "All SuperGrok features",
+        "Earliest access to new models"
+      ]
+    }
+  ]}
+  disclaimer="X Premium ($8/mo) and X Premium+ ($40/mo) also include varying Grok access bundled with X/Twitter features. Grok Business: $30/seat/mo for teams."
+/>
+
+## Perplexity
+
+Perplexity is the only AI service at the $20 tier that routes queries across multiple frontier models (GPT-5.2, Claude Sonnet 4.5, Gemini 3 Pro) rather than locking you into a single provider's ecosystem.
+
+<PricingTable
+  toolName="Perplexity"
+  tiers={[
+    {
+      name: "Free",
+      price: "$0",
+      description: "Basic AI-powered search. Limited Pro Searches per day.",
+      features: [
+        "Basic search with citations",
+        "Limited Pro Search queries",
+        "Standard response quality",
+        "Web browsing"
+      ]
+    },
+    {
+      name: "Pro",
+      price: "$20",
+      period: "mo",
+      description: "Multi-model access. Research mode. Image and video generation. $200/yr annual.",
+      features: [
+        "GPT-5.2, Claude Sonnet 4.5, Gemini 3 Pro",
+        "Practically unlimited Pro Searches",
+        "Research mode (deep multi-step)",
+        "Image generation",
+        "Video generation via Veo 3.1"
+      ],
+      isRecommended: true,
+      cta: "Try Perplexity Pro",
+      ctaUrl: "https://perplexity.ai/pro"
+    },
+    {
+      name: "Max",
+      price: "$200",
+      period: "mo",
+      description: "Unlimited Labs. o3-pro, Claude Opus 4, Sora 2 Pro. $2,000/yr annual.",
+      features: [
+        "o3-pro, Claude Opus 4, Sora 2 Pro",
+        "Unlimited Labs model access",
+        "Comet AI browser",
+        "10,000 Perplexity Computer credits/mo",
+        "Priority support and early access"
+      ]
+    }
+  ]}
+  disclaimer="Enterprise starts at $40/seat/mo with tiered plans up to $325/seat/mo. Annual billing saves ~17% across all tiers."
+/>
+
+## Mistral AI
+
+The only major European AI provider on this list. Mistral's Le Chat Pro undercuts the $20 standard at $14.99/month, and offers a student discount — something no other provider does.
+
+<PricingTable
+  toolName="Mistral (Le Chat)"
+  tiers={[
+    {
+      name: "Free",
+      price: "$0",
+      description: "Access to Mistral models. Basic usage limits.",
+      features: [
+        "Mistral model access",
+        "Basic daily query limits",
+        "Standard context window",
+        "Web search"
+      ]
+    },
+    {
+      name: "Pro",
+      price: "$14.99",
+      period: "mo",
+      description: "~150-message soft cap. Extended thinking, deep research, 15GB doc storage.",
+      features: [
+        "Extended thinking mode",
+        "Deep research reports",
+        "Up to 15GB document storage",
+        "1,000 projects",
+        "Mistral Vibe (coding tool)"
+      ],
+      isRecommended: true,
+      cta: "Try Le Chat Pro",
+      ctaUrl: "https://mistral.ai/pricing"
+    },
+    {
+      name: "Student",
+      price: "$7.04",
+      period: "mo",
+      description: "Same as Pro at a ~53% discount for students and educators.",
+      features: [
+        "All Pro features",
+        "Student/educator verification required",
+        "Same usage limits as Pro",
+        "GDPR-compliant EU data residency"
+      ]
+    }
+  ]}
+  disclaimer="Le Chat subscription and API are completely separate — Pro does not include API credits. API starts at $0.02/MTok input for smallest models. Team and Enterprise: contact sales."
+/>
+
+## Cursor (AI Code Editor)
+
+Cursor is the leading AI-native code editor, competing directly with VS Code + Copilot. In mid-2025, Cursor shifted from a fixed request model to a credit-based system — a change that generated significant user backlash.
+
+<PricingTable
+  toolName="Cursor"
+  tiers={[
+    {
+      name: "Hobby (Free)",
+      price: "$0",
+      description: "2,000 code completions + 50 slow premium requests per month.",
+      features: [
+        "2,000 code completions",
+        "50 slow premium requests",
+        "No credit card required",
+        "VS Code extension compatible"
+      ]
+    },
+    {
+      name: "Pro",
+      price: "$20",
+      period: "mo",
+      description: "Unlimited Tab completions. $20 monthly credit pool for premium models. ~$16/mo annual.",
+      features: [
+        "Unlimited Tab completions",
+        "$20 credit pool for premium models",
+        "Increased Agent requests",
+        "All available models",
+        "Priority support"
+      ],
+      isRecommended: true,
+      cta: "Try Cursor Pro",
+      ctaUrl: "https://cursor.com/pricing"
+    },
+    {
+      name: "Pro+",
+      price: "$60",
+      period: "mo",
+      description: "Higher credit allocation for premium models.",
+      features: [
+        "Higher monthly credit pool",
+        "All Pro features",
+        "Extended premium model access",
+        "Faster response times"
+      ]
+    },
+    {
+      name: "Ultra",
+      price: "$200",
+      period: "mo",
+      description: "Maximum usage tier for heavy users.",
+      features: [
+        "Maximum credit allocation",
+        "All Pro+ features",
+        "Highest priority queue",
+        "Dedicated support"
+      ]
+    }
+  ]}
+  disclaimer="Teams: $40/user/mo with shared billing and admin controls. Cursor's mid-2025 shift from fixed requests to credits effectively reduced monthly premium request counts."
+/>
+
+## GitHub Copilot
+
+GitHub Copilot remains the most affordable entry point for AI-assisted coding at $10/month. The coding agent feature — which can autonomously work through issues in the background — is included on all paid tiers.
+
+<PricingTable
+  toolName="GitHub Copilot"
+  tiers={[
+    {
+      name: "Free",
+      price: "$0",
+      description: "Limited access to select features. For individual devs.",
+      features: [
+        "Limited code completions",
+        "Basic chat assistance",
+        "Select model access",
+        "VS Code and JetBrains support"
+      ]
+    },
+    {
+      name: "Pro",
+      price: "$10",
+      period: "mo",
+      description: "Unlimited completions. 300 premium requests/month. Coding agent included.",
+      features: [
+        "Unlimited code completions",
+        "300 premium requests/mo",
+        "Copilot cloud agent",
+        "Coding agent (background tasks)",
+        "30-day free trial"
+      ],
+      isRecommended: true,
+      cta: "Try Copilot Pro",
+      ctaUrl: "https://github.com/features/copilot/plans"
+    },
+    {
+      name: "Pro+",
+      price: "$39",
+      period: "mo",
+      description: "1,500 premium requests. All models including Claude Opus 4 and o3.",
+      features: [
+        "1,500 premium requests/mo",
+        "Claude Opus 4, OpenAI o3, Gemini",
+        "GitHub Spark (natural language apps)",
+        "All Pro features",
+        "Expanded model selection"
+      ]
+    },
+    {
+      name: "Business",
+      price: "$19",
+      period: "user/mo",
+      description: "Everything in Pro for teams. Additional requests at $0.04 each.",
+      features: [
+        "All Pro features for teams",
+        "Organization-wide management",
+        "IP indemnification",
+        "Content exclusion policies",
+        "Audit logs"
+      ]
+    }
+  ]}
+  disclaimer="Enterprise: $39/user/mo with codebase indexing, custom private models, and fine-tuning. Requires GitHub Enterprise Cloud. Additional premium requests at $0.04/request on Business and Enterprise."
+/>
+
+## The $20/Month Showdown
+
+Five services compete at the $20 price point. Here is how they compare head-to-head.
+
+<ComparisonTable
+  title="$20/Month Tier Comparison"
+  tools={[
+    { name: "ChatGPT Plus" },
+    { name: "Claude Pro", isWinner: true },
+    { name: "Perplexity Pro" },
+    { name: "Copilot Pro" },
+    { name: "Cursor Pro" }
+  ]}
+  features={[
+    { name: "Best for", values: ["General + coding", "Coding + writing", "Research + search", "Office productivity", "Code editing"] },
+    { name: "CLI coding tool", values: ["Codex", "Claude Code", false, false, "Built-in editor"] },
+    { name: "Multi-model access", values: [false, false, true, false, true] },
+    { name: "Web search", values: [true, true, true, true, false] },
+    { name: "Image generation", values: [true, false, true, true, false] },
+    { name: "File analysis", values: [true, true, true, true, true] },
+    { name: "Voice mode", values: [true, false, false, false, false] },
+    { name: "Office integration", values: [false, false, false, true, false] },
+    { name: "Cited sources", values: [false, false, true, false, false] }
+  ]}
+  verdict="Claude Pro offers the strongest coding value with Claude Code CLI included. Perplexity Pro is unmatched for research with multi-model routing and citations. ChatGPT Plus is the best all-rounder. Copilot Pro only makes sense if you already live in Microsoft 365."
+/>
+
+## The $100/Month Power-User Showdown
+
+Today's OpenAI announcement created a direct matchup at the $100 price point.
+
+<ComparisonTable
+  title="$100/Month Tier Comparison"
+  tools={[
+    { name: "ChatGPT Pro $100" },
+    { name: "Claude Max 5x", isWinner: true },
+    { name: "Cursor Pro+" },
+    { name: "Team Premium (Claude)" }
+  ]}
+  features={[
+    { name: "Price", values: ["$100/mo", "$100/mo", "$60/mo", "$125/seat/mo"] },
+    { name: "Usage multiplier", values: ["5x Plus", "5x Pro", "Higher credits", "6.25x Pro"] },
+    { name: "CLI coding tool", values: ["Codex (5x)", "Claude Code (5x)", "Built-in", "Claude Code"] },
+    { name: "Context window", values: ["128K", "200K", "Varies by model", "200K"] },
+    { name: "Exclusive models", values: [true, false, false, false] },
+    { name: "Team features", values: [false, false, false, true] },
+    { name: "Launch promo", values: ["10x Codex thru May 31", false, false, false] }
+  ]}
+  verdict="Claude Max 5x offers a larger context window and native CLI coding. ChatGPT Pro $100 wins on the launch promo (10x Codex through May 31) and exclusive model access. Cursor Pro+ is the cheapest option at $60/mo if all you need is an AI code editor."
+/>
+
+## The $200/Month Ceiling
+
+Three services now compete at $200/month for the heaviest users.
+
+| Service | Plan | What sets it apart |
+|---------|------|--------------------|
+| **ChatGPT Pro (Original)** | $200/mo | 20x Plus usage, unlimited messages, GPT-5.4 Pro and o1 Pro exclusive |
+| **Claude Max 20x** | $200/mo | 20x Pro usage (~220K tokens/5hr), virtually no rate limiting, Claude Code max limits |
+| **Perplexity Max** | $200/mo | o3-pro, Claude Opus 4, Sora 2 Pro video, Comet browser, 10K Computer credits |
+
+Perplexity Max is the outlier here — it is the only $200 tier that gives you access to multiple frontier models from competing providers rather than locking you into one ecosystem.
+
+## The Cheapest Way Into AI Coding
+
+If your primary use case is writing code, here is the cost-efficiency ranking:
+
+1. **GitHub Copilot Pro** — $10/mo. Unlimited completions, coding agent, 300 premium requests. The best value for pure coding.
+2. **Mistral Le Chat Pro** — $14.99/mo ($7.04 for students). Includes Mistral Vibe coding tool.
+3. **Claude Pro / ChatGPT Plus / Cursor Pro** — $20/mo. Each brings a different coding approach: CLI-based (Claude Code), browser-based (Codex), or editor-native (Cursor).
+4. **GitHub Copilot Pro+** — $39/mo. For developers who want access to Claude Opus 4, o3, and all premium models inside their IDE.
+
+## What About Free Options?
+
+Every service except Cursor and GitHub Copilot offers a meaningfully useful free tier. The standouts:
+
+- **Meta AI** is entirely free with no paid tier, powered by Llama 4. No usage limits, no credit card required.
+- **Google Gemini Free** includes Deep Research, Gemini Live voice mode, and 100 monthly video generation credits — the most generous free tier feature set.
+- **Perplexity Free** offers basic AI search with citations, useful for quick research without a subscription.
+- **ChatGPT Free** now includes ads (US, since February 2026) — a first among major AI chatbots. OpenAI also offers a $8/month Go tier for ad-supported international users.
+
+## How to Choose the Right Plan
+
+Your decision depends on one question: **what do you spend most of your AI time doing?**
+
+**You write code daily** → GitHub Copilot Pro ($10/mo) for IDE completions + Claude Pro ($20/mo) for Claude Code CLI. Total: $30/month for the most complete coding setup.
+
+**You need a general-purpose AI assistant** → ChatGPT Plus ($20/mo) for the broadest feature set, or Claude Pro ($20/mo) for stronger writing and reasoning.
+
+**You do heavy research** → Perplexity Pro ($20/mo). Multi-model routing with citations is unmatched.
+
+**You live in Microsoft 365** → Copilot Pro ($20/mo) is the only option that integrates natively with Word, Excel, and PowerPoint.
+
+**You hit rate limits constantly** → Claude Max 5x or ChatGPT Pro at $100/mo. Both offer 5x their base tier. ChatGPT's launch promo (10x Codex through May 31) makes it the short-term winner for coding workloads.
+
+**You want maximum AI power regardless of cost** → Perplexity Max ($200/mo) gives you frontier models from every provider. Claude Max 20x ($200/mo) if you prefer deep work with a single, highly capable model.
+
+**You are a student** → Mistral Le Chat Pro at $7.04/month is the only discounted tier available. Pair it with GitHub Copilot Free for coding.
+
+## Frequently Asked Questions
+
+### Which AI subscription is the best value in 2026?
+For most people, the $20/month tier from any major provider offers excellent value. GitHub Copilot Pro at $10/month is the best value specifically for coding. Claude Pro at $20/month is the strongest for combined coding and writing tasks because it includes Claude Code CLI access.
+
+### Is the new ChatGPT $100 Pro tier worth it?
+If you use Codex heavily and find yourself hitting Plus rate limits, the new $100 Pro tier offers 5x more capacity — and 10x during the launch promotion through May 31, 2026. After the promo ends, compare it against Claude Max 5x at the same price, which offers a 200K context window versus ChatGPT's 128K.
+
+### Can I use multiple AI subscriptions together?
+Yes, and many professionals do. A common combination is GitHub Copilot Pro ($10/mo) for IDE completions plus Claude Pro or ChatGPT Plus ($20/mo) for broader AI tasks. That is $30/month for a comprehensive AI toolkit.
+
+### Why did ChatGPT add ads to the free tier?
+OpenAI introduced ads in the ChatGPT Free and Go tiers in February 2026 for US users. This helps fund the free tier as usage scales. All paid plans ($20/month and above) remain ad-free.
+
+### Which AI is best for coding in 2026?
+GitHub Copilot Pro ($10/mo) for in-editor completions and the coding agent. Claude Pro ($20/mo) for Claude Code — the most capable CLI coding tool. ChatGPT Plus ($20/mo) for Codex browser-based coding. Cursor Pro ($20/mo) for an AI-native editor experience. Many developers use two in combination.
+
+### Is Meta AI really completely free?
+Yes. Meta AI, powered by Llama 4, is entirely free with no usage limits and no credit card required. However, it does not offer the same depth of features as paid alternatives — no file analysis, no coding tools, and no custom instructions.
