@@ -1,0 +1,104 @@
+---
+title: "Everything Claude Launched in April 2026 — What It Actually Means"
+description: "Opus 4.7, Live Artifacts, Claude Design, 20+ new connectors, and more. Here's what actually changed in April 2026 and what's worth paying attention to."
+category: "general"
+publishedDate: 2026-04-30
+updatedDate: 2026-04-30
+coverImage: "/images/guides/claude-april-2026.jpg"
+tags: ["claude", "anthropic", "opus 4.7", "claude cowork", "ai updates", "2026"]
+featured: true
+draft: true
+---
+
+import AnswerBox from '../../components/content/AnswerBox.astro';
+import WhatChanged from '../../components/content/WhatChanged.astro';
+import TrustBadge from '../../components/content/TrustBadge.astro';
+
+<TrustBadge />
+
+<AnswerBox
+  question="What is the most important thing Claude launched in April 2026?"
+  answer="Claude Opus 4.7 is the headline: a meaningfully more capable model that handles long, multi-step tasks with better accuracy and can now see images at three times the previous resolution. Alongside that, Live Artifacts in Cowork are a genuine workflow shift — Claude can now build dashboards that stay connected to your data and refresh automatically. Everything else in April is expansion, not revolution."
+/>
+
+April 2026 was Anthropic's busiest month in the product's history. A new flagship model, a design tool, dozens of new connectors, a redesigned code editor, and a memory layer for developers — all shipped within 30 days. Not everything matters equally. Here is what is actually worth your attention.
+
+## The Model: Claude Opus 4.7
+
+Released April 16, Opus 4.7 is the current top-of-the-line Claude model. Three things are genuinely different from its predecessor:
+
+**Better on long tasks.** Opus 4.7 introduces task budgets — the model tracks how much work it has done and prioritizes accordingly. In practice, this means it stays focused over long agentic tasks instead of losing the thread halfway through. If you have used Claude to work through a complex, multi-step problem and noticed it drifting, this is the fix.
+
+**Vision at 3x resolution.** The maximum image resolution increased to 2,576px. This is not a cosmetic improvement — it means Claude can now read small text in screenshots, analyze detailed charts, and process architectural diagrams accurately. Previously, anything with fine detail was a gamble.
+
+**More precise instruction-following.** Opus 4.7 is better at verifying its own outputs before presenting them. Less confident-sounding wrong answers. That is meaningful for anyone using Claude for research, analysis, or anything where the details matter.
+
+## Live Artifacts in Cowork
+
+Released April 20, this is the feature that could actually change daily workflows for the people it fits.
+
+Previously, anything Claude built in Cowork — a tracker, a dashboard, a report — was a static snapshot. Once the conversation ended, the output was frozen. Live Artifacts are different: Claude builds a persistent HTML dashboard connected to your apps and files, and it refreshes with current data every time you open it.
+
+Connect it to your Google Calendar and you have a live weekly planner. Connect it to your email and you have a summary view that updates as mail arrives. The artifacts live in their own tab in Cowork, persist across sessions, and maintain version history.
+
+This is useful for the specific group of people who run Cowork as an actual daily tool, not as an occasional conversation. If that is you, Live Artifacts are worth an hour of setup.
+
+## Claude Design
+
+Released April 17 as a research preview on Pro, Max, Team, and Enterprise plans. You describe what you want — a presentation, a one-pager, a prototype — and Claude builds it visually. You refine through conversation, inline comments, or direct edits, and export to Canva, PDF, or PowerPoint, or hand off to Claude Code.
+
+The honest read: it is early. The outputs look like competent first drafts — useful for internal decks, not for polished client-facing materials. The interesting part is the workflow: you talk to it the same way you talk to Claude in any other context, and it produces something visual. That frictionless loop between conversation and creation is the real prototype being tested here.
+
+## New Connectors — The Ones Worth Knowing
+
+April brought two waves of connectors:
+
+**April 23 — Everyday life:** Tripadvisor, Booking.com, Resy, Instacart, Spotify, Audible, AllTrails, Thumbtack, and Intuit TurboTax now connect to Claude across web, desktop, and mobile (beta).
+
+**April 28 — Creative tools:** Blender, Autodesk Fusion, Adobe Creative Cloud, Ableton, Splice, Canva, Affinity, SketchUp, and Resolume.
+
+The creative connectors are the more interesting story. Claude connecting to Blender means you can describe changes to a 3D scene in plain language and have Claude execute them. Ableton integration means asking Claude to adjust a track's tempo or apply effects by describing what you want rather than navigating menus. These are still early, but the direction is clear: Claude is trying to become a layer on top of professional creative tools, not just a chat window alongside them.
+
+The everyday connectors (Instacart, Booking.com, etc.) are simpler — Claude can place an order, make a reservation, or pull up a recipe based on what you have at home. Convenient, not transformative.
+
+## Claude for Word
+
+Released April 10 (beta for Team and Enterprise), expanded to Pro and Max on April 17. Claude now lives in a sidebar inside Microsoft Word, drafts and edits with tracked changes, and shares context with Claude for Excel and Claude for PowerPoint — meaning a single Claude conversation can see and work across all three open documents simultaneously.
+
+For anyone doing significant work in the Microsoft Office suite, this is worth trying. The tracked-changes integration is particularly well done: Claude makes edits the same way a human collaborator would, so you can accept or reject changes without disrupting your workflow.
+
+## Claude Code: Redesigned Desktop and Routines
+
+Released April 14. The redesigned Claude Code desktop app runs multiple sessions side by side from a single window, with an integrated terminal, file editing, HTML/PDF preview, and a faster diff viewer in a drag-and-drop layout.
+
+More significant for developers: **Routines** launched in research preview. Configure a routine once — a prompt, a repo, a set of connectors — and it runs on a schedule, from an API call, or in response to an event. This is the beginning of Claude Code becoming an autonomous background worker rather than just an interactive coding assistant.
+
+## Memory for Managed Agents
+
+Released April 23, developer-facing. Agents can now learn from every session using an intelligence-optimized memory layer. Memories are stored as files, exportable and manageable via API. For developers building on the Claude platform, this makes it meaningfully easier to build agents that improve over time rather than starting from scratch each conversation.
+
+## What All of This Actually Means
+
+April was not one big launch. It was Anthropic filling in the product map around Claude's core: a better model, a persistent artifact layer, creative tool integrations, an autonomous coding workflow, and a memory system.
+
+The pattern is consistent with where they said they were going: Claude becoming a background participant in professional work, not just a chat tool you open when you need a question answered.
+
+The features that are genuinely ready for most users right now: Opus 4.7 (the model upgrade is real), Live Artifacts (if you use Cowork regularly), and Claude for Word (if you work in Microsoft Office).
+
+Everything else — Claude Design, Routines, the creative connectors — is worth watching. It is not ready to be a core part of most workflows yet.
+
+---
+
+**Frequently Asked Questions**
+
+**Is Claude Opus 4.7 available on the free plan?**
+Opus 4.7 is available on Pro, Max, Team, and Enterprise plans. The free tier uses Sonnet, which is still a very capable model for most everyday tasks.
+
+**What plans include Live Artifacts in Cowork?**
+Live Artifacts are in beta, available on all paid plans including the lowest paid tier. Claude Cowork itself went generally available in April for all paid plans.
+
+**Do I need Claude Code to use Routines?**
+Yes. Routines are a Claude Code feature, available in research preview on paid plans with Claude Code enabled on the web.
+
+**Is Claude Design the same as Claude Cowork?**
+No — Claude Design is a separate research preview product focused specifically on visual creation (presentations, prototypes, one-pagers). Cowork is the general collaborative workspace where Live Artifacts live.
