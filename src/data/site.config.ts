@@ -51,6 +51,13 @@ export const siteConfig = {
     googleSiteVerification: '',
   },
 
+  // ── Monetization ──
+  monetization: {
+    adsenseClient: 'ca-pub-8532451951782012',
+    adsTxtPublisherId: 'pub-8532451951782012',
+    contactEmail: 'hi@aiviewer.ai',
+  },
+
   // ── Image conventions ──
   images: {
     // Cover images for content cards
@@ -103,6 +110,10 @@ export const siteConfig = {
         { label: 'Changes', href: '/changes/' },
         { label: 'About', href: '/about/' },
         { label: 'Advertise', href: '/advertise/' },
+        { label: 'Contact', href: '/contact/' },
+        { label: 'Privacy', href: '/privacy/' },
+        { label: 'Terms', href: '/terms/' },
+        { label: 'Disclosure', href: '/disclosure/' },
       ],
       social: [
         { label: 'LinkedIn', href: 'https://www.linkedin.com/in/roonjha/' },

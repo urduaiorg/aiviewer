@@ -1,7 +1,1 @@
-# ads.txt — AIViewer.ai
-# ──────────────────────────────────────────────────────
-# SETUP: Register at publishers.adsterra.com
-# After approval, replace PUBLISHER_ID below and uncomment the line.
-# Adsterra typically approves sites within 24-48 hours.
-# ──────────────────────────────────────────────────────
-# adsterra.com, PUBLISHER_ID, DIRECT
+google.com, pub-8532451951782012, DIRECT, f08c47fec0942fa0
