@@ -82,17 +82,22 @@ export const siteConfig = {
   // ── Navigation ──
   nav: {
     main: [
-      { label: 'Tools', href: '/tools/' },
-      { label: 'Guides', href: '/guides/' },
-      { label: 'Playbooks', href: '/playbooks/' },
-      { label: 'Models', href: '/models/' },
-      { label: 'Prompts', href: '/prompts/' },
-      { label: 'Opportunities', href: '/opportunities/' },
+      { label: 'Free Tools', href: '/free-ai-tools/' },
+      { label: 'Students', href: '/students/' },
+      { label: 'Teachers', href: '/teachers/' },
+      { label: 'Creators', href: '/creators/' },
+      { label: 'Business', href: '/small-business/' },
       { label: 'Compare', href: '/compare/' },
     ],
     cta: { label: 'Find AI Tools Quiz', href: '/finder/' },
     footer: {
       content: [
+        { label: 'Free AI Tools', href: '/free-ai-tools/' },
+        { label: 'AI for Students', href: '/students/' },
+        { label: 'AI for Teachers', href: '/teachers/' },
+        { label: 'AI for Creators', href: '/creators/' },
+        { label: 'AI for Small Business', href: '/small-business/' },
+        { label: 'AI for Job Seekers', href: '/job-seekers/' },
         { label: 'Playbooks', href: '/playbooks/' },
         { label: 'AI Tools', href: '/tools/' },
         { label: 'Guides', href: '/guides/' },
