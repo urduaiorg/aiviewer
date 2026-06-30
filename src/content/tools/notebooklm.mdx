@@ -1,17 +1,17 @@
 ---
 title: "NotebookLM: Google's AI Research Assistant That Actually Reads Your Sources"
-description: "NotebookLM turns your documents into an interactive AI knowledge base with audio overviews, deep research, and source-grounded answers."
+description: "NotebookLM turns documents into source-grounded answers, audio overviews, deep research, and short video explainers."
 toolName: "NotebookLM"
 category: "research"
 pricing: "freemium"
 pricingDetails: "Free tier available, Pro $19.99/mo, Ultra $249.99/mo"
 website: "https://notebooklm.google.com"
 rating: 4.6
-bestFor: ["Research synthesis", "Document analysis", "Audio learning", "Study preparation"]
-pros: ["Source-grounded answers reduce hallucination", "Audio Overview turns documents into podcasts", "Generous free tier", "Handles multiple document types", "Deep Research mode for thorough analysis"]
+bestFor: ["Research synthesis", "Document analysis", "Audio learning", "Short video explainers"]
+pros: ["Source-grounded answers reduce hallucination", "Audio Overview turns documents into podcasts", "Short Video Overviews create 60-second vertical explainers", "Handles multiple document types", "Deep Research mode for thorough analysis"]
 cons: ["Limited to uploaded sources only", "Audio Overviews can sound formulaic", "Ultra tier is expensive at $249.99/mo", "No real-time web access in base mode"]
 publishedDate: 2026-03-10
-updatedDate: 2026-03-10
+updatedDate: 2026-06-30
 coverImage: "/images/tools/notebooklm.jpg"
 tags: ["Google", "NotebookLM", "research", "AI assistant", "document analysis", "education"]
 featured: false
@@ -32,7 +32,7 @@ NotebookLM is Google's answer to a problem that has plagued every AI chatbot sin
 
 The concept is deceptively simple. You create a notebook, upload your sources --- PDFs, Google Docs, Google Slides, web URLs, YouTube videos, audio files --- and NotebookLM builds an interactive knowledge base around them. Ask a question, and instead of generating a plausible-sounding response from statistical patterns, it pulls specific passages from your documents and cites them inline. You can click any citation to jump directly to the source material. For anyone who has ever wasted twenty minutes chasing a hallucinated reference from a general-purpose AI, this is a revelation.
 
-But NotebookLM's most talked-about feature is not its citations. It is Audio Overview --- a tool that converts your uploaded documents into surprisingly natural podcast-style audio discussions. Upload a dense research paper, and within minutes you have two AI-generated hosts walking through the key findings in a conversational tone that makes even dry material accessible. It is an imperfect feature (the hosts can sound formulaic after repeated listens), but it has genuinely changed how thousands of students and professionals consume complex information. The combination of source grounding and audio transformation makes NotebookLM unlike anything else in the AI landscape.
+But NotebookLM's most talked-about feature is not its citations. It is Audio Overview --- a tool that converts your uploaded documents into surprisingly natural podcast-style audio discussions. Upload a dense research paper, and within minutes you have two AI-generated hosts walking through the key findings in a conversational tone that makes even dry material accessible. NotebookLM is now pushing that same idea into video with Video Overviews, including a Short format for roughly 60-second vertical explainers focused on one concept from your sources. The combination of source grounding and media transformation makes NotebookLM unlike anything else in the AI landscape.
 
 ## What Makes NotebookLM Different
 
@@ -63,6 +63,7 @@ What makes Deep Research valuable is its thoroughness. A standard query in Noteb
 - **Source-Grounded Answers:** Every response includes inline citations linked directly to your uploaded documents, eliminating the guesswork of verification.
 - **Audio Overview:** Converts documents into podcast-style audio discussions with two AI hosts who walk through key themes conversationally.
 - **Deep Research:** Gemini-powered systematic analysis that examines all sources in a notebook and produces structured, comprehensive reports.
+- **Short Video Overviews:** Creates roughly 60-second vertical videos for quickly understanding one focused concept from your sources.
 - **Cinematic Video Overviews:** AI-generated video summaries of your documents, combining visuals with narration for presentation-ready content.
 - **Data Tables:** Extracts and organizes structured data from unstructured sources, turning scattered information into sortable, analyzable tables.
 - **Multi-Format Source Support:** Accepts PDFs, Google Docs, Google Slides, web URLs, YouTube videos, and audio files --- up to 50 sources per notebook on the free tier.
@@ -75,9 +76,13 @@ In practice, this means you can use NotebookLM for tasks where trust matters. A 
 
 ### Audio Overview and Video Summaries
 
-Beyond standard Audio Overview, NotebookLM has expanded into cinematic video overviews --- AI-generated video summaries that combine visual elements with narration. While Audio Overview turns your documents into something you listen to during a run, video overviews create presentation-ready content you can share with a team or embed in a learning module.
+Beyond standard Audio Overview, NotebookLM has expanded into video overviews --- AI-generated video summaries that combine visual elements with narration. While Audio Overview turns your documents into something you listen to during a run, Video Overviews create visual explainers you can share with a team or embed in a learning module.
 
-Both formats serve the same core purpose: making dense information accessible to people who learn better through media than through reading. A project manager who needs to brief their team on a 30-page technical spec can generate an audio or video overview and share it in a team channel. The team absorbs the key points in 10 minutes instead of spending an hour reading a document most of them would skim anyway.
+The new Short Video Overview format is especially useful when you do not need a full explainer. It turns one focused concept into an approximately 60-second vertical video, making it a better fit for study recaps, classroom previews, social learning clips, and quick team briefings. A project manager who needs to brief their team on one section of a 30-page technical spec can generate a short video around that specific point instead of asking everyone to read the whole document first.
+
+Read the full update: [NotebookLM Short Video Overviews explained](/guides/notebooklm-short-video-overviews-60-second-source-videos/).
+
+Sources: [NotebookLM Video Overview Help](https://support.google.com/notebooklm/answer/16454555?hl=en), [NotebookLM Short Video Overview announcement](https://x.com/NotebookLM/status/2071987494799716626)
 
 ### Data Tables and Structured Extraction
 
@@ -86,7 +91,7 @@ One of NotebookLM's underappreciated capabilities is its ability to extract stru
 This matters for anyone doing comparative analysis. Rather than manually reading through each source and building a spreadsheet by hand, NotebookLM automates the extraction. The results are not always perfect (complex tables sometimes miss nuances), but as a starting point for structured analysis, it saves significant time.
 
 <ProsCons
-  pros={["Source-grounded answers reduce hallucination", "Audio Overview turns documents into podcasts", "Generous free tier", "Handles multiple document types", "Deep Research mode for thorough analysis"]}
+  pros={["Source-grounded answers reduce hallucination", "Audio Overview turns documents into podcasts", "Short Video Overviews create 60-second vertical explainers", "Handles multiple document types", "Deep Research mode for thorough analysis"]}
   cons={["Limited to uploaded sources only", "Audio Overviews can sound formulaic", "Ultra tier is expensive at $249.99/mo", "No real-time web access in base mode"]}
 />
 
@@ -181,7 +186,7 @@ But for the specific task of making sense of large volumes of source material --
   description="NotebookLM by Google turns your uploaded documents into an interactive knowledge base with cited answers, Audio Overviews, Deep Research, and structured data extraction. Free tier is generous enough for most users."
   rating={4.6}
   pricing="freemium"
-  bestFor={["Research synthesis", "Document analysis", "Audio learning", "Study preparation"]}
+  bestFor={["Research synthesis", "Document analysis", "Audio learning", "Short video explainers"]}
   website="https://notebooklm.google.com"
 />
 
