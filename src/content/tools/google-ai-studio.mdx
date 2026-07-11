@@ -1,181 +1,132 @@
 ---
-title: "Google AI Studio: The Free Playground Where Anyone Can Build AI Apps"
-description: "Google AI Studio gives you free access to Gemini 3 Pro, image generation, video creation, and a vibe coding feature that builds apps from descriptions."
+title: "Is Google AI Studio Free? Limits, Models and Pricing (2026)"
+description: "Google AI Studio is free for prototyping within model limits. Learn what is included, when Gemini API billing begins, and how data terms differ."
 toolName: "Google AI Studio"
 category: "coding"
 pricing: "free"
-pricingDetails: "Free for experimentation and prototyping, paid API for production"
+pricingDetails: "AI Studio usage is free in available regions; paid Gemini API use and expanded deployment can incur charges."
 website: "https://aistudio.google.com"
 rating: 4.5
-bestFor: ["AI prototyping", "Vibe coding apps", "Testing Gemini models", "Learning AI development"]
-pros: ["Completely free for prototyping", "Vibe coding builds apps from plain English", "Access to Gemini 3 Pro, Nano Banana, Veo 3.1", "One-click deploy to Google Cloud Run", "No credit card required"]
-cons: ["Production deployment requires paid API key", "Built apps are relatively simple", "Tied to Google ecosystem", "Gemini 3 Pro Preview deprecated March 2026"]
+bestFor: ["Gemini prototyping", "Prompt experiments", "API learning", "Early app prototypes"]
+pros: ["Free AI Studio workspace", "Direct access to supported Gemini models", "Prompt and model-setting controls", "Clear path from prototype to API"]
+cons: ["Free-tier rate limits apply", "Paid API billing is separate", "Free-service data terms require review", "Model availability changes quickly"]
 publishedDate: 2026-03-10
-updatedDate: 2026-03-10
+updatedDate: 2026-07-11
 coverImage: "/images/tools/google-ai-studio.jpg"
-tags: ["Google", "AI Studio", "Gemini", "vibe coding", "prototyping", "free"]
-featured: false
+tags: ["Google", "AI Studio", "Gemini", "prototyping", "API", "free"]
+featured: true
 draft: false
 ---
 
+import AnswerBox from '../../components/content/AnswerBox.astro';
 import TrustBadge from '../../components/content/TrustBadge.astro';
 
 <TrustBadge />
 
-
-import ToolPickBox from '../../components/content/ToolPickBox.astro';
-import ProsCons from '../../components/content/ProsCons.astro';
-import PricingTable from '../../components/content/PricingTable.astro';
-import ComparisonTable from '../../components/content/ComparisonTable.astro';
-
-Google AI Studio is the most generous free offer in AI right now. No credit card, no waitlist, no trial period that expires after fourteen days. You open aistudio.google.com, sign in with a Google account, and immediately get access to Gemini 3.1 Pro, image generation through Nano Banana, video creation through Veo 3.1, and a build mode that lets you describe an app in plain English and watch the AI assemble it in front of you. For anyone curious about what modern AI can actually do --- not in theory, not behind a paywall --- this is the lowest-friction way to find out.
-
-What makes AI Studio unusual is scope. Most free AI tools give you a chatbot. Google gives you a chatbot, an image generator, a video generator, and an app builder, all under one roof, all connected to the same family of Gemini models. The playground is designed for experimentation --- testing prompts, comparing model outputs, pushing the boundaries of what you can build before you ever spend a dollar. It is the sandbox where you figure out whether an AI-powered idea is worth pursuing, and Google absorbs the compute cost while you decide.
-
-The catch, as always with Google, is the ecosystem. Everything in AI Studio works beautifully as long as you stay within Google's orbit. The moment you need to deploy an app to production, you are pointed toward Google Cloud Run and a paid API key. The free tier is genuinely free and genuinely powerful, but it is also a funnel. Understanding where the free part ends and the paid part begins is essential to getting real value from this tool without unexpected costs.
-
-## What Makes Google AI Studio Different
-
-### The Price Tag (or Lack of One)
-
-The AI tool landscape has settled into a predictable pattern: a limited free tier designed to hook you, followed by a $20-to-$200 monthly subscription for anything useful. Google AI Studio breaks that pattern entirely. The free tier is not a demo. It is not a seven-day trial. You get full access to Gemini 3.1 Pro --- the same model that leads benchmarks like Humanity's Last Exam and GPQA Diamond --- with a 1M token input context window and up to 64K tokens of output. You get image generation. You get video generation. You get the build mode that assembles working applications from natural language descriptions. All without entering payment information.
-
-This is not altruism. Google benefits from developers and creators learning to build on its AI stack. But the result for users is a tool that competes on capability with products costing $20 or more per month. For prototyping, learning, and experimentation, the economics are difficult to argue with.
-
-### Build Mode and Vibe Coding
-
-Build mode is the headline feature of AI Studio in 2026, and it represents a fundamentally different approach to software creation. Google calls it "vibe coding" --- you describe what you want an app to do in conversational English, and Gemini generates a complete working application with a React frontend, Tailwind CSS styling, backend logic, and integrated Gemini API calls. No templates. No drag-and-drop components. You talk to the AI like you would explain an idea to a developer friend, and it writes the code.
-
-The term "vibe coding" captures the experience accurately. You are not debugging semicolons or wrestling with dependency conflicts. You are having a conversation about what the app should do, what it should look like, and how it should behave. The AI handles the translation from intent to implementation. When something is not quite right, you describe the change you want --- or use the annotation toolbar to click directly on a UI element and request a specific modification --- and the AI iterates. The feedback loop feels more like directing a collaborator than writing software.
-
-### The Model Lineup
-
-AI Studio is not a single-model tool. It gives you access to the full Gemini family, each optimized for different tasks. Gemini 3.1 Pro is the flagship --- high-quality reasoning, massive context window, strong across benchmarks. Gemini Flash is the speed-optimized variant for tasks where latency matters more than depth. Nano Banana handles image generation with a style that leans toward creative illustration. Veo 3.1 generates video from text prompts. Having all of these accessible from the same interface, with the same account, at no cost, means you can experiment across modalities without juggling subscriptions or switching platforms.
-
-## Key Features
-
-- **Playground Environment:** Test any Gemini model interactively --- the Gemini tab for chatbot and agent prototyping, the Image tab for visual generation, all with adjustable parameters and instant feedback.
-- **Build Mode (Vibe Coding):** Describe an application in plain English and get a working React + Tailwind app with Gemini API integration, generated in real time.
-- **Annotation Toolbar:** Click directly on elements in a generated app's UI to request targeted changes, bridging the gap between visual feedback and code iteration.
-- **Starter Templates:** Fork pre-built templates for common app patterns to skip the blank-canvas problem and start iterating immediately.
-- **Export and Deployment:** Download your project as a ZIP, push it to GitHub, or deploy it to Google Cloud Run with a single click.
-- **1M Token Context Window:** All Gemini 3 models accept up to 1 million input tokens and generate up to 64K output tokens, enabling work with massive documents, codebases, and datasets.
-
-### Build Mode in Practice
-
-The experience of using build mode starts with a text prompt. You might type something like: "Build me an app that lets teachers create multiple-choice quizzes, share them with students via a link, and see the results in a dashboard." Gemini processes this, generates the project structure, writes the components, connects the data flow, and renders a live preview --- all within the browser. The entire process typically takes under a minute.
-
-What happens next is where build mode earns its value. You start iterating. "Make the quiz cards larger on mobile." "Add a timer option for each question." "Change the color scheme to dark blue and white." Each instruction produces an updated version of the app. The annotation toolbar lets you skip verbal descriptions entirely for visual changes --- click a button that looks wrong, type "make this rounded with a subtle shadow," and watch the change appear. This back-and-forth conversation is the core workflow, and it feels remarkably natural for people who have never written a line of code.
-
-The apps you can build are real, functioning web applications. They are not mockups or wireframes. But they are also not enterprise-grade software. Build mode excels at internal tools, simple customer-facing apps, prototypes for investor demos, and educational projects. If you need complex authentication flows, database migrations, or third-party API integrations beyond Gemini, you will outgrow what build mode can generate and need to take the exported code into a proper development environment.
-
-### The Playground for Model Testing
-
-Before build mode existed, AI Studio's core value was its playground --- a browser-based interface for testing Gemini models without writing API integration code. That playground remains excellent. You can switch between models mid-conversation, adjust temperature and token limits, compare outputs side by side, and save prompt configurations for reuse. For anyone evaluating whether Gemini is the right model for a product or research project, the playground eliminates the overhead of setting up API calls just to test a hypothesis.
-
-The playground also serves as a learning environment. If you are new to prompt engineering --- the skill of writing instructions that consistently produce good AI outputs --- AI Studio lets you experiment without financial risk. You can test a prompt against Gemini 3.1 Pro, compare it against Flash, adjust the wording, and develop an intuition for what works. This is the kind of hands-on learning that usually requires a paid API key and careful monitoring of your billing dashboard. Here, it costs nothing.
-
-### Image and Video Generation
-
-Nano Banana, Google's image generation model available through AI Studio, produces creative, stylistically varied images from text prompts. The output quality sits in the territory between quick prototyping and polished production --- good enough for social media concepts, presentation visuals, and design exploration, though not yet a replacement for dedicated tools like [Midjourney](/tools/midjourney/) for final creative assets. The convenience of having image generation in the same interface where you are building apps and testing prompts is the real advantage.
-
-Veo 3.1 brings text-to-video into the mix. The results are impressive for a free tool, though the generation time is longer than image creation and the output length is limited. For creating short explainer clips, product concept videos, or visual prototypes, it is a genuinely useful capability that would cost significant money on competing platforms.
-
-<ProsCons
-  pros={["Completely free for prototyping", "Vibe coding builds apps from plain English", "Access to Gemini 3 Pro, Nano Banana, Veo 3.1", "One-click deploy to Google Cloud Run", "No credit card required"]}
-  cons={["Production deployment requires paid API key", "Built apps are relatively simple", "Tied to Google ecosystem", "Gemini 3 Pro Preview deprecated March 2026"]}
+<AnswerBox
+  question="Is Google AI Studio free in 2026?"
+  answer="Yes. Google says AI Studio usage is free of charge in available regions, subject to the free-tier models and rate limits. Costs begin when you enable paid Gemini API usage, use paid features or keys, or move beyond included deployment allowances."
 />
 
-## Real-World Use Cases
+Google AI Studio is a browser workspace for experimenting with Gemini models, prompt settings, structured output, multimodal inputs, and early application ideas. It is one of the easiest ways to learn how an AI model behaves before writing a full application or committing to production infrastructure.
 
-### The Beginner Developer
+This is a **research-based evaluation**, checked against Google's Gemini API billing and pricing documentation on July 11, 2026. Model names, limits, and availability can change, so the linked Google pages remain the final source of truth.
 
-Someone who has always wanted to build an app but never learned to code opens AI Studio and types: "Build a personal finance tracker where I can log expenses, categorize them, and see a monthly breakdown chart." Within a minute, they have a working application. They iterate --- "add a dark mode toggle," "make the chart use a bar graph instead of a line graph," "add a button to export data as CSV." In an afternoon, they have a functional tool they actually use. The educational value is enormous: by reading the generated code alongside each change they requested, they start to understand how React components work, how state management flows, and how styling applies. AI Studio becomes both the product and the classroom.
+## What “free” actually means
 
-### The Startup Founder
+Google's pricing documentation says AI Studio usage is free in available countries. New Gemini API projects also begin on a Free Tier that provides access to eligible models within their published limits.
 
-A non-technical founder needs to demonstrate an AI-powered feature to potential investors. Instead of hiring a developer for a two-week prototype sprint, they spend a day in AI Studio's build mode. They describe a customer support chatbot that uses their product documentation as context, watches Gemini generate it, then iterates on the UI until it looks polished enough for a pitch deck demo. They deploy it to Cloud Run, share the link in the investor meeting, and answer questions with a live product instead of a slide deck. The entire process costs nothing except time.
+That does not mean every activity connected to AI Studio is permanently free:
 
-### The Teacher
+- each model can have its own free-tier rate limits;
+- some advanced models or features may require a paid tier;
+- a project can incur API charges after billing is enabled and paid usage begins;
+- production deployment and Google Cloud resources have separate allowances and billing rules; and
+- rate limits can change as Google updates the service.
 
-A high school science teacher wants to create an interactive quiz tool that explains wrong answers in detail, adapting its explanations based on what the student already knows. Standard quiz platforms do not offer this. With AI Studio, the teacher describes the tool, iterates on the question format and feedback behavior, and deploys it as a web app that students access from any browser. There is no IT department involvement, no software procurement process, no budget approval. The teacher built it, tested it, and deployed it during a free period.
+The safest mental model is: **the AI Studio workspace is free for learning and prototyping; production API and cloud usage is a separate cost decision.**
 
-### The Data Scientist
+## What you can do in AI Studio
 
-A researcher needs to evaluate whether Gemini 3.1 Pro can handle their specific use case --- extracting structured data from thousands of unstructured medical abstracts --- before committing to a paid API budget. They upload a sample batch to the playground, test different prompting strategies, compare Gemini 3.1 Pro against Flash for speed and accuracy trade-offs, and document their findings. By the time they submit the API budget request to their department, they have concrete performance data rather than speculation. The free tier absorbed all of the experimentation cost.
+### Compare prompts and model behavior
 
-## Who Should (and Shouldn't) Use Google AI Studio
+AI Studio lets you revise a prompt, change model settings, add inputs, and observe how the response changes. That makes it useful for learning the difference between a vague instruction and a repeatable workflow specification.
 
-### Ideal Users
+Instead of starting with code, a developer or analyst can first determine:
 
-AI Studio is built for people who want to experiment, prototype, and learn without financial commitment. If you have an idea for an AI-powered tool and you want to see whether it works before investing time or money in development, this is the fastest path from concept to working prototype. The vibe coding feature makes it particularly valuable for non-technical people who can describe what they want but cannot write the code themselves.
+- what context the model needs;
+- whether structured output is reliable enough;
+- which settings materially affect the result;
+- what failure cases need validation; and
+- whether the selected model fits the cost and latency requirements of the future application.
 
-Students and educators benefit enormously. AI Studio is a cost-free laboratory for understanding how large language models work, how prompt engineering affects outputs, and how AI-powered applications are constructed. The playground demystifies what happens behind the interfaces of products like [ChatGPT](/tools/chatgpt/) and [Claude](/tools/claude-ai/).
+### Work with multimodal inputs
 
-Developers evaluating the Gemini model family for production use will find AI Studio indispensable as a testing environment. Rather than setting up API credentials and writing boilerplate code to send test queries, you can evaluate model behavior interactively and only move to the API when you are confident in the approach.
+Supported Gemini models can work with combinations of text and other media. Availability varies by model, so check the current model table before designing a workflow around image, audio, video, or long-context features.
 
-### Poor Fit
+### Move from a prototype to the Gemini API
 
-If you need to build production-grade, scalable applications, AI Studio's build mode is a starting point, not a destination. The generated apps are single-page React applications. They do not include authentication systems, database layers, or the infrastructure required for applications that serve thousands of concurrent users. Tools like [Cursor IDE](/tools/cursor-ide/) or [v0.dev](/tools/v0-dev/) are better suited for developers who need deeper control over architecture and deployment.
+AI Studio helps create and manage the API-key/project relationship used for Gemini API work. This shortens the path from a successful prompt experiment to a coded prototype, while still requiring the developer to add security, validation, monitoring, and cost controls for production.
 
-If you are already embedded in a non-Google ecosystem --- your infrastructure runs on AWS, your team uses Azure AI, your codebase depends on OpenAI's API --- AI Studio will feel like a detour rather than a destination. The one-click deployment targets Google Cloud Run. The API is Google's. The models are Google's. Switching costs are real, and AI Studio does not try to be platform-agnostic.
+### Explore Build mode and deployment
 
-If you need the absolute best writing quality from an AI model, Gemini 3.1 Pro is strong but not the category leader for long-form prose. [Claude](/tools/claude-ai/) produces more natural, nuanced writing, and [ChatGPT](/tools/chatgpt/) offers a more mature ecosystem of writing-specific features. AI Studio's strengths are technical: building, prototyping, and model evaluation.
+Google's current billing guide describes a Cloud Starter Tier that can publish up to two full-stack applications from Build mode without first setting up a conventional paid Cloud project. Anything beyond the included allowance should be checked against the current Cloud terms before launch.
 
-## Pricing Options
+## When will Google charge you?
 
-<PricingTable
-  toolName="Google AI Studio"
-  tiers={[
-    { name: "Free", price: "$0", description: "Full playground access for prototyping", features: ["Gemini 3.1 Pro access", "Image generation (Nano Banana)", "Video generation (Veo 3.1)", "Vibe coding build mode", "Export to ZIP/GitHub", "No credit card required"], isRecommended: true },
-    { name: "API (Pay-as-you-go)", price: "From $2", period: "per 1M tokens", description: "Production use with Cloud Run deployment", features: ["Everything in Free", "Higher rate limits", "Cloud Run deployment", "Production-grade reliability", "All model access"] },
-  ]}
-/>
+Moving a Gemini API project to a paid tier requires linking billing and, depending on the account, prepaying or using postpay. Google describes higher tiers based on payment history and account age, with larger billing caps as the account qualifies.
 
-The free tier is the story here. Unlike competitors that offer stripped-down free plans designed to upsell you within the first session, AI Studio's free tier includes the flagship Gemini 3.1 Pro model, image generation, video generation, and the full build mode workflow. You can prototype an entire application, test it, iterate on it, export the code, and never see a pricing page. The free plan is not a taste --- it is the full kitchen.
+Charges can arise when:
 
-The paid API layer enters the picture only when you need production deployment. If the app you built in AI Studio's build mode needs to serve real users at scale, you deploy it to Google Cloud Run, which requires a paid API key. Gemini 3.1 Pro API pricing starts at $2 per million input tokens and $12 per million output tokens for contexts under 200K tokens. For lightweight apps with modest traffic, the costs remain low. For high-volume production use, costs scale proportionally, and you should evaluate whether the Gemini API pricing is competitive with alternatives like OpenAI or Anthropic for your specific workload.
+1. a request uses a paid model or paid API tier;
+2. free-tier limits are not available for the chosen capability;
+3. a deployed application consumes billable Google Cloud resources; or
+4. a developer deliberately upgrades to gain higher limits, paid features, or different data handling.
 
-The critical thing to understand is that the free tier and the paid API serve different stages of the same workflow. You prototype for free. You validate for free. You deploy for money. This separation is clean and honest, which is more than can be said for many AI tools that blur the line between trial and production.
+The project and billing screens—not the existence of an AI Studio tab—determine whether API usage is billable.
 
-## Frequently Asked Questions
+## Data-use and privacy difference
 
-### Is Google AI Studio really free?
+Google's pricing table distinguishes free and paid service data handling. The free tier may use prompts and responses to improve Google products, while the paid tier offers different enterprise-grade data terms. Anyone working with confidential, personal, client, student, health, or proprietary information should review the current terms before sending it to a free service.
 
-Yes, completely free for experimentation and prototyping. You sign in with a Google account and get immediate access to Gemini 3.1 Pro, image generation via Nano Banana, video generation via Veo 3.1, and the full vibe coding build mode. No credit card is required at any point during the free experience. The paid component only appears if you choose to deploy an app to production via Google Cloud Run or use the Gemini API at higher rate limits.
+Do not paste secrets, production credentials, private customer records, or regulated data into a prototype simply because the interface is free.
 
-### What is vibe coding in AI Studio?
+## Best uses
 
-Vibe coding is Google's term for the build mode experience. You describe an application in plain English --- what it should do, how it should look, what data it should handle --- and Gemini generates a complete working application using React and Tailwind CSS, with Gemini API calls integrated where appropriate. You iterate by continuing the conversation: requesting changes, clicking on UI elements to request specific modifications, or forking the project in a new direction. The result is a real, deployable web application built entirely through natural language conversation.
+Google AI Studio is a strong fit for:
 
-### Can I deploy apps built in AI Studio?
+- students and educators learning model behavior with non-sensitive material;
+- developers validating a Gemini feature before coding it;
+- product teams exploring structured outputs and multimodal workflows;
+- small teams building a proof of concept before enabling billing; and
+- analysts who want to test whether an AI workflow is feasible.
 
-Yes. AI Studio offers three export paths: download as a ZIP file for local development, push directly to a GitHub repository, or deploy to Google Cloud Run with a single click. The ZIP and GitHub options are free. Cloud Run deployment requires a Google Cloud account and a paid API key, since the deployed app will make live Gemini API calls that incur per-token costs. For demos, internal tools, and low-traffic applications, the deployment costs are minimal.
+It is not, by itself, a complete production environment. A real application still needs authentication, permissions, error handling, data governance, observability, budget controls, and a plan for model changes.
 
-### What models are available in AI Studio?
+## Common mistakes
 
-AI Studio provides access to the full Gemini model family. Gemini 3.1 Pro is the flagship model for complex reasoning and generation tasks. Gemini Flash is the speed-optimized variant for latency-sensitive applications. Nano Banana handles image generation from text prompts. Veo 3.1 generates video content from text descriptions. All Gemini 3 text models share a 1M token input context window and can produce up to 64K output tokens. Note that Gemini 3 Pro Preview was deprecated on March 9, 2026 --- existing projects should migrate to Gemini 3.1 Pro Preview.
+### Assuming free means unlimited
 
-### How does AI Studio compare to v0.dev for building apps?
+Free access and unlimited access are different. Rate limits depend on the model and can change. Build an important workflow only after checking the current limit table and understanding what happens when the limit is reached.
 
-Both tools let you build applications from natural language descriptions, but they serve different needs. [v0.dev](/tools/v0-dev/) specializes in generating polished, production-ready UI components with tighter design system integration --- it excels at creating pixel-perfect interfaces. AI Studio's build mode generates full applications with both frontend and backend logic, with integrated Gemini API capabilities for AI-powered features. If your priority is beautiful UI components, v0.dev has the edge. If your priority is building a complete AI-powered application prototype for free, AI Studio offers more breadth. AI Studio also includes the playground, image generation, and video generation capabilities that v0.dev does not provide.
+### Exposing an API key
 
-## The Verdict
+Do not place a Gemini API key in public client-side code or a repository. Use a server-side secret and appropriate Google Cloud controls when moving beyond a personal experiment.
 
-Google AI Studio earns a 4.5 rating because it delivers something rare in the AI tool landscape: genuine, substantial capability at zero cost. The free tier is not a marketing gimmick. It is a fully functional workspace where you can test state-of-the-art AI models, generate images and video, and build working applications from natural language descriptions --- all without a credit card or a countdown timer reminding you that your trial is expiring.
+### Treating a good demo as production evidence
 
-Build mode is the standout. Vibe coding sounds like a buzzword until you use it. Describing an app and watching it materialize in real time, then iterating through conversation, collapses the distance between an idea and a working prototype in a way that no other free tool matches. For non-technical people who have ideas but not the coding skills to realize them, this is a genuine inflection point. For developers, it is a rapid prototyping tool that eliminates the boilerplate of setting up yet another React project.
+A prompt that works three times in AI Studio has not yet proven reliability. Test difficult inputs, invalid formats, refusal cases, latency, and cost before shipping.
 
-The limitations are real and worth acknowledging. The apps you build in AI Studio are starting points, not finished products. Production deployment costs money and locks you into Google Cloud. The model lineup, while strong, rotates --- the Gemini 3 Pro Preview deprecation is a reminder that building on preview models means staying alert to migration timelines. And if your needs are primarily about writing quality or cited research rather than building and prototyping, other tools serve you better.
+### Ignoring data terms
 
-But within its lane --- experimentation, prototyping, learning, and building AI-powered applications from scratch --- Google AI Studio is the best free tool available. The combination of model access, multimodal generation, and vibe coding in a zero-cost package makes it an essential starting point for anyone exploring what AI can build.
+The free tier is appropriate for many public or synthetic examples. It may not be appropriate for sensitive business material. Decide based on the data, not only the price.
 
-<ToolPickBox
-  name="Google AI Studio"
-  verdict="The best free AI workspace for prototyping apps, testing Gemini models, and learning to build with AI."
-  description="Google AI Studio offers free access to Gemini 3.1 Pro, image generation, video creation, and a vibe coding build mode that turns plain English descriptions into working React applications. No credit card required."
-  rating={4.5}
-  pricing="free"
-  bestFor={["AI prototyping", "Vibe coding apps", "Testing Gemini models", "Learning AI development"]}
-  website="https://aistudio.google.com"
-/>
+## Bottom line
+
+Google AI Studio is genuinely free for a large amount of learning and prototyping, which makes it one of the best entry points for experimenting with Gemini. The boundary is clear: free workspace access does not erase API limits, cloud costs, security responsibilities, or data-use terms. Use AI Studio to prove the workflow; enable paid infrastructure only when the prototype has earned it.
+
+## Primary sources
+
+- [Gemini API billing guide](https://ai.google.dev/gemini-api/docs/billing/)
+- [Gemini API pricing and free-tier table](https://ai.google.dev/gemini-api/docs/pricing)
+- [Google AI Studio](https://aistudio.google.com)

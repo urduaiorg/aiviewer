@@ -11,12 +11,13 @@ import AuthorBio from '../../components/content/AuthorBio.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import ShareButtons from '../../components/content/ShareButtons.astro';
 import { formatDate, formatDateShort } from '../../utils/formatDate';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 import { siteConfig, costConfig, opportunityCategoryLabels } from '../../data/site.config';
 import { slugifyTag } from '../../utils/slugifyTag';
 
 export async function getStaticPaths() {
   const opportunities = await getCollection('opportunities', ({ data }) => !data.draft);
-  return opportunities.map((entry) => ({
+  return opportunities.filter((entry) => !shouldNoindexPath(`/opportunities/${entry.id}/`)).map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
   }));
@@ -48,6 +49,7 @@ const isExpired = entry.data.deadline ? entry.data.deadline < new Date() : false
   type="article"
   publishedDate={entry.data.publishedDate.toISOString()}
   updatedDate={entry.data.updatedDate?.toISOString()}
+  noindex={shouldNoindexPath(Astro.url.pathname)}
 >
   <OpportunitySchema
     slot="head"

@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { shouldNoindexPath } from '../utils/indexPolicy';
 
 const title = "Download The 2026 Ultimate AI Prompt Cheat Sheet | AIViewer";
 const description = "Get the exact, battle-tested AI frameworks used by senior engineers, marketers, and founders to extract maximum value from Claude 4.6 and ChatGPT-5.4.";
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} noindex={shouldNoindexPath(Astro.url.pathname)}>
   <style>
     @reference "../styles/global.css";
     
@@ -260,6 +261,10 @@ const description = "Get the exact, battle-tested AI frameworks used by senior e
           document.body.appendChild(downloadLink);
           downloadLink.click();
           document.body.removeChild(downloadLink);
+          (window as any).aiViewerTrack?.('lead_magnet_download', {
+            asset: '2026-ultimate-ai-prompt-cheat-sheet',
+            path: window.location.pathname,
+          });
         }, 800);
       });
     }

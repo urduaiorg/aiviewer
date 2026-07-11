@@ -1,55 +1,26 @@
 ---
 /**
- * StillRecommended — Editorial trust badge for tool reviews.
- *
- * Derives recommendation status from the updatedDate age:
- *   - < 60 days: Recommended (green)
- *   - 60-120 days: Under Review (amber)
- *   - > 120 days: Needs Update (red)
+ * Content-freshness label. This describes recency only; it does not imply
+ * hands-on verification or a product recommendation.
  */
 interface Props {
   lastVerifiedDate: string | Date;
   toolName: string;
 }
 
-const { lastVerifiedDate, toolName } = Astro.props;
+const { lastVerifiedDate } = Astro.props;
 const dateObj = typeof lastVerifiedDate === 'string' ? new Date(lastVerifiedDate) : lastVerifiedDate;
-const daysSince = Math.floor((Date.now() - dateObj.getTime()) / (1000 * 60 * 60 * 24));
-
 const formatted = dateObj.toLocaleDateString('en-US', {
+  day: 'numeric',
   month: 'short',
   year: 'numeric',
 });
-
-type Status = 'recommended' | 'under-review' | 'needs-update';
-
-let status: Status;
-let statusLabel: string;
-let statusColor: string;
-let iconPath: string;
-
-if (daysSince < 60) {
-  status = 'recommended';
-  statusLabel = 'Still recommended';
-  statusColor = 'text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800';
-  iconPath = 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z';
-} else if (daysSince < 120) {
-  status = 'under-review';
-  statusLabel = 'Under review';
-  statusColor = 'text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/30 border-amber-200 dark:border-amber-800';
-  iconPath = 'M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z';
-} else {
-  status = 'needs-update';
-  statusLabel = 'Needs update';
-  statusColor = 'text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800';
-  iconPath = 'M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126z';
-}
 ---
 
-<div class={`inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs font-medium ${statusColor}`}>
+<div class="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-medium text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
   <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" d={iconPath} />
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m5-2a9 9 0 11-18 0 9 9 0 0118 0z" />
   </svg>
-  <span>{statusLabel}</span>
-  <span class="opacity-60">· Verified {formatted}</span>
+  <span>Editorial snapshot</span>
+  <span class="opacity-60">· Updated {formatted}</span>
 </div>

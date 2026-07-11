@@ -15,6 +15,7 @@ interface Props {
   affiliateUrl?: string;
   category?: string;
   badge?: string;
+  showRating?: boolean;
 }
 
 const {
@@ -28,6 +29,7 @@ const {
   affiliateUrl,
   category,
   badge = 'Our Pick',
+  showRating = false,
 } = Astro.props;
 
 const pricingColors: Record<string, { bg: string; text: string }> = {
@@ -75,8 +77,8 @@ const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
         </p>
       </div>
 
-      {/* Rating */}
-      <div class="shrink-0 text-right">
+      {/* Ratings remain hidden unless a page has an auditable test record. */}
+      {showRating && <div class="shrink-0 text-right">
         <div class="text-2xl font-extrabold text-zinc-900 dark:text-zinc-50 leading-none">
           {rating.toFixed(1)}
         </div>
@@ -103,7 +105,7 @@ const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
             </svg>
           ))}
         </div>
-      </div>
+      </div>}
     </div>
 
     {/* Divider */}
@@ -132,12 +134,20 @@ const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
     {/* Description */}
     <p class="mt-5 text-[0.82rem] text-zinc-500 dark:text-zinc-400 leading-relaxed">{description}</p>
 
+    {affiliateUrl && (
+      <p class="mt-5 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+        Paid link: AIViewer may earn a commission at no extra cost to you.
+      </p>
+    )}
+
     {/* CTAs */}
     <div class="mt-5 flex items-center gap-3">
       <a
         href={affiliateUrl || website}
         target="_blank"
         rel={affiliateUrl ? 'sponsored noopener' : 'noopener'}
+        data-track-event={affiliateUrl ? 'affiliate_click' : 'outbound_tool_click'}
+        data-track-label={name}
         class="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white text-[0.82rem] font-semibold rounded-xl hover:bg-indigo-700 transition-colors shadow-sm"
       >
         Try {name}
@@ -155,11 +165,5 @@ const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
       </a>
     </div>
 
-    {/* Affiliate disclosure */}
-    {affiliateUrl && (
-      <p class="mt-3 text-[0.6rem] text-zinc-300 dark:text-zinc-600 italic">
-        This link may earn us a commission at no extra cost to you.
-      </p>
-    )}
   </div>
 </div>

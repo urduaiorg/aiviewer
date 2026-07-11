@@ -13,6 +13,7 @@ import Footer from '../../components/layout/Footer.astro';
 import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
 import CollectionSchema from '../../components/seo/CollectionSchema.astro';
 import { slugifyTag } from '../../utils/slugifyTag';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 
 // ── Gather all tags across every collection ──────────────────────
 const [playbooks, tools, guides, reports, prompts] = await Promise.all([
@@ -77,6 +78,7 @@ function getTagSize(count: number): string {
 <BaseLayout
   title="Tags"
   description="Browse all topics covered on AIViewer.ai — AI tools, prompting, education, coding, design, business, and more."
+  noindex={shouldNoindexPath(Astro.url.pathname)}
 >
   <Fragment slot="head">
     <CollectionSchema

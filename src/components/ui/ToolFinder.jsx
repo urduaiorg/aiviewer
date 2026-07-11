@@ -513,9 +513,6 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
               {primaryTool && (
                 <div className="mt-5 flex flex-wrap gap-2">
                   <span className="rounded-full border border-indigo-200 bg-white px-3 py-1 text-xs text-indigo-700 dark:border-indigo-800 dark:bg-zinc-900 dark:text-indigo-300">
-                    Rating {primaryTool.rating.toFixed(1)}
-                  </span>
-                  <span className="rounded-full border border-indigo-200 bg-white px-3 py-1 text-xs text-indigo-700 dark:border-indigo-800 dark:bg-zinc-900 dark:text-indigo-300">
                     {primaryTool.pricing}
                   </span>
                 </div>

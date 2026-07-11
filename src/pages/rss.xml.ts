@@ -1,5 +1,6 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
+import { shouldNoindexPath } from '../utils/indexPolicy';
 
 export async function GET(context: any) {
   // Fetch all collections
@@ -18,7 +19,7 @@ export async function GET(context: any) {
       link: `/playbooks/${p.id}/`,
     })),
     ...tools.map(t => ({
-      title: `${t.data.title} - AI Tool Review`,
+      title: `${t.data.title} - AI Tool Evaluation`,
       pubDate: t.data.publishedDate,
       description: t.data.description,
       link: `/tools/${t.id}/`,
@@ -41,7 +42,7 @@ export async function GET(context: any) {
       description: p.data.description,
       link: `/prompts/${p.id}/`,
     })),
-  ];
+  ].filter((item) => !shouldNoindexPath(item.link));
 
   // Sort by date descending and limit to 20
   items.sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
@@ -49,7 +50,7 @@ export async function GET(context: any) {
 
   return rss({
     title: 'AIViewer.ai',
-    description: 'Practical AI knowledge, tools, and playbooks for professionals.',
+    description: 'Practical AI guides and transparent tool evaluations.',
     site: context.site || 'https://aiviewer.ai',
     items: recentItems,
     customData: `<language>en-us</language>`,

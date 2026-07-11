@@ -1,0 +1,71 @@
+---
+import TransparencyPage from '../../components/content/TransparencyPage.astro';
+import { siteConfig } from '../../data/site.config';
+
+const updated = 'July 11, 2026';
+---
+
+<TransparencyPage
+  title="Ownership and Funding"
+  description="Who operates AIViewer.ai, how the publication is funded, and how we disclose advertising, affiliate, sponsor, and related-product relationships."
+  label="Publisher transparency"
+  heading="Ownership and Funding"
+  intro="Readers should be able to see who controls the publication, how it may earn money, and where a commercial relationship could influence perception."
+  updated={updated}
+  breadcrumb="Ownership and Funding"
+>
+  <h2>Who publishes AIViewer.ai</h2>
+  <p>
+    AIViewer.ai is a founder-led editorial publication created and edited by <a href={siteConfig.author.linkedin} target="_blank" rel="noopener">{siteConfig.author.name}</a>, an AI education specialist and the founder of UrduAI and Impact Glocal Inc. AIViewer.ai is presented as part of the <a href={siteConfig.network.url} target="_blank" rel="noopener">{siteConfig.network.name} network</a>.
+  </p>
+  <p>
+    Editorial decisions—including what to cover, how to test it, what to recommend, and what to correct—remain under AIViewer.ai's editorial control. Unless a page explicitly says otherwise, coverage does not mean that a tool provider owns, operates, or endorses AIViewer.ai.
+  </p>
+
+  <h2>How the publication is funded</h2>
+  <p>
+    The publication is supported by founder resources and may earn revenue through a mix of display advertising, direct sponsorships, affiliate commissions, and other clearly identified commercial partnerships. These sources help pay for research, software access, editorial work, website operations, and free public content.
+  </p>
+  <p>
+    Revenue sources may change as the publication grows. We will update this page when a change would be material to a reader's understanding of our independence.
+  </p>
+
+  <h2>Advertising</h2>
+  <p>
+    Third-party advertising may appear beside editorial content. Advertisers do not receive advance approval of independent articles, reviews, scores, or corrections. Display advertising is visually separate from publisher content and is governed by our <a href="/privacy/">Privacy Policy</a> and <a href="/disclosure/">Advertising and Affiliate Disclosure</a>.
+  </p>
+
+  <h2>Affiliate links</h2>
+  <p>
+    Some product links may generate a commission if a reader purchases or subscribes. A commission does not increase the price paid by the reader and does not guarantee a positive review, higher rating, inclusion in a comparison, or “best” designation. We use sponsored link attributes and contextual disclosure where appropriate.
+  </p>
+
+  <h2>Sponsorships and paid work</h2>
+  <p>
+    Sponsored content, paid placements, and partner-supported projects must be labeled so they are not mistaken for independent coverage. A sponsor may help define the subject of labeled sponsored work, but factual accuracy and reader clarity remain required. Sponsored work does not purchase favorable treatment elsewhere on the site.
+  </p>
+
+  <h2>Owned and related products</h2>
+  <p>
+    The founder's wider work includes UrduAI, Impact Glocal Inc., and products associated with that ecosystem, including OurScreen. When AIViewer.ai covers an owned, operated, invested-in, advised, or otherwise materially related product, the relationship should be disclosed on the relevant page. Related products do not receive automatic recommendation or exemption from the same evidence standards.
+  </p>
+
+  <h2>Free access, gifts, and review units</h2>
+  <p>
+    A provider may occasionally supply temporary access, an upgraded plan, a demonstration, travel, or another item of value. Material support should be disclosed in the review. Access may make testing possible, but it does not buy a particular score or conclusion. We do not describe provider-controlled demonstrations as independent hands-on testing.
+  </p>
+
+  <h2>Editorial safeguards</h2>
+  <ul>
+    <li>Commercial relationships should be known before the final edit and disclosed where relevant.</li>
+    <li>A rating or verdict must be supportable from the evidence described in our <a href="/review-methodology/">Review Methodology</a>.</li>
+    <li>Providers may identify factual errors but do not receive veto power over criticism or editorial judgment.</li>
+    <li>Payment does not remove the duty to correct an error.</li>
+    <li>When a conflict is too significant to manage with disclosure, we may assign another reviewer, publish without a rating, or decline coverage.</li>
+  </ul>
+
+  <h2>Contact and business inquiries</h2>
+  <p>
+    For questions about ownership, funding, conflicts, sponsorships, or advertising, contact <a href={`mailto:${siteConfig.monetization.contactEmail}`}>{siteConfig.monetization.contactEmail}</a>. Editorial concerns and commercial proposals are considered separately even when they use the same public contact address.
+  </p>
+</TransparencyPage>

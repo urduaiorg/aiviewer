@@ -9,10 +9,13 @@ import CollectionSchema from '../../components/seo/CollectionSchema.astro';
 import { formatDateShort } from '../../utils/formatDate';
 import { categoryLabels } from '../../data/site.config';
 import { getReadingTime } from '../../utils/readingTime';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 
-const guides = (await getCollection('guides', ({ data }) => !data.draft)).sort(
+const guides = (await getCollection('guides', ({ data }) => !data.draft))
+  .filter((entry) => !shouldNoindexPath(`/guides/${entry.id}/`))
+  .sort(
   (a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime()
-);
+  );
 
 const featuredGuide = guides.find((entry) => entry.data.featured) ?? guides[0];
 const categories = [...new Set(guides.map((entry) => entry.data.category))];

@@ -16,11 +16,11 @@ import ShareButtons from '../../components/content/ShareButtons.astro';
 import { formatDate } from '../../utils/formatDate';
 import { getReadingTime } from '../../utils/readingTime';
 import { siteConfig } from '../../data/site.config';
-import { slugifyTag } from '../../utils/slugifyTag';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 
 export async function getStaticPaths() {
   const guides = await getCollection('guides', ({ data }) => !data.draft);
-  return guides.map((entry) => ({
+  return guides.filter((entry) => !shouldNoindexPath(`/guides/${entry.id}/`)).map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
   }));
@@ -29,7 +29,11 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 const relatedEntries = (await getCollection('guides', ({ data }) => !data.draft))
-  .filter((candidate) => candidate.id !== entry.id && candidate.data.category === entry.data.category)
+  .filter((candidate) =>
+    candidate.id !== entry.id &&
+    candidate.data.category === entry.data.category &&
+    !shouldNoindexPath(`/guides/${candidate.id}/`)
+  )
   .slice(0, 3);
 
 // Parse FAQ headings into FAQSchema format
@@ -66,12 +70,13 @@ for (const heading of headings) {
   type="article"
   publishedDate={entry.data.publishedDate.toISOString()}
   updatedDate={entry.data.updatedDate?.toISOString()}
+  monetize={true}
+  noindex={shouldNoindexPath(Astro.url.pathname)}
 >
   <ArticleSchema
     slot="head"
     title={entry.data.title}
     description={entry.data.description}
-  ogImage={entry.data.coverImage}
     image={entry.data.coverImage}
     publishedDate={entry.data.publishedDate}
     updatedDate={entry.data.updatedDate}
@@ -98,6 +103,8 @@ for (const heading of headings) {
           <span class="rounded-full bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-indigo-600 dark:text-indigo-400">
             {entry.data.category}
           </span>
+          <a href="/editorial-standards/" class="font-medium text-zinc-600 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400">AIViewer Editorial Team</a>
+          <a href="/ai-use/" class="text-zinc-500 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400">AI-assisted</a>
           <span>{formatDate(entry.data.publishedDate)}</span>
           {entry.data.updatedDate && entry.data.updatedDate.getTime() !== entry.data.publishedDate.getTime() && (
             <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2.5 py-0.5 text-[0.7rem] font-medium text-emerald-700 dark:text-emerald-400">
@@ -114,9 +121,9 @@ for (const heading of headings) {
 
         <div class="mt-8 flex flex-wrap gap-2">
           {entry.data.tags.map((tag) => (
-            <a href={`/tags/${slugifyTag(tag)}/`} class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-3 py-1 text-sm text-zinc-600 dark:text-zinc-300 transition-colors hover:border-indigo-200 dark:hover:border-indigo-700 hover:text-indigo-600 dark:hover:text-indigo-400">{tag}</a>
+            <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-3 py-1 text-sm text-zinc-600 dark:text-zinc-300">{tag}</span>
           ))}
-          {entry.data.relatedPlaybook && (
+          {entry.data.relatedPlaybook && !shouldNoindexPath(`/playbooks/${entry.data.relatedPlaybook}/`) && (
             <a href={`/playbooks/${entry.data.relatedPlaybook}/`} class="rounded-full border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-sm font-medium text-indigo-700 dark:text-indigo-400">
               Related playbook
             </a>
@@ -137,7 +144,7 @@ for (const heading of headings) {
           <div class="prose dark:prose-invert max-w-none prose-headings:scroll-mt-24">
             <Content />
           </div>
-          <AuthorBio compact />
+          <AuthorBio compact variant="team" />
           <NewsletterSignup variant="inline" />
         </article>
 

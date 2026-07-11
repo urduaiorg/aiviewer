@@ -4,7 +4,7 @@
   X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.g.doubleclick.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://aiviewer-benchmark-api.qaisar-roonjha.workers.dev https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.g.doubleclick.net; frame-src https://*.googlesyndication.com https://*.google.com https://*.g.doubleclick.net; child-src https://*.googlesyndication.com https://*.google.com https://*.g.doubleclick.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.g.doubleclick.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://aiviewer-benchmark-api.qaisar-roonjha.workers.dev https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.g.doubleclick.net; frame-src https://subscribe-forms.beehiiv.com https://*.googlesyndication.com https://*.google.com https://*.g.doubleclick.net; child-src https://subscribe-forms.beehiiv.com https://*.googlesyndication.com https://*.google.com https://*.g.doubleclick.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://subscribe-forms.beehiiv.com
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
 /fonts/*
@@ -15,3 +15,34 @@
 
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Generated and utility sections remain crawlable so Google can see the
+# directive, but they are intentionally excluded from the searchable index.
+# Comparison pages use per-page HTML directives because 20 proven URLs are
+# deliberately allowlisted by the shared index policy.
+/models/*
+  X-Robots-Tag: noindex, follow
+
+/opportunities/*
+  X-Robots-Tag: noindex, follow
+
+/tags/*
+  X-Robots-Tag: noindex, follow
+
+/prompts/*
+  X-Robots-Tag: noindex, follow
+
+/playbooks/*
+  X-Robots-Tag: noindex, follow
+
+/reports/*
+  X-Robots-Tag: noindex, follow
+
+/changes/*
+  X-Robots-Tag: noindex, follow
+
+/preview/*
+  X-Robots-Tag: noindex, follow
+
+/download/*
+  X-Robots-Tag: noindex, follow

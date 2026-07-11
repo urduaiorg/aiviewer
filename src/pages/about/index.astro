@@ -5,11 +5,39 @@ import Footer from '../../components/layout/Footer.astro';
 import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
 import AuthorBio from '../../components/content/AuthorBio.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
+
+const trustPages = [
+  {
+    title: 'Editorial Standards',
+    description: 'How we select, source, write, label, and update our work.',
+    href: '/editorial-standards/',
+  },
+  {
+    title: 'Review Methodology',
+    description: 'How evidence, testing, access, trade-offs, and ratings are handled.',
+    href: '/review-methodology/',
+  },
+  {
+    title: 'Corrections Policy',
+    description: 'How to report an error and how material changes are documented.',
+    href: '/corrections/',
+  },
+  {
+    title: 'AI Use Policy',
+    description: 'Where AI assists our work and where human review is required.',
+    href: '/ai-use/',
+  },
+  {
+    title: 'Ownership and Funding',
+    description: 'Who controls AIViewer.ai and how commercial relationships are disclosed.',
+    href: '/ownership-and-funding/',
+  },
+] as const;
 ---
 
 <BaseLayout
   title="About AIViewer.ai"
-  description="Learn what AIViewer.ai is building: practical AI literacy, honest reviews, and role-based playbooks with an editorial standard."
+  description="Learn what AIViewer.ai is building: practical AI literacy, transparent evaluations, useful guides, and public editorial standards."
 >
   <Header />
 
@@ -38,7 +66,7 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
           <h2 class="mt-3 text-zinc-950 dark:text-zinc-50">A working library, not a trend feed.</h2>
           <div class="mt-6 space-y-5 text-[0.98rem] leading-8 text-zinc-600 dark:text-zinc-400">
             <p>
-              The site focuses on playbooks, tool reviews, and guides that help people decide what to use, how to use it, and where the limits are.
+              The site focuses on guides, transparent tool evaluations, and practical workflows that help people decide what to use, how to use it, and where the limits are.
             </p>
             <p>
               Content is structured so readers can move from orientation to execution quickly: understand the landscape, pick a workflow, then ship something useful.
@@ -67,7 +95,7 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 
       <div class="mt-6 grid gap-6 lg:grid-cols-3" data-reveal>
         <div class="rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-[var(--shadow-card)]">
-          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">Playbooks</p>
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">Workflows</p>
           <h3 class="mt-3 text-zinc-950 dark:text-zinc-50">Role-specific execution</h3>
           <p class="mt-3 text-sm leading-7 text-zinc-600 dark:text-zinc-400">Structured around time saved, workflow count, and concrete tool stacks.</p>
         </div>
@@ -83,6 +111,33 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
         </div>
       </div>
 
+      <section class="mt-12 border-y border-zinc-200 py-10 dark:border-zinc-800" data-reveal aria-labelledby="how-we-work-heading">
+        <div class="max-w-2xl">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">How we work</p>
+          <h2 id="how-we-work-heading" class="mt-3 text-zinc-950 dark:text-zinc-50">Our standards are public.</h2>
+          <p class="mt-3 text-[0.98rem] leading-7 text-zinc-600 dark:text-zinc-400">
+            See the evidence rules, disclosures, and accountability practices behind our editorial work.
+          </p>
+        </div>
+
+        <div class="mt-7 grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
+          {trustPages.map((page) => (
+            <a
+              href={page.href}
+              class="group border-t border-zinc-200 py-5 dark:border-zinc-800"
+            >
+              <span class="flex items-center justify-between gap-4">
+                <span class="font-semibold text-zinc-950 transition-colors group-hover:text-indigo-600 dark:text-zinc-50 dark:group-hover:text-indigo-400">{page.title}</span>
+                <svg class="h-4 w-4 shrink-0 text-zinc-300 transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-indigo-500 dark:text-zinc-600" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="m7.5 5 5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span class="mt-2 block text-sm leading-6 text-zinc-500 dark:text-zinc-400">{page.description}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
       <!-- Author / Team -->
       <div class="mt-6 rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)] md:p-9" data-reveal>
         <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400 mb-4">Written & curated by</p>
@@ -91,7 +146,7 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 
       <!-- Newsletter -->
       <div class="mt-6" data-reveal>
-        <NewsletterSignup heading="Stay in the loop." subtitle="Weekly digest of the most useful AI developments, new tool reviews, and playbook updates." />
+        <NewsletterSignup heading="Stay in the loop." subtitle="Weekly digest of useful AI developments, new evaluations, and practical guide updates." />
       </div>
     </div>
   </section>

@@ -21,7 +21,7 @@ const schema = {
     "url": siteUrl,
     "logo": {
       "@type": "ImageObject",
-      "url": `${siteUrl}/logo.png`,
+      "url": `${siteUrl}/favicon.svg`,
     },
     "sameAs": [
       siteConfig.author.twitter,
@@ -29,14 +29,6 @@ const schema = {
       siteConfig.author.facebook,
       siteConfig.network.url,
     ],
-  },
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": `${siteUrl}/?q={search_term_string}`,
-    },
-    "query-input": "required name=search_term_string",
   },
 };
 ---

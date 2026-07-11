@@ -1,0 +1,87 @@
+---
+import TransparencyPage from '../../components/content/TransparencyPage.astro';
+import { siteConfig } from '../../data/site.config';
+
+const updated = 'July 11, 2026';
+---
+
+<TransparencyPage
+  title="AI Use Policy"
+  description="How AIViewer.ai uses artificial intelligence in research, writing, images, data, and website production while keeping humans accountable."
+  label="Publisher accountability"
+  heading="AI Use Policy"
+  intro="We cover AI and use AI tools. This policy explains where they can help, where they cannot substitute for evidence, and when readers should be told."
+  updated={updated}
+  breadcrumb="AI Use Policy"
+>
+  <h2>The publisher owns the work</h2>
+  <p>
+    AIViewer.ai may use generative AI and other automation during research, production, or maintenance. AIViewer's publisher remains accountable for what appears on the site. “The model produced it” is never an excuse for an inaccurate claim, invented source, copied passage, undisclosed conflict, or misleading recommendation.
+  </p>
+
+  <h2>Acceptable uses</h2>
+  <p>Editors and developers may use AI tools to assist with work such as:</p>
+  <ul>
+    <li>organizing notes, transcripts, or source material;</li>
+    <li>suggesting outlines, questions, counterarguments, or plain-language explanations;</li>
+    <li>producing a source-backed draft that is checked for evidence, structure, and policy compliance;</li>
+    <li>copyediting, translation support, metadata, and accessibility text;</li>
+    <li>extracting structured fields from verified sources, subject to checking;</li>
+    <li>supporting code, data analysis, design exploration, and quality assurance; and</li>
+    <li>creating clearly contextualized illustrations or other visual assets.</li>
+  </ul>
+
+  <h2>Uses we do not permit</h2>
+  <ul>
+    <li>Publishing unverified AI output as fact or disguising materially AI-assisted work as solely human-authored.</li>
+    <li>Inventing or guessing facts, statistics, quotations, entities, dates, URLs, test results, or credentials.</li>
+    <li>Presenting generated commentary as first-hand product testing.</li>
+    <li>Assigning a review score solely because an automated system inferred one from metadata or marketing claims.</li>
+    <li>Rewriting another publisher's work to disguise its origin.</li>
+    <li>Using automation primarily to create large numbers of search-targeted pages without distinct reader value.</li>
+    <li>Creating a fake author, source, testimonial, screenshot, or user experience.</li>
+  </ul>
+
+  <h2>Verification requirements</h2>
+  <p>
+    AI output is a lead or working material, not a source. Factual claims should be checked against current primary evidence. A source link must lead to the material it is cited for. Review conclusions must match the access and testing actually performed. When evidence remains uncertain, we say so or remove the claim.
+  </p>
+
+  <h2>When we disclose AI assistance</h2>
+  <p>
+    We add a page-level disclosure when AI materially generated or transformed the published substance in a way readers would reasonably want to understand. Examples include a largely AI-assisted draft, synthetic media that could be mistaken for documentary evidence, a significant automated analysis, or a structured page produced primarily by automation.
+  </p>
+  <p>
+    Routine spelling help, formatting, transcription, coding assistance, or brainstorming does not always require an article-level label when it does not materially change the reporting or conclusion. This policy provides the standing disclosure that those tools may be part of our workflow.
+  </p>
+
+  <h2>Generated images and demonstrations</h2>
+  <p>
+    A generated or altered image must not be presented as a real event, authentic product screenshot, or evidence of a test. Material synthetic imagery should be labeled in its caption, surrounding text, or accessible description when confusion is plausible. Genuine product screenshots may be cropped or redacted for privacy, but not altered to misrepresent what the product did.
+  </p>
+
+  <h2>Structured and automated pages</h2>
+  <p>
+    Automation may organize verified facts into a consistent reference format. A structured reference page is not automatically a review, recommendation, or proof of first-hand experience. It should be indexed or monetized only when it offers enough original commentary, curation, analysis, or practical utility to stand on its own for readers.
+  </p>
+
+  <h2>Privacy and confidential information</h2>
+  <p>
+    Editors should not place confidential business material, unpublished reader correspondence, account credentials, or unnecessary personal information into third-party AI systems. When a legitimate workflow requires sensitive material, it should be minimized or de-identified and handled under the applicable provider terms and our <a href="/privacy/">Privacy Policy</a>.
+  </p>
+
+  <h2>Authorship, copyright, and attribution</h2>
+  <p>
+    AI assistance does not make copied expression original. Editors must attribute external reporting, respect copyright and licenses, avoid close imitation of a living creator's distinctive work, and ensure that a byline identifies the editorial team or person accountable for publication. When a page has received a named human review, that credit should be explicit rather than implied.
+  </p>
+
+  <h2>Legacy content and enforcement</h2>
+  <p>
+    This policy applies to content published or materially updated on or after July 11, 2026. Older pages are being reviewed. If we discover fabricated sourcing, false testing claims, or materially unreviewed automated content, we will correct, relabel, de-index, rewrite, or remove it as appropriate.
+  </p>
+
+  <h2>Ask about our process</h2>
+  <p>
+    If a page leaves you unsure how AI was used, contact <a href={`mailto:${siteConfig.monetization.contactEmail}?subject=AI%20use%20question`}>{siteConfig.monetization.contactEmail}</a> with the URL and your question.
+  </p>
+</TransparencyPage>

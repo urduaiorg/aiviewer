@@ -9,55 +9,40 @@ import { pricingConfig, categoryLabels } from '../data/site.config';
 import { getReadingTime } from '../utils/readingTime';
 import { formatDateShort } from '../utils/formatDate';
 import NewsletterSignup from '../components/content/NewsletterSignup.astro';
-import { detectRecentLaunches } from '../utils/snapshotDiff';
-import modelCatalogSnapshot from '../data/model-catalog.snapshot.json';
-import { useCases } from '../data/useCases';
+import { shouldNoindexPath } from '../utils/indexPolicy';
 
-// Pull latest reports for AI & Society showcase
-const allReports = await getCollection('reports', ({ data }) => !data.draft);
-const latestReports = allReports
-  .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime())
-  .slice(0, 3);
-
-// Pull featured tools (or all if none featured), sorted by rating — show 6
+// Curate by editorial priority and freshness. Numeric scores remain internal
+// until individual evaluations have auditable hands-on evidence.
 const allTools = await getCollection('tools', ({ data }) => !data.draft);
-const topTools = allTools
-  .sort((a, b) => b.data.rating - a.data.rating)
-  .slice(0, 6);
+const editorialTools = allTools.filter((tool) =>
+  tool.id !== 'ourscreen' && !shouldNoindexPath(`/tools/${tool.id}/`)
+).sort((a, b) =>
+  Number(b.data.featured) - Number(a.data.featured) ||
+  (b.data.updatedDate ?? b.data.publishedDate).getTime() - (a.data.updatedDate ?? a.data.publishedDate).getTime()
+);
+const topTools = editorialTools.slice(0, 6);
 
-// Hero sidebar: top 3 by rating
-const heroTools = allTools
-  .sort((a, b) => b.data.rating - a.data.rating)
-  .slice(0, 3);
+// Hero sidebar: first 3 editorial picks
+const heroTools = editorialTools.slice(0, 3);
 
 // Pull latest guides — show 5 (1 featured + 4 grid)
 const allGuides = await getCollection('guides', ({ data }) => !data.draft);
 const latestGuides = allGuides
+  .filter((guide) => !shouldNoindexPath(`/guides/${guide.id}/`))
   .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime())
   .slice(0, 5);
 const featuredGuide = latestGuides[0];
 const gridGuides = latestGuides.slice(1, 5);
 
-// Pull featured playbooks for badges
-const allPlaybooks = await getCollection('playbooks', ({ data }) => !data.draft);
-
-// Pull recent model changes for the live-feed strip
-const snapshotModels = Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : [];
-const recentChanges = detectRecentLaunches(snapshotModels, 60)
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  .slice(0, 3);
-
 // Dynamic counts for stats
-const toolCount = allTools.length;
-const guideCount = allGuides.length;
-const playbookCount = allPlaybooks.length;
-const reportCount = allReports.length;
-const homepageUseCases = useCases.slice(0, 6);
+const toolCount = editorialTools.length + 1;
+const guideCount = allGuides.filter((guide) => !shouldNoindexPath(`/guides/${guide.id}/`)).length;
 ---
 
 <BaseLayout
   title="AIViewer.ai"
   description="Find practical AI tools and workflows for students, teachers, creators, small businesses, job seekers, and everyday work."
+  monetize={true}
 >
   <Fragment slot="head">
     <WebsiteSchema />
@@ -84,16 +69,16 @@ const homepageUseCases = useCases.slice(0, 6);
           </h1>
 
           <p class="hero-stagger-4 text-lg md:text-xl text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl mb-8">
-            Pick a real job - studying, teaching, creating, business, job search, or free tools - and get plain-English guides, tool picks, and copy-paste prompts.
+            Start with current, source-linked guides and transparent tool evaluations—without invented testing claims or pay-to-rank listings.
           </p>
 
           <div class="hero-stagger-5 flex flex-col sm:flex-row items-start gap-3">
-            <a href="/free-ai-tools/" class="group inline-flex items-center gap-2.5 px-6 py-3.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-[0.92rem] font-semibold rounded-xl hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-all duration-200 shadow-lg shadow-zinc-900/10 active:scale-[0.97]">
-              Find Free AI Tools
+            <a href="/tools/" class="group inline-flex items-center gap-2.5 px-6 py-3.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-[0.92rem] font-semibold rounded-xl hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-all duration-200 shadow-lg shadow-zinc-900/10 active:scale-[0.97]">
+              Browse Current Tools
               <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
             </a>
-            <a href="/students/" class="group inline-flex items-center gap-2.5 px-6 py-3.5 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 text-[0.92rem] font-semibold rounded-xl border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all duration-200 shadow-sm active:scale-[0.97]">
-              Start With Students
+            <a href="/guides/" class="group inline-flex items-center gap-2.5 px-6 py-3.5 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 text-[0.92rem] font-semibold rounded-xl border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all duration-200 shadow-sm active:scale-[0.97]">
+              Read Practical Guides
               <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
             </a>
           </div>
@@ -102,15 +87,11 @@ const homepageUseCases = useCases.slice(0, 6);
           <div class="hero-stagger-6 mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.8rem] text-zinc-400 dark:text-zinc-500">
             <span class="flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
-              <strong class="text-zinc-600 dark:text-zinc-300">{toolCount}</strong> Tools reviewed
+              <strong class="text-zinc-600 dark:text-zinc-300">{toolCount}</strong> Tools evaluated
             </span>
             <span class="flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
               <strong class="text-zinc-600 dark:text-zinc-300">{guideCount}</strong> In-depth guides
-            </span>
-            <span class="flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              <strong class="text-zinc-600 dark:text-zinc-300">{playbookCount}</strong> Playbooks
             </span>
           </div>
         </div>
@@ -119,7 +100,7 @@ const homepageUseCases = useCases.slice(0, 6);
         <div class="hero-stagger-5 hidden md:block">
           <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-[var(--shadow-card)] overflow-hidden">
             <div class="px-5 py-3.5 border-b border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
-              <span class="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-amber-600 dark:text-amber-400">Top Rated</span>
+              <span class="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-amber-600 dark:text-amber-400">Editor's Picks</span>
               <a href="/tools/" class="text-[0.72rem] font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 transition-colors">View all</a>
             </div>
             <div class="divide-y divide-zinc-100 dark:divide-zinc-800">
@@ -134,10 +115,7 @@ const homepageUseCases = useCases.slice(0, 6);
                       <p class="text-[0.85rem] font-semibold text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors truncate">{tool.data.toolName}</p>
                       <p class="text-[0.72rem] text-zinc-400 truncate">{tool.data.bestFor.slice(0,2).join(', ')}</p>
                     </div>
-                    <div class="flex-shrink-0 flex items-center gap-1">
-                      <svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                      <span class="text-[0.78rem] font-semibold text-zinc-700 dark:text-zinc-200">{tool.data.rating.toFixed(1)}</span>
-                    </div>
+                    <span class="flex-shrink-0 rounded-full bg-zinc-100 px-2 py-1 text-[0.68rem] font-semibold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">{pricingDisplay}</span>
                   </a>
                 );
               })}
@@ -154,73 +132,13 @@ const homepageUseCases = useCases.slice(0, 6);
     </div>
   </section>
 
-  <!-- ═══════════════════ USE CASE LAUNCHER ═══════════════════ -->
-  <section class="border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
-    <div class="page-container py-12 md:py-16">
-      <div class="max-w-2xl" data-reveal>
-        <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-3 block">Choose your goal</span>
-        <h2 class="text-zinc-900 dark:text-zinc-50 mb-3">Start with the job, not the tool.</h2>
-        <p class="text-zinc-500 dark:text-zinc-400 text-lg">AIViewer now organizes the first step around real use cases so beginners do not have to understand the whole AI market first.</p>
-      </div>
-
-      <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {homepageUseCases.map((useCase, i) => (
-          <a
-            href={`/${useCase.slug}/`}
-            class="group flex h-full flex-col rounded-[var(--radius-lg)] border border-zinc-200 bg-white p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:bg-indigo-50 hover:shadow-[var(--shadow-card-hover)] dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-indigo-700 dark:hover:bg-indigo-900/20"
-            data-reveal
-            data-reveal-delay={`${i * 60}`}
-          >
-            <div class="flex items-start justify-between gap-4">
-              <h3 class="text-[1.05rem] font-bold text-zinc-950 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{useCase.navLabel}</h3>
-              <span class="rounded-full border border-indigo-100 bg-indigo-50 px-2.5 py-1 text-[0.68rem] font-semibold text-indigo-700 dark:border-indigo-800 dark:bg-indigo-950 dark:text-indigo-300">Start here</span>
-            </div>
-            <p class="mt-3 flex-1 text-[0.92rem] leading-6 text-zinc-600 dark:text-zinc-400">{useCase.description}</p>
-            <span class="mt-5 text-sm font-semibold text-indigo-600 dark:text-indigo-400">Open guide path</span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ═══════════════════ LIVE CHANGES STRIP ═══════════════════ -->
-  {recentChanges.length > 0 && (
-    <section class="py-5 border-t border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50">
-      <div class="page-container">
-        <div class="flex items-center gap-4 overflow-x-auto scrollbar-hide">
-          <a href="/changes/" class="flex-shrink-0 inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-amber-700 dark:text-amber-300">
-            <span class="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-            Live feed
-          </a>
-          <div class="w-px h-4 bg-zinc-200 dark:bg-zinc-700 flex-shrink-0"></div>
-          {recentChanges.map((change) => {
-            const formattedDate = new Date(change.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-            const typeColor = change.changeType === 'launch' ? 'text-indigo-600 dark:text-indigo-400' : change.changeType === 'price-change' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400';
-            return (
-              <a href={`/models/${change.slug}/`} class="flex-shrink-0 group flex items-center gap-2 text-[0.8rem] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">
-                <span class={`font-semibold ${typeColor}`}>{change.name}</span>
-                <span class="text-zinc-400 dark:text-zinc-500">{formattedDate}</span>
-              </a>
-            );
-          })}
-          <a href="/changes/" class="flex-shrink-0 ml-auto text-[0.78rem] font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors whitespace-nowrap">
-            View all &rarr;
-          </a>
-        </div>
-      </div>
-    </section>
-  )}
-
-
-  <!-- ═══════════════════ TOOLS SECTION — with EditorialCovers ═══════════════════ -->
   <section class="py-14 md:py-20 border-t border-zinc-100 dark:border-zinc-800">
     <div class="page-container">
       <div class="flex items-end justify-between mb-10" data-reveal>
         <div>
           <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-3 block">AI Tools</span>
-          <h2 class="text-zinc-900 dark:text-zinc-50 mb-3">Tested by humans. Rated on merit.</h2>
-          <p class="text-zinc-500 dark:text-zinc-400 text-lg max-w-xl">We test every tool on real tasks and tell you exactly where it works, where it doesn't, and who it's actually for.</p>
+          <h2 class="text-zinc-900 dark:text-zinc-50 mb-3">Research-led. Explained plainly.</h2>
+          <p class="text-zinc-500 dark:text-zinc-400 text-lg max-w-xl">We evaluate tools against practical workflows, verify current pricing and limitations, and clearly distinguish hands-on experience from documentation-based research.</p>
         </div>
         <a href="/tools/" class="group hidden sm:inline-flex items-center gap-1.5 text-[0.85rem] font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">
           View all
@@ -246,10 +164,7 @@ const homepageUseCases = useCases.slice(0, 6);
               <div class="flex flex-col flex-1 p-5">
                 <div class="flex items-start justify-between mb-3">
                   <h3 class="text-[1.05rem] font-bold text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{tool.data.toolName}</h3>
-                  <div class="flex items-center gap-1 flex-shrink-0 ml-2">
-                    <svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                    <span class="text-[0.8rem] font-semibold text-zinc-700 dark:text-zinc-200">{tool.data.rating.toFixed(1)}</span>
-                  </div>
+                  <span class="flex-shrink-0 ml-2 rounded-full bg-zinc-100 px-2 py-1 text-[0.68rem] font-semibold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">Editorial pick</span>
                 </div>
 
                 <p class="text-[0.8rem] text-zinc-500 dark:text-zinc-400 mb-3 line-clamp-2">{tool.data.bestFor.slice(0,3).join(' · ')}</p>
@@ -259,7 +174,7 @@ const homepageUseCases = useCases.slice(0, 6);
                     {pricingDisplay}
                   </span>
                   <span class="text-[0.78rem] font-medium text-indigo-600 dark:text-indigo-400 flex items-center gap-1 group-hover:gap-1.5 transition-all">
-                    Read review
+                    Read evaluation
                     <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
                   </span>
                 </div>
@@ -271,7 +186,7 @@ const homepageUseCases = useCases.slice(0, 6);
 
       <div class="mt-6 text-center sm:hidden" data-reveal>
         <a href="/tools/" class="group inline-flex items-center gap-2 text-[0.85rem] font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">
-          View all tool reviews
+          View all tool evaluations
           <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
         </a>
       </div>
@@ -350,229 +265,6 @@ const homepageUseCases = useCases.slice(0, 6);
   </section>
 
 
-  <!-- ═══════════════════ PLAYBOOKS SECTION ═══════════════════ -->
-  <section class="py-14 md:py-20 bg-white dark:bg-[var(--color-bg)] border-t border-zinc-100 dark:border-zinc-800">
-    <div class="page-container">
-      <div class="max-w-2xl mb-10" data-reveal>
-        <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-3 block">Playbooks</span>
-        <h2 class="text-zinc-900 dark:text-zinc-50 mb-3">Pick your role. Get your AI workflow.</h2>
-        <p class="text-zinc-500 dark:text-zinc-400 text-lg">Step-by-step guides built for real work. Each playbook includes tools, prompts, and workflows you can use today.</p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Teachers -->
-        <a href="/playbooks/ai-for-teachers-lesson-planning/" class="card-glow group relative flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-indigo-200 transition-card shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] overflow-hidden" data-reveal data-reveal-delay="0">
-          <div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-400"></div>
-          <div class="p-6 pl-7">
-            <span class="absolute top-4 right-4 text-[0.65rem] font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/30 px-2 py-0.5 rounded-full">Most popular</span>
-            <div class="w-11 h-11 rounded-xl mb-4">
-              <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="4" y="8" width="28" height="20" rx="3" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-                <line x1="10" y1="15" x2="26" y2="15" stroke="#D97706" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
-                <line x1="10" y1="19" x2="22" y2="19" stroke="#D97706" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
-                <line x1="10" y1="23" x2="18" y2="23" stroke="#D97706" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
-                <path d="M34 6l1.5 3 3 0.5-2.2 2.1 0.5 3-2.8-1.5-2.8 1.5 0.5-3-2.2-2.1 3-0.5z" fill="#F0C75E"/>
-                <circle cx="38" cy="18" r="1.5" fill="#F0C75E" opacity="0.5"/>
-              </svg>
-            </div>
-            <h3 class="text-[1.05rem] font-semibold text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 transition-colors mb-1.5">Teachers</h3>
-            <p class="text-[0.85rem] text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">Save 5-10 hours weekly on lesson planning, slides, and grading.</p>
-            <div class="flex items-center gap-3 text-[0.72rem] text-zinc-400">
-              <span>3 workflows</span>
-              <span class="text-zinc-300 dark:text-zinc-600">|</span>
-              <span>2 tools</span>
-              <span class="text-zinc-300 dark:text-zinc-600">|</span>
-              <span>15 min</span>
-            </div>
-          </div>
-        </a>
-        <!-- Students -->
-        <a href="/playbooks/student-research-paper-workflow/" class="card-glow group relative flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-indigo-200 transition-card shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] overflow-hidden" data-reveal data-reveal-delay="80">
-          <div class="absolute left-0 top-0 bottom-0 w-1 bg-indigo-400"></div>
-          <div class="p-6 pl-7">
-            <div class="w-11 h-11 rounded-xl mb-4">
-              <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 32V12a2 2 0 012-2h10l4 4-4 4H8" fill="#EEF2FF" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M38 32V12a2 2 0 00-2-2H26l-4 4 4 4h10" fill="#EEF2FF" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="22" cy="8" r="4" fill="#F0C75E" opacity="0.9"/>
-              </svg>
-            </div>
-            <h3 class="text-[1.05rem] font-semibold text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 transition-colors mb-1.5">Students</h3>
-            <p class="text-[0.85rem] text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">Research faster, write better papers, and study smarter.</p>
-            <div class="flex items-center gap-3 text-[0.72rem] text-zinc-400">
-              <span>4 workflows</span>
-              <span class="text-zinc-300 dark:text-zinc-600">|</span>
-              <span>3 tools</span>
-            </div>
-          </div>
-        </a>
-        <!-- Small Business -->
-        <a href="/playbooks/small-business-ai-customer-service/" class="card-glow group relative flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-indigo-200 transition-card shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] overflow-hidden" data-reveal data-reveal-delay="160">
-          <div class="absolute left-0 top-0 bottom-0 w-1 bg-emerald-400"></div>
-          <div class="p-6 pl-7">
-            <div class="w-11 h-11 rounded-xl mb-4">
-              <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="6" y="26" width="6" height="10" rx="1.5" fill="#E4E4E7"/>
-                <rect x="15" y="20" width="6" height="16" rx="1.5" fill="#D4D4D8"/>
-                <rect x="24" y="13" width="6" height="23" rx="1.5" fill="#A1A1AA"/>
-                <path d="M8 24l8-6 8-5 7-5" stroke="#F0C75E" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 2"/>
-                <circle cx="37" cy="10" r="5" fill="none" stroke="#F0C75E" stroke-width="1.5"/>
-                <circle cx="37" cy="10" r="1.5" fill="#F0C75E"/>
-              </svg>
-            </div>
-            <h3 class="text-[1.05rem] font-semibold text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 transition-colors mb-1.5">Small Business</h3>
-            <p class="text-[0.85rem] text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">Automate repetitive tasks, draft content, and manage operations.</p>
-            <div class="flex items-center gap-3 text-[0.72rem] text-zinc-400">
-              <span>3 workflows</span>
-              <span class="text-zinc-300 dark:text-zinc-600">|</span>
-              <span>4 tools</span>
-            </div>
-          </div>
-        </a>
-        <!-- Developers -->
-        <a href="/playbooks/engineer-workflow/" class="card-glow group relative flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-indigo-200 transition-card shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] overflow-hidden" data-reveal data-reveal-delay="240">
-          <div class="absolute left-0 top-0 bottom-0 w-1 bg-violet-400"></div>
-          <div class="p-6 pl-7">
-            <div class="w-11 h-11 rounded-xl mb-4">
-              <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="4" y="6" width="36" height="28" rx="4" fill="#F5F3FF" stroke="#7C3AED" stroke-width="1.5"/>
-                <path d="M14 18l-4 4 4 4" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M30 18l4 4-4 4" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                <line x1="24" y1="15" x2="20" y2="29" stroke="#F0C75E" stroke-width="1.8" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <h3 class="text-[1.05rem] font-semibold text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 transition-colors mb-1.5">Developers</h3>
-            <p class="text-[0.85rem] text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">Ship faster with AI-assisted coding, debugging, and PR reviews.</p>
-            <div class="flex items-center gap-3 text-[0.72rem] text-zinc-400">
-              <span>5 workflows</span>
-              <span class="text-zinc-300 dark:text-zinc-600">|</span>
-              <span>3 tools</span>
-            </div>
-          </div>
-        </a>
-        <!-- Marketers -->
-        <a href="/playbooks/marketers-prompt-engineering-cheat-sheet/" class="card-glow group relative flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-indigo-200 transition-card shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] overflow-hidden" data-reveal data-reveal-delay="320">
-          <div class="absolute left-0 top-0 bottom-0 w-1 bg-rose-400"></div>
-          <div class="p-6 pl-7">
-            <div class="w-11 h-11 rounded-xl mb-4">
-              <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="22" cy="22" r="14" fill="#FFF1F2" stroke="#E11D48" stroke-width="1.5"/>
-                <path d="M22 12v10l7 4" stroke="#E11D48" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="34" cy="10" r="4" fill="#F0C75E"/>
-                <path d="M33 10h2M34 9v2" stroke="#fff" stroke-width="1" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <h3 class="text-[1.05rem] font-semibold text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 transition-colors mb-1.5">Marketers</h3>
-            <p class="text-[0.85rem] text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">Draft campaigns, optimize copy, and scale content production.</p>
-            <div class="flex items-center gap-3 text-[0.72rem] text-zinc-400">
-              <span>4 workflows</span>
-              <span class="text-zinc-300 dark:text-zinc-600">|</span>
-              <span>3 tools</span>
-            </div>
-          </div>
-        </a>
-        <!-- Freelancers -->
-        <a href="/playbooks/freelancers-automating-client-onboarding/" class="card-glow group relative flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:border-indigo-200 transition-card shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] overflow-hidden" data-reveal data-reveal-delay="400">
-          <div class="absolute left-0 top-0 bottom-0 w-1 bg-sky-400"></div>
-          <div class="p-6 pl-7">
-            <div class="w-11 h-11 rounded-xl mb-4">
-              <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="8" y="4" width="28" height="36" rx="3" fill="#F0F9FF" stroke="#0284C7" stroke-width="1.5"/>
-                <line x1="14" y1="14" x2="30" y2="14" stroke="#0284C7" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
-                <line x1="14" y1="20" x2="26" y2="20" stroke="#0284C7" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
-                <line x1="14" y1="26" x2="22" y2="26" stroke="#0284C7" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
-                <circle cx="32" cy="32" r="6" fill="#F0C75E"/>
-                <path d="M30 32l2 2 3-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <h3 class="text-[1.05rem] font-semibold text-zinc-900 dark:text-zinc-50 group-hover:text-indigo-600 transition-colors mb-1.5">Freelancers</h3>
-            <p class="text-[0.85rem] text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">Automate onboarding, proposals, and client communication.</p>
-            <div class="flex items-center gap-3 text-[0.72rem] text-zinc-400">
-              <span>3 workflows</span>
-              <span class="text-zinc-300 dark:text-zinc-600">|</span>
-              <span>4 tools</span>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ═══════════════════ AI & SOCIETY ═══════════════════ -->
-  {latestReports.length > 0 && (
-    <section class="py-14 md:py-20 border-t border-zinc-100 dark:border-zinc-800 bg-zinc-950">
-      <div class="page-container">
-        <div class="flex items-end justify-between mb-10" data-reveal>
-          <div>
-            <span class="text-xs font-semibold text-[#F0C75E] uppercase tracking-wider mb-3 block">AI & Society</span>
-            <h2 class="text-white mb-3">How AI is reshaping the world around&nbsp;us</h2>
-            <p class="text-zinc-400 text-lg max-w-xl">Research-backed analysis on AI's impact across work, education, health, and culture.</p>
-          </div>
-          <a href="/reports/" class="group hidden sm:inline-flex items-center gap-1.5 text-[0.85rem] font-medium text-zinc-400 hover:text-white transition-colors">
-            View all
-            <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </a>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {latestReports.map((report, i) => (
-            <a
-              href={`/reports/${report.id}/`}
-              class="group flex flex-col rounded-2xl border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all duration-300 overflow-hidden"
-              data-reveal
-              data-reveal-delay={`${i * 100}`}
-            >
-              <div class="px-6 pt-5 pb-4 border-b border-zinc-800">
-                <div class="flex items-center justify-between mb-4">
-                  <span class="inline-flex items-center gap-1.5 rounded-full bg-[#F0C75E]/10 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#F0C75E]">
-                    {report.data.source}
-                  </span>
-                  <span class="text-xs text-zinc-500">{report.data.reportYear}</span>
-                </div>
-                <div class="flex items-end gap-1 h-8">
-                  <div class="h-3 w-1.5 rounded-sm bg-[#F0C75E]/20"></div>
-                  <div class="h-5 w-1.5 rounded-sm bg-[#F0C75E]/30"></div>
-                  <div class="h-4 w-1.5 rounded-sm bg-[#F0C75E]/25"></div>
-                  <div class="h-7 w-1.5 rounded-sm bg-[#F0C75E]/50"></div>
-                  <div class="h-6 w-1.5 rounded-sm bg-[#F0C75E]/40"></div>
-                  <div class="h-8 w-1.5 rounded-sm bg-[#F0C75E]/70"></div>
-                </div>
-              </div>
-
-              <div class="flex flex-1 flex-col p-6">
-                <h3 class="text-[1.1rem] font-semibold leading-snug text-white group-hover:text-[#F0C75E] transition-colors mb-3">
-                  {report.data.title}
-                </h3>
-                <p class="text-[0.85rem] text-zinc-400 leading-relaxed flex-1 mb-4">
-                  {report.data.description}
-                </p>
-
-                {report.data.keyInsights.length > 0 && (
-                  <div class="border-l-2 border-[#F0C75E]/40 pl-3 mb-4">
-                    <p class="text-[0.8rem] text-zinc-500 leading-relaxed italic">
-                      {report.data.keyInsights[0]}
-                    </p>
-                  </div>
-                )}
-
-                <div class="flex items-center justify-between pt-4 border-t border-zinc-800">
-                  <span class="text-xs text-zinc-500">{formatDateShort(report.data.publishedDate)}</span>
-                  <span class="text-[0.8rem] font-medium text-[#F0C75E] flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Read analysis
-                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                  </span>
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
-
-
-  <!-- ═══════════════════ NEWSLETTER ═══════════════════ -->
   <section class="py-10 md:py-14 border-t border-zinc-100 dark:border-zinc-800">
     <div class="page-container max-w-3xl mx-auto" data-reveal>
       <NewsletterSignup />
@@ -650,8 +342,8 @@ const homepageUseCases = useCases.slice(0, 6);
         </p>
 
         <div class="flex items-center justify-center gap-3">
-          <a href="/playbooks/" class="group inline-flex items-center gap-2 px-5 py-2.5 text-[0.85rem] font-semibold text-white bg-indigo-600 rounded-xl hover:bg-indigo-500 transition-all duration-200 active:scale-[0.97]">
-            Start a Playbook
+          <a href="/guides/" class="group inline-flex items-center gap-2 px-5 py-2.5 text-[0.85rem] font-semibold text-white bg-indigo-600 rounded-xl hover:bg-indigo-500 transition-all duration-200 active:scale-[0.97]">
+            Browse practical guides
             <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
           </a>
           <a href="/about/" class="inline-flex items-center gap-2 px-5 py-2.5 text-[0.85rem] font-semibold text-zinc-300 bg-zinc-800 rounded-xl border border-zinc-700 hover:bg-zinc-700 hover:text-white transition-all duration-200 active:scale-[0.97]">

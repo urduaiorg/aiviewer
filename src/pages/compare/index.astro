@@ -7,10 +7,18 @@ import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 import FreshnessIndicator from '../../components/content/FreshnessIndicator.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import { generateComparisonPairs, getPairsByTier, comparisonSlug } from '../../utils/comparisonPairs';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 import modelCatalogSnapshot from '../../data/model-catalog.snapshot.json';
+import comparisonModelOverrides from '../../data/comparison-model-overrides.json';
 
-const models = Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : [];
-const pairs = generateComparisonPairs(models);
+const overrideModels = comparisonModelOverrides.models as Record<string, Record<string, unknown>>;
+const models = (Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : []).map((model) => ({
+  ...model,
+  ...(overrideModels[model.slug] ?? {}),
+}));
+const pairs = generateComparisonPairs(models).filter((pair) =>
+  !shouldNoindexPath(`/compare/${comparisonSlug(pair.slugA, pair.slugB)}/`)
+);
 const byTier = getPairsByTier(pairs);
 
 const lastSyncTimes = models.map((m) => m.lastSeenAt).filter(Boolean) as string[];
@@ -26,7 +34,7 @@ const title = 'AI Model Comparisons | AIViewer';
 const description = 'Side-by-side comparisons of frontier AI models. Compare pricing, context windows, capabilities, and find the right model for your workflow.';
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} noindex={shouldNoindexPath(Astro.url.pathname)}>
   <Fragment slot="head">
     <BreadcrumbSchema items={[
       { name: 'Home', url: '/' },
@@ -66,7 +74,7 @@ const description = 'Side-by-side comparisons of frontier AI models. Compare pri
           </div>
           <h1 class="mt-5 text-zinc-950 dark:text-zinc-50">Compare AI models side by side.</h1>
           <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Data-driven comparisons across pricing, context window, capabilities, and output capacity. No fake universal scores.
+            Twenty comparisons preserved from Search Console demand, with dated pricing, context, capability, and output-limit snapshots.
           </p>
           {lastSyncedAt && (
             <div class="mt-4">
@@ -75,34 +83,6 @@ const description = 'Side-by-side comparisons of frontier AI models. Compare pri
           )}
         </div>
 
-        <!-- Comparison builder -->
-        <div class="mt-8 rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-950/50 p-6">
-          <p class="text-sm font-semibold text-zinc-950 dark:text-zinc-50">Build a comparison</p>
-          <div class="mt-4 flex flex-wrap items-end gap-3">
-            <div class="flex-1 min-w-[180px]">
-              <label for="model-a" class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">Model A</label>
-              <select id="model-a" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100">
-                <option value="">Select a model</option>
-                {models.map((m) => (
-                  <option value={m.slug}>{m.name}</option>
-                ))}
-              </select>
-            </div>
-            <span class="text-sm font-medium text-zinc-400 pb-2">vs</span>
-            <div class="flex-1 min-w-[180px]">
-              <label for="model-b" class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">Model B</label>
-              <select id="model-b" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100">
-                <option value="">Select a model</option>
-                {models.map((m) => (
-                  <option value={m.slug}>{m.name}</option>
-                ))}
-              </select>
-            </div>
-            <button id="compare-btn" class="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white hover:bg-indigo-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled>
-              Compare
-            </button>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -173,32 +153,3 @@ const description = 'Side-by-side comparisons of frontier AI models. Compare pri
 
   <Footer />
 </BaseLayout>
-
-<script>
-  function initCompareBuilder() {
-    const selectA = document.getElementById('model-a') as HTMLSelectElement | null;
-    const selectB = document.getElementById('model-b') as HTMLSelectElement | null;
-    const btn = document.getElementById('compare-btn') as HTMLButtonElement | null;
-    if (!selectA || !selectB || !btn) return;
-
-    function updateBtn() {
-      const a = selectA!.value;
-      const b = selectB!.value;
-      btn!.disabled = !a || !b || a === b;
-    }
-
-    selectA.addEventListener('change', updateBtn);
-    selectB.addEventListener('change', updateBtn);
-
-    btn.addEventListener('click', () => {
-      const a = selectA.value;
-      const b = selectB.value;
-      if (!a || !b || a === b) return;
-      const [first, second] = a < b ? [a, b] : [b, a];
-      window.location.href = `/compare/${first}-vs-${second}/`;
-    });
-  }
-
-  initCompareBuilder();
-  document.addEventListener('astro:page-load', initCompareBuilder);
-</script>

@@ -4,8 +4,6 @@ Allow: /
 # Exclude private/internal paths
 Disallow: /api/
 Disallow: /admin/
-Disallow: /preview/
-Disallow: /download/
 
 # Crawl-delay for polite bots
 Crawl-delay: 1

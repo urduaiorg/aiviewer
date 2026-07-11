@@ -8,6 +8,7 @@ import EditorialCover from '../../components/content/EditorialCover.astro';
 import OpportunityListSchema from '../../components/seo/OpportunityListSchema.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import { formatDateShort } from '../../utils/formatDate';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 import { opportunityCategoryLabels, costConfig } from '../../data/site.config';
 import type { OpportunityItem } from '../../components/seo/OpportunityListSchema.astro';
 
@@ -43,6 +44,7 @@ function formatDeadline(date?: Date): string {
 <BaseLayout
   title="Free AI Courses, Grants & Fellowships — Verified List (2026)"
   description="Curated list of free AI courses with certificates, AI grants for nonprofits, fellowships, scholarships, and certifications. Every link verified. Updated regularly."
+  noindex={shouldNoindexPath(Astro.url.pathname)}
 >
   <Fragment slot="head">
     <OpportunityListSchema

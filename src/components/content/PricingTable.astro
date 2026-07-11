@@ -14,6 +14,7 @@ interface PricingTier {
   isRecommended?: boolean;
   cta?: string;
   ctaUrl?: string;
+  isAffiliate?: boolean;
 }
 
 interface Props {
@@ -34,6 +35,12 @@ const { tiers = [], toolName, disclaimer } = Astro.props;
       </svg>
       <h4 class="text-sm font-bold text-zinc-900 dark:text-zinc-50">{toolName} Pricing</h4>
     </div>
+  )}
+
+  {tiers.some((tier) => tier.isAffiliate) && (
+    <p class="mb-4 text-center text-xs font-medium text-zinc-500 dark:text-zinc-400">
+      Paid-link disclosure: AIViewer may earn a commission at no extra cost to you. An official non-affiliate link remains available in the review.
+    </p>
   )}
 
   <div class:list={[
@@ -111,7 +118,9 @@ const { tiers = [], toolName, disclaimer } = Astro.props;
           <a
             href={tier.ctaUrl}
             target="_blank"
-            rel="noopener"
+            rel={tier.isAffiliate ? 'sponsored noopener' : 'noopener'}
+            data-track-event={tier.isAffiliate ? 'affiliate_click' : 'outbound_tool_click'}
+            data-track-label={toolName ? `${toolName} pricing` : tier.name}
             class:list={[
               'mt-5 block text-center py-2.5 rounded-xl text-[0.8rem] font-semibold transition-colors',
               tier.isRecommended

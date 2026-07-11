@@ -9,9 +9,9 @@ export interface Props {
   category: string;
   pricing: string;
   pricingDetails: string;
-  rating: number;
   datePublished: Date;
   dateModified?: Date;
+  operatingSystem?: string;
 }
 
 const {
@@ -22,9 +22,9 @@ const {
   category,
   pricing,
   pricingDetails,
-  rating,
   datePublished,
   dateModified,
+  operatingSystem = 'Web',
 } = Astro.props;
 
 const siteUrl = siteConfig.url;
@@ -75,7 +75,7 @@ const schema = {
   "image": imageUrl,
   "url": url,
   "applicationCategory": applicationCategory,
-  "operatingSystem": "Web, iOS, Android",
+  "operatingSystem": operatingSystem,
   "offers": {
     "@type": "Offer",
     "price": price,
@@ -83,17 +83,6 @@ const schema = {
     ...(pricing === 'free'
       ? { "availability": "https://schema.org/InStock" }
       : {}),
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": rating.toString(),
-    "bestRating": "5",
-    "ratingCount": "1",
-  },
-  "author": {
-    "@type": "Organization",
-    "name": siteConfig.name,
-    "url": siteUrl,
   },
   "datePublished": datePublished.toISOString(),
   "dateModified": (dateModified ?? datePublished).toISOString(),

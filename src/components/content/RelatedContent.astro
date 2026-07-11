@@ -14,6 +14,7 @@
  * 3. Category match — fallback grouping
  */
 import { getCollection } from 'astro:content';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 
 interface Props {
   /** Current page's collection type */
@@ -70,7 +71,8 @@ for (const entry of allTools) {
     score += 5;
   }
   if (score > 0) {
-    scored.push({ entry, score, collection: 'tools', href: `/tools/${entry.id}/` });
+    const href = `/tools/${entry.id}/`;
+    if (!shouldNoindexPath(href)) scored.push({ entry, score, collection: 'tools', href });
   }
 }
 
@@ -82,7 +84,8 @@ for (const entry of allPlaybooks) {
     score += 5;
   }
   if (score > 0) {
-    scored.push({ entry, score, collection: 'playbooks', href: `/playbooks/${entry.id}/` });
+    const href = `/playbooks/${entry.id}/`;
+    if (!shouldNoindexPath(href)) scored.push({ entry, score, collection: 'playbooks', href });
   }
 }
 
@@ -90,7 +93,8 @@ for (const entry of allPlaybooks) {
 for (const entry of allGuides) {
   let score = tagOverlap(tags, entry.data.tags);
   if (score > 0) {
-    scored.push({ entry, score, collection: 'guides', href: `/guides/${entry.id}/` });
+    const href = `/guides/${entry.id}/`;
+    if (!shouldNoindexPath(href)) scored.push({ entry, score, collection: 'guides', href });
   }
 }
 
@@ -98,7 +102,8 @@ for (const entry of allGuides) {
 for (const entry of allReports) {
   let score = tagOverlap(tags, entry.data.tags);
   if (score > 0) {
-    scored.push({ entry, score, collection: 'reports', href: `/reports/${entry.id}/` });
+    const href = `/reports/${entry.id}/`;
+    if (!shouldNoindexPath(href)) scored.push({ entry, score, collection: 'reports', href });
   }
 }
 

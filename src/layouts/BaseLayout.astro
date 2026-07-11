@@ -17,6 +17,7 @@ interface Props {
   updatedDate?: string;
   articleSection?: string;
   noindex?: boolean;
+  monetize?: boolean;
 }
 
 const {
@@ -29,6 +30,7 @@ const {
   updatedDate,
   articleSection,
   noindex = false,
+  monetize = false,
 } = Astro.props;
 
 const fullTitle = title === siteConfig.name ? title : `${title} — ${siteConfig.name}`;
@@ -37,7 +39,7 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-pagefind-ignore={noindex ? 'all' : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,7 +51,7 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     <link rel="canonical" href={canonical} />
     <link rel="alternate" type="application/rss+xml" title={`${siteConfig.name} RSS Feed`} href="/rss.xml" />
     {noindex
-      ? <meta name="robots" content="noindex, nofollow" />
+      ? <meta name="robots" content="noindex, follow" />
       : <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     }
     <meta name="author" content={siteConfig.name} />
@@ -73,7 +75,7 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
 
     <!-- Favicon & Manifest -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <!-- DNS-prefetch for analytics CDN -->
@@ -137,7 +139,7 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     {siteConfig.analytics.googleSiteVerification && <meta name="google-site-verification" content={siteConfig.analytics.googleSiteVerification} />}
 
     <!-- Google AdSense site verification and ad serving -->
-    {siteConfig.monetization.adsenseClient && (
+    {siteConfig.monetization.adsenseClient && monetize && !noindex && (
       <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteConfig.monetization.adsenseClient}`} crossorigin="anonymous"></script>
     )}
 
@@ -155,9 +157,9 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
   <body class="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-indigo-600 focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2">Skip to content</a>
     <slot name="header" />
-    <main id="main-content" class="flex-1" transition:animate="fade">
+    <div id="main-content" class="flex-1" transition:animate="fade">
       <slot />
-    </main>
+    </div>
     <slot name="footer" />
     <ScrollReveal />
     <WebVitals />

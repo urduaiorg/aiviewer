@@ -16,6 +16,7 @@ import { categoryLabels, roleLabels, pricingConfig } from '../../data/site.confi
 import { slugifyTag } from '../../utils/slugifyTag';
 import CollectionSchema from '../../components/seo/CollectionSchema.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 
 // ── Generate static paths for every tag ──────────────────────────
 export async function getStaticPaths() {
@@ -44,7 +45,9 @@ export async function getStaticPaths() {
   addTags(reports);
   addTags(prompts);
 
-  return [...tagMap.entries()].map(([slug, { key, display }]) => ({
+  return [...tagMap.entries()]
+    .filter(([slug]) => !shouldNoindexPath(`/tags/${slug}/`))
+    .map(([slug, { key, display }]) => ({
     params: { tag: slug },
     props: { tag: key, displayTag: display },
   }));
@@ -111,6 +114,7 @@ const accentColors: Record<string, { badge: string; border: string }> = {
 <BaseLayout
   title={`${displayTag} — Tags`}
   description={`Browse ${totalItems} article${totalItems !== 1 ? 's' : ''} tagged "${tag}" across AIViewer.ai — guides, playbooks, tool reviews, reports, and prompts.`}
+  noindex={shouldNoindexPath(Astro.url.pathname)}
 >
   <CollectionSchema
     slot="head"

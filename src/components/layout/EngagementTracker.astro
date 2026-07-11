@@ -25,8 +25,7 @@
   }
 
   function sendEvent(name, data) {
-    if (typeof navigator.sendBeacon !== 'function') return;
-    // Store in sessionStorage for aggregation (no external endpoint needed)
+    // Keep a short first-party session trail for debugging.
     try {
       var events = JSON.parse(sessionStorage.getItem('_av_events') || '[]');
       events.push({ e: name, d: data, t: Date.now() });
@@ -34,37 +33,68 @@
       if (events.length > 50) events = events.slice(-50);
       sessionStorage.setItem('_av_events', JSON.stringify(events));
     } catch(e) {}
+
+    // Forward to whichever privacy/analytics layer is enabled externally.
+    try {
+      if (window.zaraz && typeof window.zaraz.track === 'function') {
+        window.zaraz.track(name, data);
+      }
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', name, data);
+      } else if (Array.isArray(window.dataLayer)) {
+        window.dataLayer.push({ event: name, ...data });
+      }
+    } catch(e) {}
   }
 
-  window.addEventListener('scroll', function() {
-    var pct = getScrollPct();
-    if (pct > maxScroll) maxScroll = pct;
-    for (var i = 0; i < thresholds.length; i++) {
-      var t = thresholds[i];
-      if (pct >= t && !fired[t]) {
-        fired[t] = 1;
-        sendEvent('scroll', { depth: t, path: pathname });
-      }
-    }
-  }, { passive: true });
+  window.aiViewerTrack = sendEvent;
 
-  // Reading time + max scroll on page exit
-  document.addEventListener('visibilitychange', function() {
-    if (document.visibilityState === 'hidden') {
-      sendEvent('read', {
-        seconds: Math.round((Date.now() - startTime) / 1000),
-        maxScroll: maxScroll,
-        path: pathname
+  if (!window.__avTrackingBound) {
+    window.__avTrackingBound = true;
+    document.addEventListener('click', function(event) {
+      var target = event.target && event.target.closest ? event.target.closest('[data-track-event]') : null;
+      if (!target) return;
+      sendEvent(target.getAttribute('data-track-event'), {
+        label: target.getAttribute('data-track-label') || target.textContent.trim().slice(0, 80),
+        destination: target.href || '',
+        path: location.pathname
       });
-    }
-  });
+    });
+  }
 
-  // Re-init on View Transitions navigation
-  document.addEventListener('astro:page-load', function() {
-    maxScroll = 0;
-    startTime = Date.now();
-    fired = {};
-    pathname = location.pathname;
-  });
+  if (!window.__avEngagementBound) {
+    window.__avEngagementBound = true;
+
+    window.addEventListener('scroll', function() {
+      var pct = getScrollPct();
+      if (pct > maxScroll) maxScroll = pct;
+      for (var i = 0; i < thresholds.length; i++) {
+        var t = thresholds[i];
+        if (pct >= t && !fired[t]) {
+          fired[t] = 1;
+          sendEvent('scroll', { depth: t, path: pathname });
+        }
+      }
+    }, { passive: true });
+
+    // Reading time + max scroll on page exit
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'hidden') {
+        sendEvent('read', {
+          seconds: Math.round((Date.now() - startTime) / 1000),
+          maxScroll: maxScroll,
+          path: pathname
+        });
+      }
+    });
+
+    // Re-init on View Transitions navigation
+    document.addEventListener('astro:page-load', function() {
+      maxScroll = 0;
+      startTime = Date.now();
+      fired = {};
+      pathname = location.pathname;
+    });
+  }
 })();
 </script>

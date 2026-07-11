@@ -8,11 +8,9 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import FreshnessIndicator from '../../components/content/FreshnessIndicator.astro';
 import WhatChanged from '../../components/content/WhatChanged.astro';
 import { formatDate } from '../../utils/formatDate';
-import { siteConfig } from '../../data/site.config';
 import { generateComparisonPairs, comparisonSlug } from '../../utils/comparisonPairs';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 import modelCatalogSnapshot from '../../data/model-catalog.snapshot.json';
-
-const API_BASE = siteConfig.api.workerBase;
 
 interface ModelRecord {
   id: string;
@@ -58,7 +56,7 @@ interface ModelRecord {
 export async function getStaticPaths() {
   const models = Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : [];
 
-  return models.map((model) => ({
+  return models.filter((model) => !shouldNoindexPath(`/models/${model.slug}/`)).map((model) => ({
     params: { slug: model.slug },
     props: { modelSummary: model },
   }));
@@ -66,34 +64,13 @@ export async function getStaticPaths() {
 
 const { modelSummary } = Astro.props as { modelSummary: ModelRecord };
 
-let modelDetail: ModelRecord = modelSummary;
-
-try {
-  const detailResponse = await fetch(`${API_BASE}/api/models/${modelSummary.slug}`);
-  if (detailResponse.ok) {
-    const payload = await detailResponse.json() as { success?: boolean; model?: ModelRecord };
-    if (payload.success && payload.model) {
-      modelDetail = payload.model;
-    }
-  }
-} catch {
-  modelDetail = {
-    ...modelSummary,
-    strengths: modelSummary.strengths ?? [],
-    watchouts: modelSummary.watchouts ?? [],
-    releaseHistory: [],
-    relatedModels: [],
-    pricingHistory: [],
-  };
-}
-
 const model = {
   strengths: [],
   watchouts: [],
   releaseHistory: [],
   relatedModels: [],
   pricingHistory: [],
-  ...modelDetail,
+  ...modelSummary,
 };
 
 const publishedDate = model.releaseDate ? new Date(model.releaseDate) : null;
@@ -168,8 +145,9 @@ const modelPairs = allPairs
 
 <BaseLayout
   title={`${model.name} | Model Tracker`}
-  description={model.description ?? `Live model profile for ${model.name}, including pricing, context window, capability flags, and release history.`}
+  description={model.description ?? `Catalog snapshot for ${model.name}, including pricing, context window, capability flags, and release history.`}
   canonicalUrl={`https://aiviewer.ai/models/${model.slug}/`}
+  noindex={shouldNoindexPath(Astro.url.pathname)}
 >
   <Fragment slot="head">
     <WebsiteSchema />
@@ -177,7 +155,7 @@ const modelPairs = allPairs
       "@context": "https://schema.org",
       "@type": "TechArticle",
       "headline": model.name,
-      "description": model.description ?? `Live model profile for ${model.name}.`,
+      "description": model.description ?? `Catalog snapshot for ${model.name}.`,
       "url": `https://aiviewer.ai/models/${model.slug}/`,
       "datePublished": model.releaseDate ?? undefined,
       "dateModified": model.lastSeenAt ?? model.releaseDate ?? undefined,
@@ -220,14 +198,14 @@ const modelPairs = allPairs
               {lastSeenDate && (
                 <>
                   <span aria-hidden="true">·</span>
-                  <FreshnessIndicator date={lastSeenDate} label="Synced" />
+                  <FreshnessIndicator date={lastSeenDate} label="Snapshot updated" />
                 </>
               )}
             </div>
 
             <h1 class="mt-5 text-zinc-950 dark:text-zinc-50">{model.name}</h1>
             <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-              {model.description ?? `${model.name} is in the live AIViewer catalog. Use this page to evaluate pricing, context, modality support, and nearby alternatives.`}
+              {model.description ?? `${model.name} is in the AIViewer catalog snapshot. Use this page to review pricing, context, modality support, and nearby alternatives.`}
             </p>
 
             <div class="mt-8 flex flex-wrap gap-2">
@@ -284,7 +262,7 @@ const modelPairs = allPairs
                 </div>
               )) : (
                 <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/50 p-4 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
-                  AIViewer has not added custom strengths for this model yet. Use the live snapshot and related models below for context.
+                  AIViewer has not added custom strengths for this model yet. Use the catalog snapshot and related models below for context.
                 </div>
               )}
             </div>
@@ -338,7 +316,7 @@ const modelPairs = allPairs
           </section>
 
           <aside class="rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)]">
-            <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Live snapshot</p>
+            <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Catalog snapshot</p>
             <div class="mt-5 space-y-4">
               <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/50 p-4">
                 <div class="text-xs uppercase tracking-[0.14em] text-zinc-400">Cached input</div>

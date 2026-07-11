@@ -15,9 +15,10 @@ import ProsCons from '../components/content/ProsCons.astro';
 import AdSlot from '../components/content/AdSlot.astro';
 import AffiliateLink from '../components/content/AffiliateLink.astro';
 import TableOfContents from '../components/content/TableOfContents.astro';
+import { shouldNoindexPath } from '../utils/indexPolicy';
 ---
 
-<BaseLayout title="Component Preview" description="Phase 2 component showcase">
+<BaseLayout title="Component Preview" description="Phase 2 component showcase" noindex={shouldNoindexPath(Astro.url.pathname)}>
   <Header />
 
   <div class="page-container py-12">

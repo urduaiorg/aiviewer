@@ -13,11 +13,13 @@ const prompts = (await getCollection('prompts', ({ data }) => !data.draft)).sort
 const roles = [...new Set(prompts.map((p) => p.data.role))];
 const uniqueTools = [...new Set(prompts.map((p) => p.data.toolFor))];
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 ---
 
 <BaseLayout
   title="AI Prompt Library"
   description="A curated library of copy-paste prompts for ChatGPT, Claude, and other AI tools, organized by role and task."
+  noindex={shouldNoindexPath(Astro.url.pathname)}
 >
   <Fragment slot="head">
     <CollectionSchema

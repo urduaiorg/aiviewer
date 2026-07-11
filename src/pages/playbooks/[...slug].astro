@@ -17,10 +17,11 @@ import RelatedContent from '../../components/content/RelatedContent.astro';
 import ShareButtons from '../../components/content/ShareButtons.astro';
 import { siteConfig, roleLabels, difficultyConfig } from '../../data/site.config';
 import { slugifyTag } from '../../utils/slugifyTag';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 
 export async function getStaticPaths() {
   const playbooks = await getCollection('playbooks', ({ data }) => !data.draft);
-  return playbooks.map((entry) => ({
+  return playbooks.filter((entry) => !shouldNoindexPath(`/playbooks/${entry.id}/`)).map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
   }));
@@ -66,6 +67,7 @@ for (const heading of headings) {
   type="article"
   publishedDate={entry.data.publishedDate.toISOString()}
   updatedDate={entry.data.updatedDate?.toISOString()}
+  noindex={shouldNoindexPath(Astro.url.pathname)}
 >
   <ArticleSchema
     slot="head"

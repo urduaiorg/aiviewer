@@ -1,0 +1,88 @@
+---
+import TransparencyPage from '../../components/content/TransparencyPage.astro';
+import { siteConfig } from '../../data/site.config';
+
+const updated = 'July 11, 2026';
+---
+
+<TransparencyPage
+  title="Editorial Standards"
+  description="How AIViewer.ai selects, researches, writes, reviews, labels, and updates its editorial content."
+  label="How we publish"
+  heading="Editorial Standards"
+  intro="The rules we use to make AI coverage useful, original, accurate, and clear about who created it and why it exists."
+  updated={updated}
+  breadcrumb="Editorial Standards"
+>
+  <h2>Our purpose</h2>
+  <p>
+    AIViewer.ai helps non-technical readers make practical decisions about artificial intelligence. We publish when we can add explanation, original analysis, first-hand evidence, or a useful workflow—not simply because a topic is popular or could attract search traffic.
+  </p>
+
+  <h2>What earns publication</h2>
+  <p>Every substantial page should do at least one of the following:</p>
+  <ul>
+    <li>explain a consequential AI development in plain language;</li>
+    <li>help a reader complete a real task more effectively;</li>
+    <li>evaluate a tool for a clearly defined user and use case;</li>
+    <li>combine verified sources with meaningful editorial analysis; or</li>
+    <li>publish original testing, reporting, data, or field experience.</li>
+  </ul>
+  <p>
+    A page does not meet our standard if it only repeats a provider's claims, lightly rewrites another source, or fills a template without enough original value.
+  </p>
+
+  <h2>Accuracy and sourcing</h2>
+  <ul>
+    <li>Specific facts, dates, prices, product capabilities, statistics, and quotations should be checked against current, identifiable sources.</li>
+    <li>We prefer primary sources such as official documentation, product pages, public filings, research papers, and direct testing.</li>
+    <li>We distinguish verified facts from our analysis, estimates, and opinion.</li>
+    <li>If a fact cannot be verified reliably, we qualify it, identify the uncertainty, or leave it out.</li>
+    <li>External material must be attributed. We do not publish copied or superficially rewritten work as our own.</li>
+  </ul>
+
+  <h2>Authorship and accountability</h2>
+  <p>
+    Articles should identify the responsible author or editorial team where readers would reasonably expect a byline. Author information should lead to relevant background and a way to contact the publication. AIViewer's publisher remains accountable for the final page, including work assisted by automation; a named human review is credited only when it occurred.
+  </p>
+
+  <h2>Reviews and recommendations</h2>
+  <p>
+    A review must be clear about the evidence behind it. Hands-on access, research-based evaluation, provider demonstrations, and structured reference data are not the same thing, and we do not present them as interchangeable. Our full process is described in the <a href="/review-methodology/">Review Methodology</a>.
+  </p>
+
+  <h2>Commercial independence</h2>
+  <p>
+    Advertising, affiliate commissions, sponsorships, free access, or a relationship with a product owner must not determine our conclusions or rating. Material commercial relationships are disclosed. Sponsored work is labeled, and payment does not purchase a positive review. See our <a href="/disclosure/">Advertising and Affiliate Disclosure</a> and <a href="/ownership-and-funding/">Ownership and Funding</a> page.
+  </p>
+
+  <h2>AI and automation</h2>
+  <p>
+    AI tools may assist with research organization, drafting, editing, structured data, and production. They do not remove publisher responsibility for accuracy, originality, judgment, or disclosure. Our limits and disclosure rules are explained in the <a href="/ai-use/">AI Use Policy</a>.
+  </p>
+
+  <h2>Updates and corrections</h2>
+  <p>
+    AI products change quickly. We show update or verification dates where freshness is important and revise material inaccuracies when we find them. Substantive corrections are explained on the affected page when context would help readers understand what changed. See our <a href="/corrections/">Corrections Policy</a>.
+  </p>
+
+  <h2>Sensitive and high-stakes topics</h2>
+  <p>
+    Content about health, mental health, law, safety, employment, education, or personal finance receives additional scrutiny. We avoid presenting general AI information as individualized professional advice and direct readers to qualified professionals when a decision requires one.
+  </p>
+
+  <h2>Legacy content</h2>
+  <p>
+    This standard applies to pages published or materially updated on or after July 11, 2026. Older pages are being reviewed against it. A legacy page that lacks a current test record or clear production notes should not be interpreted as proof of hands-on testing.
+  </p>
+
+  <h2>External standards we consult</h2>
+  <p>
+    Our internal rules are informed by Google's guidance on <a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" target="_blank" rel="noopener">helpful, reliable, people-first content</a> and <a href="https://developers.google.com/search/docs/specialty/ecommerce/write-high-quality-reviews" target="_blank" rel="noopener">high-quality reviews</a>. These references do not replace our responsibility to apply editorial judgment.
+  </p>
+
+  <h2>Questions or concerns</h2>
+  <p>
+    Contact <a href={`mailto:${siteConfig.monetization.contactEmail}`}>{siteConfig.monetization.contactEmail}</a> with a sourcing question, conflict concern, or suspected breach of these standards.
+  </p>
+</TransparencyPage>

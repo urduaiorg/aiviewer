@@ -9,6 +9,7 @@ export interface Props {
   updatedDate?: Date;
   authorName?: string;
   authorUrl?: string;
+  authorType?: 'Person' | 'Organization';
   canonicalUrl?: string;
 }
 
@@ -18,8 +19,9 @@ const {
   image,
   publishedDate,
   updatedDate,
-  authorName = siteConfig.author.name,
-  authorUrl = siteConfig.author.linkedin,
+  authorName = `${siteConfig.name} Editorial Team`,
+  authorUrl = new URL('/editorial-standards/', siteConfig.url).toString(),
+  authorType = 'Organization',
   canonicalUrl,
 } = Astro.props;
 
@@ -40,7 +42,7 @@ const schema = {
     "@id": pageUrl,
   },
   "author": {
-    "@type": "Person",
+    "@type": authorType,
     "name": authorName,
     "url": authorUrl,
   },
@@ -50,7 +52,7 @@ const schema = {
     "url": siteUrl,
     "logo": {
       "@type": "ImageObject",
-      "url": new URL('/logo.png', siteUrl).toString(),
+      "url": new URL('/favicon.svg', siteUrl).toString(),
     },
   },
 };

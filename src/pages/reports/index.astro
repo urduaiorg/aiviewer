@@ -15,11 +15,13 @@ const reports = (await getCollection('reports', ({ data }) => !data.draft)).sort
 const uniqueSources = [...new Set(reports.map((r) => r.data.source))];
 const sources = [...new Set(reports.map((r) => r.data.source))];
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 ---
 
 <BaseLayout
   title="AI & Society"
   description="How AI reshapes work, education, health, and culture — research-backed analysis distilled into clear insights you can act on."
+  noindex={shouldNoindexPath(Astro.url.pathname)}
 >
   <Fragment slot="head">
     <CollectionSchema

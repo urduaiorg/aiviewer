@@ -36,11 +36,13 @@ const roleToCategory: Record<string, string> = {
   general: 'general',
 };
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 ---
 
 <BaseLayout
   title="AI Playbooks"
   description="Browse practical AI playbooks for teachers, students, businesses, and teams. Each one is built around repeatable workflows, tools, and outcomes."
+  noindex={shouldNoindexPath(Astro.url.pathname)}
 >
   <Fragment slot="head">
     <CollectionSchema

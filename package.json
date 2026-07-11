@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build && pagefind --site dist",
+    "audit:content": "node scripts/content-audit.mjs",
+    "validate:build": "node scripts/validate-build.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

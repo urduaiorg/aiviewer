@@ -1,14 +1,89 @@
-# 301 Redirects — Cannibalization consolidation
+# Redirects — Cannibalization consolidation
+# Temporarily retired hubs point visitors to the strongest live library while
+# their legacy detail URLs return 404 and leave Google's index.
+/models/ /guides/ 302
+/models /guides/ 302
+/opportunities/ /guides/ 302
+/opportunities /guides/ 302
+/playbooks/ /guides/ 302
+/playbooks /guides/ 302
+/prompts/ /guides/ 302
+/prompts /guides/ 302
+/reports/ /guides/ 302
+/reports /guides/ 302
+/tags/ /guides/ 302
+/tags /guides/ 302
+/changes/ /guides/ 302
+/changes /guides/ 302
+/tools/audio/ /tools/ 302
+/tools/coding/ /tools/ 302
+/tools/design/ /tools/ 302
+/tools/presentation/ /tools/ 302
+/tools/productivity/ /tools/ 302
+/tools/research/ /tools/ 302
+/tools/video/ /tools/ 302
+/tools/writing/ /tools/ 302
+
+# Replaced by the current, evidence-based editorial methodology
+/guides/how-we-test-ai/ /review-methodology/ 301
+/guides/how-we-test-ai /review-methodology/ 301
+
+# Temporarily retired editorial pages awaiting evidence-led rewrites
+/guides/best-ai-tools-for-small-business-2026/ /guides/ 302
+/guides/best-ai-tools-for-small-business-2026 /guides/ 302
+/guides/best-free-ai-tools-2026/ /guides/ 302
+/guides/best-free-ai-tools-2026 /guides/ 302
+/guides/midjourney-vs-dalle-vs-stable-diffusion/ /guides/ 302
+/guides/midjourney-vs-dalle-vs-stable-diffusion /guides/ 302
+/guides/claude-fable-5-mythos-5-explained/ /guides/ 302
+/guides/claude-fable-5-mythos-5-explained /guides/ 302
+/guides/gpt-5-6-sol-explained-openai-new-model/ /guides/ 302
+/guides/gpt-5-6-sol-explained-openai-new-model /guides/ 302
+/guides/how-to-use-google-ai-studio/ /tools/google-ai-studio/ 301
+/guides/how-to-use-google-ai-studio /tools/google-ai-studio/ 301
+/guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ /guides/ 302
+/guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared /guides/ 302
+/guides/how-to-write-ai-prompts/ /guides/ 302
+/guides/how-to-write-ai-prompts /guides/ 302
+/guides/what-is-multimodal-ai/ /guides/ 302
+/guides/what-is-multimodal-ai /guides/ 302
+
+# Consolidate overlapping AI video comparison intent
+/guides/best-ai-video-generators/ /guides/ 302
+/guides/best-ai-video-generators /guides/ 302
+/guides/sora-vs-runway-vs-pika-vs-kling-the-ai-video-generator-comparison-that-matters/ /guides/ 302
+/guides/sora-vs-runway-vs-pika-vs-kling-the-ai-video-generator-comparison-that-matters /guides/ 302
+
+# Consolidate overlapping editorial search intent
+/guides/ai-for-small-business-owners/ /guides/ 302
+/guides/ai-for-small-business-owners /guides/ 302
+/guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ /guides/ 302
+/guides/best-ai-image-generators-2026-alternatives-to-grok-imagine /guides/ 302
+/guides/best-free-ai-tools-for-startups-2026-zero-budget-stack/ /guides/ 302
+/guides/best-free-ai-tools-for-startups-2026-zero-budget-stack /guides/ 302
+/guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ /tools/ 301
+/guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot /tools/ 301
+/guides/free-ai-tool-stacks-by-role-creator-founder-student-teacher-developer/ /guides/ 302
+/guides/free-ai-tool-stacks-by-role-creator-founder-student-teacher-developer /guides/ 302
+/guides/google-ai-studio-free-in-2026-what-is-actually-free-and-what-costs-money/ /tools/google-ai-studio/ 301
+/guides/google-ai-studio-free-in-2026-what-is-actually-free-and-what-costs-money /tools/google-ai-studio/ 301
+/guides/grok-imagine-vs-midjourney-vs-flux-vs-dall-e-which-image-tool-wins-in-2026/ /guides/ 302
+/guides/grok-imagine-vs-midjourney-vs-flux-vs-dall-e-which-image-tool-wins-in-2026 /guides/ 302
+/guides/prompt-engineering-handbook/ /guides/ 302
+/guides/prompt-engineering-handbook /guides/ 302
+/guides/v0-by-vercel-review-is-it-the-best-ai-ui-generator-in-2026/ /tools/ 301
+/guides/v0-by-vercel-review-is-it-the-best-ai-ui-generator-in-2026 /tools/ 301
+
 # Canonical Claude vs GPT comparison
-/guides/claude-opus-vs-gpt-5-4/ /guides/chatgpt-vs-claude-2026/ 301
-/guides/claude-opus-vs-gpt-5-4 /guides/chatgpt-vs-claude-2026/ 301
-/guides/claude-opus-vs-gpt5/ /guides/chatgpt-vs-claude-2026/ 301
-/guides/claude-opus-vs-gpt5 /guides/chatgpt-vs-claude-2026/ 301
+/guides/claude-opus-vs-gpt-5-4/ /guides/ 301
+/guides/claude-opus-vs-gpt-5-4 /guides/ 301
+/guides/claude-opus-vs-gpt5/ /guides/ 301
+/guides/claude-opus-vs-gpt5 /guides/ 301
 
 # Canonical Midjourney vs DALL-E comparison
-/guides/midjourney-vs-dalle3-vs-stable-diffusion/ /guides/midjourney-vs-dalle-vs-stable-diffusion/ 301
-/guides/midjourney-vs-dalle3-vs-stable-diffusion /guides/midjourney-vs-dalle-vs-stable-diffusion/ 301
+/guides/midjourney-vs-dalle3-vs-stable-diffusion/ /guides/ 302
+/guides/midjourney-vs-dalle3-vs-stable-diffusion /guides/ 302
 
 # Canonical Cursor vs GitHub Copilot comparison
-/guides/copilot-vs-cursor-coding-ai/ /guides/cursor-vs-github-copilot-2026/ 301
-/guides/copilot-vs-cursor-coding-ai /guides/cursor-vs-github-copilot-2026/ 301
+/guides/copilot-vs-cursor-coding-ai/ /tools/ 301
+/guides/copilot-vs-cursor-coding-ai /tools/ 301

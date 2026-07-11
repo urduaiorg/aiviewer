@@ -1,10 +1,8 @@
 ---
 /**
- * SponsoredAdSlot — Native-feeling sponsorship placement
+ * SponsoredAdSlot — clearly separated affiliate recommendation
  * 
- * Designed to look like a high-value editorial recommendation rather than a banner ad.
- * Features a clear "Partner" or "Sponsored" badge for FTC compliance, but uses our
- * premium dark-mode UI system (card-glow, gradients) to maintain site aesthetics.
+ * Commercial content is deliberately labeled and visually separated from article copy.
  */
 interface Props {
   title: string;
@@ -21,7 +19,7 @@ const {
   ctaText, 
   url, 
   image, 
-  badgeText = "Partner" 
+  badgeText = "Affiliate recommendation"
 } = Astro.props;
 ---
 
@@ -59,6 +57,8 @@ const {
         href={url}
         target="_blank"
         rel="sponsored noopener"
+        data-track-event="affiliate_click"
+        data-track-label={title}
         class="group flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-[0.9rem] font-semibold rounded-xl hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-all duration-200 shadow-md active:scale-[0.98]"
       >
         {ctaText}
@@ -67,7 +67,7 @@ const {
         </svg>
       </a>
       <p class="text-center mt-2 text-[0.65rem] text-zinc-400 dark:text-zinc-500 italic">
-        Supported via affiliate link
+        Paid link: AIViewer may earn a commission at no extra cost to you
       </p>
     </div>
   </div>

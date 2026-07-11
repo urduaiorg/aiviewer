@@ -12,7 +12,7 @@ import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
 const glossaryTerms = [
   // ── A ──
   { term: 'AGI (Artificial General Intelligence)', definition: 'A hypothetical form of AI that can understand, learn, and apply knowledge across any intellectual task a human can do. No AGI system exists today; current AI is narrow, meaning it excels at specific tasks but cannot generalize the way people do.' },
-  { term: 'AI Agent', definition: 'Software that uses a large language model to plan steps, call tools, and complete multi-step tasks with minimal human oversight. Agents can browse the web, write code, or manage workflows autonomously.', link: '/guides/what-is-agentic-ai/' },
+  { term: 'AI Agent', definition: 'Software that uses a large language model to plan steps, call tools, and complete multi-step tasks with minimal human oversight. Agents can browse the web, write code, or manage workflows autonomously.' },
   { term: 'AI Alignment', definition: 'The research discipline focused on ensuring AI systems behave in ways that match human intentions and values. Alignment work ranges from reward modeling to constitutional AI methods that constrain model outputs.' },
   { term: 'Anomaly Detection', definition: 'A machine-learning technique that identifies data points, events, or observations that deviate significantly from expected patterns. Widely used in fraud detection, cybersecurity, and manufacturing quality control.' },
   { term: 'API (Application Programming Interface)', definition: 'A set of rules that lets one piece of software talk to another. In AI, an API is how developers send prompts to a model and receive responses, typically over HTTP with JSON payloads.' },
@@ -26,8 +26,8 @@ const glossaryTerms = [
 
   // ── C ──
   { term: 'Chain-of-Thought (CoT)', definition: 'A prompting technique that asks the model to show its reasoning step by step before giving a final answer. CoT dramatically improves accuracy on math, logic, and multi-step reasoning tasks.' },
-  { term: 'ChatGPT', definition: 'OpenAI\'s conversational AI product built on GPT-series models. It popularized the chat-based interface for interacting with LLMs and remains one of the most widely used AI tools globally.', link: '/tools/chatgpt/' },
-  { term: 'Claude', definition: 'Anthropic\'s family of large language models, designed with a focus on safety, honesty, and helpfulness. Claude models support long context windows and are available through API and consumer products.', link: '/tools/claude-ai/' },
+  { term: 'ChatGPT', definition: 'OpenAI\'s conversational AI product built on GPT-series models. It popularized the chat-based interface for interacting with LLMs and remains one of the most widely used AI tools globally.' },
+  { term: 'Claude', definition: 'Anthropic\'s family of large language models, designed with a focus on safety, honesty, and helpfulness. Claude models support long context windows and are available through API and consumer products.' },
   { term: 'CLIP (Contrastive Language-Image Pre-training)', definition: 'An OpenAI model trained to understand the relationship between images and text by learning from millions of image-caption pairs. CLIP enables zero-shot image classification and powers many text-to-image search systems.' },
   { term: 'Computer Vision', definition: 'The branch of AI that enables machines to interpret and act on visual information such as photos, videos, and medical scans. Applications range from facial recognition to autonomous vehicles to quality inspection on factory lines.' },
   { term: 'Constitutional AI', definition: 'An alignment technique developed by Anthropic where the model critiques and revises its own outputs according to a set of written principles (a "constitution"), reducing the need for human feedback on every example.' },
@@ -48,21 +48,21 @@ const glossaryTerms = [
 
   // ── F ──
   { term: 'Few-Shot Learning', definition: 'A technique where a model learns to perform a task from just a handful of examples, typically provided in the prompt. Few-shot learning lets you customize model behavior without fine-tuning or retraining.' },
-  { term: 'Fine-Tuning', definition: 'The process of taking a pre-trained model and continuing its training on a smaller, task-specific dataset. Fine-tuning adapts general capabilities to specialized domains like medical diagnosis, legal analysis, or brand voice.', link: '/guides/fine-tuning-vs-rag/' },
+  { term: 'Fine-Tuning', definition: 'The process of taking a pre-trained model and continuing its training on a smaller, task-specific dataset. Fine-tuning adapts general capabilities to specialized domains like medical diagnosis, legal analysis, or brand voice.' },
   { term: 'Foundation Model', definition: 'A large AI model trained on broad data at scale that can be adapted to many downstream tasks. GPT-4, Claude, Llama, and Gemini are all foundation models. The term emphasizes their role as a starting point, not a finished product.' },
   { term: 'Frontier Model', definition: 'The most capable AI model available at any given time, typically defined by leading performance on benchmarks and emergent abilities not seen in smaller models. Frontier models raise the most urgent safety and policy questions.' },
 
   // ── G ──
   { term: 'GAN (Generative Adversarial Network)', definition: 'A framework where two neural networks, a generator and a discriminator, compete against each other. The generator creates synthetic data, and the discriminator tries to tell it apart from real data. GANs were groundbreaking for image generation before diffusion models overtook them.' },
   { term: 'Gemini', definition: 'Google DeepMind\'s family of multimodal AI models, capable of processing text, images, audio, and video. Gemini competes directly with GPT-4 and Claude in the frontier model space.' },
-  { term: 'Generative AI', definition: 'AI systems that create new content, whether text, images, music, code, or video, rather than just classifying or analyzing existing data. The generative AI wave began with GPT-3 and accelerated with ChatGPT, Midjourney, and Stable Diffusion.', link: '/guides/getting-started-with-ai/' },
+  { term: 'Generative AI', definition: 'AI systems that create new content, whether text, images, music, code, or video, rather than just classifying or analyzing existing data. The generative AI wave began with GPT-3 and accelerated with ChatGPT, Midjourney, and Stable Diffusion.' },
   { term: 'GPT (Generative Pre-trained Transformer)', definition: 'A family of autoregressive language models created by OpenAI. "Generative" means it produces text; "Pre-trained" means it learned from a massive corpus before being fine-tuned; "Transformer" is the underlying architecture.' },
   { term: 'Gradient Descent', definition: 'The core optimization algorithm used to train neural networks. It works by calculating how wrong the model\'s predictions are, then nudging the model\'s weights in the direction that reduces that error, step by step.' },
   { term: 'Grounding', definition: 'Connecting a model\'s outputs to verifiable external sources such as databases, documents, or search results. Grounding reduces hallucination by anchoring responses in real, retrievable information.' },
   { term: 'Guardrails', definition: 'Safety mechanisms that constrain AI model behavior, such as content filters, output validators, and policy layers. Guardrails prevent models from generating harmful, off-topic, or policy-violating content.' },
 
   // ── H ──
-  { term: 'Hallucination', definition: 'When an AI model generates information that sounds plausible but is factually wrong or entirely fabricated. Hallucinations are a fundamental limitation of current LLMs and a major obstacle to trustworthy AI deployment.', link: '/guides/ai-safety-and-risks-2026/' },
+  { term: 'Hallucination', definition: 'When an AI model generates information that sounds plausible but is factually wrong or entirely fabricated. Hallucinations are a fundamental limitation of current LLMs and a major obstacle to trustworthy AI deployment.' },
   { term: 'Hyperparameter', definition: 'A setting chosen before training begins, such as learning rate, batch size, or number of layers, that controls how the model learns. Unlike regular parameters (weights), hyperparameters are not learned from data.' },
   { term: 'Human-in-the-Loop (HITL)', definition: 'A design pattern where human judgment is integrated into an AI workflow, either to review outputs, correct errors, or make final decisions. HITL systems balance automation speed with human accountability.' },
 
@@ -78,14 +78,14 @@ const glossaryTerms = [
   { term: 'Knowledge Graph', definition: 'A structured database of entities and their relationships, often represented as nodes and edges. AI systems use knowledge graphs to answer factual queries, power recommendations, and ground language model outputs in verified facts.' },
 
   // ── L ──
-  { term: 'Large Language Model (LLM)', definition: 'A neural network trained on massive text datasets that can generate, summarize, translate, and reason about language. LLMs like GPT-4, Claude, and Llama are the engines behind modern conversational AI, coding assistants, and content tools.', link: '/guides/understanding-local-llms/' },
+  { term: 'Large Language Model (LLM)', definition: 'A neural network trained on massive text datasets that can generate, summarize, translate, and reason about language. LLMs like GPT-4, Claude, and Llama are the engines behind modern conversational AI, coding assistants, and content tools.' },
   { term: 'Latent Space', definition: 'The compressed, high-dimensional representation space that a model uses internally. In image generation, the latent space is where the model manipulates abstract features before decoding them into visible pixels.' },
   { term: 'Llama', definition: 'Meta\'s family of open-weight large language models. Llama models can be downloaded, fine-tuned, and deployed locally, making them central to the open-source AI ecosystem.' },
   { term: 'LoRA (Low-Rank Adaptation)', definition: 'An efficient fine-tuning technique that trains only a small number of additional parameters instead of updating the entire model. LoRA dramatically reduces the memory and compute needed to customize large models for specific tasks.' },
 
   // ── M ──
   { term: 'Machine Learning (ML)', definition: 'The broad field of computer science where systems learn patterns from data rather than following explicit rules. Machine learning encompasses supervised, unsupervised, and reinforcement learning, and is the foundation on which deep learning and modern AI are built.' },
-  { term: 'Midjourney', definition: 'A generative AI tool that creates images from text descriptions. Known for its distinctive artistic style and high-quality outputs, Midjourney operates through a Discord-based interface and a web platform.', link: '/tools/midjourney/' },
+  { term: 'Midjourney', definition: 'A generative AI tool that creates images from text descriptions. Known for its distinctive artistic style and high-quality outputs, Midjourney operates through a Discord-based interface and a web platform.' },
   { term: 'Mixture of Experts (MoE)', definition: 'An architecture where a model contains multiple specialized sub-networks ("experts") and a routing mechanism that activates only a few experts for each input. MoE allows models to scale to trillions of parameters while keeping inference costs manageable.' },
   { term: 'Model Collapse', definition: 'A degradation that occurs when AI models are trained on AI-generated data. Over successive generations, the model\'s output distribution narrows, loses diversity, and eventually produces repetitive or nonsensical results.' },
   { term: 'Multimodal', definition: 'Describes AI systems that can process and generate more than one type of data, such as text and images, text and audio, or text, images, and video simultaneously. GPT-4V, Gemini, and Claude with vision are multimodal models.', link: '/guides/what-is-multimodal-ai/' },
@@ -104,14 +104,14 @@ const glossaryTerms = [
   { term: 'Parameter', definition: 'A learned value inside a neural network, essentially a number (weight or bias) that the model adjusts during training. Modern LLMs have billions to trillions of parameters; more parameters generally enable greater capability but require more compute.' },
   { term: 'Perplexity', definition: 'A metric that measures how well a language model predicts text. Lower perplexity means the model is less "surprised" by the data, indicating better language understanding. It is commonly used to compare language models during development.' },
   { term: 'Pre-Training', definition: 'The initial phase of training where a model learns general patterns from a massive, diverse dataset. Pre-training gives the model broad knowledge and language ability before it is fine-tuned or instruction-tuned for specific tasks.' },
-  { term: 'Prompt Engineering', definition: 'The practice of crafting effective instructions (prompts) to get better, more reliable outputs from AI models. Techniques include few-shot examples, chain-of-thought, system prompts, and structured output formatting.', link: '/guides/prompt-engineering-handbook/' },
+  { term: 'Prompt Engineering', definition: 'The practice of crafting effective instructions (prompts) to get better, more reliable outputs from AI models. Techniques include few-shot examples, chain-of-thought, system prompts, and structured output formatting.', link: '/guides/how-to-write-ai-prompts/' },
 
   // ── Q ──
   { term: 'Quantization', definition: 'Reducing the precision of a model\'s numerical weights (e.g., from 32-bit to 4-bit) to shrink file size and speed up inference. Quantization enables large models to run on consumer hardware with modest quality trade-offs.' },
   { term: 'Query', definition: 'In AI context, a query is the input sent to a model, database, or search system to retrieve or generate information. In RAG systems, the user\'s question is encoded as a query vector and matched against a knowledge base.' },
 
   // ── R ──
-  { term: 'RAG (Retrieval-Augmented Generation)', definition: 'A technique that combines a language model with an external knowledge retrieval system. Before generating an answer, the model searches relevant documents and uses that retrieved context to produce more accurate, grounded responses.', link: '/guides/fine-tuning-vs-rag/' },
+  { term: 'RAG (Retrieval-Augmented Generation)', definition: 'A technique that combines a language model with an external knowledge retrieval system. Before generating an answer, the model searches relevant documents and uses that retrieved context to produce more accurate, grounded responses.' },
   { term: 'Reasoning Model', definition: 'A model specifically trained or prompted to perform multi-step logical reasoning before producing an answer. Examples include OpenAI\'s o1 and o3 series, which use internal chain-of-thought to solve complex problems.' },
   { term: 'Reinforcement Learning (RL)', definition: 'A machine learning paradigm where an agent learns by taking actions in an environment and receiving rewards or penalties. RL is how game-playing AIs like AlphaGo learn, and it is a key component of RLHF for language models.' },
   { term: 'Retrieval', definition: 'The process of finding and fetching relevant documents or data from a knowledge base, search index, or vector database. In RAG pipelines, retrieval quality directly determines the accuracy of the model\'s final output.' },

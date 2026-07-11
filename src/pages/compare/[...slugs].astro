@@ -8,19 +8,32 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import ComparisonSchema from '../../components/seo/ComparisonSchema.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 import { generateComparisonPairs, comparisonSlug } from '../../utils/comparisonPairs';
-import { generateVerdict } from '../../utils/comparisonVerdict';
+import { shouldBuildComparisonPath, shouldNoindexPath } from '../../utils/indexPolicy';
 import modelCatalogSnapshot from '../../data/model-catalog.snapshot.json';
+import comparisonModelOverrides from '../../data/comparison-model-overrides.json';
 
-const models = Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : [];
-const pairs = generateComparisonPairs(models);
+const overrideModels = comparisonModelOverrides.models as Record<string, Record<string, unknown>>;
+const models = (Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : []).map((model) => ({
+  ...model,
+  ...(overrideModels[model.slug] ?? {}),
+}));
+const pairs = generateComparisonPairs(models).filter((pair) =>
+  !shouldNoindexPath(`/compare/${comparisonSlug(pair.slugA, pair.slugB)}/`)
+);
 const modelMap = new Map(models.map((m) => [m.slug, m]));
 
 export function getStaticPaths() {
-  const allModels = Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : [];
+  const pathOverrides = comparisonModelOverrides.models as Record<string, Record<string, unknown>>;
+  const allModels = (Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : []).map((model) => ({
+    ...model,
+    ...(pathOverrides[model.slug] ?? {}),
+  }));
   const allPairs = generateComparisonPairs(allModels);
   const modelLookup = new Map(allModels.map((m) => [m.slug, m]));
 
-  return allPairs.map((pair) => {
+  return allPairs.filter((pair) =>
+    shouldBuildComparisonPath(`/compare/${comparisonSlug(pair.slugA, pair.slugB)}/`)
+  ).map((pair) => {
     const slug = comparisonSlug(pair.slugA, pair.slugB);
     return {
       params: { slugs: slug },
@@ -34,10 +47,9 @@ export function getStaticPaths() {
 }
 
 const { pair, modelA, modelB } = Astro.props;
-const verdict = generateVerdict(modelA, modelB);
 const pageSlug = comparisonSlug(pair.slugA, pair.slugB);
 const canonicalUrl = `https://aiviewer.ai/compare/${pageSlug}/`;
-const lastSynced = modelA.lastSeenAt || modelB.lastSeenAt || new Date().toISOString();
+const lastSynced = [modelA.lastSeenAt, modelB.lastSeenAt].filter(Boolean).sort().reverse()[0] ?? null;
 
 // Find related comparisons (share one model)
 const relatedPairs = pairs
@@ -46,6 +58,7 @@ const relatedPairs = pairs
     if (slug === pageSlug) return false;
     return p.slugA === pair.slugA || p.slugB === pair.slugA || p.slugA === pair.slugB || p.slugB === pair.slugB;
   })
+  .filter((p) => !shouldNoindexPath(`/compare/${comparisonSlug(p.slugA, p.slugB)}/`))
   .slice(0, 4);
 
 // Helpers
@@ -74,33 +87,33 @@ const capFlags = (m: typeof modelA) => [
 ].filter(Boolean);
 
 const title = `${modelA.name} vs ${modelB.name} — AI Model Comparison`;
-const description = `Side-by-side comparison of ${modelA.name} and ${modelB.name}. Compare pricing, context window, capabilities, and find out which is better for your workflow.`;
+const description = `Side-by-side specification comparison of ${modelA.name} and ${modelB.name}, including listed pricing, context window, capability flags, and output limits.`;
+const noindex = shouldNoindexPath(Astro.url.pathname);
 ---
 
-<BaseLayout title={title} description={description} canonicalUrl={canonicalUrl}>
+<BaseLayout title={title} description={description} canonicalUrl={canonicalUrl} noindex={noindex}>
   <Fragment slot="head">
     <ComparisonSchema modelA={modelA} modelB={modelB} url={canonicalUrl} />
     <BreadcrumbSchema items={[
       { name: 'Home', url: '/' },
-      { name: 'Compare', url: '/compare/' },
       { name: `${modelA.name} vs ${modelB.name}`, url: canonicalUrl },
     ]} />
   </Fragment>
 
   <Header />
 
-  <main class="pt-28 pb-24">
+  <main class="pt-28 pb-24" data-pagefind-body={!noindex ? '' : undefined}>
     <!-- Hero -->
     <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
       <div class="absolute inset-x-0 top-0 h-80 bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.14),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.16),_transparent_36%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.06),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.08),_transparent_36%)]"></div>
       <div class="page-container relative py-12 md:py-16">
-        <Breadcrumbs items={[{ label: 'Compare', href: '/compare/' }, { label: `${modelA.name} vs ${modelB.name}` }]} />
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Model comparisons' }, { label: `${modelA.name} vs ${modelB.name}` }]} />
 
         <div class="mt-4 flex flex-wrap items-center gap-3">
           <span class="rounded-full bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-indigo-600 dark:text-indigo-400">
             Model comparison
           </span>
-          <FreshnessIndicator date={lastSynced} label="Synced" />
+          {lastSynced && <FreshnessIndicator date={lastSynced} label="Snapshot updated" />}
         </div>
 
         <h1 class="mt-5 text-zinc-950 dark:text-zinc-50">
@@ -115,59 +128,13 @@ const description = `Side-by-side comparison of ${modelA.name} and ${modelB.name
     <section class="bg-[var(--color-bg)]">
       <div class="page-container py-12 md:py-16">
 
-        <!-- Verdict -->
+        <!-- Provenance -->
         <div class="rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)]">
-          <div class="flex flex-wrap items-center gap-3">
-            <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Verdict</p>
-            <span class:list={[
-              'rounded-full px-2.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wider',
-              verdict.confidence === 'strong' ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' :
-              verdict.confidence === 'moderate' ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' :
-              'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400',
-            ]}>
-              {verdict.confidence} confidence
-            </span>
-          </div>
-
-          {verdict.winner && (
-            <div class="mt-4 flex items-center gap-3">
-              <div class="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900/40">
-                <svg class="h-5 w-5 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                </svg>
-              </div>
-              <div>
-                <p class="text-sm font-semibold text-zinc-950 dark:text-zinc-50">{verdict.winnerName} leads overall</p>
-              </div>
-            </div>
-          )}
-
-          <p class="mt-4 text-sm leading-7 text-zinc-600 dark:text-zinc-400">{verdict.verdictText}</p>
-
-          {(verdict.bestForA.length > 0 || verdict.bestForB.length > 0) && (
-            <div class="mt-6 grid gap-4 sm:grid-cols-2">
-              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-950/50 p-4">
-                <p class="text-xs font-semibold text-zinc-500 dark:text-zinc-400">Best for with {modelA.name}</p>
-                <div class="mt-2 flex flex-wrap gap-1.5">
-                  {verdict.bestForA.length > 0 ? verdict.bestForA.map((item) => (
-                    <span class="rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 text-xs text-zinc-600 dark:text-zinc-400">{item}</span>
-                  )) : (
-                    <span class="text-xs text-zinc-400 dark:text-zinc-500">No clear advantages identified</span>
-                  )}
-                </div>
-              </div>
-              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-950/50 p-4">
-                <p class="text-xs font-semibold text-zinc-500 dark:text-zinc-400">Best for with {modelB.name}</p>
-                <div class="mt-2 flex flex-wrap gap-1.5">
-                  {verdict.bestForB.length > 0 ? verdict.bestForB.map((item) => (
-                    <span class="rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 text-xs text-zinc-600 dark:text-zinc-400">{item}</span>
-                  )) : (
-                    <span class="text-xs text-zinc-400 dark:text-zinc-500">No clear advantages identified</span>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Catalog source</p>
+          <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">A dated routing-specification snapshot</h2>
+          <p class="mt-4 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
+            AIViewer refreshed these two records on July 11, 2026 from <a href="https://openrouter.ai/models" target="_blank" rel="noopener" class="font-medium text-indigo-600 dark:text-indigo-400 hover:underline">OpenRouter's public model listings</a>. The table reports routed prices and metadata, not first-party provider pricing or an independent performance test. Confirm availability and cost with the service you intend to use.
+          </p>
         </div>
 
         <!-- Side-by-side specs -->
@@ -192,8 +159,8 @@ const description = `Side-by-side comparison of ${modelA.name} and ${modelB.name
                 </tr>
                 <tr>
                   <td class="py-3 pr-4 text-zinc-500 dark:text-zinc-400">Input price</td>
-                  <td class:list={["py-3 px-4 font-medium", verdict.dimensionScores[0]?.advantageSlug === modelA.slug ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-zinc-50']}>{formatPrice(modelA.inputPricePerMillion)}</td>
-                  <td class:list={["py-3 pl-4 font-medium", verdict.dimensionScores[0]?.advantageSlug === modelB.slug ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-zinc-50']}>{formatPrice(modelB.inputPricePerMillion)}</td>
+                  <td class:list={["py-3 px-4 font-medium", (modelA.inputPricePerMillion ?? Infinity) < (modelB.inputPricePerMillion ?? Infinity) ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-zinc-50']}>{formatPrice(modelA.inputPricePerMillion)}</td>
+                  <td class:list={["py-3 pl-4 font-medium", (modelB.inputPricePerMillion ?? Infinity) < (modelA.inputPricePerMillion ?? Infinity) ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-zinc-50']}>{formatPrice(modelB.inputPricePerMillion)}</td>
                 </tr>
                 <tr>
                   <td class="py-3 pr-4 text-zinc-500 dark:text-zinc-400">Output price</td>
@@ -202,13 +169,13 @@ const description = `Side-by-side comparison of ${modelA.name} and ${modelB.name
                 </tr>
                 <tr>
                   <td class="py-3 pr-4 text-zinc-500 dark:text-zinc-400">Context window</td>
-                  <td class:list={["py-3 px-4 font-medium", verdict.dimensionScores[1]?.advantageSlug === modelA.slug ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-zinc-50']}>{formatCtx(modelA.contextWindow)}</td>
-                  <td class:list={["py-3 pl-4 font-medium", verdict.dimensionScores[1]?.advantageSlug === modelB.slug ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-zinc-50']}>{formatCtx(modelB.contextWindow)}</td>
+                  <td class:list={["py-3 px-4 font-medium", (modelA.contextWindow ?? 0) > (modelB.contextWindow ?? 0) ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-zinc-50']}>{formatCtx(modelA.contextWindow)}</td>
+                  <td class:list={["py-3 pl-4 font-medium", (modelB.contextWindow ?? 0) > (modelA.contextWindow ?? 0) ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-zinc-50']}>{formatCtx(modelB.contextWindow)}</td>
                 </tr>
                 <tr>
                   <td class="py-3 pr-4 text-zinc-500 dark:text-zinc-400">Max output</td>
-                  <td class:list={["py-3 px-4 font-medium", verdict.dimensionScores[3]?.advantageSlug === modelA.slug ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-zinc-50']}>{formatTokens(modelA.maxOutputTokens)}</td>
-                  <td class:list={["py-3 pl-4 font-medium", verdict.dimensionScores[3]?.advantageSlug === modelB.slug ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-zinc-50']}>{formatTokens(modelB.maxOutputTokens)}</td>
+                  <td class:list={["py-3 px-4 font-medium", (modelA.maxOutputTokens ?? 0) > (modelB.maxOutputTokens ?? 0) ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-zinc-50']}>{formatTokens(modelA.maxOutputTokens)}</td>
+                  <td class:list={["py-3 pl-4 font-medium", (modelB.maxOutputTokens ?? 0) > (modelA.maxOutputTokens ?? 0) ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-950 dark:text-zinc-50']}>{formatTokens(modelB.maxOutputTokens)}</td>
                 </tr>
                 <tr>
                   <td class="py-3 pr-4 text-zinc-500 dark:text-zinc-400">Capabilities</td>
@@ -240,48 +207,18 @@ const description = `Side-by-side comparison of ${modelA.name} and ${modelB.name
             </table>
           </div>
 
-          <div class="mt-6 flex flex-wrap gap-3">
-            <a href={`/models/${modelA.slug}/`} class="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400">
-              View {modelA.name} profile
-              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-            </a>
-            <a href={`/models/${modelB.slug}/`} class="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400">
-              View {modelB.name} profile
-              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-            </a>
-          </div>
         </div>
 
-        <!-- Dimension scores -->
-        <div class="mt-6 rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)]">
-          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Scoring breakdown</p>
-          <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">How each dimension compares</h2>
-
-          <div class="mt-6 space-y-4">
-            {verdict.dimensionScores.map((dim) => (
-              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-950/50 p-4">
-                <div class="flex items-center justify-between gap-4">
-                  <p class="text-sm font-semibold text-zinc-950 dark:text-zinc-50">{dim.label}</p>
-                  {dim.advantageSlug && (
-                    <span class="rounded-full bg-emerald-50 dark:bg-emerald-900/30 px-2 py-0.5 text-[0.65rem] font-semibold text-emerald-700 dark:text-emerald-300">
-                      {dim.advantageSlug === modelA.slug ? modelA.name : modelB.name} leads
-                    </span>
-                  )}
-                </div>
-                <div class="mt-2 grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p class="text-xs text-zinc-400">{modelA.name}</p>
-                    <p class="mt-0.5 font-mono text-zinc-700 dark:text-zinc-300">{dim.valueA}</p>
-                  </div>
-                  <div>
-                    <p class="text-xs text-zinc-400">{modelB.name}</p>
-                    <p class="mt-0.5 font-mono text-zinc-700 dark:text-zinc-300">{dim.valueB}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <section class="mt-6 rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-7 shadow-[var(--shadow-card)]">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Method and limits</p>
+          <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">What this comparison measures</h2>
+          <p class="mt-4 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
+            This page compares fields in AIViewer's dated model-catalog snapshot: listed token prices, context and output limits, release dates, and capability flags. The readout is automated from those fields. It does not measure answer quality, latency, reliability, safety, or performance on your own workload. Prices and availability can change, so confirm important decisions with the provider before purchasing or deploying a model.
+          </p>
+          <a href="/review-methodology/" class="mt-4 inline-flex text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
+            Read our evaluation and evidence standards
+          </a>
+        </section>
 
         <!-- Related comparisons -->
         {relatedPairs.length > 0 && (
@@ -314,15 +251,15 @@ const description = `Side-by-side comparison of ${modelA.name} and ${modelB.name
             Get a personalized recommendation
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
           </a>
-          <a href="/compare/" class="inline-flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
-            All comparisons
+          <a href="/guides/" class="inline-flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-6 py-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+            Browse editorial guides
           </a>
         </div>
 
         <div class="mt-8">
           <NewsletterSignup
             heading={`Model updates for ${modelA.providerLabel} and ${modelB.providerLabel}`}
-            subtitle="Get notified when pricing, capabilities, or rankings change for the models you care about."
+            subtitle="Get notified when listed pricing, capabilities, or model availability changes."
           />
         </div>
       </div>

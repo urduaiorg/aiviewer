@@ -1,0 +1,97 @@
+---
+import TransparencyPage from '../../components/content/TransparencyPage.astro';
+import { siteConfig } from '../../data/site.config';
+
+const updated = 'July 11, 2026';
+---
+
+<TransparencyPage
+  title="Review Methodology"
+  description="How AIViewer.ai evaluates AI tools, records hands-on evidence, calculates ratings, handles access, and keeps reviews current."
+  label="Testing and ratings"
+  heading="How we review AI tools"
+  intro="A rating is useful only when readers can understand the evidence, tasks, trade-offs, and editorial judgment behind it."
+  updated={updated}
+  breadcrumb="Review Methodology"
+>
+  <h2>Evidence comes before the verdict</h2>
+  <p>
+    We evaluate a tool from the perspective of the people most likely to use it. Before assigning a verdict, we define the target user, the job they need to complete, and the alternatives they are likely to consider. We then gather the strongest evidence available and identify its limits.
+  </p>
+
+  <h2>Our evidence labels</h2>
+  <p>Review pages published or materially updated under this policy should make their evidence level clear:</p>
+  <ul>
+    <li><strong>Hands-on tested:</strong> an editor directly used the product and completed defined tasks. The page should identify the test date, plan or access level, tasks, and important limitations.</li>
+    <li><strong>Research-based evaluation:</strong> the conclusion is based on official documentation, pricing, release notes, credible independent sources, and comparative analysis, without enough direct use to claim a hands-on test.</li>
+    <li><strong>First look:</strong> a time-sensitive assessment based on limited access or an early release. It is provisional and should be revisited.</li>
+    <li><strong>Reference page:</strong> a factual profile or structured comparison. It may help with orientation, but it is not a hands-on review unless explicitly labeled as one.</li>
+  </ul>
+  <p>
+    If a legacy page does not include a test record, readers should treat it as a research-based evaluation—not evidence that every listed feature or task was personally tested.
+  </p>
+
+  <h2>The review process</h2>
+  <ol>
+    <li><strong>Define the decision.</strong> We identify the intended user, core use case, relevant competitors, and the questions the review must answer.</li>
+    <li><strong>Verify the basics.</strong> We check current pricing, plan limits, supported platforms, privacy information, and major capabilities against primary sources.</li>
+    <li><strong>Design representative tasks.</strong> When we have access, we use tasks that resemble real work rather than prompts designed only to produce an impressive result.</li>
+    <li><strong>Record the conditions.</strong> We note the date, product version when available, plan, device or platform, important settings, and access limitations.</li>
+    <li><strong>Observe outcomes and failure modes.</strong> We look at output quality, reliability, corrections required, friction, speed, and where the tool breaks down—not only its best result.</li>
+    <li><strong>Compare credible alternatives.</strong> A recommendation should explain what is different and who would be better served by another option.</li>
+    <li><strong>Review the conclusion.</strong> The final verdict is checked against the evidence, commercial disclosures, and the needs of the target user.</li>
+  </ol>
+
+  <h2>What we score</h2>
+  <p>
+    Our overall score uses a five-point scale and an editorial assessment of six decision factors. Weighting may change when a category has different priorities, but the page should explain any material departure.
+  </p>
+  <ul>
+    <li><strong>Task performance (30%):</strong> the quality and usefulness of results on representative work.</li>
+    <li><strong>Ease of use (20%):</strong> setup, learning curve, interface clarity, and effort required to reach a usable result.</li>
+    <li><strong>Reliability (15%):</strong> consistency, errors, stability, and how much checking or rework is required.</li>
+    <li><strong>Value (15%):</strong> price, plan limits, usage allowances, and value compared with practical alternatives.</li>
+    <li><strong>Privacy and controls (10%):</strong> available privacy information, user controls, data settings, and relevant safeguards.</li>
+    <li><strong>Support and fit (10%):</strong> documentation, integrations, accessibility, and suitability for the target audience.</li>
+  </ul>
+  <p>
+    A weighted result informs the rating; it does not replace human judgment. If evidence is too limited to support a defensible score, the page should remain unscored.
+  </p>
+
+  <h2>How to read the score</h2>
+  <ul>
+    <li><strong>4.5–5.0:</strong> exceptional for the stated audience, with limited meaningful drawbacks.</li>
+    <li><strong>4.0–4.4:</strong> strong, with clear benefits and some trade-offs.</li>
+    <li><strong>3.0–3.9:</strong> useful in the right circumstances, but significant limitations affect the recommendation.</li>
+    <li><strong>2.0–2.9:</strong> weak overall or suitable only for a narrow case.</li>
+    <li><strong>1.0–1.9:</strong> does not perform its central job reliably enough to recommend.</li>
+  </ul>
+  <p>
+    Scores are not universal rankings. A lower-rated specialist tool can still be the better choice for a particular workflow, budget, language, or privacy requirement.
+  </p>
+
+  <h2>Access, free products, and commercial relationships</h2>
+  <p>
+    We may test a free plan, pay for access, receive temporary access from a provider, use a demonstration account, or evaluate public materials. The relevant access condition should be disclosed because it can affect the experience. Free access, an affiliate relationship, sponsorship, or advertising does not guarantee coverage, inclusion, a rating, or a positive verdict.
+  </p>
+
+  <h2>Evidence and screenshots</h2>
+  <p>
+    Where practical and lawful, hands-on reviews should include screenshots, sample inputs, output excerpts, measurements, or other evidence of the work performed. We may omit or redact evidence that contains personal data, confidential material, copyrighted output, account information, or unsafe content. An omission should not be replaced with a stronger claim than the remaining evidence supports.
+  </p>
+
+  <h2>Freshness and retesting</h2>
+  <p>
+    AI products change frequently. A review should show when it was published, updated, or last verified. We prioritize retesting when pricing, core models, plan limits, ownership, privacy terms, or a central feature changes. A score reflects the product and evidence available at the date shown; it is not a permanent guarantee.
+  </p>
+
+  <h2>Corrections and challenges</h2>
+  <p>
+    Providers and readers may challenge a factual claim or submit newer evidence. We consider that information, but the publication controls the final wording and verdict. Material errors are handled under our <a href="/corrections/">Corrections Policy</a>.
+  </p>
+
+  <h2>Contact the review desk</h2>
+  <p>
+    To ask about a test, disclose a product change, or identify a possible error, email <a href={`mailto:${siteConfig.monetization.contactEmail}`}>{siteConfig.monetization.contactEmail}</a> and include the page URL and supporting evidence.
+  </p>
+</TransparencyPage>

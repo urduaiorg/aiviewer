@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
+import { shouldIncludeInSitemap } from './src/utils/indexPolicy.ts';
 
 import react from '@astrojs/react';
 
@@ -12,6 +13,9 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
+      filter(url) {
+        return shouldIncludeInSitemap(url);
+      },
       serialize(item) {
         const url = item.url;
 
@@ -50,9 +54,6 @@ export default defineConfig({
           item.priority = 0.5;
           item.changefreq = 'monthly';
         }
-
-        // lastmod: use build date (Astro sitemap doesn't have access to frontmatter dates)
-        item.lastmod = new Date().toISOString();
 
         return item;
       },

@@ -1,5 +1,5 @@
 /**
- * comparisonVerdict — Score 2 models on 5 dimensions and generate a verdict
+ * comparisonVerdict — Compare 2 models on 5 published specification fields
  *
  * Dimensions: price, context, capability breadth, output capacity, recency
  * Confidence: strong (>25% gap), moderate (10-25%), marginal (<10%)
@@ -122,17 +122,15 @@ export function generateVerdict(modelA: Model, modelB: Model): Verdict {
     gap: outGap,
   });
 
-  // 5. Recency (newer is better)
+  // 5. Release date (newer is context, not proof that a model is better)
   const dateA = modelA.releaseDate ? new Date(modelA.releaseDate).getTime() : 0;
   const dateB = modelB.releaseDate ? new Date(modelB.releaseDate).getTime() : 0;
-  const maxDate = Math.max(dateA, dateB);
-  const dateGap = maxDate > 0 ? normalizedGap(dateA, dateB) : 0;
   dimensions.push({
-    label: 'Recency',
+    label: 'Release Date',
     valueA: modelA.releaseDate ? new Date(modelA.releaseDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'N/A',
     valueB: modelB.releaseDate ? new Date(modelB.releaseDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'N/A',
-    advantageSlug: dateGap > 0.05 ? (dateA > dateB ? modelA.slug : modelB.slug) : null,
-    gap: dateGap,
+    advantageSlug: null,
+    gap: 0,
   });
 
   // Tally
@@ -162,18 +160,16 @@ export function generateVerdict(modelA: Model, modelB: Model): Verdict {
   if (capsB > capsA) bestForB.push('Multi-modal tasks');
   if (outA > outB && outGap > 0.1) bestForA.push('Long-form content generation');
   if (outB > outA && outGap > 0.1) bestForB.push('Long-form content generation');
-  if (dateA > dateB && dateGap > 0.05) bestForA.push('Cutting-edge capabilities');
-  if (dateB > dateA && dateGap > 0.05) bestForB.push('Cutting-edge capabilities');
 
   let verdictText: string;
   if (!winner) {
-    verdictText = `${modelA.name} and ${modelB.name} are closely matched across pricing, context, and capabilities. Your choice depends on workflow-specific factors like provider ecosystem preference and existing integrations.`;
+    verdictText = `${modelA.name} and ${modelB.name} are closely matched across the listed pricing, context, and capability fields. Output quality, reliability, latency, and provider fit still need workflow-specific evaluation.`;
   } else {
     const loser = winner === modelA.slug ? modelB : modelA;
     const winnerModel = winner === modelA.slug ? modelA : modelB;
     const advantages = dimensions.filter(d => d.advantageSlug === winner).map(d => d.label.toLowerCase());
     const loserAdvantages = dimensions.filter(d => d.advantageSlug === loser.slug).map(d => d.label.toLowerCase());
-    verdictText = `${winnerModel.name} leads in ${advantages.join(' and ')}, making it the stronger choice for most workflows.${loserAdvantages.length > 0 ? ` ${loser.name} remains competitive with advantages in ${loserAdvantages.join(' and ')}.` : ` ${loser.name} remains a solid alternative depending on your specific needs.`}`;
+    verdictText = `${winnerModel.name} has an advantage in more of the listed fields, including ${advantages.join(' and ')}.${loserAdvantages.length > 0 ? ` ${loser.name} has listed advantages in ${loserAdvantages.join(' and ')}.` : ''} This specification readout is not a hands-on quality benchmark or a universal recommendation.`;
   }
 
   return { winner, winnerName, confidence, verdictText, bestForA, bestForB, dimensionScores: dimensions };

@@ -1,0 +1,80 @@
+---
+import TransparencyPage from '../../components/content/TransparencyPage.astro';
+import { siteConfig } from '../../data/site.config';
+
+const updated = 'July 11, 2026';
+---
+
+<TransparencyPage
+  title="Corrections Policy"
+  description="How to report an error to AIViewer.ai and how we review, correct, label, and document material changes."
+  label="Accuracy and accountability"
+  heading="Corrections Policy"
+  intro="We want inaccurate information fixed clearly and proportionately, without hiding material changes from readers."
+  updated={updated}
+  breadcrumb="Corrections Policy"
+>
+  <h2>Report an error</h2>
+  <p>
+    Email <a href={`mailto:${siteConfig.monetization.contactEmail}?subject=Correction%20request`}>{siteConfig.monetization.contactEmail}</a> with the subject “Correction request.” Please include the page URL, the statement you believe is wrong, why it is wrong, and a reliable source or first-hand evidence when available.
+  </p>
+  <p>
+    We also welcome reports about broken sources, expired opportunities, changed pricing, outdated product capabilities, incorrect attribution, accessibility barriers, and disclosures that may be missing.
+  </p>
+
+  <h2>How we assess a report</h2>
+  <ol>
+    <li>We locate the exact claim and preserve enough context to understand the issue.</li>
+    <li>We check the original sourcing, publication date, and evidence available when the page was written.</li>
+    <li>We compare the challenge with current primary sources and, where appropriate, direct product testing.</li>
+    <li>We correct, clarify, update, or retain the statement based on the evidence—not on whether a person or company prefers the wording.</li>
+  </ol>
+  <p>
+    A provider may explain its product, but it does not receive approval rights over independent editorial conclusions.
+  </p>
+
+  <h2>Types of changes</h2>
+  <h3>Minor corrections</h3>
+  <p>
+    Spelling, grammar, formatting, broken links, and small clarifications may be corrected without a note when they do not change the meaning of the page.
+  </p>
+
+  <h3>Material corrections</h3>
+  <p>
+    A change is material when it alters a key fact, rating basis, recommendation, quoted position, safety implication, or the reader's likely understanding. We update the page and add a dated correction or editor's note explaining the substance of the change.
+  </p>
+
+  <h3>Routine updates</h3>
+  <p>
+    New prices, feature changes, deadlines, model releases, and other developments may be handled as updates rather than corrections when the original statement was accurate at publication. The updated or last-verified date should change when the revision is meaningful.
+  </p>
+
+  <h3>Retractions and removals</h3>
+  <p>
+    We may substantially rewrite, retract, or remove a page when its central evidence is unreliable, the subject was misidentified, publication creates a serious legal or safety concern, or the page cannot be corrected responsibly. When practical, the URL will retain an explanatory notice rather than silently disappearing.
+  </p>
+
+  <h2>Response and transparency</h2>
+  <p>
+    We review correction requests as promptly as practical, prioritizing errors that could cause harm or materially affect a decision. Complex claims may require testing or consultation and can take longer. We do not promise a particular outcome, but good-faith reports are assessed on their evidence.
+  </p>
+  <p>
+    When a correction materially changes an article's conclusion, we add a dated note on that article explaining what changed.
+  </p>
+
+  <h2>What is not a correction</h2>
+  <ul>
+    <li>A disagreement with clearly labeled opinion or editorial judgment.</li>
+    <li>A request to remove accurate criticism solely because it is unfavorable.</li>
+    <li>A product change that occurred after the publication date, unless the page presents the old information as current.</li>
+    <li>A demand to replace independent wording with marketing language.</li>
+  </ul>
+  <p>
+    We will still consider new evidence, privacy concerns, legal notices, and credible safety risks even when they do not fit a routine correction.
+  </p>
+
+  <h2>Corrections to AI-assisted work</h2>
+  <p>
+    The use of an AI tool does not reduce our responsibility. Fabricated sources, unsupported details, or misleading synthesis are treated as editorial errors and corrected under the same standard as any other mistake. See our <a href="/ai-use/">AI Use Policy</a>.
+  </p>
+</TransparencyPage>

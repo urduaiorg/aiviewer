@@ -26,6 +26,7 @@ const {
 
 // Form ID used in the client-side script below
 // POST target: https://subscribe-forms.beehiiv.com/{FORM_ID}
+const BEEHIIV_FORM_ID = 'df762eb2-5183-49d6-bb1e-fafb3683f2e0';
 ---
 
 {variant === 'section' ? (
@@ -36,7 +37,7 @@ const {
       <h2 class="mt-3 text-2xl font-bold text-zinc-900 dark:text-zinc-50 md:text-3xl">{heading}</h2>
       <p class="mt-3 mx-auto max-w-lg text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base">{subtitle}</p>
 
-      <form class="newsletter-form mt-6 mx-auto flex max-w-md flex-col gap-3 sm:flex-row sm:gap-2" data-beehiiv-form>
+      <form class="newsletter-form mt-6 mx-auto flex max-w-md flex-col gap-3 sm:flex-row sm:gap-2" method="POST" action={`https://subscribe-forms.beehiiv.com/${BEEHIIV_FORM_ID}`} target="_blank" data-beehiiv-form>
         <label class="sr-only" for="newsletter-email-section">Email address</label>
         <input
           id="newsletter-email-section"
@@ -47,6 +48,7 @@ const {
           autocomplete="email"
           class="flex-1 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-colors"
         />
+        <input type="hidden" name="utm_source" value="aiviewer" />
         <button
           type="submit"
           class="newsletter-btn shrink-0 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-700 hover:shadow-md active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
@@ -55,12 +57,7 @@ const {
         </button>
       </form>
 
-      <p class="newsletter-success mt-4 hidden text-sm font-medium text-emerald-600 dark:text-emerald-400">
-        You're in! Check your inbox to confirm.
-      </p>
-      <p class="newsletter-error mt-4 hidden text-sm font-medium text-red-600 dark:text-red-400">
-        Something went wrong. Please try again.
-      </p>
+      <p class="mt-4 text-xs text-zinc-400 dark:text-zinc-500">Submission opens Beehiiv in a new tab so you can see confirmation or any error directly.</p>
 
       <div class="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-zinc-400 dark:text-zinc-500">
         <span>Free forever</span>
@@ -77,7 +74,7 @@ const {
     <p class="mt-2 text-base font-semibold text-zinc-900 dark:text-zinc-50">{heading}</p>
     <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{subtitle}</p>
 
-    <form class="newsletter-form mt-4 flex flex-col gap-3 sm:flex-row sm:gap-2" data-beehiiv-form>
+    <form class="newsletter-form mt-4 flex flex-col gap-3 sm:flex-row sm:gap-2" method="POST" action={`https://subscribe-forms.beehiiv.com/${BEEHIIV_FORM_ID}`} target="_blank" data-beehiiv-form>
       <label class="sr-only" for="newsletter-email-inline">Email address</label>
       <input
         id="newsletter-email-inline"
@@ -88,6 +85,7 @@ const {
         autocomplete="email"
         class="flex-1 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-colors"
       />
+      <input type="hidden" name="utm_source" value="aiviewer" />
       <button
         type="submit"
         class="newsletter-btn shrink-0 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-700 hover:shadow-md active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
@@ -96,80 +94,21 @@ const {
       </button>
     </form>
 
-    <p class="newsletter-success mt-3 hidden text-sm font-medium text-emerald-600 dark:text-emerald-400">
-      You're in! Check your inbox to confirm.
-    </p>
-    <p class="newsletter-error mt-3 hidden text-sm font-medium text-red-600 dark:text-red-400">
-      Something went wrong. Please try again.
-    </p>
+    <p class="mt-3 text-xs text-zinc-400 dark:text-zinc-500">Beehiiv opens in a new tab to confirm the submission.</p>
   </div>
 )}
 
 <script>
-  const BEEHIIV_FORM_ID = 'df762eb2-5183-49d6-bb1e-fafb3683f2e0';
-
   function initNewsletterForms() {
     document.querySelectorAll<HTMLFormElement>('[data-beehiiv-form]').forEach((form) => {
       if (form.dataset.initialized) return;
       form.dataset.initialized = 'true';
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const wrapper = form.closest('.newsletter-signup')!;
-        const btn = form.querySelector('.newsletter-btn') as HTMLButtonElement;
-        const successEl = wrapper.querySelector('.newsletter-success') as HTMLElement;
-        const errorEl = wrapper.querySelector('.newsletter-error') as HTMLElement;
-        const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement;
-        const email = emailInput.value.trim();
-
-        if (!email) return;
-
-        // Disable button
-        btn.disabled = true;
-        btn.textContent = 'Subscribing...';
-        successEl.classList.add('hidden');
-        errorEl.classList.add('hidden');
-
-        try {
-          // POST to Beehiiv via hidden iframe (avoids CORS)
-          const iframeName = 'beehiiv-sub-' + Date.now();
-          const hiddenFrame = document.createElement('iframe');
-          hiddenFrame.name = iframeName;
-          hiddenFrame.style.display = 'none';
-          document.body.appendChild(hiddenFrame);
-
-          const subForm = document.createElement('form');
-          subForm.method = 'POST';
-          subForm.action = `https://subscribe-forms.beehiiv.com/${BEEHIIV_FORM_ID}`;
-          subForm.target = iframeName;
-          subForm.style.display = 'none';
-
-          const emailField = document.createElement('input');
-          emailField.name = 'email';
-          emailField.value = email;
-          subForm.appendChild(emailField);
-
-          const utmField = document.createElement('input');
-          utmField.name = 'utm_source';
-          utmField.value = 'aiviewer';
-          subForm.appendChild(utmField);
-
-          document.body.appendChild(subForm);
-          subForm.submit();
-
-          // Show success after short delay (Beehiiv doesn't send CORS-friendly responses)
-          setTimeout(() => {
-            form.classList.add('hidden');
-            successEl.classList.remove('hidden');
-            // Clean up
-            hiddenFrame.remove();
-            subForm.remove();
-          }, 1200);
-        } catch {
-          errorEl.classList.remove('hidden');
-          btn.disabled = false;
-          btn.textContent = form.closest('.not-prose') ? 'Subscribe' : 'Get the Briefing';
-        }
+      form.addEventListener('submit', () => {
+        (window as any).aiViewerTrack?.('newsletter_submit_attempt', {
+          placement: form.closest('.not-prose') ? 'article_inline' : 'section',
+          path: window.location.pathname,
+        });
       });
     });
   }

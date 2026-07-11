@@ -6,6 +6,7 @@ import Footer from '../../components/layout/Footer.astro';
 import ToolFinder from '../../components/ui/ToolFinder.jsx';
 import { buildModelLookup } from '../../utils/modelLookup';
 import modelCatalogSnapshot from '../../data/model-catalog.snapshot.json';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 
 const snapshotModels = Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : [];
 const modelData = buildModelLookup(snapshotModels);
@@ -15,7 +16,6 @@ const tools = (await getCollection('tools', ({ data }) => !data.draft)).map((ent
   name: entry.data.toolName,
   description: entry.data.description,
   pricing: entry.data.pricing,
-  rating: entry.data.rating,
   category: entry.data.category,
   bestFor: entry.data.bestFor,
   url: `/tools/${entry.id}/`,
@@ -34,7 +34,7 @@ const title = 'AI Stack Finder | AIViewer';
 const description = 'Answer a few practical questions and AIViewer will recommend the right AI tool, model, and playbook for your workflow.';
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} noindex={shouldNoindexPath(Astro.url.pathname)}>
   <Header />
 
   <main class="pt-28 pb-24">
@@ -71,7 +71,7 @@ const description = 'Answer a few practical questions and AIViewer will recommen
               </div>
             </div>
             <p class="mt-6 text-sm leading-7 text-zinc-300">
-              Recommendations are grounded in the tools and playbooks already published on AIViewer, then paired with model picks from the live model tracker.
+              Recommendations are grounded in AIViewer's current tool and playbook library, then paired with model fields from a dated catalog snapshot.
             </p>
           </aside>
         </div>

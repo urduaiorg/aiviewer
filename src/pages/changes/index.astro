@@ -8,6 +8,7 @@ import CollectionSchema from '../../components/seo/CollectionSchema.astro';
 import FreshnessIndicator from '../../components/content/FreshnessIndicator.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import { detectRecentLaunches, type ChangeEntry } from '../../utils/snapshotDiff';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 import modelCatalogSnapshot from '../../data/model-catalog.snapshot.json';
 
 const models = Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : [];
@@ -34,7 +35,7 @@ const title = 'AI Model Changes | AIViewer';
 const description = 'Track what changed in the AI model landscape — new launches, pricing shifts, and capability updates across OpenAI, Anthropic, Google, and more.';
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} noindex={shouldNoindexPath(Astro.url.pathname)}>
   <Fragment slot="head">
     <CollectionSchema
       name="AI Model Changes"

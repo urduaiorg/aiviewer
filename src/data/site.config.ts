@@ -8,7 +8,7 @@ export const siteConfig = {
   // ── Identity ──
   name: 'AIViewer.ai',
   tagline: 'Practical AI knowledge for everyone.',
-  description: 'No jargon, no hype. Clear playbooks, honest tool reviews, and practical guides for people who want AI to work for them.',
+  description: 'No jargon, no hype. Practical AI guides and transparent, evidence-labeled evaluations for people who want AI to work for them.',
   url: 'https://aiviewer.ai',
   locale: 'en-US',
 
@@ -82,38 +82,32 @@ export const siteConfig = {
   // ── Navigation ──
   nav: {
     main: [
-      { label: 'Free Tools', href: '/free-ai-tools/' },
-      { label: 'Students', href: '/students/' },
-      { label: 'Teachers', href: '/teachers/' },
-      { label: 'Creators', href: '/creators/' },
-      { label: 'Business', href: '/small-business/' },
-      { label: 'Compare', href: '/compare/' },
+      { label: 'AI Tools', href: '/tools/' },
+      { label: 'Guides', href: '/guides/' },
+      { label: 'AI Pricing', href: '/guides/ai-pricing-comparison-2026/' },
+      { label: 'Glossary', href: '/glossary/' },
+      { label: 'Newsletter', href: '/newsletter/' },
     ],
-    cta: { label: 'Find AI Tools Quiz', href: '/finder/' },
+    cta: { label: 'Browse AI Guides', href: '/guides/' },
     footer: {
       content: [
-        { label: 'Free AI Tools', href: '/free-ai-tools/' },
-        { label: 'AI for Students', href: '/students/' },
-        { label: 'AI for Teachers', href: '/teachers/' },
-        { label: 'AI for Creators', href: '/creators/' },
-        { label: 'AI for Small Business', href: '/small-business/' },
-        { label: 'AI for Job Seekers', href: '/job-seekers/' },
-        { label: 'Playbooks', href: '/playbooks/' },
         { label: 'AI Tools', href: '/tools/' },
         { label: 'Guides', href: '/guides/' },
-        { label: 'AI & Society', href: '/reports/' },
-        { label: 'Models', href: '/models/' },
-        { label: 'Compare', href: '/compare/' },
+        { label: 'AI Pricing Guide', href: '/guides/ai-pricing-comparison-2026/' },
+        { label: 'AI Workflow Shift', href: '/guides/ai-workflow-shift-openai-anthropic-google-2026/' },
+        { label: 'Google AI Studio', href: '/tools/google-ai-studio/' },
+        { label: 'Grok', href: '/tools/grok/' },
+        { label: 'OurScreen', href: '/tools/ourscreen/' },
       ],
       resources: [
-        { label: 'Prompt Library', href: '/prompts/' },
-        { label: 'AI Opportunities', href: '/opportunities/' },
         { label: 'AI Glossary', href: '/glossary/' },
-        { label: 'AI Tool Finder', href: '/finder/' },
-        { label: 'Tags', href: '/tags/' },
         { label: 'Newsletter', href: '/newsletter/' },
-        { label: 'Changes', href: '/changes/' },
         { label: 'About', href: '/about/' },
+        { label: 'Editorial Standards', href: '/editorial-standards/' },
+        { label: 'Review Methodology', href: '/review-methodology/' },
+        { label: 'Corrections Policy', href: '/corrections/' },
+        { label: 'AI Use Policy', href: '/ai-use/' },
+        { label: 'Ownership & Funding', href: '/ownership-and-funding/' },
         { label: 'Advertise', href: '/advertise/' },
         { label: 'Contact', href: '/contact/' },
         { label: 'Privacy', href: '/privacy/' },
@@ -130,16 +124,19 @@ export const siteConfig = {
 } as const;
 
 /**
- * Editorial System — Rating Philosophy & Content Standards
+ * Editorial System — Legacy Rating Metadata & Content Standards
  *
- * RATING SCALE (1-5):
+ * Ratings remain in legacy frontmatter for compatibility. They must not be
+ * rendered, used for rankings, or emitted as schema until an auditable test
+ * record supports the score under /review-methodology/.
+ *
+ * INTERNAL SCALE (1-5):
  *   5.0       — Exceptional. Best-in-class, no meaningful drawbacks for target audience
  *   4.5-4.9   — Excellent. Strong recommendation with minor caveats
  *   4.0-4.4   — Very Good. Solid choice, some notable limitations
  *   3.5-3.9   — Good. Works well for specific use cases, not universal
  *   3.0-3.4   — Decent. Usable but significant trade-offs
- *   Below 3.0 — Not recommended. We don't publish reviews below 3.0;
- *               if a tool scores this low, it doesn't deserve airtime.
+ *   Below 3.0 — Weak fit; do not publish a public score without evidence.
  *
  * FEATURED CRITERIA:
  *   Content is marked `featured: true` when it meets ALL of these:

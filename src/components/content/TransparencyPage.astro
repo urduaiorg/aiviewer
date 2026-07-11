@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../layout/Header.astro';
+import Footer from '../layout/Footer.astro';
+import Breadcrumbs from '../layout/Breadcrumbs.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  label: string;
+  heading: string;
+  intro: string;
+  updated: string;
+  breadcrumb: string;
+}
+
+const {
+  title,
+  description,
+  label,
+  heading,
+  intro,
+  updated,
+  breadcrumb,
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <section class="border-b border-zinc-200/70 bg-white dark:border-zinc-800 dark:bg-[var(--color-bg)]">
+    <div class="page-container py-12 md:py-16">
+      <Breadcrumbs items={[{ label: breadcrumb }]} />
+      <div class="max-w-3xl" data-reveal>
+        <span class="inline-flex items-center rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400">
+          {label}
+        </span>
+        <h1 class="mt-5 text-zinc-950 dark:text-zinc-50">{heading}</h1>
+        <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+          {intro}
+        </p>
+        <p class="mt-4 text-sm text-zinc-400">Effective and last updated: {updated}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-bg)]">
+    <div class="page-container py-12 md:py-16">
+      <article class="policy-copy mx-auto max-w-3xl rounded-[var(--radius-lg)] border border-zinc-200 bg-white p-7 leading-8 text-zinc-600 shadow-[var(--shadow-card)] dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 md:p-9" data-reveal>
+        <slot />
+      </article>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .policy-copy :global(h2) {
+    margin-top: 2.25rem;
+    color: rgb(9 9 11);
+  }
+
+  .policy-copy :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .policy-copy :global(h3) {
+    margin-top: 1.75rem;
+    color: rgb(24 24 27);
+    font-size: 1.08rem;
+  }
+
+  .policy-copy :global(p),
+  .policy-copy :global(ul),
+  .policy-copy :global(ol) {
+    margin-top: 1rem;
+  }
+
+  .policy-copy :global(ul),
+  .policy-copy :global(ol) {
+    padding-left: 1.35rem;
+  }
+
+  .policy-copy :global(ul) {
+    list-style: disc;
+  }
+
+  .policy-copy :global(ol) {
+    list-style: decimal;
+  }
+
+  .policy-copy :global(li + li) {
+    margin-top: 0.55rem;
+  }
+
+  .policy-copy :global(a) {
+    color: rgb(79 70 229);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .policy-copy :global(strong) {
+    color: rgb(39 39 42);
+    font-weight: 650;
+  }
+
+  :global(.dark) .policy-copy :global(h2),
+  :global(.dark) .policy-copy :global(h3) {
+    color: rgb(250 250 250);
+  }
+
+  :global(.dark) .policy-copy :global(a) {
+    color: rgb(129 140 248);
+  }
+
+  :global(.dark) .policy-copy :global(strong) {
+    color: rgb(244 244 245);
+  }
+</style>

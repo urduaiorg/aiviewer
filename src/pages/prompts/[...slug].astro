@@ -15,10 +15,11 @@ import { formatDate } from '../../utils/formatDate';
 import { getReadingTime } from '../../utils/readingTime';
 import { slugifyTag } from '../../utils/slugifyTag';
 import { siteConfig, roleLabels } from '../../data/site.config';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
 
 export async function getStaticPaths() {
   const entries = await getCollection('prompts', ({ data }) => !data.draft);
-  return entries.map((entry) => ({
+  return entries.filter((entry) => !shouldNoindexPath(`/prompts/${entry.id}/`)).map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
   }));
@@ -65,6 +66,7 @@ for (const heading of headings) {
   type="article"
   publishedDate={entry.data.publishedDate.toISOString()}
   updatedDate={entry.data.updatedDate?.toISOString()}
+  noindex={shouldNoindexPath(Astro.url.pathname)}
 >
   <ArticleSchema
     slot="head"
