@@ -13,7 +13,7 @@ Do not request another AdSense review immediately after deployment. The rejectio
 
 The recovery strategy is to present Google with a small, credible publication first. Twenty comparison URLs with demonstrated demand remain available during the transition, but only the five strongest are indexable and all remain unmonetized. The other roughly 7,800 generated comparison routes are retired from the release artifact.
 
-The final release contains 61 HTML pages: 28 indexable URLs in the sitemap, 33 noindexed utility or transition pages, and only seven editorial pages permitted to load AdSense. Before this work, the build produced 8,535 HTML pages.
+The current release contains 62 HTML pages: 29 indexable URLs in the sitemap, 33 noindexed utility or transition pages, and only eight editorial pages permitted to load AdSense. Before this work, the build produced 8,535 HTML pages.
 
 ## Search Baseline
 
@@ -40,6 +40,7 @@ This is enough visibility to prove demand, but not enough engaged traffic to mak
 - Excluded all noindexed pages from Pagefind and from AdSense script loading.
 - Removed weak/programmatic sections from primary navigation, the footer, and the homepage.
 - Consolidated overlapping guides with permanent redirects and marked the duplicate sources as drafts.
+- Published a source-led weekly briefing on GPT-5.6, ChatGPT Work and Voice, Grok 4.5, Meta Muse, and Claude Reflect, with explicit availability limits, provider-claim labeling, and a repeatable reader test protocol.
 - Added automated content and release audits for thin pages, missing sources, duplicate headings, impossible dates, unsupported claims, sitemap leakage, ad leakage, schema ratings, and commercial-page exclusions.
 
 ### Trust and editorial integrity

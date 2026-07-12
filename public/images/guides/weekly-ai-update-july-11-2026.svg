@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">AIViewer weekly AI update for July 11, 2026</title>
+  <desc id="description">Editorial cover with a dark indigo background, gold date marker, and abstract connected nodes representing AI models, voice, agents, and media.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#17143b"/>
+      <stop offset="0.58" stop-color="#10182e"/>
+      <stop offset="1" stop-color="#071e29"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.82" cy="0.18" r="0.74">
+      <stop offset="0" stop-color="#818cf8" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#818cf8" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#020617" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <path d="M0 522C190 465 337 490 499 540C680 596 876 614 1200 486V630H0Z" fill="#020617" fill-opacity="0.28"/>
+
+  <g opacity="0.22" stroke="#c7d2fe" fill="none">
+    <path d="M698 122C770 88 845 95 910 151C969 202 1005 278 1098 303" stroke-width="2"/>
+    <path d="M736 396C809 345 881 335 944 366C1001 394 1043 448 1130 433" stroke-width="2"/>
+    <path d="M858 155C846 235 870 304 945 365" stroke-width="2"/>
+    <path d="M995 203C963 250 955 303 978 352" stroke-width="1.5" stroke-dasharray="8 12"/>
+  </g>
+
+  <g filter="url(#soft-shadow)">
+    <circle cx="700" cy="122" r="17" fill="#f0c75e"/>
+    <circle cx="856" cy="154" r="34" fill="#818cf8" fill-opacity="0.92"/>
+    <circle cx="995" cy="203" r="22" fill="#38bdf8" fill-opacity="0.92"/>
+    <circle cx="1098" cy="303" r="42" fill="#a78bfa" fill-opacity="0.9"/>
+    <circle cx="945" cy="365" r="28" fill="#34d399" fill-opacity="0.88"/>
+    <circle cx="736" cy="396" r="20" fill="#fb7185" fill-opacity="0.88"/>
+    <circle cx="1129" cy="433" r="14" fill="#f0c75e" fill-opacity="0.9"/>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <text x="84" y="92" fill="#f0c75e" font-size="23" font-weight="700" letter-spacing="5">AIVIEWER.AI</text>
+    <rect x="84" y="124" width="173" height="42" rx="21" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-opacity="0.16"/>
+    <text x="106" y="152" fill="#e2e8f0" font-size="17" font-weight="700" letter-spacing="2.5">JUL 5–11, 2026</text>
+
+    <text x="80" y="272" fill="#ffffff" font-size="74" font-weight="800" letter-spacing="-2">WEEKLY AI</text>
+    <text x="80" y="354" fill="#ffffff" font-size="74" font-weight="800" letter-spacing="-2">UPDATE</text>
+    <rect x="82" y="388" width="472" height="4" rx="2" fill="#f0c75e"/>
+
+    <text x="84" y="446" fill="#cbd5e1" font-size="23" font-weight="500">MODELS  •  AGENTS  •  VOICE  •  MEDIA</text>
+    <text x="84" y="496" fill="#94a3b8" font-size="19">Verified releases, availability, limits, and what to test</text>
+  </g>
+</svg>

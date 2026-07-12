@@ -37,7 +37,7 @@ const typeConfig: Record<string, { color: string; label: string }> = {
       {displayChanges.map((change) => {
         const config = typeConfig[change.type] || typeConfig.release;
         const formatted = change.date
-          ? new Date(change.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+          ? new Date(change.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })
           : null;
         return (
           <div class="flex items-start gap-3">

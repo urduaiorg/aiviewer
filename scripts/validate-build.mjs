@@ -82,6 +82,7 @@ for (const path of requiredNoindex) {
 const requiredMonetized = [
   'index.html',
   'guides/ai-pricing-comparison-2026/index.html',
+  'guides/weekly-ai-update-july-11-2026/index.html',
   'tools/google-ai-studio/index.html',
 ];
 
@@ -90,6 +91,16 @@ for (const path of requiredMonetized) {
   if (isNoindex(html)) fail(`${path}: expected indexable page`);
   if (!hasAdsense(html)) fail(`${path}: eligible editorial page does not load AdSense`);
 }
+
+const weeklyUpdate = await read('guides/weekly-ai-update-july-11-2026/index.html');
+if (!weeklyUpdate.includes('July 11, 2026')) fail('weekly update: visible publication date is missing or shifted by timezone');
+if (weeklyUpdate.includes('July 10, 2026')) fail('weekly update: visible publication date shifted to July 10');
+if (weeklyUpdate.includes('>Jul 5</span>')) fail('weekly update: release timeline shifted one day backward');
+for (const date of ['Jul 6', 'Jul 7', 'Jul 8', 'Jul 9']) {
+  if (!weeklyUpdate.includes(`>${date}</span>`)) fail(`weekly update: release timeline is missing ${date}`);
+}
+if (!weeklyUpdate.includes('Primary sources checked')) fail('weekly update: source verification section is missing');
+if (!weeklyUpdate.includes('AI-assisted')) fail('weekly update: AI-assistance disclosure is missing');
 
 const ownedProduct = await read('tools/ourscreen/index.html');
 if (hasAdsense(ownedProduct)) fail('tools/ourscreen/index.html: owned product page loads AdSense');
@@ -178,6 +189,10 @@ const redirectMap = new Map(
       return [source, target];
     })
 );
+
+if (redirectMap.get('/guides/gpt-5-6-sol-explained-openai-new-model/') !== '/guides/weekly-ai-update-july-11-2026/') {
+  fail('_redirects: retired GPT-5.6 preview does not consolidate into the current weekly update');
+}
 const relativeFiles = new Set(files.map((file) => relative(dist, file)));
 
 function hasRedirect(pathname) {
