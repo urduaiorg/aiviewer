@@ -88,7 +88,7 @@ function getTagSize(count: number): string {
       numberOfItems={totalTags}
     />
   </Fragment>
-  <Header />
+  <Header slot="header" />
 
   <!-- ── Hero ── -->
   <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
@@ -184,5 +184,5 @@ function getTagSize(count: number): string {
     </div>
   </section>
 
-  <Footer />
+  <Footer slot="footer" />
 </BaseLayout>

@@ -9,7 +9,7 @@ import Footer from '../components/layout/Footer.astro';
   description="The page you're looking for doesn't exist or has been moved."
   noindex={true}
 >
-  <Header />
+  <Header slot="header" />
 
   <section class="relative overflow-hidden bg-white dark:bg-[var(--color-bg)]">
     <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,_rgba(240,199,94,0.12),_transparent_50%)] dark:bg-[radial-gradient(circle_at_top,_rgba(240,199,94,0.06),_transparent_50%)]"></div>
@@ -64,5 +64,5 @@ import Footer from '../components/layout/Footer.astro';
     </div>
   </section>
 
-  <Footer />
+  <Footer slot="footer" />
 </BaseLayout>

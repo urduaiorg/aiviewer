@@ -204,7 +204,7 @@ const socialIcons: Record<string, string> = {
   }
 
   .newsletter-form input::placeholder {
-    color: #97948c;
+    color: #68665f;
   }
 
   .newsletter-form input:focus {
@@ -247,7 +247,7 @@ const socialIcons: Record<string, string> = {
   }
 
   .editorial-footer__logo span {
-    color: #d88a00;
+    color: #a96300;
   }
 
   .editorial-footer__brand p {
@@ -266,7 +266,7 @@ const socialIcons: Record<string, string> = {
 
   .editorial-footer__links h2 {
     margin: 0 0 0.55rem;
-    color: #8a877f;
+    color: #68665f;
     font-family: 'Inter', sans-serif;
     font-size: 0.6rem;
     font-weight: 750;
@@ -317,7 +317,7 @@ const socialIcons: Record<string, string> = {
   }
 
   .editorial-footer__network strong {
-    color: #d88a00;
+    color: #a96300;
   }
 
   .editorial-footer__socials {
@@ -350,7 +350,7 @@ const socialIcons: Record<string, string> = {
     align-items: center;
     padding-block: 0.45rem;
     border-top: 1px solid #eceae6;
-    color: #8a877f;
+    color: #68665f;
     font-size: 0.62rem;
   }
 
@@ -411,6 +411,16 @@ const socialIcons: Record<string, string> = {
     border-color: #3b3a37;
     background: #151515;
     color: #f5f4ef;
+  }
+
+  :global([data-theme='dark']) .newsletter-form input::placeholder,
+  :global([data-theme='dark']) .editorial-footer__links h2 {
+    color: #aaa8a1;
+  }
+
+  :global([data-theme='dark']) .editorial-footer__logo span,
+  :global([data-theme='dark']) .editorial-footer__network strong {
+    color: #f0b84b;
   }
 
   :global([data-theme='dark']) .editorial-footer__links a {

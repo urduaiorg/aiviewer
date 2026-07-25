@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
 import { shouldNoindexPath } from '../utils/indexPolicy';
 
 const title = "Download the 2026 AI Prompt Template Pack | AIViewer";
@@ -7,6 +9,7 @@ const description = "Download 10 adaptable prompt templates for code review, dat
 ---
 
 <BaseLayout title={title} description={description} noindex={shouldNoindexPath(Astro.url.pathname)}>
+  <Header slot="header" />
   <style>
     @reference "../styles/global.css";
     
@@ -22,7 +25,7 @@ const description = "Download 10 adaptable prompt templates for code review, dat
     }
   </style>
 
-  <main class="relative min-h-[85vh] flex items-center justify-center py-20 overflow-hidden">
+  <div class="relative min-h-[85vh] flex items-center justify-center py-20 overflow-hidden">
     <!-- Background Gradients -->
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
       <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 dark:bg-indigo-500/5 blur-[120px]"></div>
@@ -156,7 +159,8 @@ const description = "Download 10 adaptable prompt templates for code review, dat
 
       </div>
     </div>
-  </main>
+  </div>
+  <Footer slot="footer" />
 </BaseLayout>
 
 <script>

@@ -3,6 +3,10 @@ import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const dist = fileURLToPath(new URL('../dist/', import.meta.url));
+const projectRoot = fileURLToPath(new URL('../', import.meta.url));
+const publicRoot = join(projectRoot, 'public');
+const contentRoot = join(projectRoot, 'src/content');
+const imageProvenancePath = join(projectRoot, 'src/data/editorial-image-provenance.json');
 const failures = [];
 
 async function walk(directory) {
@@ -36,11 +40,131 @@ let noindexCount = 0;
 let indexableCount = 0;
 let monetizedCount = 0;
 
+let imageProvenance = [];
+try {
+  imageProvenance = JSON.parse(await readFile(imageProvenancePath, 'utf8'));
+} catch (error) {
+  fail(`editorial image provenance: invalid or unreadable JSON (${error.message})`);
+}
+
+if (!Array.isArray(imageProvenance)) {
+  fail('editorial image provenance: expected a JSON array');
+  imageProvenance = [];
+}
+
+const provenanceAssets = new Set();
+for (const [index, record] of imageProvenance.entries()) {
+  const label = `editorial image provenance entry ${index + 1}`;
+  const requiredFields = [
+    'asset',
+    'page',
+    'altText',
+    'width',
+    'height',
+    'createdAt',
+    'workflow',
+    'renderer',
+    'prompt',
+    'materialEdits',
+    'disclosure',
+    'reviewNotes',
+  ];
+
+  for (const field of requiredFields) {
+    const value = record?.[field];
+    if (
+      value === undefined ||
+      value === null ||
+      (typeof value === 'string' && value.trim() === '') ||
+      (Array.isArray(value) && value.length === 0)
+    ) {
+      fail(`${label}: missing ${field}`);
+    }
+  }
+
+  if (typeof record?.asset === 'string') {
+    if (!record.asset.startsWith('/') || record.asset.includes('..')) {
+      fail(`${label}: asset must be a safe root-relative path`);
+    } else {
+      if (provenanceAssets.has(record.asset)) {
+        fail(`${label}: duplicate asset ${record.asset}`);
+      }
+      provenanceAssets.add(record.asset);
+      try {
+        await access(join(publicRoot, record.asset.slice(1)));
+      } catch {
+        fail(`${label}: asset does not exist in public (${record.asset})`);
+      }
+    }
+  }
+
+  if (typeof record?.page === 'string') {
+    if (!record.page.startsWith('/') || record.page.includes('..')) {
+      fail(`${label}: page must be a safe root-relative path`);
+    } else {
+      const pagePath = record.page === '/'
+        ? 'index.html'
+        : `${record.page.replace(/^\//, '').replace(/\/$/, '')}/index.html`;
+      try {
+        const pageHtml = await read(pagePath);
+        const pageBody = pageHtml.slice(Math.max(0, pageHtml.indexOf('<body')));
+        if (typeof record?.asset === 'string' && !pageBody.includes(record.asset)) {
+          fail(`${label}: declared asset is not used on ${record.page}`);
+        }
+      } catch {
+        fail(`${label}: page is not present in the release artifact (${record.page})`);
+      }
+    }
+  }
+
+  for (const dimension of ['width', 'height']) {
+    if (!Number.isInteger(record?.[dimension]) || record[dimension] <= 0) {
+      fail(`${label}: ${dimension} must be a positive integer`);
+    }
+  }
+  if (typeof record?.altText === 'string' && !/ai-generated|illustration/i.test(record.altText)) {
+    fail(`${label}: altText must identify the generated or illustrative nature of the asset`);
+  }
+  if (typeof record?.disclosure === 'string' && !/ai-generated|illustration/i.test(record.disclosure)) {
+    fail(`${label}: disclosure must identify the AI-generated or illustrative nature of the asset`);
+  }
+}
+
+const contentFiles = (await walk(contentRoot)).filter((file) => /\.(?:md|mdx)$/.test(file));
+for (const file of contentFiles) {
+  const source = await readFile(file, 'utf8');
+  if (!/^\s*tasks:\s*\[[^\]]*["']image-generation["'][^\]]*\]/m.test(source)) continue;
+
+  const contentPath = relative(contentRoot, file);
+  const coverImage = source.match(/^coverImage:\s*["']([^"']+)["']/m)?.[1];
+  if (!coverImage) {
+    fail(`${contentPath}: image-generation is disclosed but coverImage is missing`);
+  } else if (!provenanceAssets.has(coverImage)) {
+    fail(`${contentPath}: generated cover has no editorial image provenance record (${coverImage})`);
+  }
+}
+
 for (const file of htmlFiles) {
   const html = await readFile(file, 'utf8');
   const path = relative(dist, file);
   const noindex = isNoindex(html);
   const adsense = hasAdsense(html);
+  const mainTags = [...html.matchAll(/<main\b/g)];
+
+  if (mainTags.length !== 1) {
+    fail(`${path}: expected exactly one main landmark, found ${mainTags.length}`);
+  } else {
+    const mainStart = mainTags[0].index;
+    const mainEnd = html.indexOf('</main>', mainStart);
+    for (const landmark of ['header', 'footer']) {
+      const landmarkIndex = html.indexOf(`<${landmark}`);
+      if (landmarkIndex > mainStart && (mainEnd === -1 || landmarkIndex < mainEnd)) {
+        fail(`${path}: ${landmark} is nested inside the main landmark`);
+      }
+    }
+  }
+  if (!html.includes('<header')) fail(`${path}: page is missing the global header`);
+  if (!html.includes('<footer')) fail(`${path}: page is missing the global footer`);
 
   for (const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
     try {
@@ -431,4 +555,4 @@ if (failures.length) {
 }
 
 console.log(`Validated ${htmlFiles.length} HTML pages: ${indexableCount} indexable, ${noindexCount} noindex, ${monetizedCount} AdSense-eligible.`);
-console.log(`Validated ${sitemapUrls.length} sitemap URLs, internal links and images, redirects, schema integrity, ads.txt, and newsletter CSP.`);
+console.log(`Validated ${sitemapUrls.length} sitemap URLs, internal links and images, ${imageProvenance.length} image provenance record(s), redirects, schema integrity, ads.txt, and newsletter CSP.`);

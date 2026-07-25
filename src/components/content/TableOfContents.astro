@@ -13,56 +13,101 @@ interface TOCItem {
 interface Props {
   headings: TOCItem[];
   label?: string;
+  compact?: boolean;
 }
 
-const { headings, label = 'In this article' } = Astro.props;
+const { headings, label = 'In this article', compact = false } = Astro.props;
 const tocItems = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
 ---
 
 {tocItems.length > 0 && (
-  <aside class="toc-sidebar hidden xl:block" aria-label="Table of contents">
-    <div class="sticky top-24">
-      <p class="text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-zinc-400 mb-4">
-        {label}
-      </p>
+  <div
+    data-toc-root
+    class:list={[
+      'toc-shell min-w-0',
+      compact ? 'order-first xl:order-2' : 'hidden xl:block',
+    ]}
+  >
+    {compact && (
+      <details class="group overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-[var(--shadow-card)] dark:border-zinc-800 dark:bg-zinc-900 xl:hidden">
+        <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 py-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 [&::-webkit-details-marker]:hidden">
+          <span>
+            <span class="block text-xs font-semibold uppercase tracking-[0.14em] text-zinc-700 dark:text-zinc-200">
+              {label}
+            </span>
+            <span class="mt-0.5 block text-xs text-zinc-500 dark:text-zinc-400">
+              {tocItems.length} {tocItems.length === 1 ? 'section' : 'sections'}
+            </span>
+          </span>
+          <svg class="h-5 w-5 shrink-0 text-zinc-500 transition-transform duration-200 group-open:rotate-180 dark:text-zinc-400" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </summary>
 
-      <nav class="relative">
-        <!-- The vertical track line -->
-        <div class="absolute left-[5px] top-0 bottom-0 w-px bg-zinc-200 dark:bg-zinc-700" aria-hidden="true"></div>
-        <!-- Active progress indicator (animated via JS) -->
-        <div
-          id="toc-progress"
-          class="absolute left-[5px] top-0 w-px bg-indigo-500 transition-all duration-300 ease-out"
-          style="height: 0;"
-          aria-hidden="true"
-        ></div>
+        <nav class="border-t border-zinc-200 p-3 dark:border-zinc-800" aria-label={`${label} links`}>
+          <ol class="space-y-0.5">
+            {tocItems.map((item) => (
+              <li>
+                <a
+                  href={`#${item.slug}`}
+                  data-toc-link={item.slug}
+                  class:list={[
+                    'toc-compact-link flex items-start gap-2 rounded-lg px-3 py-2 text-sm leading-5 text-zinc-600 transition-colors hover:bg-indigo-50 hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:text-zinc-300 dark:hover:bg-indigo-950/40 dark:hover:text-white',
+                    item.depth === 3 ? 'ml-4' : '',
+                  ]}
+                >
+                  <span class="toc-compact-marker mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-300 dark:bg-zinc-600" aria-hidden="true"></span>
+                  <span class="toc-text">{item.text}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </details>
+    )}
 
-        <ul class="space-y-0.5">
-          {tocItems.map((item) => (
-            <li>
-              <a
-                href={`#${item.slug}`}
-                data-toc-link={item.slug}
-                class:list={[
-                  'toc-link group flex items-start gap-3 py-1.5 text-[0.8rem] leading-snug transition-all duration-200',
-                  item.depth === 3 ? 'pl-5' : 'pl-0',
-                ]}
-              >
-                {/* Dot indicator */}
-                <span
-                  class="toc-dot mt-[5px] shrink-0 w-[11px] h-[11px] rounded-full border-2 border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 transition-all duration-200 group-hover:border-indigo-400"
-                  aria-hidden="true"
-                ></span>
-                <span class="toc-text text-zinc-400 group-hover:text-zinc-700 dark:group-hover:text-zinc-200 transition-colors duration-200">
-                  {item.text}
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </div>
-  </aside>
+    <aside class="toc-sidebar hidden xl:block" aria-label="Table of contents">
+      <div class="sticky top-24">
+        <p class="mb-4 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-zinc-500 dark:text-zinc-400">
+          {label}
+        </p>
+
+        <nav class="relative" aria-label={`${label} links`}>
+          <div class="absolute bottom-0 left-[5px] top-0 w-px bg-zinc-200 dark:bg-zinc-700" aria-hidden="true"></div>
+          <div
+            data-toc-progress
+            class="absolute left-[5px] top-0 w-px bg-indigo-500 transition-all duration-300 ease-out"
+            style="height: 0;"
+            aria-hidden="true"
+          ></div>
+
+          <ul class="space-y-0.5">
+            {tocItems.map((item) => (
+              <li>
+                <a
+                  href={`#${item.slug}`}
+                  data-toc-link={item.slug}
+                  data-toc-desktop-link
+                  class:list={[
+                    'toc-link group flex items-start gap-3 py-1.5 text-[0.8rem] leading-snug transition-all duration-200 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
+                    item.depth === 3 ? 'pl-5' : 'pl-0',
+                  ]}
+                >
+                  <span
+                    class="toc-dot mt-[5px] h-[11px] w-[11px] shrink-0 rounded-full border-2 border-zinc-300 bg-white transition-all duration-200 group-hover:border-indigo-400 dark:border-zinc-600 dark:bg-zinc-900"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="toc-text text-zinc-500 transition-colors duration-200 group-hover:text-zinc-800 dark:text-zinc-400 dark:group-hover:text-zinc-100">
+                    {item.text}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </aside>
+  </div>
 )}
 
 <style>
@@ -75,80 +120,109 @@ const tocItems = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
     color: #18181B;
     font-weight: 600;
   }
+  .toc-compact-link.is-active {
+    background: #EEF2FF;
+    box-shadow: inset 3px 0 #4F46E5;
+  }
+  .toc-compact-link.is-active .toc-text {
+    color: #18181B;
+    font-weight: 600;
+  }
+  .toc-compact-link.is-active .toc-compact-marker {
+    background: #4F46E5;
+  }
   [data-theme="dark"] .toc-link.is-active .toc-dot {
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
   }
   [data-theme="dark"] .toc-link.is-active .toc-text {
     color: #F4F4F5;
   }
+  [data-theme="dark"] .toc-compact-link.is-active {
+    background: rgba(49, 46, 129, 0.28);
+  }
+  [data-theme="dark"] .toc-compact-link.is-active .toc-text {
+    color: #F4F4F5;
+  }
 </style>
 
 <script>
   function initTOC() {
-    const links = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
-    if (!links.length) return;
+    document.querySelectorAll<HTMLElement>('[data-toc-root]').forEach((root) => {
+      if (root.dataset.tocReady === 'true') return;
 
-    const slugs = Array.from(links).map((l) => l.dataset.tocLink!);
-    const sections = slugs
-      .map((s) => document.getElementById(s))
-      .filter(Boolean) as HTMLElement[];
+      const links = root.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+      if (!links.length) return;
 
-    if (!sections.length) return;
+      const slugs = [...new Set(Array.from(links).map((link) => link.dataset.tocLink!))];
+      const sections = slugs
+        .map((slug) => document.getElementById(slug))
+        .filter(Boolean) as HTMLElement[];
 
-    let currentSlug = '';
+      if (!sections.length) return;
+      root.dataset.tocReady = 'true';
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Find the topmost visible section
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      const desktopLinks = root.querySelectorAll<HTMLAnchorElement>('[data-toc-desktop-link]');
+      const progress = root.querySelector<HTMLElement>('[data-toc-progress]');
+      let currentSlug = '';
 
-        if (visible.length > 0) {
-          const slug = visible[0].target.id;
-          if (slug !== currentSlug) {
-            currentSlug = slug;
-            setActive(slug);
-          }
-        }
-      },
-      { rootMargin: '-80px 0px -60% 0px', threshold: 0 }
-    );
+      function setActive(slug: string) {
+        currentSlug = slug;
+        links.forEach((link) => {
+          const active = link.dataset.tocLink === slug;
+          link.classList.toggle('is-active', active);
+          if (active) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
 
-    sections.forEach((s) => observer.observe(s));
-
-    function setActive(slug: string) {
-      links.forEach((link) => {
-        link.classList.toggle('is-active', link.dataset.tocLink === slug);
-      });
-
-      // Update progress bar
-      const idx = slugs.indexOf(slug);
-      const progress = document.getElementById('toc-progress');
-      if (progress && idx >= 0) {
-        const activeLink = document.querySelector(`[data-toc-link="${slug}"]`) as HTMLElement;
-        if (activeLink) {
-          const nav = activeLink.closest('nav') as HTMLElement;
-          const top = activeLink.offsetTop - nav.offsetTop + 8;
-          progress.style.height = `${top}px`;
+        const activeLink = Array.from(desktopLinks).find((link) => link.dataset.tocLink === slug);
+        const nav = activeLink?.closest('nav');
+        if (progress && activeLink && nav) {
+          const linkRect = activeLink.getBoundingClientRect();
+          const navRect = nav.getBoundingClientRect();
+          progress.style.height = `${Math.max(0, linkRect.top - navRect.top + activeLink.offsetHeight / 2)}px`;
         }
       }
-    }
 
-    // Smooth scroll on click
-    links.forEach((link) => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.getElementById(link.dataset.tocLink!);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          history.pushState(null, '', `#${link.dataset.tocLink}`);
-        }
+      let hashSlug = '';
+      try {
+        hashSlug = decodeURIComponent(window.location.hash.slice(1));
+      } catch {
+        hashSlug = '';
+      }
+      setActive(slugs.includes(hashSlug) ? hashSlug : slugs[0]);
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+          if (visible.length > 0) {
+            const slug = visible[0].target.id;
+            if (slug !== currentSlug) setActive(slug);
+          }
+        },
+        { rootMargin: '-80px 0px -60% 0px', threshold: 0 }
+      );
+
+      sections.forEach((section) => observer.observe(section));
+
+      links.forEach((link) => {
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          const slug = link.dataset.tocLink!;
+          const target = document.getElementById(slug);
+          if (!target) return;
+
+          const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+          history.pushState(null, '', `#${slug}`);
+          setActive(slug);
+        });
       });
     });
   }
 
-  // Run on initial load and after Astro view transitions
   initTOC();
-  document.addEventListener('astro:after-swap', initTOC);
+  document.addEventListener('astro:page-load', initTOC);
 </script>

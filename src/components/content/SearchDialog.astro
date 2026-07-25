@@ -42,10 +42,16 @@
         <input
           id="search-dialog-input"
           type="text"
-          placeholder="Search articles, tools, guides..."
+          role="combobox"
+          aria-label="Search AIViewer"
+          aria-autocomplete="list"
+          aria-controls="search-dialog-listbox"
+          aria-haspopup="listbox"
+          aria-expanded="false"
+          placeholder="Search lessons, signals, and practical guides..."
           autocomplete="off"
           spellcheck="false"
-          class="flex-1 bg-transparent text-[0.95rem] text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 outline-none border-none"
+          class="flex-1 bg-transparent text-[0.95rem] text-zinc-900 dark:text-zinc-100 placeholder-zinc-500 dark:placeholder-zinc-400 outline-none border-none"
         />
         <!-- Loading spinner (hidden by default) -->
         <div id="search-spinner" class="hidden shrink-0">
@@ -57,7 +63,8 @@
         <!-- ESC badge -->
         <button
           id="search-dialog-close"
-          class="shrink-0 px-2 py-0.5 text-[0.7rem] font-medium text-zinc-400 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
+          type="button"
+          class="shrink-0 inline-flex min-h-11 min-w-11 items-center justify-center px-2 text-[0.7rem] font-medium text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md hover:text-zinc-900 dark:hover:text-white transition-colors"
           aria-label="Close search"
         >
           ESC
@@ -66,26 +73,34 @@
 
       <!-- Results area -->
       <div id="search-dialog-results" class="overflow-y-auto overscroll-contain flex-1">
+        <div id="search-dialog-listbox" role="listbox" aria-label="Search results"></div>
         <!-- Default state -->
-        <div class="search-empty-state flex flex-col items-center justify-center py-14 px-6 text-center">
+        <div id="search-dialog-state" class="search-empty-state flex flex-col items-center justify-center py-14 px-6 text-center">
           <!-- Subtle search illustration -->
           <svg class="w-10 h-10 text-zinc-300 dark:text-zinc-600 mb-4" viewBox="0 0 48 48" fill="none">
             <circle cx="22" cy="22" r="14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
             <path d="M32 32l10 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
             <path d="M16 19h12M16 25h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.5" />
           </svg>
-          <p class="text-[0.82rem] text-zinc-400 dark:text-zinc-500">
-            Search playbooks, tools, guides, and more
+          <p class="text-[0.82rem] text-zinc-600 dark:text-zinc-300">
+            Search lessons, signals, and practical guides
           </p>
-          <p class="text-[0.72rem] text-zinc-300 dark:text-zinc-600 mt-1.5">
+          <p class="text-[0.72rem] text-zinc-600 dark:text-zinc-300 mt-1.5">
             Start typing or try: "ChatGPT", "writing", "image generation"
           </p>
         </div>
       </div>
+      <p
+        id="search-results-status"
+        class="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      ></p>
 
       <!-- Footer -->
       <div class="flex items-center justify-between px-5 py-2.5 border-t border-zinc-100 dark:border-zinc-800 bg-zinc-50/60 dark:bg-zinc-800/40">
-        <div class="flex items-center gap-3 text-[0.68rem] text-zinc-400 dark:text-zinc-500">
+        <div class="flex items-center gap-3 text-[0.68rem] text-zinc-600 dark:text-zinc-300">
           <span class="flex items-center gap-1">
             <kbd class="inline-flex items-center justify-center w-5 h-5 bg-zinc-100 dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 rounded text-[0.6rem] font-mono">&#8593;</kbd>
             <kbd class="inline-flex items-center justify-center w-5 h-5 bg-zinc-100 dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 rounded text-[0.6rem] font-mono">&#8595;</kbd>
@@ -100,7 +115,7 @@
             close
           </span>
         </div>
-        <span class="text-[0.65rem] text-zinc-300 dark:text-zinc-600">
+        <span class="text-[0.65rem] text-zinc-600 dark:text-zinc-300">
           Powered by Pagefind
         </span>
       </div>
@@ -231,20 +246,81 @@
     const backdrop = document.getElementById('search-dialog-backdrop');
     const input = document.getElementById('search-dialog-input') as HTMLInputElement | null;
     const results = document.getElementById('search-dialog-results');
+    const listbox = document.getElementById('search-dialog-listbox');
+    const resultState = document.getElementById('search-dialog-state');
+    const resultsStatus = document.getElementById('search-results-status');
     const closeBtn = document.getElementById('search-dialog-close');
     const spinner = document.getElementById('search-spinner');
+    const previousCleanup = (window as any).__searchDialogCleanup as (() => void) | undefined;
 
-    if (!backdrop || !input || !results || !closeBtn) return;
+    if (!backdrop || !input || !results || !listbox || !resultState || !resultsStatus || !closeBtn) {
+      previousCleanup?.();
+      return;
+    }
     // Guard against double-binding on View Transitions
     if (backdrop.dataset.bound === 'true') return;
+
+    previousCleanup?.();
+
     backdrop.dataset.bound = 'true';
+    const listenerCleanups: Array<() => void> = [];
+
+    function addManagedListener<T extends Event>(
+      target: EventTarget,
+      type: string,
+      listener: (event: T) => void,
+      options?: boolean | AddEventListenerOptions,
+    ) {
+      const eventListener = listener as EventListener;
+      target.addEventListener(type, eventListener, options);
+      listenerCleanups.push(() => target.removeEventListener(type, eventListener, options));
+    }
 
     let pagefind: any = null;
     let pagefindLoading = false;
     let searchTimeout: ReturnType<typeof setTimeout>;
+    let closeFallbackTimeout: ReturnType<typeof setTimeout> | undefined;
+    let closeTransitionHandler: (() => void) | null = null;
     let activeIndex = -1;
     let triggerElement: HTMLElement | null = null;
     let destroyFocusTrap: (() => void) | null = null;
+
+    function escapeHTML(value: unknown): string {
+      const entities: Record<string, string> = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      };
+      return String(value ?? '').replace(/[&<>"']/g, (character) => entities[character] ?? character);
+    }
+
+    function announce(message: string) {
+      resultsStatus.textContent = '';
+      if (!message) return;
+      requestAnimationFrame(() => {
+        resultsStatus.textContent = message;
+      });
+    }
+
+    function clearActiveResult() {
+      activeIndex = -1;
+      input.removeAttribute('aria-activedescendant');
+      listbox.querySelectorAll<HTMLElement>('.search-result-item').forEach((item) => {
+        item.classList.remove('is-active');
+        item.setAttribute('aria-selected', 'false');
+      });
+    }
+
+    function showResultState(content: string, announcement = '') {
+      clearActiveResult();
+      listbox.innerHTML = '';
+      listbox.classList.remove('py-1');
+      resultState.innerHTML = content;
+      resultState.hidden = false;
+      announce(announcement);
+    }
 
     // ── Pagefind lazy loader ──
     async function loadPagefind() {
@@ -266,6 +342,15 @@
 
     // ── Open / close ──
     function openDialog() {
+      if (closeFallbackTimeout) {
+        clearTimeout(closeFallbackTimeout);
+        closeFallbackTimeout = undefined;
+      }
+      if (closeTransitionHandler) {
+        backdrop.removeEventListener('transitionend', closeTransitionHandler);
+        closeTransitionHandler = null;
+      }
+
       // WCAG 2.4.3 — Remember which element triggered the dialog so we can return focus
       triggerElement = document.activeElement as HTMLElement | null;
 
@@ -273,6 +358,7 @@
       // Force reflow so transition plays
       void backdrop.offsetWidth;
       backdrop.classList.add('is-open');
+      input.setAttribute('aria-expanded', 'true');
       input.focus();
       document.body.style.overflow = 'hidden';
       loadPagefind();
@@ -286,6 +372,8 @@
 
     function closeDialog() {
       backdrop.classList.remove('is-open');
+      input.setAttribute('aria-expanded', 'false');
+      clearActiveResult();
       document.body.style.overflow = '';
 
       // WCAG 2.4.3 — Tear down focus trap
@@ -302,10 +390,15 @@
 
       // Wait for exit animation then hide
       const onEnd = () => {
+        backdrop.removeEventListener('transitionend', onEnd);
+        closeTransitionHandler = null;
+        if (closeFallbackTimeout) {
+          clearTimeout(closeFallbackTimeout);
+          closeFallbackTimeout = undefined;
+        }
         backdrop.classList.add('hidden');
         input.value = '';
         resetResults();
-        backdrop.removeEventListener('transitionend', onEnd);
       };
       // If reduced motion, hide immediately
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -313,14 +406,20 @@
         input.value = '';
         resetResults();
       } else {
+        closeTransitionHandler = onEnd;
         backdrop.addEventListener('transitionend', onEnd, { once: true });
         // Fallback in case transitionend doesn't fire
-        setTimeout(() => {
+        closeFallbackTimeout = setTimeout(() => {
+          if (closeTransitionHandler) {
+            backdrop.removeEventListener('transitionend', closeTransitionHandler);
+            closeTransitionHandler = null;
+          }
           if (!backdrop.classList.contains('hidden')) {
             backdrop.classList.add('hidden');
             input.value = '';
             resetResults();
           }
+          closeFallbackTimeout = undefined;
         }, 400);
       }
     }
@@ -329,22 +428,19 @@
     (window as any).__openSearchDialog = openDialog;
 
     function resetResults() {
-      activeIndex = -1;
-      results.innerHTML = `
-        <div class="search-empty-state flex flex-col items-center justify-center py-14 px-6 text-center">
-          <svg class="w-10 h-10 text-zinc-300 dark:text-zinc-600 mb-4" viewBox="0 0 48 48" fill="none">
-            <circle cx="22" cy="22" r="14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-            <path d="M32 32l10 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-            <path d="M16 19h12M16 25h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.5" />
-          </svg>
-          <p class="text-[0.82rem] text-zinc-400 dark:text-zinc-500">
-            Search playbooks, tools, guides, and more
-          </p>
-          <p class="text-[0.72rem] text-zinc-300 dark:text-zinc-600 mt-1.5">
-            Start typing or try: "ChatGPT", "writing", "image generation"
-          </p>
-        </div>
-      `;
+      showResultState(`
+        <svg class="w-10 h-10 text-zinc-300 dark:text-zinc-600 mb-4" viewBox="0 0 48 48" fill="none">
+          <circle cx="22" cy="22" r="14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M32 32l10 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M16 19h12M16 25h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.5" />
+        </svg>
+        <p class="text-[0.82rem] text-zinc-600 dark:text-zinc-300">
+          Search lessons, signals, and practical guides
+        </p>
+        <p class="text-[0.72rem] text-zinc-600 dark:text-zinc-300 mt-1.5">
+          Start typing or try: "ChatGPT", "writing", "image generation"
+        </p>
+      `);
     }
 
     // ── Detect category from URL path ──
@@ -373,36 +469,39 @@
     function renderResults(items: any[]) {
       if (items.length === 0) {
         const q = input.value.trim();
-        results.innerHTML = `
-          <div class="flex flex-col items-center justify-center py-14 px-6 text-center">
-            <svg class="w-9 h-9 text-zinc-300 dark:text-zinc-600 mb-3" viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="2.5" opacity="0.5" />
-              <path d="M18 18l12 12M30 18L18 30" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.6" />
-            </svg>
-            <p class="text-[0.85rem] font-medium text-zinc-500 dark:text-zinc-400">
-              No results for "${q}"
-            </p>
-            <p class="text-[0.75rem] text-zinc-400 dark:text-zinc-500 mt-1.5 max-w-[260px]">
-              Try different keywords or check for typos
-            </p>
-          </div>
-        `;
+        showResultState(`
+          <svg class="w-9 h-9 text-zinc-300 dark:text-zinc-600 mb-3" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="2.5" opacity="0.5" />
+            <path d="M18 18l12 12M30 18L18 30" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+          </svg>
+          <p class="text-[0.85rem] font-medium text-zinc-600 dark:text-zinc-300">
+            No results for "${escapeHTML(q)}"
+          </p>
+          <p class="text-[0.75rem] text-zinc-600 dark:text-zinc-300 mt-1.5 max-w-[260px]">
+            Try different keywords or check for typos
+          </p>
+        `, `No results found for ${q}.`);
         return;
       }
 
-      activeIndex = -1;
+      clearActiveResult();
       const listHTML = items.map((data, i) => {
         const cat = detectCategory(data.url);
+        const title = data.meta?.title || data.url;
         return `
           <a
-            href="${data.url}"
+            id="search-result-${i}"
+            href="${escapeHTML(data.url)}"
+            role="option"
+            aria-selected="false"
+            tabindex="-1"
             class="search-result-item flex items-start gap-3 px-5 py-3 cursor-pointer"
             data-index="${i}"
           >
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 mb-0.5">
                 <span class="search-badge search-badge-${cat}">${categoryLabel(cat)}</span>
-                <span class="text-[0.82rem] font-semibold text-zinc-900 dark:text-zinc-100 truncate">${data.meta?.title || data.url}</span>
+                <span class="text-[0.82rem] font-semibold text-zinc-900 dark:text-zinc-100 truncate">${escapeHTML(title)}</span>
               </div>
               <p class="search-result-excerpt text-[0.75rem] text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">${data.excerpt || ''}</p>
             </div>
@@ -413,28 +512,45 @@
         `;
       }).join('');
 
-      results.innerHTML = `<div class="py-1">${listHTML}</div>`;
+      resultState.innerHTML = '';
+      resultState.hidden = true;
+      listbox.classList.add('py-1');
+      listbox.innerHTML = listHTML;
+      announce(`${items.length} search ${items.length === 1 ? 'result' : 'results'} available. Use the up and down arrow keys to review.`);
     }
 
     // ── Keyboard navigation within results ──
-    function navigateResults(direction: number) {
-      const items = results.querySelectorAll('.search-result-item');
-      if (items.length === 0) return;
+    function setActiveResult(index: number) {
+      const items = listbox.querySelectorAll<HTMLElement>('.search-result-item');
+      if (index < 0 || index >= items.length) {
+        clearActiveResult();
+        return;
+      }
 
-      // Remove current active
-      items.forEach(el => el.classList.remove('is-active'));
+      activeIndex = index;
+      items.forEach((item, itemIndex) => {
+        const isActive = itemIndex === activeIndex;
+        item.classList.toggle('is-active', isActive);
+        item.setAttribute('aria-selected', String(isActive));
+      });
 
-      activeIndex += direction;
-      if (activeIndex < 0) activeIndex = items.length - 1;
-      if (activeIndex >= items.length) activeIndex = 0;
-
-      const activeEl = items[activeIndex] as HTMLElement;
-      activeEl.classList.add('is-active');
+      const activeEl = items[activeIndex];
+      input.setAttribute('aria-activedescendant', activeEl.id);
       activeEl.scrollIntoView({ block: 'nearest' });
     }
 
+    function navigateResults(direction: number) {
+      const items = listbox.querySelectorAll('.search-result-item');
+      if (items.length === 0) return;
+
+      let nextIndex = activeIndex + direction;
+      if (nextIndex < 0) nextIndex = items.length - 1;
+      if (nextIndex >= items.length) nextIndex = 0;
+      setActiveResult(nextIndex);
+    }
+
     function selectActiveResult() {
-      const items = results.querySelectorAll('.search-result-item');
+      const items = listbox.querySelectorAll('.search-result-item');
       if (activeIndex >= 0 && activeIndex < items.length) {
         const link = items[activeIndex] as HTMLAnchorElement;
         closeDialog();
@@ -445,24 +561,27 @@
     // ── Search execution ──
     async function performSearch(query: string) {
       if (query.length < 2) {
+        spinner?.classList.add('hidden');
+        listbox.setAttribute('aria-busy', 'false');
         resetResults();
         return;
       }
 
       spinner?.classList.remove('hidden');
+      listbox.setAttribute('aria-busy', 'true');
+      announce('Searching.');
 
       if (!pagefind) {
         spinner?.classList.add('hidden');
-        results.innerHTML = `
-          <div class="flex flex-col items-center justify-center py-14 px-6 text-center">
-            <p class="text-[0.82rem] text-zinc-400 dark:text-zinc-500">
-              Search index not available
-            </p>
-            <p class="text-[0.72rem] text-zinc-300 dark:text-zinc-600 mt-1.5">
-              Run a production build to enable search
-            </p>
-          </div>
-        `;
+        listbox.setAttribute('aria-busy', 'false');
+        showResultState(`
+          <p class="text-[0.82rem] text-zinc-600 dark:text-zinc-300">
+            Search index not available
+          </p>
+          <p class="text-[0.72rem] text-zinc-600 dark:text-zinc-300 mt-1.5">
+            Run a production build to enable search
+          </p>
+        `, 'Search index not available.');
         return;
       }
 
@@ -472,36 +591,38 @@
         const data = await Promise.all(topResults.map((r: any) => r.data()));
         renderResults(data);
       } catch (err) {
-        results.innerHTML = `
-          <div class="flex items-center justify-center py-14 px-6">
-            <p class="text-[0.82rem] text-zinc-400 dark:text-zinc-500">Search encountered an error. Please try again.</p>
-          </div>
-        `;
+        showResultState(`
+          <p class="text-[0.82rem] text-zinc-600 dark:text-zinc-300">
+            Search encountered an error. Please try again.
+          </p>
+        `, 'Search encountered an error. Please try again.');
       }
 
+      listbox.setAttribute('aria-busy', 'false');
       spinner?.classList.add('hidden');
     }
 
     // ── Event listeners ──
     // Close button
-    closeBtn.addEventListener('click', closeDialog);
+    addManagedListener(closeBtn, 'click', () => closeDialog());
 
     // Backdrop click
-    backdrop.addEventListener('click', (e) => {
+    addManagedListener<MouseEvent>(backdrop, 'click', (e) => {
       if (e.target === backdrop || (e.target as Element)?.classList.contains('search-overlay')) {
         closeDialog();
       }
     });
 
     // Input handler with debounce
-    input.addEventListener('input', () => {
+    addManagedListener(input, 'input', () => {
       clearTimeout(searchTimeout);
+      clearActiveResult();
       const q = input.value.trim();
       searchTimeout = setTimeout(() => performSearch(q), 180);
     });
 
     // Keyboard shortcuts (global)
-    document.addEventListener('keydown', (e) => {
+    addManagedListener<KeyboardEvent>(document, 'keydown', (e) => {
       const isOpen = backdrop.classList.contains('is-open');
 
       // Cmd+K / Ctrl+K to open
@@ -546,14 +667,32 @@
     });
 
     // Hover sets active index
-    results.addEventListener('mousemove', (e) => {
+    addManagedListener<MouseEvent>(results, 'mousemove', (e) => {
       const item = (e.target as Element)?.closest('.search-result-item') as HTMLElement | null;
       if (!item) return;
-      const items = results.querySelectorAll('.search-result-item');
-      items.forEach(el => el.classList.remove('is-active'));
-      item.classList.add('is-active');
-      activeIndex = parseInt(item.dataset.index || '-1', 10);
+      setActiveResult(parseInt(item.dataset.index || '-1', 10));
     });
+
+    const cleanup = () => {
+      clearTimeout(searchTimeout);
+      if (closeFallbackTimeout) clearTimeout(closeFallbackTimeout);
+      if (closeTransitionHandler) {
+        backdrop.removeEventListener('transitionend', closeTransitionHandler);
+        closeTransitionHandler = null;
+      }
+      destroyFocusTrap?.();
+      destroyFocusTrap = null;
+      document.body.style.overflow = '';
+      listenerCleanups.splice(0).forEach((removeListener) => removeListener());
+
+      if ((window as any).__openSearchDialog === openDialog) {
+        delete (window as any).__openSearchDialog;
+      }
+      if ((window as any).__searchDialogCleanup === cleanup) {
+        delete (window as any).__searchDialogCleanup;
+      }
+    };
+    (window as any).__searchDialogCleanup = cleanup;
   }
 
   // Init on first load and on View Transitions navigation

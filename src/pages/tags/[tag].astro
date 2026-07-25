@@ -131,7 +131,7 @@ const accentColors: Record<string, { badge: string; border: string }> = {
       { name: displayTag, url: `/tags/${Astro.params.tag}/` },
     ]}
   />
-  <Header />
+  <Header slot="header" />
 
   <!-- ── Hero ── -->
   <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
@@ -317,5 +317,5 @@ const accentColors: Record<string, { badge: string; border: string }> = {
     </div>
   </section>
 
-  <Footer />
+  <Footer slot="footer" />
 </BaseLayout>

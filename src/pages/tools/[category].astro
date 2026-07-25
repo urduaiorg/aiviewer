@@ -131,7 +131,7 @@ const relatedCategories = allCategories.filter((c: string) => c !== category);
       numberOfItems={tools.length}
     />
   </Fragment>
-  <Header />
+  <Header slot="header" />
 
   {/* ── Hero section ─────────────────────────────────── */}
   <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
@@ -268,5 +268,5 @@ const relatedCategories = allCategories.filter((c: string) => c !== category);
     </section>
   )}
 
-  <Footer />
+  <Footer slot="footer" />
 </BaseLayout>

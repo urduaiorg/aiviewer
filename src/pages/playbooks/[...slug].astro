@@ -87,7 +87,7 @@ for (const heading of headings) {
     ]}
   />
   {faqs.length > 0 && <FAQSchema slot="head" faqs={faqs} />}
-  <Header />
+  <Header slot="header" />
   <ReadingProgress />
 
   <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
@@ -201,5 +201,5 @@ for (const heading of headings) {
     toolsUsed={entry.data.toolsUsed}
   />
 
-  <Footer />
+  <Footer slot="footer" />
 </BaseLayout>
