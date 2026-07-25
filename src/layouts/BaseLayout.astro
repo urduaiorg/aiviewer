@@ -140,7 +140,7 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
 
     <!-- Google AdSense site verification and ad serving -->
     {siteConfig.monetization.adsenseClient && monetize && !noindex && (
-      <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteConfig.monetization.adsenseClient}`} crossorigin="anonymous"></script>
+      <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteConfig.monetization.adsenseClient}`} crossorigin="anonymous"></script>
     )}
 
     <!-- Schema: Website (homepage) or overridden by page-level components -->

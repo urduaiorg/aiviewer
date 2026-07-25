@@ -65,7 +65,6 @@ for (const file of htmlFiles) {
 
 const requiredNoindex = [
   'compare/index.html',
-  'compare/google-gemma-4-31b-it-vs-openai-gpt-oss-20b/index.html',
   'free-ai-tools/index.html',
   'models/index.html',
   'prompts/index.html',
@@ -92,6 +91,21 @@ for (const path of requiredMonetized) {
   if (!hasAdsense(html)) fail(`${path}: eligible editorial page does not load AdSense`);
 }
 
+const downloadPage = await read('download/index.html');
+for (const unsupportedClaim of ['pravatar.cc', '10,000+ professionals', 'battle-tested']) {
+  if (downloadPage.toLowerCase().includes(unsupportedClaim.toLowerCase())) {
+    fail(`download/index.html: contains unsupported proof or endorsement (${unsupportedClaim})`);
+  }
+}
+if (!downloadPage.includes("join AIViewer's newsletter")) {
+  fail('download/index.html: newsletter opt-in is not disclosed beside the form');
+}
+try {
+  await access(join(dist, 'assets/2026-ultimate-ai-prompt-cheat-sheet.md'));
+} catch {
+  fail('download/index.html: promised prompt template asset is missing');
+}
+
 const weeklyUpdate = await read('guides/weekly-ai-update-july-11-2026/index.html');
 if (!weeklyUpdate.includes('July 11, 2026')) fail('weekly update: visible publication date is missing or shifted by timezone');
 if (weeklyUpdate.includes('July 10, 2026')) fail('weekly update: visible publication date shifted to July 10');
@@ -102,17 +116,15 @@ for (const date of ['Jul 6', 'Jul 7', 'Jul 8', 'Jul 9']) {
 if (!weeklyUpdate.includes('Primary sources checked')) fail('weekly update: source verification section is missing');
 if (!weeklyUpdate.includes('AI-assisted')) fail('weekly update: AI-assistance disclosure is missing');
 
-const ownedProduct = await read('tools/ourscreen/index.html');
-if (hasAdsense(ownedProduct)) fail('tools/ourscreen/index.html: owned product page loads AdSense');
-
 const provenComparison = await read('compare/qwen-qwen3-14b-vs-qwen-qwen3-5-9b/index.html');
-if (isNoindex(provenComparison)) fail('proven comparison: expected indexable page');
+if (!isNoindex(provenComparison)) fail('legacy comparison: expected noindex until original analysis is added');
 if (hasAdsense(provenComparison)) fail('proven comparison: comparison pages must remain unmonetized');
 
 for (const removedPath of [
   'compare/qwen-qwen3-14b-vs-qwen-qwen3-32b/index.html',
   'tools/anything-ai/index.html',
   'tools/chatgpt/index.html',
+  'tools/ourscreen/index.html',
   'guides/ai-and-jobs-2026/index.html',
   'guides/best-ai-tools-for-small-business-2026/index.html',
   'guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/index.html',
@@ -149,6 +161,24 @@ const homepage = await read('index.html');
 for (const hiddenHub of ['/compare/', '/models/', '/playbooks/', '/reports/', '/students/', '/teachers/', '/free-ai-tools/']) {
   if (homepage.includes(`href="${hiddenHub}"`)) fail(`index.html: links prominently to excluded hub ${hiddenHub}`);
 }
+for (const trustPath of [
+  '/editorial-standards/',
+  '/review-methodology/',
+  '/ai-use/',
+  '/corrections/',
+  '/disclosure/',
+  '/ownership-and-funding/',
+  '/privacy/',
+  '/terms/',
+  '/contact/',
+]) {
+  if (!homepage.includes(`href="${trustPath}"`)) {
+    fail(`index.html: global footer is missing trust link ${trustPath}`);
+  }
+}
+if (!homepage.includes('Subscription data is handled under our')) {
+  fail('index.html: newsletter form is missing its nearby privacy notice');
+}
 
 const sitemap = await read('sitemap-0.xml');
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => new URL(match[1]));
@@ -170,29 +200,48 @@ if (adsTxt !== 'google.com, pub-8532451951782012, DIRECT, f08c47fec0942fa0') {
 
 const headers = await read('_headers');
 if (!headers.includes('https://subscribe-forms.beehiiv.com')) fail('_headers: Beehiiv form endpoint is blocked by CSP');
+if (!/frame-src[^;]*https:\/\/www\.youtube-nocookie\.com/.test(headers)) {
+  fail('_headers: privacy-enhanced YouTube embeds are blocked by frame-src');
+}
+if (!/child-src[^;]*https:\/\/www\.youtube-nocookie\.com/.test(headers)) {
+  fail('_headers: privacy-enhanced YouTube embeds are blocked by child-src');
+}
 
 const redirects = await read('_redirects');
-const redirectSources = new Set(
-  redirects
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter((line) => line && !line.startsWith('#'))
-    .map((line) => line.split(/\s+/)[0])
-);
-const redirectMap = new Map(
-  redirects
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter((line) => line && !line.startsWith('#'))
-    .map((line) => {
-      const [source, target] = line.split(/\s+/);
-      return [source, target];
-    })
-);
+const redirectRules = redirects
+  .split(/\r?\n/)
+  .map((line) => line.trim())
+  .filter((line) => line && !line.startsWith('#'))
+  .map((line) => {
+    const [source, target, status] = line.split(/\s+/);
+    return { source, target, status };
+  });
+const redirectSources = new Set(redirectRules.map(({ source }) => source));
+const redirectMap = new Map(redirectRules.map(({ source, target }) => [source, target]));
+const redirectStatusMap = new Map(redirectRules.map(({ source, status }) => [source, status]));
+
+for (const { source, status } of redirectRules) {
+  if (!['200', '301', '302', '303', '307', '308'].includes(status)) {
+    fail(`_redirects: ${source} has missing or unsupported status ${status ?? '(none)'}`);
+  }
+}
 
 if (redirectMap.get('/guides/gpt-5-6-sol-explained-openai-new-model/') !== '/guides/weekly-ai-update-july-11-2026/') {
   fail('_redirects: retired GPT-5.6 preview does not consolidate into the current weekly update');
 }
+
+const canonicalVideoGuide = '/video-lessons/';
+for (const source of [
+  '/guides/best-ai-video-generators/',
+  '/guides/best-ai-video-generators',
+  '/guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/',
+  '/guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared',
+]) {
+  if (redirectMap.get(source) !== canonicalVideoGuide || redirectStatusMap.get(source) !== '301') {
+    fail(`_redirects: ${source} must permanently consolidate into ${canonicalVideoGuide}`);
+  }
+}
+
 const relativeFiles = new Set(files.map((file) => relative(dist, file)));
 
 function hasRedirect(pathname) {
@@ -207,6 +256,14 @@ function hasBuiltTarget(pathname) {
   if (relativeFiles.has(clean)) return true;
   const indexPath = `${clean.replace(/\/$/, '')}/index.html`;
   return relativeFiles.has(indexPath);
+}
+
+function builtHtmlPath(pathname) {
+  if (pathname === '/') return relativeFiles.has('index.html') ? 'index.html' : null;
+  const clean = pathname.replace(/^\//, '');
+  if (clean.endsWith('.html') && relativeFiles.has(clean)) return clean;
+  const indexPath = `${clean.replace(/\/$/, '')}/index.html`;
+  return relativeFiles.has(indexPath) ? indexPath : null;
 }
 
 function redirectFor(pathname) {
@@ -234,6 +291,92 @@ for (const [source, initialTarget] of redirectMap) {
   }
 }
 
+async function validateDirectIndexableRoute(pathname, source) {
+  if (hasRedirect(pathname)) {
+    fail(`${source}: links through redirect ${pathname}`);
+    return;
+  }
+
+  const htmlPath = builtHtmlPath(pathname);
+  if (!htmlPath) {
+    fail(`${source}: links to missing route ${pathname}`);
+    return;
+  }
+
+  const html = await read(htmlPath);
+  if (isNoindex(html)) fail(`${source}: links to noindex route ${pathname}`);
+}
+
+const finderPage = await read('finder/index.html');
+const decodedFinderPage = finderPage
+  .replaceAll('&quot;', '"')
+  .replaceAll('&amp;', '&');
+const serializedFinderUrls = [...decodedFinderPage.matchAll(/"url":\[0,"([^"]+)"\]/g)]
+  .map((match) => match[1]);
+const finderComponentUrl = finderPage.match(/component-url="([^"]*\/ToolFinder\.[^"]+\.js)"/)?.[1];
+
+for (const url of serializedFinderUrls) {
+  if (url.startsWith('/') && !url.startsWith('//')) continue;
+  try {
+    if (new URL(url).protocol !== 'https:') {
+      fail(`finder recommendations: external destination must use HTTPS (${url})`);
+    }
+  } catch {
+    fail(`finder recommendations: invalid destination URL ${url}`);
+  }
+}
+
+if (!finderComponentUrl) {
+  fail('finder/index.html: ToolFinder client bundle is missing');
+} else {
+  const finderComponent = await read(finderComponentUrl.replace(/^\//, ''));
+  const literalFinderRoutes = [...finderComponent.matchAll(/href:"(\/[^"]+)"/g)]
+    .map((match) => match[1]);
+  const finderInternalRoutes = new Set(
+    [...serializedFinderUrls, ...literalFinderRoutes]
+      .filter((url) => url.startsWith('/') && !url.startsWith('//'))
+      .map((url) => url.split(/[?#]/)[0])
+  );
+
+  for (const pathname of finderInternalRoutes) {
+    await validateDirectIndexableRoute(pathname, 'finder recommendations');
+  }
+}
+
+const compareHub = await read('compare/index.html');
+const declaredComparisonCount = Number(compareHub.match(/data-comparison-count="(\d+)"/)?.[1]);
+const comparisonCardTags = [...compareHub.matchAll(/<a\b[^>]*data-comparison-card[^>]*>/g)]
+  .map((match) => match[0]);
+const comparisonCardUrls = comparisonCardTags
+  .map((tag) => tag.match(/\bhref="([^"]+)"/)?.[1])
+  .filter(Boolean);
+const indexableComparisonPaths = [];
+
+for (const file of htmlFiles) {
+  const path = relative(dist, file);
+  if (!path.startsWith('compare/') || path === 'compare/index.html') continue;
+  const html = await readFile(file, 'utf8');
+  if (!isNoindex(html)) indexableComparisonPaths.push(path);
+}
+
+if (!Number.isInteger(declaredComparisonCount)) {
+  fail('compare/index.html: missing machine-readable comparison count');
+} else {
+  if (declaredComparisonCount !== comparisonCardUrls.length) {
+    fail(`compare/index.html: declares ${declaredComparisonCount} comparisons but renders ${comparisonCardUrls.length} cards`);
+  }
+  if (declaredComparisonCount !== indexableComparisonPaths.length) {
+    fail(`compare/index.html: declares ${declaredComparisonCount} comparisons but ${indexableComparisonPaths.length} detail pages are indexable`);
+  }
+}
+
+for (const pathname of comparisonCardUrls) {
+  await validateDirectIndexableRoute(pathname, 'compare/index.html');
+}
+
+const brokenInternalLinks = new Map();
+const brokenInternalAssets = new Map();
+
 for (const file of htmlFiles) {
   const html = await readFile(file, 'utf8');
   if (isNoindex(html)) continue;
@@ -245,9 +388,41 @@ for (const file of htmlFiles) {
     const pathname = rawHref.split(/[?#]/)[0];
     if (!pathname || pathname.startsWith('/_astro/') || pathname.startsWith('/pagefind/')) continue;
     if (!hasBuiltTarget(pathname) && !hasRedirect(pathname)) {
-      fail(`${source}: broken internal link ${pathname}`);
+      if (!brokenInternalLinks.has(pathname)) brokenInternalLinks.set(pathname, new Set());
+      brokenInternalLinks.get(pathname).add(source);
     }
   }
+
+  const localAssetCandidates = [
+    ...[...html.matchAll(/<(?:img|source)\b[^>]*\bsrc="([^"]+)"/g)].map((match) => match[1]),
+    ...[...html.matchAll(/<meta\b[^>]*property="og:image"[^>]*content="([^"]+)"/g)].map((match) => match[1]),
+  ];
+
+  for (const rawAsset of localAssetCandidates) {
+    let pathname = rawAsset.split(/[?#]/)[0];
+    if (/^https?:\/\//.test(pathname)) {
+      const url = new URL(pathname);
+      if (url.hostname !== 'aiviewer.ai' && url.hostname !== 'www.aiviewer.ai') continue;
+      pathname = url.pathname;
+    }
+    if (!pathname.startsWith('/') || pathname.startsWith('//') || pathname.startsWith('/_astro/')) continue;
+    if (!hasBuiltTarget(pathname)) {
+      if (!brokenInternalAssets.has(pathname)) brokenInternalAssets.set(pathname, new Set());
+      brokenInternalAssets.get(pathname).add(source);
+    }
+  }
+}
+
+for (const [pathname, sources] of brokenInternalLinks) {
+  const examples = [...sources].slice(0, 3).join(', ');
+  const remaining = sources.size > 3 ? `, +${sources.size - 3} more` : '';
+  fail(`broken internal link ${pathname}: referenced by ${sources.size} indexable page(s) (${examples}${remaining})`);
+}
+
+for (const [pathname, sources] of brokenInternalAssets) {
+  const examples = [...sources].slice(0, 3).join(', ');
+  const remaining = sources.size > 3 ? `, +${sources.size - 3} more` : '';
+  fail(`broken internal image ${pathname}: referenced by ${sources.size} indexable page(s) (${examples}${remaining})`);
 }
 
 if (failures.length) {
@@ -256,4 +431,4 @@ if (failures.length) {
 }
 
 console.log(`Validated ${htmlFiles.length} HTML pages: ${indexableCount} indexable, ${noindexCount} noindex, ${monetizedCount} AdSense-eligible.`);
-console.log(`Validated ${sitemapUrls.length} sitemap URLs, internal links, redirects, schema integrity, ads.txt, and newsletter CSP.`);
+console.log(`Validated ${sitemapUrls.length} sitemap URLs, internal links and images, redirects, schema integrity, ads.txt, and newsletter CSP.`);

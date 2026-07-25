@@ -2,21 +2,24 @@
 import TransparencyPage from '../../components/content/TransparencyPage.astro';
 import { siteConfig } from '../../data/site.config';
 
-const updated = 'July 11, 2026';
+const updated = 'July 25, 2026';
 ---
 
 <TransparencyPage
   title="AI Use Policy"
-  description="How AIViewer.ai uses artificial intelligence in research, writing, images, data, and website production while keeping humans accountable."
-  label="Publisher accountability"
+  description="How AIViewer’s autonomous editorial system researches, writes, illustrates, checks, and maintains the publication."
+  label="Autonomous publishing disclosure"
   heading="AI Use Policy"
-  intro="We cover AI and use AI tools. This policy explains where they can help, where they cannot substitute for evidence, and when readers should be told."
+  intro="AIViewer is an AI-operated publication. This policy explains exactly what that means, what readers should not assume, and how evidence—not a fictional newsroom—supports our work."
   updated={updated}
   breadcrumb="AI Use Policy"
 >
-  <h2>The publisher owns the work</h2>
+  <h2>An AI-operated publication</h2>
   <p>
-    AIViewer.ai may use generative AI and other automation during research, production, or maintenance. AIViewer's publisher remains accountable for what appears on the site. “The model produced it” is never an excuse for an inaccurate claim, invented source, copied passage, undisclosed conflict, or misleading recommendation.
+    AIViewer’s research, drafting, editing, illustration, coding, and maintenance may be performed substantially by AI agents. The founder sets the mission and owns the publication, but readers should not assume that a human editor has reviewed every sentence before publication. We state the production mode on each new editorial page instead of hiding it behind a generic “editorial team” byline.
+  </p>
+  <p>
+    Autonomy does not lower the evidence standard. “The model produced it” is never an excuse for an invented source, copied passage, unsupported claim, fake test, or misleading recommendation. The public page must show enough source and limitation information for a reader to challenge the work.
   </p>
 
   <h2>Acceptable uses</h2>
@@ -24,7 +27,7 @@ const updated = 'July 11, 2026';
   <ul>
     <li>organizing notes, transcripts, or source material;</li>
     <li>suggesting outlines, questions, counterarguments, or plain-language explanations;</li>
-    <li>producing a source-backed draft that is checked for evidence, structure, and policy compliance;</li>
+    <li>producing a source-backed draft and checking its citations, structure, internal links, and policy requirements;</li>
     <li>copyediting, translation support, metadata, and accessibility text;</li>
     <li>extracting structured fields from verified sources, subject to checking;</li>
     <li>supporting code, data analysis, design exploration, and quality assurance; and</li>
@@ -42,22 +45,22 @@ const updated = 'July 11, 2026';
     <li>Creating a fake author, source, testimonial, screenshot, or user experience.</li>
   </ul>
 
-  <h2>Verification requirements</h2>
+  <h2>Page-by-page verification requirements</h2>
   <p>
-    AI output is a lead or working material, not a source. Factual claims should be checked against current primary evidence. A source link must lead to the material it is cited for. Review conclusions must match the access and testing actually performed. When evidence remains uncertain, we say so or remove the claim.
+    AI output is never treated as a source. Consequential factual claims are checked against current primary evidence where it exists. A source link must lead to the material it is cited for. Product conclusions must match the access and testing actually performed. When evidence remains uncertain, the page says so or removes the claim. Automated checks can detect missing fields, stale review dates, broken links, and duplicate routes, but they cannot turn weak evidence into a fact.
   </p>
 
-  <h2>When we disclose AI assistance</h2>
+  <h2>Disclosure is the default</h2>
   <p>
-    We add a page-level disclosure when AI materially generated or transformed the published substance in a way readers would reasonably want to understand. Examples include a largely AI-assisted draft, synthetic media that could be mistaken for documentary evidence, a significant automated analysis, or a structured page produced primarily by automation.
+    New lessons, signals, foundations, and workflows include a page-level AI-use statement. It identifies whether AI materially performed research, source review, drafting, editing, translation, or image generation. We do not use “human-reviewed,” “expert-reviewed,” or a named reviewer unless that review actually occurred.
   </p>
   <p>
-    Routine spelling help, formatting, transcription, coding assistance, or brainstorming does not always require an article-level label when it does not materially change the reporting or conclusion. This policy provides the standing disclosure that those tools may be part of our workflow.
+    A named human may occasionally contribute or review a page. That is additional provenance, not a standing claim about the site.
   </p>
 
   <h2>Generated images and demonstrations</h2>
   <p>
-    A generated or altered image must not be presented as a real event, authentic product screenshot, or evidence of a test. Material synthetic imagery should be labeled in its caption, surrounding text, or accessible description when confusion is plausible. Genuine product screenshots may be cropped or redacted for privacy, but not altered to misrepresent what the product did.
+    Editorial cover images may be AI-generated and are presentation, not documentary proof. They must not be presented as a real event, authentic product screenshot, creator thumbnail, or evidence of a test. Genuine product screenshots may be cropped or redacted for privacy, but not altered to misrepresent what the product did.
   </p>
 
   <h2>Structured and automated pages</h2>
@@ -72,12 +75,12 @@ const updated = 'July 11, 2026';
 
   <h2>Authorship, copyright, and attribution</h2>
   <p>
-    AI assistance does not make copied expression original. Editors must attribute external reporting, respect copyright and licenses, avoid close imitation of a living creator's distinctive work, and ensure that a byline identifies the editorial team or person accountable for publication. When a page has received a named human review, that credit should be explicit rather than implied.
+    AI assistance does not make copied expression original. AIViewer attributes creators and external reporting, respects copyright and licenses, avoids close imitation of a living creator’s distinctive work, and uses official embeds rather than republishing transcripts or copied thumbnails. The publisher is identified as AIViewer; a named human contribution is credited only when it occurred.
   </p>
 
   <h2>Legacy content and enforcement</h2>
   <p>
-    This policy applies to content published or materially updated on or after July 11, 2026. Older pages are being reviewed. If we discover fabricated sourcing, false testing claims, or materially unreviewed automated content, we will correct, relabel, de-index, rewrite, or remove it as appropriate.
+    This policy applies to content published or materially updated on or after July 25, 2026. Older pages are being consolidated or removed from the public index. If we find fabricated sourcing, false testing claims, copied expression, or content that cannot stand on its evidence, we will correct, relabel, de-index, rewrite, or remove it.
   </p>
 
   <h2>Ask about our process</h2>

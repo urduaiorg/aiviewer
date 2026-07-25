@@ -5,22 +5,17 @@ import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
 import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
 import TableOfContents from '../../components/content/TableOfContents.astro';
-import ProductSchema from '../../components/seo/ProductSchema.astro';
+import ArticleSchema from '../../components/seo/ArticleSchema.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 import FAQSchema from '../../components/seo/FAQSchema.astro';
-import ProsCons from '../../components/content/ProsCons.astro';
-import ToolPickBox from '../../components/content/ToolPickBox.astro';
-import PricingTable from '../../components/content/PricingTable.astro';
 import AuthorBio from '../../components/content/AuthorBio.astro';
 import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import ReadingProgress from '../../components/content/ReadingProgress.astro';
-import RelatedContent from '../../components/content/RelatedContent.astro';
 import StillRecommended from '../../components/content/StillRecommended.astro';
 import ShareButtons from '../../components/content/ShareButtons.astro';
 import { formatDate } from '../../utils/formatDate';
 import { getReadingTime } from '../../utils/readingTime';
-import { siteConfig, categoryLabels, pricingConfig } from '../../data/site.config';
-import { getActiveAffiliateProgram } from '../../data/affiliatePrograms';
+import { siteConfig } from '../../data/site.config';
 import { shouldNoindexPath } from '../../utils/indexPolicy';
 
 export async function getStaticPaths() {
@@ -32,17 +27,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const affiliateProgram = getActiveAffiliateProgram(entry.id);
-const commercialUrl = affiliateProgram?.url ?? entry.data.website;
-const isOwnedProduct = entry.id === 'ourscreen';
 const { Content, headings } = await render(entry);
-const relatedEntries = (await getCollection('tools', ({ data }) => !data.draft))
-  .filter((candidate) =>
-    candidate.id !== entry.id &&
-    candidate.data.category === entry.data.category &&
-    !shouldNoindexPath(`/tools/${candidate.id}/`)
-  )
-  .slice(0, 3);
 
 // Parse FAQ headings into FAQSchema format
 const faqs = [];
@@ -74,78 +59,6 @@ for (const heading of headings) {
   }
 }
 
-const verdict = `${entry.data.toolName} is best suited to ${entry.data.bestFor.slice(0, 2).join(' and ').toLowerCase()}. Its clearest strength is ${entry.data.pros[0]?.toLowerCase() ?? 'workflow fit'}; the main limitation to check is ${entry.data.cons[0]?.toLowerCase() ?? 'whether it matches your requirements'}.`;
-
-function inferPricingTiers() {
-  const baseFeatures = entry.data.bestFor.slice(0, 3).map((item) => `Best for ${item.toLowerCase()}`);
-  const paidMatch = entry.data.pricingDetails.match(/\$[\d]+(?:\/[a-zA-Z.]+)?|\$[\d]+/g);
-  const primaryPaidPrice = paidMatch?.[0] ?? (entry.data.pricing === 'enterprise' ? 'Custom' : '$20');
-
-  if (entry.data.pricing === 'free') {
-    return [
-      {
-        name: 'Free',
-        price: '$0',
-        description: entry.data.pricingDetails,
-        features: ['Core workflow access', ...baseFeatures],
-        isRecommended: true,
-      },
-    ];
-  }
-
-  if (entry.data.pricing === 'freemium') {
-    return [
-      {
-        name: 'Free',
-        price: '$0',
-        description: `Start using ${entry.data.toolName} before you commit.`,
-        features: ['Core access with usage limits', baseFeatures[0] ?? 'Basic workflow support', 'Good for testing fit'],
-      },
-      {
-        name: 'Paid',
-        price: primaryPaidPrice,
-        period: primaryPaidPrice.includes('/') ? undefined : 'mo',
-        description: entry.data.pricingDetails,
-        features: ['Higher limits and priority access', baseFeatures[1] ?? 'Expanded workflow coverage', baseFeatures[2] ?? 'Better for daily use'],
-        isRecommended: true,
-        cta: `Try ${entry.data.toolName}`,
-        ctaUrl: commercialUrl,
-        isAffiliate: Boolean(affiliateProgram),
-      },
-    ];
-  }
-
-  if (entry.data.pricing === 'enterprise') {
-    return [
-      {
-        name: 'Enterprise',
-        price: 'Custom',
-        description: entry.data.pricingDetails,
-        features: ['Custom procurement', 'Admin and compliance controls', ...baseFeatures.slice(0, 2)],
-        isRecommended: true,
-        cta: 'Contact sales',
-        ctaUrl: commercialUrl,
-        isAffiliate: Boolean(affiliateProgram),
-      },
-    ];
-  }
-
-  return [
-    {
-      name: 'Paid',
-      price: primaryPaidPrice,
-      period: primaryPaidPrice.includes('/') ? undefined : 'mo',
-      description: entry.data.pricingDetails,
-      features: ['Full product access', ...baseFeatures, 'Best for committed users'],
-      isRecommended: true,
-      cta: `Visit ${entry.data.toolName}`,
-      ctaUrl: commercialUrl,
-      isAffiliate: Boolean(affiliateProgram),
-    },
-  ];
-}
-
-const pricingTiers = inferPricingTiers();
 ---
 
 <BaseLayout
@@ -155,21 +68,20 @@ const pricingTiers = inferPricingTiers();
   type="article"
   publishedDate={entry.data.publishedDate.toISOString()}
   updatedDate={entry.data.updatedDate?.toISOString()}
-  monetize={!isOwnedProduct}
+  monetize={true}
   noindex={shouldNoindexPath(Astro.url.pathname)}
 >
-  <ProductSchema
+  <ArticleSchema
     slot="head"
-    name={entry.data.toolName}
+    title={entry.data.title}
     description={entry.data.description}
     image={entry.data.coverImage}
-    url={entry.data.website}
-    category={entry.data.category}
-    pricing={entry.data.pricing}
-    pricingDetails={entry.data.pricingDetails}
-    datePublished={entry.data.publishedDate}
-    dateModified={entry.data.updatedDate}
-    operatingSystem={entry.data.toolName === 'OurScreen' ? 'macOS 13 or later' : undefined}
+    publishedDate={entry.data.publishedDate}
+    updatedDate={entry.data.updatedDate}
+    authorName="AIViewer"
+    authorUrl={`${siteConfig.url}/ai-use/`}
+    authorType="Organization"
+    canonicalUrl={`${siteConfig.url}/tools/${entry.id}/`}
   />
   <BreadcrumbSchema
     slot="head"
@@ -194,8 +106,8 @@ const pricingTiers = inferPricingTiers();
             <span class="rounded-full bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-indigo-600 dark:text-indigo-400">
               {entry.data.category}
             </span>
-            <a href="/editorial-standards/" class="font-medium text-zinc-600 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400">AIViewer Editorial Team</a>
-            <a href="/ai-use/" class="text-zinc-500 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400">AI-assisted</a>
+            <a href="/ai-use/" class="font-medium text-zinc-600 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400">AIViewer</a>
+            <a href="/review-methodology/" class="text-zinc-500 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400">Official-source profile</a>
             <span>{formatDate(entry.data.publishedDate)}</span>
             {entry.data.updatedDate && entry.data.updatedDate.getTime() !== entry.data.publishedDate.getTime() && (
               <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2.5 py-0.5 text-[0.7rem] font-medium text-emerald-700 dark:text-emerald-400">
@@ -224,7 +136,7 @@ const pricingTiers = inferPricingTiers();
           <div class="mt-8 grid gap-4 sm:grid-cols-3">
             <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-5 py-4">
               <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-zinc-400">Editorial basis</p>
-              <p class="mt-2 text-base font-semibold text-zinc-950 dark:text-zinc-50">{isOwnedProduct ? 'Related product overview' : 'Research-led evaluation'}</p>
+              <p class="mt-2 text-base font-semibold text-zinc-950 dark:text-zinc-50">Official-source profile</p>
             </div>
             <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-5 py-4">
               <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-zinc-400">Pricing</p>
@@ -268,33 +180,23 @@ const pricingTiers = inferPricingTiers();
     <div class="page-container py-12 md:py-16">
       <div class="grid gap-12 xl:grid-cols-[minmax(0,1fr)_16rem]">
         <div class="min-w-0 space-y-8">
-          <ToolPickBox
-            name={entry.data.toolName}
-            verdict={verdict}
-            description={entry.data.description}
-  ogImage={entry.data.coverImage}
-            rating={entry.data.rating}
-            pricing={entry.data.pricing}
-            bestFor={entry.data.bestFor}
-            website={entry.data.website}
-            affiliateUrl={affiliateProgram?.url}
-            category={entry.data.category}
-            badge={isOwnedProduct ? 'Related Product' : entry.data.featured ? 'Featured Evaluation' : 'Tool Evaluation'}
-          />
-
-          <ProsCons pros={entry.data.pros} cons={entry.data.cons} toolName={entry.data.toolName} verdict={verdict} />
-
-          <PricingTable
-            toolName={entry.data.toolName}
-            tiers={pricingTiers}
-            disclaimer={`Pricing is based on the current ${categoryLabels[entry.data.category] ?? entry.data.category} offer described in the review frontmatter: ${entry.data.pricingDetails}`}
-          />
+          <aside class="rounded-[1.5rem] border border-amber-200/80 bg-amber-50/70 px-6 py-5 text-zinc-800 dark:border-amber-900/50 dark:bg-amber-950/20 dark:text-zinc-200">
+            <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-amber-800 dark:text-amber-300">How to read this page</p>
+            <p class="mt-2 text-sm leading-6">
+              This is a source-linked product profile, not a scored review or a claim of hands-on benchmarking.
+              It explains the documented offer, useful workflows, limits, and questions to verify on the official site.
+            </p>
+          </aside>
 
           <article data-pagefind-body class="rounded-[1.75rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-6 py-8 shadow-[var(--shadow-card)] md:px-10 md:py-10">
             <div class="prose dark:prose-invert max-w-none prose-headings:scroll-mt-24">
               <Content />
             </div>
-            <AuthorBio compact variant="team" />
+            <AuthorBio
+              compact
+              variant="publisher"
+              disclosure="AIViewer used AI to research, draft, and edit this source-linked profile. No human review or hands-on benchmark is claimed; verify current prices and product behavior on the linked official pages."
+            />
             <NewsletterSignup variant="inline" />
           </article>
         </div>
@@ -303,96 +205,6 @@ const pricingTiers = inferPricingTiers();
       </div>
     </div>
   </section>
-
-  {/* Affiliate CTA Banner — high-conversion placement between content and related tools */}
-  <section class="border-t border-zinc-200/70 dark:border-zinc-800 bg-gradient-to-br from-indigo-50/60 via-white to-blue-50/40 dark:from-indigo-950/20 dark:via-[var(--color-bg)] dark:to-blue-950/10">
-    <div class="page-container py-10 md:py-14">
-      <div class="relative overflow-hidden rounded-[1.75rem] border border-indigo-200/60 dark:border-indigo-900/40 bg-white dark:bg-zinc-900 shadow-[0_8px_40px_rgba(79,70,229,0.08)] dark:shadow-[0_8px_40px_rgba(79,70,229,0.04)]">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(79,70,229,0.06),_transparent_50%)] dark:bg-[radial-gradient(circle_at_top_right,_rgba(79,70,229,0.04),_transparent_50%)]" aria-hidden="true"></div>
-        <div class="relative flex flex-col items-center gap-6 px-6 py-10 text-center md:px-12 md:py-12">
-          <div class="inline-flex items-center gap-2 rounded-full bg-indigo-100 dark:bg-indigo-900/40 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-indigo-700 dark:text-indigo-300">
-            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Editorial evaluation
-          </div>
-
-          <h2 class="max-w-2xl text-2xl font-bold text-zinc-900 dark:text-zinc-50 md:text-3xl">
-            Ready to try {entry.data.toolName}?
-          </h2>
-          <p class="max-w-xl text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            {entry.data.pricing === 'free'
-              ? `${entry.data.toolName} is free to try for ${entry.data.bestFor[0]?.toLowerCase() ?? 'its core workflow'}. Check the limitations in this evaluation before relying on it.`
-              : entry.data.pricing === 'freemium'
-                ? `Start with the free tier and test ${entry.data.toolName} against your own ${entry.data.bestFor[0]?.toLowerCase() ?? 'workflow'} before upgrading.`
-                : `Review the current plan and test ${entry.data.toolName} against your own ${entry.data.bestFor[0]?.toLowerCase() ?? 'workflow'} before purchasing.`}
-          </p>
-
-          {affiliateProgram && (
-            <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-              Paid link: AIViewer may earn a commission at no extra cost to you.
-            </p>
-          )}
-
-          <div class="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
-            <a
-              href={commercialUrl}
-              target="_blank"
-              rel={affiliateProgram ? 'sponsored noopener' : 'noopener'}
-              data-track-event={affiliateProgram ? 'affiliate_click' : 'outbound_tool_click'}
-              data-track-label={entry.data.toolName}
-              class="inline-flex items-center gap-2.5 rounded-xl bg-indigo-600 px-7 py-3.5 text-sm font-bold text-white shadow-[0_4px_16px_rgba(79,70,229,0.3)] transition-all hover:bg-indigo-700 hover:shadow-[0_4px_20px_rgba(79,70,229,0.45)] active:scale-[0.98]"
-            >
-              Try {entry.data.toolName} {entry.data.pricing === 'free' ? '— Free' : entry.data.pricing === 'freemium' ? '— Free to Start' : ''}
-              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </a>
-            <a
-              href="/tools/"
-              class="text-sm font-medium text-zinc-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-            >
-              Compare alternatives
-            </a>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-
-  {relatedEntries.length > 0 && (
-    <section class="border-t border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
-      <div class="page-container py-12 md:py-16">
-        <div class="mb-8" data-reveal>
-          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Same category</p>
-          <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">More {entry.data.category} tools.</h2>
-        </div>
-        <div class="grid gap-5 md:grid-cols-3">
-          {relatedEntries.map((candidate) => (
-            <a
-              href={`/tools/${candidate.id}/`}
-              class="group rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
-            >
-              <div class="flex items-center justify-between gap-3">
-                <p class="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-400">{candidate.data.pricing}</p>
-                <p class="text-xs font-semibold text-zinc-500 dark:text-zinc-400">{pricingConfig[candidate.data.pricing]?.label ?? candidate.data.pricing}</p>
-              </div>
-              <h3 class="mt-3 text-xl text-zinc-950 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{candidate.data.toolName}</h3>
-              <p class="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{candidate.data.description}</p>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
-
-  <RelatedContent
-    currentCollection="tools"
-    currentId={entry.id}
-    tags={entry.data.tags}
-    toolName={entry.data.toolName}
-  />
 
   <Footer />
 </BaseLayout>

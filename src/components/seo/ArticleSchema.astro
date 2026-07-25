@@ -1,5 +1,22 @@
 ---
 import { siteConfig } from '../../data/site.config';
+import type { GuideFormat } from '../editorial/model';
+
+interface EvidenceSource {
+  title: string;
+  url: string;
+}
+
+interface EmbeddedVideo {
+  youtubeId: string;
+  title: string;
+  description?: string;
+  creatorName: string;
+  creatorType: 'Person' | 'Organization';
+  creatorUrl?: string;
+  publishedAt?: Date;
+  durationSeconds?: number;
+}
 
 export interface Props {
   title: string;
@@ -11,6 +28,10 @@ export interface Props {
   authorUrl?: string;
   authorType?: 'Person' | 'Organization';
   canonicalUrl?: string;
+  format?: GuideFormat;
+  learningOutcome?: string;
+  evidenceSources?: EvidenceSource[];
+  video?: EmbeddedVideo;
 }
 
 const {
@@ -19,20 +40,43 @@ const {
   image,
   publishedDate,
   updatedDate,
-  authorName = `${siteConfig.name} Editorial Team`,
-  authorUrl = new URL('/editorial-standards/', siteConfig.url).toString(),
+  authorName = 'AIViewer',
+  authorUrl = siteConfig.url,
   authorType = 'Organization',
   canonicalUrl,
+  format,
+  learningOutcome,
+  evidenceSources = [],
+  video,
 } = Astro.props;
 
 const siteUrl = siteConfig.url;
 const pageUrl = canonicalUrl || Astro.url.href;
 const imageUrl = image ? new URL(image, siteUrl).toString() : new URL(siteConfig.seo.ogImage, siteUrl).toString();
+const articleId = `${pageUrl}#article`;
+const videoId = `${pageUrl}#source-video`;
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
+function secondsToIsoDuration(totalSeconds: number): string {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return `PT${hours ? `${hours}H` : ''}${minutes ? `${minutes}M` : ''}${seconds || (!hours && !minutes) ? `${seconds}S` : ''}`;
+}
+
+const isLearningResource = Boolean(format && format !== 'ai-signal');
+const schemaType =
+  format === 'ai-signal'
+    ? 'NewsArticle'
+    : isLearningResource
+      ? ['Article', 'LearningResource']
+      : 'Article';
+
+const articleSchema = {
+  "@type": schemaType,
+  "@id": articleId,
   "headline": title,
+  "name": title,
   "description": description,
   "image": imageUrl,
   "datePublished": publishedDate.toISOString(),
@@ -48,13 +92,60 @@ const schema = {
   },
   "publisher": {
     "@type": "Organization",
-    "name": siteConfig.name,
+    "name": "AIViewer",
     "url": siteUrl,
     "logo": {
       "@type": "ImageObject",
       "url": new URL('/favicon.svg', siteUrl).toString(),
     },
   },
+  ...(isLearningResource && {
+    "learningResourceType":
+      format === 'video-lesson'
+        ? 'Video lesson'
+        : format === 'practical-workflow'
+          ? 'Practical guide'
+          : 'Foundation guide',
+    "educationalUse": format === 'practical-workflow' ? 'Practice' : 'Instruction',
+    ...(learningOutcome ? { "teaches": learningOutcome } : {}),
+  }),
+  ...(evidenceSources.length > 0 && {
+    "citation": evidenceSources.map((source) => ({
+      "@type": "CreativeWork",
+      "name": source.title,
+      "url": source.url,
+    })),
+  }),
+  ...(video ? {
+    "video": { "@id": videoId },
+    "isBasedOn": `https://www.youtube.com/watch?v=${video.youtubeId}`,
+  } : {}),
+};
+
+const videoSchema = video ? {
+  "@type": "VideoObject",
+  "@id": videoId,
+  "name": video.title,
+  "description": video.description ?? `Source video for ${title}`,
+  "url": `https://www.youtube.com/watch?v=${video.youtubeId}`,
+  "embedUrl": `https://www.youtube-nocookie.com/embed/${video.youtubeId}?autoplay=0`,
+  "creator": {
+    "@type": video.creatorType,
+    "name": video.creatorName,
+    ...(video.creatorUrl ? { "url": video.creatorUrl } : {}),
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "YouTube",
+    "url": "https://www.youtube.com/",
+  },
+  ...(video.publishedAt ? { "uploadDate": video.publishedAt.toISOString() } : {}),
+  ...(video.durationSeconds ? { "duration": secondsToIsoDuration(video.durationSeconds) } : {}),
+} : undefined;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": videoSchema ? [articleSchema, videoSchema] : [articleSchema],
 };
 ---
 

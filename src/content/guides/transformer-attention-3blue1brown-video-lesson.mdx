@@ -1,0 +1,198 @@
+---
+title: "How Transformer Attention Works: A 3Blue1Brown Video Lesson"
+description: "Trace text through tokens, embeddings, attention heads, MLPs, and residual connections—and learn what an attention map cannot prove."
+category: "education"
+publishedDate: "2026-07-25"
+updatedDate: "2026-07-25"
+coverImage: "/images/editorial/transformer-attention.webp"
+tags: ["transformers", "attention", "3Blue1Brown", "embeddings", "large language models", "AI education"]
+featured: false
+draft: false
+format: "video-lesson"
+publication:
+  status: "published"
+  index: true
+  monetize: true
+factCheckedAt: "2026-07-25"
+reviewDueAt: "2026-10-25"
+evidence:
+  mode: "creator-source-plus-verification"
+  sources:
+    - title: "Transformers, the tech behind LLMs | Deep Learning Chapter 5"
+      url: "https://www.youtube.com/watch?v=wjZofJX0v4M"
+      publisher: "3Blue1Brown"
+      kind: "primary"
+      publishedAt: "2024-04-01"
+      checkedAt: "2026-07-25"
+      note: "The attributed source lesson for the visual explanation of Transformer structure and embeddings."
+    - title: "Transformers, the tech behind LLMs"
+      url: "https://www.3blue1brown.com/lessons/gpt/"
+      publisher: "3Blue1Brown"
+      kind: "primary"
+      publishedAt: "2024-04-01"
+      checkedAt: "2026-07-25"
+      note: "Creator lesson page used to verify the title, date, lesson scope, and authorship."
+    - title: "Transformer: A Novel Neural Network Architecture for Language Understanding"
+      url: "https://research.google/blog/transformer-a-novel-neural-network-architecture-for-language-understanding/"
+      publisher: "Google Research"
+      kind: "primary"
+      publishedAt: "2017-08-31"
+      checkedAt: "2026-07-25"
+      note: "The original team's accessible explanation of self-attention, weighted mixing, and parallel processing."
+    - title: "Attention Is All You Need"
+      url: "https://arxiv.org/abs/1706.03762"
+      publisher: "Vaswani et al. via arXiv"
+      kind: "primary"
+      publishedAt: "2017-06-12"
+      checkedAt: "2026-07-25"
+      note: "Primary paper used to verify scaled dot-product attention, multi-head attention, feed-forward layers, and residual connections."
+    - title: "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile"
+      url: "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence"
+      publisher: "National Institute of Standards and Technology"
+      kind: "primary"
+      publishedAt: "2024-07-26"
+      checkedAt: "2026-07-25"
+      note: "Supports the distinction between architectural understanding and evidence that a deployed system is trustworthy."
+  limitations:
+    - "The video is a visual conceptual introduction, not a specification for every current model or a complete derivation of the attention equations."
+    - "The 2017 paper describes the original encoder-decoder Transformer for translation; many current language models use modified, decoder-focused, or hybrid designs."
+    - "Attention weights expose one internal calculation but do not, by themselves, establish a complete causal explanation for a model's output."
+aiUse:
+  mode: "ai-generated"
+  tasks: ["research", "source-review", "drafting", "editing"]
+  disclosure: "This lesson was researched and drafted by AIViewer’s AI editorial system, source-checked page by page, and was not represented as human-reviewed."
+video:
+  youtubeId: "wjZofJX0v4M"
+  title: "Transformers, the tech behind LLMs | Deep Learning Chapter 5"
+  description: "3Blue1Brown's visual introduction to the structure behind large language models, with an emphasis on tokens, embeddings, and contextual representations."
+  creatorName: "3Blue1Brown"
+  creatorType: "Organization"
+  creatorUrl: "https://www.youtube.com/@3blue1brown"
+  publishedAt: "2024-04-01"
+  durationSeconds: 1634
+lensSummary: "A Transformer turns tokens into vectors, repeatedly lets positions exchange information through attention, transforms each position through an MLP, and preserves a running representation through residual connections before predicting another token."
+learningOutcome: "Trace tokens through embeddings, queries, keys, values, weighted mixing, multiple heads, MLPs, and residual connections—and explain why an attention map is not a complete explanation."
+nextAction: "Complete the paper-and-pencil attention trace near the end: choose a pronoun, score its possible references, mix toy value cards, and mark what the resulting map still cannot tell you."
+---
+
+The [3Blue1Brown video](https://www.youtube.com/watch?v=wjZofJX0v4M) gives a visual answer to a question that model names often obscure: what actually happens between text entering a language model and another token coming out? Its [creator lesson page](https://www.3blue1brown.com/lessons/gpt/) describes the chapter as an introduction to overall Transformer structure and word embeddings. This companion goes one level deeper into attention while keeping the pictures-to-concepts path intact.
+
+It is not a transcript and it is not a blueprint for every current model. It is a durable map of the core computation.
+
+## The whole path in one sentence
+
+A text-generating Transformer converts text into tokens, maps each token and its position to a vector, repeatedly updates those vectors with attention and multilayer perceptrons (MLPs) while carrying information along residual connections, and finally converts the last relevant vector into probabilities for the next token.
+
+Every term in that sentence has a distinct job. Keeping the jobs separate makes the architecture much easier to reason about.
+
+## 1. Tokens make language computable
+
+Models do not begin with words or meanings. A tokenizer converts text into discrete token IDs. A token can be a word, a fragment, punctuation, or another frequently useful character sequence. Different tokenizers can split the same text differently.
+
+Tokenization matters because the model predicts one token at a time and its context length is measured in tokens, not pages or ideas. It also explains why a model can handle familiar spelling patterns yet behave oddly around unusual names, spacing, or character-counting tasks: the units visible to the model are not necessarily the units visible to a reader.
+
+For a GPT-style generator, previously produced tokens are appended to the input and processed again to predict the next one. This repeated left-to-right generation is called autoregressive decoding.
+
+## 2. Embeddings turn token IDs into directions and features
+
+A token ID is only an index. The model looks it up in an embedding table to obtain a high-dimensional vector: a long list of numbers learned during training. It also needs position information, because the same tokens in a different order can mean something different.
+
+At the bottom of the network, an embedding represents a token in a general way. As the vector moves through layers, surrounding tokens change it. The vector for “bank” can develop a different contextual representation in “river bank” than in “bank account.”
+
+This is more precise than saying the model looks up a definition. Meaning is distributed across many directions, layers, and interactions. A single coordinate usually does not correspond neatly to one human-readable concept.
+
+Google's original [Transformer overview](https://research.google/blog/transformer-a-novel-neural-network-architecture-for-language-understanding/) uses the same contextual idea: attention lets the representation of a word aggregate information from other words, so a relevant term such as “river” can reshape the representation of “bank.”
+
+## 3. Attention routes information between positions
+
+Attention answers a local computational question: **for the representation I am updating, which other positions should contribute, and by how much?**
+
+Each token representation is projected into three vectors:
+
+- A **query** represents what this position is looking for.
+- A **key** represents what this position can be matched on.
+- A **value** represents the information this position can contribute if selected.
+
+These phrases are metaphors for learned linear projections, not labels written inside the model. The actual calculation described in [Attention Is All You Need](https://arxiv.org/abs/1706.03762) compares a query with keys using dot products, scales the scores, and applies softmax so they become non-negative weights that sum to one. Those weights form a weighted mixture of the value vectors.
+
+Written compactly:
+
+`attention(Q, K, V) = softmax(QKᵀ / √dₖ)V`
+
+The important sequence is **compare, normalize, mix**:
+
+1. Compare one query with the available keys.
+2. Normalize the resulting scores into attention weights.
+3. Mix the corresponding values using those weights.
+
+In a decoder that generates text, a causal mask prevents a position from attending to future tokens. During generation, the model may use the prompt and tokens it has already produced, but not the continuation that has not been generated.
+
+### Why keys and values are separate
+
+Imagine a library card. The catalogue fields help you decide whether a book is relevant; the book's contents provide the material you use. Keys play the matching role and values play the content role. Because both are learned vectors, the model can learn that the best feature for locating information is not identical to the feature worth transferring.
+
+The analogy has limits: attention does not retrieve an intact symbolic record. It blends numerical value vectors, and later layers transform the result again.
+
+## 4. Multiple heads create multiple mixing spaces
+
+A Transformer normally performs several attention operations in parallel. Each **head** has its own query, key, and value projections. Their outputs are combined and projected back into the model's shared representation space.
+
+Multiple heads allow different relationship patterns to be available at the same layer. One head might place weight on nearby syntax while another responds to a distant reference, but those descriptions are observations, not assigned job titles. A head is not guaranteed to be a stable “grammar head” or “fact head” across every input.
+
+The original paper explains multi-head attention as a way to attend to information from different representation subspaces at different positions. That wording is safer than imagining a committee of tiny human specialists.
+
+## 5. The MLP transforms each position
+
+After attention has moved and mixed information between token positions, a feed-forward network—commonly called an MLP—processes each position separately. The same learned transformation is applied to every position.
+
+A useful division of labor is:
+
+- **Attention communicates across positions.**
+- **The MLP computes on the information now present at each position.**
+
+The MLP expands a vector into a larger internal space, applies a nonlinear activation, and projects it back. This lets the network detect and transform combinations of features that a purely linear weighted average could not express. Modern implementations may change the activation, dimensions, or routing design, but the attention-then-per-position-computation distinction remains a useful first model.
+
+## 6. Residual connections preserve a shared stream
+
+Attention and the MLP do not simply replace a token's current representation. Their outputs are added back through **residual connections**. Layer normalization is also used around these sublayers, with placement varying across architectures.
+
+Think of the residual stream as a working vector that each block reads and proposes an update to. The addition preserves a direct path for earlier information while allowing new contextual features to accumulate. Residual connections also make deep networks easier to optimize because information and gradients have shorter paths through the stack.
+
+A residual connection is not the same as conversational memory. It operates inside one model computation. Whether an assistant remembers an earlier chat depends on what conversation content the surrounding product supplies as context or stores externally.
+
+## Repetition turns routing into representation
+
+One attention pass can mix relevant information; one MLP can transform it. A Transformer becomes powerful by stacking many blocks. Later layers operate on representations already shaped by earlier interactions, enabling progressively more contextual computation.
+
+At the top, a final transformation maps the current representation to a score for every possible next token. Softmax turns those scores into probabilities, and a decoding method selects the continuation. Then the process repeats.
+
+This also explains why attention is not the entire model despite the famous paper title. Tokens, embeddings, positional information, MLPs, normalization, residual connections, output projection, training data, and optimization all matter.
+
+## What an attention map can—and cannot—show
+
+An attention map displays weights from selected queries to keys for a particular head and layer. It can reveal where that head routed information on that input. It is valuable for forming hypotheses and teaching the calculation.
+
+It does **not** by itself prove why the model produced an answer. A high weight says little without the corresponding value vectors. The head's output is combined with other heads, changed by an output projection, added to the residual stream, processed by MLPs, and transformed through later layers. Different internal paths may also compensate for one another.
+
+So read an attention visualization as “this component mixed information in this pattern,” not “the model reasoned for this human-interpretable cause.” Architecture visibility is not the same as system trustworthiness. NIST's [Generative AI Profile](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence) places evaluation, measurement, documentation, and risk management across the full AI lifecycle—not in one attractive internal diagram.
+
+## Why this remains relevant
+
+The 2017 paper introduced an encoder-decoder architecture for translation. Many text generators use decoder-focused designs, and current systems may change attention patterns, positional methods, MLP routing, memory, or other components. Some products also wrap the model with retrieval and tools.
+
+Those changes do not make this mental model obsolete. Tokens still need representations; information still needs a mechanism to move between positions; nonlinear computation still transforms it; and deep networks still need stable paths. The video and original paper supply a foundation for noticing exactly what a newer architecture retains, replaces, or adds.
+
+## Practical exercise: trace toy attention by hand
+
+Use the sentence: **“The animal did not cross the street because it was tired.”** This is a conceptual exercise, not a measurement of a real model.
+
+1. Write each word or punctuation mark on a separate card. Treat the pronoun “it” as the query position.
+2. Circle candidate key positions that could help resolve “it,” such as “animal” and “street.”
+3. Give each candidate a qualitative score—high, medium, or low—for how well its key matches the query “what is described as tired?”
+4. Convert those scores into toy weights that sum to one. Draw thicker arrows for larger weights.
+5. On each candidate card, write a simple value contribution, such as “living entity” or “location.” Imagine forming a weighted blend of those value cards.
+6. Add that blend to the original “it” representation to model a residual update.
+7. Change the ending to “because it was flooded.” Repeat the scores and observe why a contextual representation should change.
+8. Finally, list what your diagram omits: learned projections, other heads, the MLP, normalization, later layers, and the output probabilities.
+
+If you can explain why the arrows change without claiming that your hand-drawn map proves the model's complete reasoning, you have the right intuition: attention is learned, context-dependent weighted communication inside a much larger computation.

@@ -13,13 +13,16 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
 import ReadingProgress from '../../components/content/ReadingProgress.astro';
 import RelatedContent from '../../components/content/RelatedContent.astro';
 import ShareButtons from '../../components/content/ShareButtons.astro';
+import AIViewerLens from '../../components/editorial/AIViewerLens.astro';
+import PrivacyAwareVideoEmbed from '../../components/editorial/PrivacyAwareVideoEmbed.astro';
 import { formatDate } from '../../utils/formatDate';
 import { getReadingTime } from '../../utils/readingTime';
 import { siteConfig } from '../../data/site.config';
 import { shouldNoindexPath } from '../../utils/indexPolicy';
+import { GUIDE_FORMAT_INFO, isPublishedGuide } from '../../components/editorial/model';
 
 export async function getStaticPaths() {
-  const guides = await getCollection('guides', ({ data }) => !data.draft);
+  const guides = await getCollection('guides', ({ data }) => isPublishedGuide(data));
   return guides.filter((entry) => !shouldNoindexPath(`/guides/${entry.id}/`)).map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
@@ -28,12 +31,20 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
-const relatedEntries = (await getCollection('guides', ({ data }) => !data.draft))
+const formatInfo = GUIDE_FORMAT_INFO[entry.data.format];
+const pageNoindex = !entry.data.publication.index || shouldNoindexPath(Astro.url.pathname);
+const relatedEntries = (await getCollection('guides', ({ data }) => isPublishedGuide(data)))
   .filter((candidate) =>
     candidate.id !== entry.id &&
-    candidate.data.category === entry.data.category &&
+    candidate.data.publication.index &&
     !shouldNoindexPath(`/guides/${candidate.id}/`)
   )
+  .sort((a, b) => {
+    const aFormatMatch = a.data.format === entry.data.format ? 1 : 0;
+    const bFormatMatch = b.data.format === entry.data.format ? 1 : 0;
+    if (aFormatMatch !== bFormatMatch) return bFormatMatch - aFormatMatch;
+    return b.data.publishedDate.getTime() - a.data.publishedDate.getTime();
+  })
   .slice(0, 3);
 
 // Parse FAQ headings into FAQSchema format
@@ -70,8 +81,8 @@ for (const heading of headings) {
   type="article"
   publishedDate={entry.data.publishedDate.toISOString()}
   updatedDate={entry.data.updatedDate?.toISOString()}
-  monetize={true}
-  noindex={shouldNoindexPath(Astro.url.pathname)}
+  monetize={entry.data.publication.monetize}
+  noindex={pageNoindex}
 >
   <ArticleSchema
     slot="head"
@@ -80,12 +91,16 @@ for (const heading of headings) {
     image={entry.data.coverImage}
     publishedDate={entry.data.publishedDate}
     updatedDate={entry.data.updatedDate}
+    format={entry.data.format}
+    learningOutcome={entry.data.learningOutcome}
+    evidenceSources={entry.data.evidence?.sources}
+    video={entry.data.video}
   />
   <BreadcrumbSchema
     slot="head"
     items={[
       { name: 'Home', url: '/' },
-      { name: 'Guides', url: '/guides/' },
+      { name: formatInfo.pluralLabel, url: formatInfo.href },
       { name: entry.data.title, url: `/guides/${entry.id}/` },
     ]}
   />
@@ -96,21 +111,25 @@ for (const heading of headings) {
   <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
     <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,_rgba(240,199,94,0.16),_transparent_40%),linear-gradient(180deg,rgba(79,70,229,0.08),transparent_75%)] dark:bg-[radial-gradient(circle_at_top,_rgba(240,199,94,0.07),_transparent_40%),linear-gradient(180deg,rgba(79,70,229,0.05),transparent_75%)]"></div>
     <div class="page-container relative py-12 md:py-16">
-      <Breadcrumbs items={[{ label: 'Guides', href: '/guides/' }, { label: entry.data.title }]} />
+      <Breadcrumbs items={[{ label: formatInfo.pluralLabel, href: formatInfo.href }, { label: entry.data.title }]} />
 
       <div class="max-w-3xl" data-reveal>
         <div class="flex flex-wrap items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
           <span class="rounded-full bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-indigo-600 dark:text-indigo-400">
-            {entry.data.category}
+            {formatInfo.label}
           </span>
-          <a href="/editorial-standards/" class="font-medium text-zinc-600 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400">AIViewer Editorial Team</a>
-          <a href="/ai-use/" class="text-zinc-500 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400">AI-assisted</a>
+          <span class="capitalize">{entry.data.category}</span>
+          <a href="/about/" class="font-medium text-zinc-600 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400">AIViewer</a>
+          <a href="/ai-use/" class="text-zinc-500 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400">AI-assisted publication</a>
           <span>{formatDate(entry.data.publishedDate)}</span>
           {entry.data.updatedDate && entry.data.updatedDate.getTime() !== entry.data.publishedDate.getTime() && (
             <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2.5 py-0.5 text-[0.7rem] font-medium text-emerald-700 dark:text-emerald-400">
               <span class="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true"></span>
               Updated {formatDate(entry.data.updatedDate)}
             </span>
+          )}
+          {entry.data.factCheckedAt && (
+            <span>Sources checked {formatDate(entry.data.factCheckedAt)}</span>
           )}
           <span aria-hidden="true">·</span>
           <span>{getReadingTime(entry.body)}</span>
@@ -141,10 +160,29 @@ for (const heading of headings) {
     <div class="page-container py-12 md:py-16">
       <div class="grid gap-12 xl:grid-cols-[minmax(0,1fr)_16rem]">
         <article data-pagefind-body class="min-w-0 rounded-[1.75rem] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-6 py-8 shadow-[var(--shadow-card)] md:px-10 md:py-10">
+          <AIViewerLens
+            format={entry.data.format}
+            summary={entry.data.lensSummary ?? entry.data.description}
+            learningOutcome={entry.data.learningOutcome}
+            nextAction={entry.data.nextAction}
+            factCheckedAt={entry.data.factCheckedAt}
+            reviewDueAt={entry.data.reviewDueAt}
+            evidence={entry.data.evidence}
+            aiUse={entry.data.aiUse}
+          />
+          {entry.data.format === 'video-lesson' && entry.data.video && (
+            <PrivacyAwareVideoEmbed
+              youtubeId={entry.data.video.youtubeId}
+              title={entry.data.video.title}
+              creatorName={entry.data.video.creatorName}
+              creatorUrl={entry.data.video.creatorUrl}
+              poster={entry.data.coverImage}
+            />
+          )}
           <div class="prose dark:prose-invert max-w-none prose-headings:scroll-mt-24">
             <Content />
           </div>
-          <AuthorBio compact variant="team" />
+          <AuthorBio compact variant="publisher" disclosure={entry.data.aiUse.disclosure} />
           <NewsletterSignup variant="inline" />
         </article>
 
@@ -158,7 +196,7 @@ for (const heading of headings) {
       <div class="page-container py-12 md:py-16">
         <div class="mb-8" data-reveal>
           <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Continue reading</p>
-          <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">More in {entry.data.category}.</h2>
+          <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">More {formatInfo.collectionLabel}.</h2>
         </div>
         <div class="grid gap-5 md:grid-cols-3">
           {relatedEntries.map((candidate) => (
@@ -166,7 +204,7 @@ for (const heading of headings) {
               href={`/guides/${candidate.id}/`}
               class="group rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
             >
-              <p class="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-400">{candidate.data.category}</p>
+              <p class="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-400">{GUIDE_FORMAT_INFO[candidate.data.format].label}</p>
               <h3 class="mt-3 text-xl text-zinc-950 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{candidate.data.title}</h3>
               <p class="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{candidate.data.description}</p>
             </a>

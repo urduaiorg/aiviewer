@@ -1,0 +1,218 @@
+---
+title: "AI Basics: Models, Assistants, and Agents Explained"
+description: "Learn the difference between AI, generative AI, models, assistants, and agents—and how to grant each system only the permissions it needs."
+category: "education"
+publishedDate: "2026-07-25"
+updatedDate: "2026-07-25"
+coverImage: "/images/editorial/aiviewer-lens-learner.webp"
+tags: ["AI basics", "generative AI", "AI models", "AI assistants", "AI agents", "permissions", "beginner guide"]
+featured: false
+draft: false
+format: "evergreen-foundation"
+publication:
+  status: "published"
+  index: true
+  monetize: true
+factCheckedAt: "2026-07-25"
+reviewDueAt: "2027-01-25"
+evidence:
+  mode: "primary-sources"
+  sources:
+    - title: "Explanatory memorandum on the updated OECD definition of an AI system"
+      url: "https://oecd.ai/en/ai-publications/explanatory-memorandum-on-the-updated-oecd-definition-of-an-ai-system"
+      publisher: "OECD.AI"
+      kind: "primary"
+      publishedAt: "2024-03-05"
+      checkedAt: "2026-07-25"
+      note: "Used for the definitions of an AI system, model, inference, autonomy, and adaptiveness."
+    - title: "Artificial Intelligence Risk Management Framework (AI RMF 1.0)"
+      url: "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+      publisher: "National Institute of Standards and Technology"
+      kind: "primary"
+      publishedAt: "2023-01-26"
+      checkedAt: "2026-07-25"
+      note: "Used for the risk-based approach and the Govern, Map, Measure, and Manage functions."
+    - title: "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile"
+      url: "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence"
+      publisher: "National Institute of Standards and Technology"
+      kind: "primary"
+      publishedAt: "2024-07-26"
+      checkedAt: "2026-07-25"
+      note: "Used for generative-AI risk, lifecycle, confabulation, and human-oversight context."
+    - title: "Transformer: A Novel Neural Network Architecture for Language Understanding"
+      url: "https://research.google/blog/transformer-a-novel-neural-network-architecture-for-language-understanding/"
+      publisher: "Google Research"
+      kind: "primary"
+      publishedAt: "2017-08-31"
+      checkedAt: "2026-07-25"
+      note: "Used for a bounded explanation of self-attention and the Transformer architecture."
+  limitations:
+    - "Model, assistant, copilot, and agent are not universally standardized product labels; vendors may use them differently."
+    - "The Transformer is an important architecture, not a complete description of every current AI model or product."
+    - "NIST AI RMF 1.0 is voluntary organizational guidance and is being revised; this lesson adapts its risk-based logic for individual use."
+aiUse:
+  mode: "ai-generated"
+  tasks: ["research", "source-review", "drafting", "editing"]
+  disclosure: "This lesson was researched and drafted by AIViewer’s AI editorial system, source-checked page by page, and was not represented as human-reviewed."
+lensSummary: "A model generates an output, an assistant turns models and product rules into an interface, and an agent can pursue a goal through tools and repeated actions. Risk rises with access, autonomy, and consequence—not with the label on the product."
+learningOutcome: "Distinguish AI from generative AI and models from assistants and agents; explain training, inference, tools, and memory; and choose a proportionate permission level."
+nextAction: "Use the classification worksheet to map one AI task by input, model, tools, memory, permissions, consequences, and required confirmation before connecting an account."
+---
+
+import AnswerBox from '../../components/content/AnswerBox.astro';
+
+<AnswerBox
+  question="What is the difference between an AI model, assistant, and agent?"
+  answer="A model turns an input into an output. An assistant wraps one or more models in a usable product with instructions, context, and sometimes tools. An agent is a system that can pursue a goal through several steps, choosing or repeating tool actions with some autonomy. The label matters less than what the system can access, change, and do without asking."
+/>
+
+“AI” is often used as if it names one thing. It can mean the statistical model generating text, the chat product around that model, or a workflow that can read files and take actions. Those are different layers. If you separate them, product claims become easier to understand and permissions become easier to control.
+
+## AI is broader than generative AI
+
+The OECD’s [updated definition](https://oecd.ai/en/ai-publications/explanatory-memorandum-on-the-updated-oecd-definition-of-an-ai-system) describes an AI system as a machine-based system that infers from inputs how to produce outputs—such as predictions, content, recommendations, or decisions—for explicit or implicit objectives. Those outputs can influence digital or physical environments, and systems vary in autonomy and in whether they adapt after deployment.
+
+That definition covers more than chatbots. A fraud detector can predict whether a transaction looks suspicious. A recommendation system can rank songs. A vision system can identify an object. A route planner can recommend a path.
+
+**Generative AI** is a part of this larger field. It produces new text, images, audio, video, code, or other synthetic content based on patterns learned from data. A system that classifies an email as spam uses AI, but it is not necessarily generative. A system that writes a reply is generative AI.
+
+The useful distinction is about the output:
+
+| System | Typical output |
+|---|---|
+| Classifier | A category, such as “spam” or “not spam” |
+| Predictor | A probability or forecast |
+| Recommender | A ranked list of options |
+| Generative model | New text, media, code, or structured data |
+| Decision or control system | A selected action that can affect an environment |
+
+## The model is the engine, not the whole product
+
+An **AI model** is the learned computational component that maps inputs to outputs. In a language model, the input may include instructions and text; the output is a continuation assembled token by token. In an image model, text and images may be transformed into a new image.
+
+Many current language products use Transformer-based models. Google Research’s original [Transformer explanation](https://research.google/blog/transformer-a-novel-neural-network-architecture-for-language-understanding/) describes self-attention: a way for the network to weigh relationships among parts of an input rather than processing every relationship only through a long sequential chain. That architecture became influential, but “Transformer” does not tell you a product’s data, training recipe, safety controls, tool access, or reliability.
+
+A model by itself does not have your email password, calendar, files, or payment authority. The surrounding system may give it access to those things. That difference is central to safe use.
+
+## Training and inference happen at different times
+
+**Training** is the process of adjusting a model’s parameters so its outputs improve according to a training objective. A language model may first learn broad patterns by predicting missing or next tokens across a large collection of material. Developers may then use additional training, examples, preferences, or other techniques to shape instruction-following and product behavior.
+
+Training is not the same as saving your current conversation. Nor does it make the model a searchable copy of every document it encountered. Learned parameters encode patterns; they do not provide a dependable source trail for each generated sentence.
+
+**Inference** is what happens when you use the trained model. Your prompt and available context are processed through the model to generate an output. Inference may also include several model calls, filters, retrieval steps, or tool calls, even when the interface shows one response.
+
+This explains why a polished answer can still be wrong. The model is generating an output that fits the input and its learned behavior. Unless a separate process checks a claim, fluency is not verification. NIST’s [Generative AI Profile](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence) identifies confabulation—confidently presented false or erroneous content—as a risk to manage.
+
+## An assistant is a product layer
+
+An **AI assistant** combines a model with product choices. These may include:
+
+- a chat or voice interface;
+- system instructions and behavioral rules;
+- conversation context;
+- safety filters;
+- account settings;
+- access to search, code execution, files, or other tools;
+- saved preferences or memory;
+- logs and confirmation screens.
+
+Assistants using the same model can behave differently because their instructions, tools, context, and policies differ; one assistant may also switch models by task. Judge the complete system. A current answer may come from search, a correct total from a calculator, and a failed action from an integration.
+
+## Tools turn words into access and action
+
+A **tool** is an external capability the system can call. Search can retrieve current pages. A calculator can perform arithmetic. A file tool can read or edit a document. A calendar tool can create an event. An email tool can send a message.
+
+Tools let the system observe current information or change something outside the chat. They also add failure points: wrong tool, wrong input, misunderstood result, or an uncompleted action reported as successful.
+
+For any tool-enabled task, ask three separate questions:
+
+1. What did the model propose?
+2. What did the tool actually return or change?
+3. What evidence in the destination system confirms the final state?
+
+“The assistant said it sent the email” is not the same as an item appearing in Sent with the correct recipients and attachment.
+
+## Memory is not one thing
+
+Products use “memory” for several mechanisms:
+
+- **Current context:** The instructions, messages, and documents available in this interaction.
+- **Saved preferences:** Details stored by the product for later conversations.
+- **Retrieved records:** Files, database rows, or notes fetched when needed.
+- **Model parameters:** Patterns learned during training.
+- **Workflow state:** A task list, previous tool result, or checkpoint used by an agent.
+
+These mechanisms have different privacy implications. Removing a chat may not remove a saved preference, and disconnecting a file source may not erase text copied into a conversation. Model parameters are not a reliable personal filing cabinet.
+
+Before enabling memory, find out what is stored, where it appears, how it is used, and how to delete it. Do not use the vague promise that a system “remembers” as evidence that it will accurately retrieve a specific fact.
+
+## An agent adds a goal-and-action loop
+
+There is no single universal boundary between an advanced assistant and an agent. A practical definition is:
+
+> An agent is a system that can pursue a goal over multiple steps by selecting actions, using tools, observing results, and deciding what to do next with some delegated autonomy.
+
+An assistant might draft a meeting invitation. An agentic workflow might inspect calendars, choose an available slot, create the event, notify participants, and retry if one service fails.
+
+Agency is a spectrum, not a magic property. A workflow becomes more agentic as it can:
+
+- plan more than one step;
+- choose among tools;
+- act without a prompt at every step;
+- retain task state;
+- react to tool results;
+- run for longer or on a schedule.
+
+More autonomy can reduce effort, but it also lets one mistake travel farther. NIST’s [AI Risk Management Framework](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10) organizes risk work around Govern, Map, Measure, and Manage. For everyday use, that translates into a simple discipline: define responsibility, map the task and consequences, observe performance, and limit or change the system when evidence does not support more trust.
+
+## Use graduated trust, not blanket trust
+
+Grant access in steps. Increase autonomy only after the system performs a bounded version of the task and you can inspect what happened.
+
+| Level | Suitable delegation | Permission pattern |
+|---|---|---|
+| 0: Generate | Brainstorm, explain, rewrite public text | No connected accounts; review the output |
+| 1: Read | Search public sources or read selected files | Read-only, narrow source scope |
+| 2: Prepare | Draft an email, form, event, or edit | Create a preview; no sending or publishing |
+| 3: Confirmed action | Send, publish, book, or modify | Ask before each consequential action |
+| 4: Scoped automation | Repeat a tested, reversible workflow | Tight limits, logs, alerts, and stop controls |
+| 5: High impact | Health, legal, financial, safety, employment decisions | Qualified human authority retains the decision |
+
+Reversibility matters. Renaming a copy of a file is different from deleting the only version. Drafting a payment request is different from transferring money. Reading one folder is different from accessing an entire drive.
+
+## Practical exercise: classify before you connect
+
+For each scenario, identify the model task, the product layer, any tool, and the highest permission required.
+
+| Scenario | Classification | Sensible boundary |
+|---|---|---|
+| Summarize a pasted public memo | Assistant using a generative model | No external access; check the summary against the memo |
+| Find today’s train schedule | Assistant plus a live search or transport-data tool | Read-only; confirm date, route, and operator |
+| Compare selected private project files | Assistant plus file retrieval | Read-only access to one folder, not the whole drive |
+| Draft an event after checking calendars | Agentic, multi-tool workflow | Preview the time, attendees, and description before creation |
+| Send recurring invoice reminders | Scheduled agentic workflow | Approved template, named recipients, logs, and an easy pause control |
+| Recommend a medication change | High-stakes generated advice | Do not delegate the decision; use a qualified clinician |
+
+Now map one task of your own:
+
+1. **Goal:** What exact outcome do I want?
+2. **Inputs:** What information is genuinely necessary?
+3. **Model output:** Is it a draft, prediction, recommendation, or decision?
+4. **Tools:** What can the system read or change?
+5. **Memory:** What will remain after this session?
+6. **Consequences:** What happens if the output is wrong?
+7. **Permission:** What is the narrowest access that works?
+8. **Confirmation:** What must a person inspect before action?
+
+If you cannot answer those questions, do not add more permissions yet.
+
+## The durable mental model
+
+Think in layers:
+
+**Input → model → assistant rules and context → tools and memory → action → observable result**
+
+The model label tells you little about the full risk. A modest model with access to payroll can be more consequential than a highly capable model drafting a fictional story with no tools. Judge the whole system by its inputs, access, autonomy, evidence, and effects.
+
+Then verify important factual outputs with the companion guide: [How to Verify an AI Answer](/guides/how-to-verify-an-ai-answer/).

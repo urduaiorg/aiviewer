@@ -10,8 +10,9 @@ const NOINDEX_PREFIXES = [
 
 // Search Console, last 28 days ending 2026-07-09: these 20 comparisons
 // generated 98 clicks at a combined 2.5% CTR. They remain available during
-// the transition, but only the five strongest are indexable. All comparison
-// pages stay unmonetized and the other ~7,800 routes are not built.
+// the transition, but are noindexed until each page gains enough original
+// decision analysis to stand alone. All comparison pages stay unmonetized and
+// the other ~7,800 routes are not built.
 const COMPARISON_BUILD_PATHS = new Set([
   '/compare/qwen-qwen3-14b-vs-qwen-qwen3-5-9b/',
   '/compare/qwen-qwen3-5-35b-a3b-vs-qwen-qwen3-next-80b-a3b-instruct-free/',
@@ -35,13 +36,7 @@ const COMPARISON_BUILD_PATHS = new Set([
   '/compare/google-gemma-4-31b-it-vs-qwen-qwen3-32b/',
 ]);
 
-const INDEXABLE_COMPARISON_PATHS = new Set([
-  '/compare/qwen-qwen3-14b-vs-qwen-qwen3-5-9b/',
-  '/compare/qwen-qwen3-5-35b-a3b-vs-qwen-qwen3-next-80b-a3b-instruct-free/',
-  '/compare/qwen-qwen3-5-9b-vs-qwen-qwen3-coder-30b-a3b-instruct/',
-  '/compare/google-gemma-4-31b-it-vs-qwen-qwen3-coder-next/',
-  '/compare/google-gemma-4-26b-a4b-it-vs-openai-gpt-oss-20b/',
-]);
+const INDEXABLE_COMPARISON_PATHS = new Set<string>();
 
 const NOINDEX_EXACT_PATHS = new Set([
   '/changes/',
@@ -91,6 +86,7 @@ const NOINDEX_EXACT_PATHS = new Set([
   '/tools/notion-ai/',
   '/tools/openai-codex/',
   '/tools/openclaw/',
+  '/tools/ourscreen/',
   '/tools/perplexity-ai/',
   '/tools/perplexity-computer/',
   '/tools/producerai/',
@@ -106,6 +102,8 @@ const NOINDEX_EXACT_PATHS = new Set([
   '/guides/ai-safety-and-risks-2026/',
   '/guides/ai-tools-for-teachers-2026/',
   '/guides/anthropic-project-glasswing-ai-cybersecurity/',
+  '/guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/',
+  '/guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/',
   '/guides/best-ai-tools-for-small-business-2026/',
   '/guides/best-ai-coding-tools-compared/',
   '/guides/best-ai-image-generators-compared/',
@@ -115,11 +113,16 @@ const NOINDEX_EXACT_PATHS = new Set([
   '/guides/best-free-ai-tools-2026/',
   '/guides/chatgpt-vs-claude-2026/',
   '/guides/cursor-vs-github-copilot-2026/',
+  '/guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/',
   '/guides/fine-tuning-vs-rag/',
+  '/guides/free-ai-tool-stacks-by-role-creator-founder-student-teacher-developer/',
   '/guides/getting-started-with-ai/',
   '/guides/claude-fable-5-mythos-5-explained/',
   '/guides/google-vids-lyria-veo-free-ai-video/',
+  '/guides/google-ai-studio-free-in-2026-what-is-actually-free-and-what-costs-money/',
+  '/guides/google-io-2026-announcements/',
   '/guides/google-veo-3-review/',
+  '/guides/grok-imagine-vs-midjourney-vs-flux-vs-dall-e-which-image-tool-wins-in-2026/',
   '/guides/grok-vs-claude-2026/',
   '/guides/gpt-5-6-sol-explained-openai-new-model/',
   '/guides/how-ai-search-engines-work/',
@@ -127,7 +130,10 @@ const NOINDEX_EXACT_PATHS = new Set([
   '/guides/how-to-use-google-ai-studio/',
   '/guides/midjourney-vs-dalle-vs-stable-diffusion/',
   '/guides/neuro-symbolic-ai-energy-breakthrough-2026/',
+  '/guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/',
+  '/guides/sora-vs-runway-vs-pika-vs-kling-the-ai-video-generator-comparison-that-matters/',
   '/guides/understanding-local-llms/',
+  '/guides/v0-by-vercel-review-is-it-the-best-ai-ui-generator-in-2026/',
   '/guides/what-is-agentic-ai/',
   '/guides/what-is-multimodal-ai/',
 ]);

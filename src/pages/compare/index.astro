@@ -31,7 +31,7 @@ const tierLabels = {
 };
 
 const title = 'AI Model Comparisons | AIViewer';
-const description = 'Side-by-side comparisons of frontier AI models. Compare pricing, context windows, capabilities, and find the right model for your workflow.';
+const description = `${pairs.length} selected model comparisons using dated catalog fields for pricing, context windows, capabilities, and output limits.`;
 ---
 
 <BaseLayout title={title} description={description} noindex={shouldNoindexPath(Astro.url.pathname)}>
@@ -61,7 +61,7 @@ const description = 'Side-by-side comparisons of frontier AI models. Compare pri
 
   <Header />
 
-  <main class="pt-28 pb-24">
+  <main class="pt-28 pb-24" data-comparison-count={pairs.length}>
     <!-- Hero -->
     <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
       <div class="absolute inset-x-0 top-0 h-80 bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.14),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.16),_transparent_36%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.06),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.08),_transparent_36%)]"></div>
@@ -74,7 +74,7 @@ const description = 'Side-by-side comparisons of frontier AI models. Compare pri
           </div>
           <h1 class="mt-5 text-zinc-950 dark:text-zinc-50">Compare AI models side by side.</h1>
           <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Twenty comparisons preserved from Search Console demand, with dated pricing, context, capability, and output-limit snapshots.
+            {pairs.length} selected {pairs.length === 1 ? 'comparison is' : 'comparisons are'} currently published, using dated pricing, context, capability, and output-limit snapshots. These are specification views, not performance tests.
           </p>
           {lastSyncedAt && (
             <div class="mt-4">
@@ -102,10 +102,11 @@ const description = 'Side-by-side comparisons of frontier AI models. Compare pri
                 </span>
               </div>
               <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {tierPairs.slice(0, 12).map((pair) => {
+                {tierPairs.map((pair) => {
                   const slug = comparisonSlug(pair.slugA, pair.slugB);
                   return (
                     <a
+                      data-comparison-card
                       href={`/compare/${slug}/`}
                       class="group rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 transition-all hover:border-indigo-200 dark:hover:border-indigo-800 hover:shadow-md"
                     >
@@ -132,11 +133,6 @@ const description = 'Side-by-side comparisons of frontier AI models. Compare pri
                   );
                 })}
               </div>
-              {tierPairs.length > 12 && (
-                <p class="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
-                  + {tierPairs.length - 12} more {config.title.toLowerCase()} comparisons
-                </p>
-              )}
             </div>
           );
         })}

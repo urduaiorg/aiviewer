@@ -1,39 +1,40 @@
 ---
 /**
- * AuthorBio — Premium editorial author card
+ * AuthorBio — Author or publisher disclosure card
  *
  * Two variants:
  *   "author"  — Qaisar's personal byline (playbooks, guides, reports)
- *   "team"    — AIViewer editorial team (opportunities, curated content)
+ *   "publisher" / legacy "team" — AIViewer's autonomous publishing workflow
  */
 import authorData from '../../data/author.json';
-import { siteConfig } from '../../data/site.config';
 
 interface Props {
   compact?: boolean;
-  variant?: 'author' | 'team';
+  variant?: 'author' | 'publisher' | 'team';
+  disclosure?: string;
 }
 
-const { compact = false, variant = 'author' } = Astro.props;
-const isTeam = variant === 'team';
+const { compact = false, variant = 'author', disclosure } = Astro.props;
+const isPublisher = variant === 'publisher' || variant === 'team';
 
 // Author data
 const { name, title, bio, photo, social, credentials } = authorData;
 
-// Team data
-const teamName = `${siteConfig.name} Editorial Team`;
-const teamTitle = 'AI-assisted editorial workflow';
-const teamBio = 'Prepared with AI-assisted research and drafting. Sources and limitations are shown on the page; it is not a hands-on test unless explicitly labeled.';
+// AIViewer is autonomously operated, so this wording does not imply a human
+// desk, reviewer, or approval step.
+const publisherName = 'AIViewer';
+const publisherTitle = 'Autonomous, AI-assisted publication';
+const publisherBio = disclosure ?? 'AIViewer uses AI in research, drafting, and editing. No human review is claimed. Judge each article by its linked sources, evidence record, limitations, and correction history.';
 ---
 
-{isTeam ? (
-  <!-- ── Team variant ── -->
+{isPublisher ? (
+  <!-- ── Publisher variant ── -->
   <section
     class:list={[
       'author-bio relative overflow-hidden',
       compact ? 'py-6' : 'py-8 sm:py-10',
     ]}
-    aria-label={`About the ${teamName}`}
+    aria-label={`About ${publisherName}`}
   >
     <div class="absolute top-0 left-0 right-0 h-[2px]" aria-hidden="true">
       <div class="h-full bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-400 opacity-60"></div>
@@ -43,54 +44,39 @@ const teamBio = 'Prepared with AI-assisted research and drafting. Sources and li
       'flex gap-5',
       compact ? 'items-center' : 'items-start flex-col sm:flex-row',
     ]}>
-      {/* Shield icon avatar */}
+      {/* Publisher monogram — identity only, not a verification mark */}
       <div class="relative shrink-0">
-        <div class="w-16 h-16 sm:w-[4.5rem] sm:h-[4.5rem] rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-50 dark:from-emerald-900/50 dark:to-teal-900/30 overflow-hidden ring-2 ring-white dark:ring-zinc-800 shadow-md flex items-center justify-center">
-          <svg class="w-8 h-8 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            <path d="m9 12 2 2 4-4" />
-          </svg>
-        </div>
-        {/* Verified badge */}
-        <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center ring-2 ring-white dark:ring-zinc-900" title="Editorial workflow">
-          <svg class="w-3 h-3 text-white" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
+        <div class="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-100 to-zinc-100 text-lg font-bold tracking-tight text-indigo-700 ring-2 ring-white shadow-md dark:from-indigo-900/50 dark:to-zinc-800 dark:text-indigo-300 dark:ring-zinc-800 sm:h-[4.5rem] sm:w-[4.5rem]">
+          AI
         </div>
       </div>
 
       {/* Info */}
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-2 flex-wrap">
-          <h4 class="text-[0.95rem] font-bold text-zinc-900 dark:text-zinc-50 leading-tight">{teamName}</h4>
+          <h4 class="text-[0.95rem] font-bold text-zinc-900 dark:text-zinc-50 leading-tight">{publisherName}</h4>
           <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[0.6rem] font-semibold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
-            {teamTitle}
+            {publisherTitle}
           </span>
         </div>
 
         <p class="mt-2 text-[0.82rem] text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-md">
-          {teamBio}
+          {publisherBio}
         </p>
 
         {!compact && (
           <div class="mt-3 flex flex-wrap gap-x-4 gap-y-1">
             <span class="text-[0.72rem] text-zinc-400 flex items-center gap-1">
-              <svg class="w-3 h-3 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-              </svg>
-              Sources linked where available
+              <span class="h-1 w-1 rounded-full bg-zinc-400" aria-hidden="true"></span>
+              Evidence metadata shown when available
             </span>
             <span class="text-[0.72rem] text-zinc-400 flex items-center gap-1">
-              <svg class="w-3 h-3 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-              </svg>
+              <span class="h-1 w-1 rounded-full bg-zinc-400" aria-hidden="true"></span>
               Commercial ties disclosed
             </span>
             <span class="text-[0.72rem] text-zinc-400 flex items-center gap-1">
-              <svg class="w-3 h-3 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-              </svg>
-              Corrections welcomed
+              <span class="h-1 w-1 rounded-full bg-zinc-400" aria-hidden="true"></span>
+              Public correction process
             </span>
           </div>
         )}
@@ -114,7 +100,7 @@ const teamBio = 'Prepared with AI-assisted research and drafting. Sources and li
       'flex gap-5',
       compact ? 'items-center' : 'items-start flex-col sm:flex-row',
     ]}>
-      {/* Avatar with status ring */}
+      {/* Author avatar */}
       <div class="relative shrink-0">
         <div class="w-16 h-16 sm:w-[4.5rem] sm:h-[4.5rem] rounded-2xl bg-gradient-to-br from-indigo-100 to-zinc-100 dark:from-indigo-900/50 dark:to-zinc-800 overflow-hidden ring-2 ring-white dark:ring-zinc-800 shadow-md">
           <img
@@ -127,12 +113,6 @@ const teamBio = 'Prepared with AI-assisted research and drafting. Sources and li
             decoding="async"
             onerror="this.style.display='none'; this.parentElement.innerHTML = `<div class='flex items-center justify-center w-full h-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white text-xl font-bold'>${'QR'}</div>`"
           />
-        </div>
-        {/* Verified badge */}
-        <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-indigo-500 rounded-full flex items-center justify-center ring-2 ring-white dark:ring-zinc-900" title="Verified author">
-          <svg class="w-3 h-3 text-white" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
         </div>
       </div>
 
@@ -153,9 +133,7 @@ const teamBio = 'Prepared with AI-assisted research and drafting. Sources and li
           <div class="mt-3 flex flex-wrap gap-x-4 gap-y-1">
             {credentials.map((c: string) => (
               <span class="text-[0.72rem] text-zinc-400 flex items-center gap-1">
-                <svg class="w-3 h-3 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
+                <span class="h-1 w-1 rounded-full bg-zinc-400" aria-hidden="true"></span>
                 {c}
               </span>
             ))}

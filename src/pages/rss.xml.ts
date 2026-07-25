@@ -1,12 +1,15 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import { shouldNoindexPath } from '../utils/indexPolicy';
+import { isPublishedGuide } from '../components/editorial/model';
 
 export async function GET(context: any) {
   // Fetch all collections
   const playbooks = await getCollection('playbooks', ({ data }) => !data.draft);
   const tools = await getCollection('tools', ({ data }) => !data.draft);
-  const guides = await getCollection('guides', ({ data }) => !data.draft);
+  const guides = await getCollection('guides', ({ data }) =>
+    isPublishedGuide(data) && data.publication.index
+  );
   const reports = await getCollection('reports', ({ data }) => !data.draft);
   const prompts = await getCollection('prompts', ({ data }) => !data.draft);
 
@@ -19,7 +22,7 @@ export async function GET(context: any) {
       link: `/playbooks/${p.id}/`,
     })),
     ...tools.map(t => ({
-      title: `${t.data.title} - AI Tool Evaluation`,
+      title: `${t.data.title} - AI Tool Profile`,
       pubDate: t.data.publishedDate,
       description: t.data.description,
       link: `/tools/${t.id}/`,
@@ -50,7 +53,7 @@ export async function GET(context: any) {
 
   return rss({
     title: 'AIViewer.ai',
-    description: 'Practical AI guides and transparent tool evaluations.',
+    description: 'Source-aware AI lessons, practical workflows, timely signals, and a small set of transparent tool profiles.',
     site: context.site || 'https://aiviewer.ai',
     items: recentItems,
     customData: `<language>en-us</language>`,

@@ -1,0 +1,203 @@
+---
+title: "Spatial Intelligence: From Seeing a Room to Acting Inside It"
+description: "Fei-Fei Li’s spatial-intelligence thesis, checked against VSI-Bench and World Labs, with risks and a practical room-mapping exercise."
+category: "technology"
+publishedDate: 2026-07-25
+updatedDate: 2026-07-25
+coverImage: "/images/editorial/spatial-intelligence.webp"
+tags: ["spatial intelligence", "Fei-Fei Li", "world models", "3D AI", "robotics", "VSI-Bench"]
+featured: true
+draft: false
+format: "video-lesson"
+publication:
+  status: "published"
+  index: true
+  monetize: true
+factCheckedAt: 2026-07-25
+reviewDueAt: 2026-10-25
+evidence:
+  mode: "creator-source-plus-verification"
+  sources:
+    - title: "With spatial intelligence, AI will understand the real world"
+      url: "https://www.ted.com/talks/fei_fei_li_with_spatial_intelligence_ai_will_understand_the_real_world"
+      publisher: "TED"
+      kind: "primary"
+      checkedAt: 2026-07-25
+      note: "TED’s page for Fei-Fei Li’s April 2024 talk and its perception-prediction-action thesis."
+    - title: "With Spatial Intelligence, AI Will Understand the Real World | Fei-Fei Li | TED"
+      url: "https://www.youtube.com/watch?v=y8NtMZ7VGmU"
+      publisher: "TED on YouTube"
+      kind: "primary"
+      checkedAt: 2026-07-25
+      note: "The official video used for the embedded lesson."
+    - title: "What is Spatial Intelligence?"
+      url: "https://hai.stanford.edu/ai-definitions/what-is-spatial-intelligence"
+      publisher: "Stanford Institute for Human-Centered AI"
+      kind: "primary"
+      checkedAt: 2026-07-25
+      note: "A concise definition connecting 3D relationships, movement, interaction, navigation, robotics, vehicles, and AR."
+    - title: "Thinking in Space: How Multimodal Large Language Models See, Remember, and Recall Spaces"
+      url: "https://arxiv.org/abs/2412.14171"
+      publisher: "arXiv"
+      kind: "primary"
+      publishedAt: 2024-12-18
+      checkedAt: 2026-07-25
+      note: "The primary VSI-Bench paper: more than 5,000 questions across 288 indoor videos, with subhuman model performance."
+    - title: "Marble: A Multimodal World Model"
+      url: "https://www.worldlabs.ai/blog/marble-world-model"
+      publisher: "World Labs"
+      kind: "primary"
+      publishedAt: 2025-11-12
+      checkedAt: 2026-07-25
+      note: "Provider documentation for a released system that generates and edits explorable 3D worlds."
+    - title: "Announcing the World API"
+      url: "https://www.worldlabs.ai/blog/announcing-the-world-api"
+      publisher: "World Labs"
+      kind: "primary"
+      publishedAt: 2026-01-21
+      checkedAt: 2026-07-25
+      note: "Provider announcement for programmatic 3D-world generation from text, images, panoramas, multi-view inputs, and video."
+    - title: "World Labs Acquires SceniX"
+      url: "https://www.worldlabs.ai/blog/scenix"
+      publisher: "World Labs"
+      kind: "primary"
+      publishedAt: 2026-07-21
+      checkedAt: 2026-07-25
+      note: "A current robotics-direction announcement; it states intent and an acquisition, not proven general robotic capability."
+    - title: "Artificial Intelligence and the Maintenance of International Peace and Security"
+      url: "https://hai.stanford.edu/assets/files/fei-fei-li-un-security-council-briefing.pdf"
+      publisher: "Stanford HAI"
+      kind: "primary"
+      publishedAt: 2024-12-19
+      checkedAt: 2026-07-25
+      note: "Fei-Fei Li’s briefing on spatial AI opportunities, misuse, concentrated resources, public investment, and human-centered governance."
+  limitations:
+    - "AIViewer did not benchmark a vision model, generate a World Labs scene, or test a robot; product capabilities are attributed to provider documentation."
+    - "VSI-Bench tested a defined set of 2024-era models on indoor videos; its results should not be generalized to every model, environment, or 2026 system."
+    - "A generated 3D world can look coherent while containing incorrect dimensions, hidden geometry, object relationships, or physical behavior."
+    - "The room exercise is a learning activity, not a safety, accessibility, architectural, or robotics certification."
+aiUse:
+  mode: "ai-generated"
+  tasks: ["research", "source-review", "drafting", "editing"]
+  disclosure: "This lesson was researched and drafted by AIViewer’s AI editorial system, source-checked page by page, and was not represented as human-reviewed."
+video:
+  youtubeId: "y8NtMZ7VGmU"
+  title: "With Spatial Intelligence, AI Will Understand the Real World | Fei-Fei Li | TED"
+  description: "Fei-Fei Li explains why AI must represent, reason about, and eventually act within three-dimensional worlds."
+  creatorName: "TED"
+  creatorType: "Organization"
+  creatorUrl: "https://www.ted.com/"
+lensSummary: "Fei-Fei Li argues that AI’s next frontier is spatial: systems that perceive a 3D world, reason about relationships, predict consequences, and act. Research and products show real progress, but robust global maps and safe physical action remain unsolved."
+learningOutcome: "Distinguish object recognition, 3D representation, spatial reasoning, and action; interpret VSI-Bench cautiously; and test a model’s room understanding with verifiable questions."
+nextAction: "Complete the privacy-safe room task below using paper first. If you use an AI system, choose a non-sensitive space and compare every spatial answer with direct measurement."
+---
+
+The embedded video is a **TED talk by computer scientist Fei-Fei Li**. TED published the video; Li is the speaker and the originator of the argument examined here.
+
+Her thesis is that language fluency is not enough for intelligence that operates in the world. A system must also understand space: the shape of an environment, how objects relate across viewpoints, what can move, and what will happen after an action.
+
+That thesis now sits between two realities. AI can already turn images or text into explorable 3D scenes. Yet a convincing scene is not the same thing as an accurate map, and an accurate map is not the same thing as a machine that can act safely.
+
+## Spatial intelligence is a four-step ladder
+
+Stanford HAI [defines spatial intelligence](https://hai.stanford.edu/ai-definitions/what-is-spatial-intelligence) as the ability to understand and reason about the three-dimensional physical world, including relationships, movement, and interaction. For AI, that points toward systems that can perceive, interpret, and navigate depth, geometry, physics, and spatial relationships.
+
+It helps to split the idea into four levels:
+
+1. **Perception:** identify visible objects, surfaces, people, and motion in individual views.
+2. **Representation:** combine changing views into a persistent model of a 3D environment, including things temporarily hidden.
+3. **Reasoning:** answer questions about distance, direction, fit, routes, support, collision, and likely consequences.
+4. **Action:** select and execute a movement in a virtual or physical space, then update the model from feedback.
+
+Today’s image models can often perform the first step impressively. The difficult jump is maintaining a globally consistent world across time and viewpoints. Action raises the bar again: a wrong description is inconvenient, while a wrong movement by a vehicle, medical device, or robot can cause harm.
+
+## What Li’s talk claims—and what it forecasts
+
+Li connects spatial intelligence to a long arc in computer vision. Recognizing objects in pixels was a major advance, but people do much more than label what they see. We infer depth, remember rooms, imagine changes, and act toward goals.
+
+The talk’s strongest conceptual move is linking **seeing, predicting, and doing**. A useful spatial system should not merely say “chair.” It should represent where the chair is, infer whether it blocks a route, predict how the room changes if it moves, and support an appropriate action.
+
+The examples in the talk point toward creative 3D tools, robots, healthcare, and systems that collaborate with people in physical environments. They illustrate a research direction. They do not prove that general spatial intelligence or dependable household robotics had arrived in 2024.
+
+That separation matters:
+
+| Claim | Status by July 2026 |
+|---|---|
+| AI can generate navigable 3D scenes from limited visual or language input. | Shipped in products such as World Labs’ Marble, according to provider documentation. |
+| Multimodal models show some ability to recall and reason about spaces from video. | Supported in bounded benchmarks such as VSI-Bench, with substantial human-model gaps. |
+| A model that generates a coherent scene understands all geometry and physics within it. | Not established; visual plausibility can hide structural errors. |
+| General robots can safely perceive, predict, and act across unfamiliar real environments. | Still a forecast and active research problem. |
+
+## VSI-Bench: evidence of emergence and a large gap
+
+The 2024 paper [“Thinking in Space”](https://arxiv.org/abs/2412.14171) introduced VSI-Bench to test whether multimodal language models could build and use spatial memories from video. It contains more than 5,000 question-answer pairs derived from 288 real indoor-scene videos.
+
+Its eight tasks include object counting, relative distance and direction, route planning, object and room size estimation, absolute distance, and appearance order. That is more demanding than recognizing a room in one frame: the system must integrate an egocentric camera path into something like an environment-centered map.
+
+The reported result was mixed. Models performed above simple baselines on several tasks and showed signs of local spatial awareness, but remained below people. On a 400-question subset, human evaluators averaged 79%, which the authors reported as 33 percentage points above the best model. In their error analysis, about 71% of analyzed failures were attributed to spatial reasoning rather than basic perception or language.
+
+Another result challenges the assumption that more verbal reasoning fixes every problem. Chain-of-thought, self-consistency, and tree-of-thought prompting degraded average performance in the authors’ tests. Asking a model to generate a cognitive map improved distance reasoning, while the maps themselves tended to be stronger for nearby objects than for a whole room.
+
+This is evidence of **emerging, uneven capability**, not a permanent scorecard. The tested models and prompts reflect the paper’s period. VSI-Bench focuses on indoor video and eight defined tasks; it does not measure every aspect of physics, manipulation, social behavior, or outdoor navigation.
+
+## What changed after the talk
+
+The most visible change is that spatial generation became a usable product category. World Labs says its November 2025 [Marble release](https://www.worldlabs.ai/blog/marble-world-model) can create 3D worlds from text, images, video, or coarse layouts, then edit, expand, combine, and export them. Its January 2026 [World API](https://www.worldlabs.ai/blog/announcing-the-world-api) made navigable-world generation available programmatically.
+
+Those releases turn part of Li’s forecast into something people can use for creative exploration, design communication, and simulated environments. They still come from the company building the product, and World Labs itself describes Marble as a step toward spatial intelligence rather than the completed destination.
+
+The boundary moved again on July 21, 2026, when World Labs [announced its acquisition of SceniX](https://www.worldlabs.ai/blog/scenix) and a deeper robotics direction. The announcement describes an ambition to combine world models, simulation, and real-world learning. It does not publish evidence that a generally capable robot resulted from the acquisition.
+
+So the change since the TED talk is concrete but limited: **3D generation and tooling have shipped; robust world understanding and physical agency remain research goals.**
+
+## Risks rise as AI moves from pixels to places
+
+### A room scan can be sensitive data
+
+Images and videos of homes, schools, clinics, and workplaces can expose faces, possessions, documents, entrances, security devices, routines, and accessibility needs. A spatial model may infer more than a single photograph reveals because it connects views into a layout.
+
+Before uploading a space, remove personal documents, screens, people, addresses, and valuable or security-relevant details. Check retention, training, sharing, and deletion terms. For many learning tasks, a paper map or a staged tabletop scene is sufficient.
+
+### Coherence is not measurement
+
+A generated world may look stable as a camera moves while its scale, occluded areas, collision boundaries, or object positions are wrong. Do not use an unverified generated scene to approve construction, accessibility clearance, emergency routes, medical placement, or robotic motion.
+
+### Action creates a new safety threshold
+
+A model can propose a route without sensing a pet, loose cable, wet floor, or person entering the space. Physical systems need real-time sensors, conservative limits, fail-safe behavior, testing under edge cases, and human authority to stop an action. Language confidence is not a safety case.
+
+### Benefits and control can concentrate
+
+Li’s 2024 [UN Security Council briefing](https://hai.stanford.edu/assets/files/fei-fei-li-un-security-council-briefing.pdf) links spatial AI to disaster response, agriculture, and healthcare, while warning that powerful systems can also be misused and that compute and data are concentrated. A human-centered approach asks who is represented in training environments, who can afford the tools, whose spaces are captured, and who is accountable after a failure.
+
+## Try it: can an AI build a dependable room map?
+
+This exercise tests the four-step ladder without pretending to benchmark a product. Use a non-sensitive room, an empty classroom, or a tabletop arrangement. You can complete the paper version without uploading anything.
+
+### 1. Make the ground truth
+
+Walk through the space and sketch a top-down map. Mark the entrance, five objects, and one blocked route. Measure two distances and one object width. This is your answer key.
+
+### 2. Limit the observation
+
+Record a slow 20-second walkthrough or take six overlapping photos from different viewpoints. Keep the sequence natural; do not reveal your measurements. If uploading the material would expose private information, stop and use the sketch with a partner instead.
+
+### 3. Ask questions at increasing levels
+
+Start with perception: “Which five objects are present?” Move to representation: “Draw a simple top-down arrangement.” Then test reasoning: “From the entrance, is the chair left or right of the table?”, “Which route reaches the window without crossing the rug?”, and “Would a 70-centimetre-wide box fit through the gap?”
+
+If the tool can propose an action, ask only for a plan: “Describe how to move the chair beside the wall while avoiding the lamp.” Do not let an unverified system control equipment.
+
+### 4. Score the model against reality
+
+For each answer, mark **correct**, **partly supported**, **wrong**, or **not observable**. Measure rather than guessing. Note whether an error came from missing an object, losing the room layout, changing viewpoint incorrectly, estimating scale poorly, or ignoring a physical constraint.
+
+### 5. Test the map, not the eloquence
+
+Repeat one wrong question after asking the system to create an explicit coordinate grid or top-down map. If the answer improves, that echoes VSI-Bench’s cognitive-map finding. If the explanation becomes longer but remains wrong, you have demonstrated why verbal fluency is not spatial reliability.
+
+## The lesson to carry forward
+
+Fei-Fei Li’s talk identifies a real frontier. AI is moving from describing flat media toward representing and generating spaces. VSI-Bench shows partial spatial competence and clear weaknesses; World Labs shows that useful 3D-world tools can ship before general spatial reasoning is solved.
+
+The right question is no longer simply “Can the AI see the room?” Ask four questions instead: **What did it perceive, what 3D model did it retain, what relationship did it reason about, and what consequence would follow if someone trusted its action?**
