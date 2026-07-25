@@ -7,8 +7,8 @@
 export const siteConfig = {
   // ── Identity ──
   name: 'AIViewer.ai',
-  tagline: 'Practical AI knowledge for everyone.',
-  description: 'No jargon, no hype. Practical AI guides and transparent, evidence-labeled evaluations for people who want AI to work for them.',
+  tagline: 'Understand AI. Use it well.',
+  description: 'Selected AI videos, primary sources, and practical lessons explained in clear English by the AIViewer editorial system from UrduAI.',
   url: 'https://aiviewer.ai',
   locale: 'en-US',
 
@@ -16,7 +16,6 @@ export const siteConfig = {
   network: {
     name: 'UrduAI',
     url: 'https://www.urduai.org',
-    communitySize: '1M+',
   },
 
   // ── Author ──
@@ -82,37 +81,33 @@ export const siteConfig = {
   // ── Navigation ──
   nav: {
     main: [
-      { label: 'AI Tools', href: '/tools/' },
-      { label: 'Guides', href: '/guides/' },
-      { label: 'AI Pricing', href: '/guides/ai-pricing-comparison-2026/' },
-      { label: 'Glossary', href: '/glossary/' },
-      { label: 'Newsletter', href: '/newsletter/' },
+      { label: 'Learn AI', href: '/learn/' },
+      { label: 'Video Lessons', href: '/video-lessons/' },
+      { label: 'AI Signals', href: '/signals/' },
+      { label: 'Practical Guides', href: '/practical-guides/' },
+      { label: 'About', href: '/about/' },
     ],
-    cta: { label: 'Browse AI Guides', href: '/guides/' },
+    cta: { label: 'Start learning', href: '/learn/' },
     footer: {
       content: [
-        { label: 'AI Tools', href: '/tools/' },
-        { label: 'Guides', href: '/guides/' },
-        { label: 'AI Pricing Guide', href: '/guides/ai-pricing-comparison-2026/' },
-        { label: 'AI Workflow Shift', href: '/guides/ai-workflow-shift-openai-anthropic-google-2026/' },
-        { label: 'Google AI Studio', href: '/tools/google-ai-studio/' },
-        { label: 'Grok', href: '/tools/grok/' },
-        { label: 'OurScreen', href: '/tools/ourscreen/' },
+        { label: 'Learn AI', href: '/learn/' },
+        { label: 'Video Lessons', href: '/video-lessons/' },
+        { label: 'AI Signals', href: '/signals/' },
       ],
       resources: [
-        { label: 'AI Glossary', href: '/glossary/' },
-        { label: 'Newsletter', href: '/newsletter/' },
+        { label: 'Practical Guides', href: '/practical-guides/' },
         { label: 'About', href: '/about/' },
-        { label: 'Editorial Standards', href: '/editorial-standards/' },
-        { label: 'Review Methodology', href: '/review-methodology/' },
-        { label: 'Corrections Policy', href: '/corrections/' },
-        { label: 'AI Use Policy', href: '/ai-use/' },
-        { label: 'Ownership & Funding', href: '/ownership-and-funding/' },
-        { label: 'Advertise', href: '/advertise/' },
-        { label: 'Contact', href: '/contact/' },
+      ],
+      trust: [
+        { label: 'Editorial standards', href: '/editorial-standards/' },
+        { label: 'Review methodology', href: '/review-methodology/' },
+        { label: 'AI use', href: '/ai-use/' },
+        { label: 'Corrections', href: '/corrections/' },
+        { label: 'Disclosure', href: '/disclosure/' },
+        { label: 'Ownership & funding', href: '/ownership-and-funding/' },
         { label: 'Privacy', href: '/privacy/' },
         { label: 'Terms', href: '/terms/' },
-        { label: 'Disclosure', href: '/disclosure/' },
+        { label: 'Contact', href: '/contact/' },
       ],
       social: [
         { label: 'LinkedIn', href: 'https://www.linkedin.com/in/roonjha/' },

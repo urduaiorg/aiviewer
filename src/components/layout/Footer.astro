@@ -2,14 +2,12 @@
 import { siteConfig } from '../../data/site.config';
 
 const year = new Date().getFullYear();
-const contentLinks = siteConfig.nav.footer.content;
-const resourceLinks = siteConfig.nav.footer.resources;
+const learnLinks = siteConfig.nav.footer.content;
+const exploreLinks = siteConfig.nav.footer.resources;
+const trustLinks = siteConfig.nav.footer.trust;
 const socialLinks = siteConfig.nav.footer.social;
+const BEEHIIV_FORM_ID = 'df762eb2-5183-49d6-bb1e-fafb3683f2e0';
 
-/**
- * Map social platform labels to inline SVG paths.
- * Each icon is a 20x20 viewBox for consistent sizing.
- */
 const socialIcons: Record<string, string> = {
   LinkedIn:
     '<path fill="currentColor" d="M4.94 2.5A1.75 1.75 0 0 0 3.19 4.25 1.75 1.75 0 0 0 4.94 6a1.75 1.75 0 0 0 1.75-1.75A1.75 1.75 0 0 0 4.94 2.5ZM3.25 7.5h3.38v10H3.25v-10Zm5.62 0h3.24v1.37h.05A3.55 3.55 0 0 1 15.36 7.3c3.41 0 4.04 2.24 4.04 5.16v5.94h-3.37v-5.27c0-1.26-.02-2.87-1.75-2.87-1.75 0-2.02 1.37-2.02 2.78v5.36H8.87V7.5Z"/>',
@@ -20,110 +18,508 @@ const socialIcons: Record<string, string> = {
 };
 ---
 
-<footer class="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]" slot="footer">
-  <div class="page-container py-14">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
-
-      <!-- Brand -->
-      <div class="col-span-2 md:col-span-1">
-        <a href="/" class="inline-flex items-baseline" style="font-family: 'Montserrat', sans-serif;">
-          <span class="text-[1.2rem] font-extrabold" style="color: #F0C75E; letter-spacing: -0.02em;">AI</span>
-          <span class="text-[1.2rem] font-extrabold text-zinc-900 dark:text-white" style="letter-spacing: -0.02em;">Viewer</span>
-        </a>
-        <p class="mt-3 text-[0.8rem] text-zinc-400 leading-relaxed max-w-[220px]">
-          {siteConfig.tagline} No jargon, no hype.
-        </p>
-        <!-- Social icons row -->
-        <div class="mt-4 flex items-center gap-3">
-          {socialLinks.map((link) => (
-            <a
-              href={link.href}
-              target="_blank"
-              rel="noopener"
-              class="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors duration-200"
-              aria-label={link.label}
-            >
-              <svg class="w-[1.1rem] h-[1.1rem]" viewBox="0 0 20 20" fill="none" set:html={socialIcons[link.label] || ''} />
-            </a>
-          ))}
-          <a
-            href="/rss.xml"
-            class="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors duration-200"
-            aria-label="RSS Feed"
-          >
-            <svg class="w-[1.1rem] h-[1.1rem]" viewBox="0 0 20 20" fill="none">
-              <path fill="currentColor" d="M3.5 14.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4ZM2 2v2.5a13.5 13.5 0 0 1 13.5 13.5H18A16 16 0 0 0 2 2Zm0 5v2.5a8.5 8.5 0 0 1 8.5 8.5H13A11 11 0 0 0 2 7Z"/>
-            </svg>
-          </a>
+<footer class="editorial-footer" slot="footer">
+  <div class="editorial-footer__newsletter">
+    <div class="editorial-footer__shell newsletter-row">
+      <div class="newsletter-copy">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3.5 6.5h17v11h-17zM4 7l8 6 8-6" />
+        </svg>
+        <div>
+          <h2>Get new lessons and signals in your inbox.</h2>
+          <p>Clear explanations, useful sources, and practical steps.</p>
         </div>
       </div>
 
-      <!-- Content -->
-      <div>
-        <h4 class="text-[0.7rem] font-semibold text-zinc-400 uppercase tracking-wider mb-4">Content</h4>
-        <nav class="flex flex-col gap-2.5">
-          {contentLinks.map((link) => (
-            <a
-              href={link.href}
-              class="text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:translate-x-0.5 transition-[color,transform] duration-200"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
+      <div class="newsletter-action">
+        <form
+          class="newsletter-form"
+          method="POST"
+          action={`https://subscribe-forms.beehiiv.com/${BEEHIIV_FORM_ID}`}
+          target="_blank"
+          data-beehiiv-form
+        >
+          <label class="sr-only" for="footer-newsletter-email">Email address</label>
+          <input
+            id="footer-newsletter-email"
+            type="email"
+            name="email"
+            autocomplete="email"
+            placeholder="Enter your email"
+            required
+          />
+          <input type="hidden" name="utm_source" value="aiviewer" />
+          <button type="submit">Subscribe</button>
+        </form>
+        <p class="newsletter-privacy">
+          Subscription data is handled under our <a href="/privacy/">Privacy Policy</a>.
+        </p>
       </div>
-
-      <!-- Resources -->
-      <div>
-        <h4 class="text-[0.7rem] font-semibold text-zinc-400 uppercase tracking-wider mb-4">Resources</h4>
-        <nav class="flex flex-col gap-2.5">
-          {resourceLinks.map((link) => (
-            <a
-              href={link.href}
-              class="text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:translate-x-0.5 transition-[color,transform] duration-200"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-      </div>
-
-      <!-- Connect -->
-      <div>
-        <h4 class="text-[0.7rem] font-semibold text-zinc-400 uppercase tracking-wider mb-4">Connect</h4>
-        <nav class="flex flex-col gap-2.5">
-          {socialLinks.map((link) => (
-            <a
-              href={link.href}
-              target="_blank"
-              rel="noopener"
-              class="inline-flex items-center gap-2 text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:translate-x-0.5 transition-[color,transform] duration-200"
-            >
-              <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 20 20" fill="none" set:html={socialIcons[link.label] || ''} />
-              {link.label}
-            </a>
-          ))}
-          <a
-            href="/rss.xml"
-            class="inline-flex items-center gap-2 text-[0.84rem] text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:translate-x-0.5 transition-[color,transform] duration-200"
-          >
-            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 20 20" fill="none">
-              <path fill="currentColor" d="M3.5 14.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4ZM2 2v2.5a13.5 13.5 0 0 1 13.5 13.5H18A16 16 0 0 0 2 2Zm0 5v2.5a8.5 8.5 0 0 1 8.5 8.5H13A11 11 0 0 0 2 7Z"/>
-            </svg>
-            RSS Feed
-          </a>
-        </nav>
-      </div>
-    </div>
-
-    <!-- Bottom -->
-    <div class="mt-12 pt-6 border-t border-zinc-100 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p class="text-[0.75rem] text-zinc-400">
-        &copy; {year} {siteConfig.name} &middot; Part of the <a href={siteConfig.network.url} target="_blank" rel="noopener" class="inline-flex items-baseline" style="font-family: 'Montserrat', sans-serif;"><span class="font-bold text-zinc-600 dark:text-zinc-300">{siteConfig.network.name.replace('AI', '')}</span><span class="font-bold" style="color: #F0C75E;">AI</span></a> network
-      </p>
-      <p class="text-[0.75rem] text-zinc-300 dark:text-zinc-600">
-        {siteConfig.network.communitySize} community &middot; AI literacy for everyone
-      </p>
     </div>
   </div>
+
+  <div class="editorial-footer__shell editorial-footer__main">
+    <div class="editorial-footer__brand">
+      <a href="/" class="editorial-footer__logo" aria-label="AIViewer home">
+        <span>AI</span>Viewer
+      </a>
+      <p>Selected AI lessons, source-aware signals, and practical guides from UrduAI.</p>
+    </div>
+
+    <div class="editorial-footer__links">
+      <div>
+        <h2>Learn</h2>
+        <nav aria-label="Learning links">
+          {learnLinks.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))}
+        </nav>
+      </div>
+      <div>
+        <h2>Explore</h2>
+        <nav aria-label="Explore links">
+          {exploreLinks.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))}
+        </nav>
+      </div>
+    </div>
+
+    <div class="editorial-footer__network">
+      <p>
+        Part of
+        <a href={siteConfig.network.url} target="_blank" rel="noopener noreferrer">
+          <span>Urdu</span><strong>AI</strong>
+        </a>
+      </p>
+      <div class="editorial-footer__socials" aria-label="Social links">
+        {socialLinks.map((link) => (
+          <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
+            <svg viewBox="0 0 20 20" aria-hidden="true" set:html={socialIcons[link.label] || ''} />
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="editorial-footer__shell editorial-footer__bottom">
+    <p>&copy; {year} {siteConfig.name}. All rights reserved.</p>
+    <nav class="editorial-footer__policies" aria-label="Legal and editorial policies">
+      {trustLinks.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+    <p>AI literacy in clear English.</p>
+  </div>
 </footer>
+
+<style>
+  .editorial-footer {
+    border-top: 1px solid #dedbd5;
+    background: #fff;
+    color: #25241f;
+  }
+
+  .editorial-footer__shell {
+    width: min(100% - 3rem, 1200px);
+    margin-inline: auto;
+  }
+
+  .editorial-footer__newsletter {
+    border-bottom: 1px solid #dedbd5;
+  }
+
+  .newsletter-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(25rem, 0.8fr);
+    gap: 2.5rem;
+    align-items: center;
+    min-height: 4rem;
+    padding-block: 0.55rem;
+  }
+
+  .newsletter-copy {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .newsletter-copy svg {
+    width: 1.55rem;
+    height: 1.55rem;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: #d88a00;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.4;
+  }
+
+  .newsletter-copy h2 {
+    margin: 0;
+    color: #171714;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  .newsletter-copy p {
+    margin: 0.2rem 0 0;
+    color: #706e67;
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .newsletter-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    min-height: 2.7rem;
+  }
+
+  .newsletter-privacy {
+    margin: 0.35rem 0 0;
+    color: #77746d;
+    font-size: 0.6rem;
+    line-height: 1.35;
+    text-align: right;
+  }
+
+  .newsletter-privacy a {
+    color: #403d92;
+    font-weight: 650;
+  }
+
+  .newsletter-form input {
+    min-width: 0;
+    border: 1px solid #d8d5cf;
+    border-right: 0;
+    border-radius: 2px 0 0 2px;
+    background: #fff;
+    color: #171714;
+    padding: 0.72rem 0.9rem;
+    font: 0.78rem/1 'Inter', sans-serif;
+    outline: none;
+  }
+
+  .newsletter-form input::placeholder {
+    color: #97948c;
+  }
+
+  .newsletter-form input:focus {
+    border-color: #4b489f;
+    box-shadow: inset 0 0 0 1px #4b489f;
+  }
+
+  .newsletter-form button {
+    border: 1px solid #11110f;
+    border-radius: 0 2px 2px 0;
+    background: #11110f;
+    color: #fff;
+    padding: 0.72rem 1.4rem;
+    font: 650 0.76rem/1 'Inter', sans-serif;
+    cursor: pointer;
+    transition: background 150ms ease;
+  }
+
+  .newsletter-form button:hover {
+    background: #34332f;
+  }
+
+  .editorial-footer__main {
+    display: grid;
+    grid-template-columns: minmax(14rem, 1.3fr) minmax(20rem, 1fr) auto;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+    padding-block: 0.95rem 0.85rem;
+  }
+
+  .editorial-footer__logo {
+    display: inline-flex;
+    color: #171714;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.22rem;
+    font-weight: 780;
+    letter-spacing: -0.055em;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .editorial-footer__logo span {
+    color: #d88a00;
+  }
+
+  .editorial-footer__brand p {
+    max-width: 20rem;
+    margin: 0.7rem 0 0;
+    color: #706e67;
+    font-size: 0.72rem;
+    line-height: 1.5;
+  }
+
+  .editorial-footer__links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem;
+  }
+
+  .editorial-footer__links h2 {
+    margin: 0 0 0.55rem;
+    color: #8a877f;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 750;
+    letter-spacing: 0.13em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .editorial-footer__links nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.32rem;
+  }
+
+  .editorial-footer__links a {
+    color: #3e3d38;
+    font-size: 0.69rem;
+    line-height: 1.35;
+    text-decoration: none;
+  }
+
+  .editorial-footer__links a:hover {
+    color: #312e81;
+  }
+
+  .editorial-footer__network {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.9rem;
+  }
+
+  .editorial-footer__network > p {
+    margin: 0;
+    color: #77746d;
+    font-size: 0.68rem;
+  }
+
+  .editorial-footer__network > p > a {
+    display: inline-flex;
+    margin-left: 0.25rem;
+    color: #171714;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 750;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+  }
+
+  .editorial-footer__network strong {
+    color: #d88a00;
+  }
+
+  .editorial-footer__socials {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .editorial-footer__socials a {
+    display: grid;
+    width: 1.75rem;
+    height: 1.75rem;
+    place-items: center;
+    color: #5d5b55;
+  }
+
+  .editorial-footer__socials a:hover {
+    color: #11110f;
+  }
+
+  .editorial-footer__socials svg {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+
+  .editorial-footer__bottom {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 1.25rem;
+    align-items: center;
+    padding-block: 0.45rem;
+    border-top: 1px solid #eceae6;
+    color: #8a877f;
+    font-size: 0.62rem;
+  }
+
+  .editorial-footer__bottom p {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .editorial-footer__policies {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 0.8rem;
+  }
+
+  .editorial-footer__policies a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .editorial-footer__policies a:hover {
+    color: #312e81;
+  }
+
+  .editorial-footer a:focus-visible,
+  .newsletter-form input:focus-visible,
+  .newsletter-form button:focus-visible {
+    outline: 3px solid #e6a01d;
+    outline-offset: 3px;
+  }
+
+  :global([data-theme='dark']) .editorial-footer {
+    border-color: #2b2b29;
+    background: #0c0c0c;
+    color: #e7e5df;
+  }
+
+  :global([data-theme='dark']) .editorial-footer__newsletter,
+  :global([data-theme='dark']) .editorial-footer__bottom {
+    border-color: #2b2b29;
+  }
+
+  :global([data-theme='dark']) .newsletter-copy h2,
+  :global([data-theme='dark']) .editorial-footer__logo,
+  :global([data-theme='dark']) .editorial-footer__network > p > a {
+    color: #f5f4ef;
+  }
+
+  :global([data-theme='dark']) .newsletter-copy p,
+  :global([data-theme='dark']) .newsletter-privacy,
+  :global([data-theme='dark']) .editorial-footer__brand p,
+  :global([data-theme='dark']) .editorial-footer__network > p,
+  :global([data-theme='dark']) .editorial-footer__bottom {
+    color: #99978f;
+  }
+
+  :global([data-theme='dark']) .newsletter-form input {
+    border-color: #3b3a37;
+    background: #151515;
+    color: #f5f4ef;
+  }
+
+  :global([data-theme='dark']) .editorial-footer__links a {
+    color: #c3c1ba;
+  }
+
+  :global([data-theme='dark']) .editorial-footer__socials a {
+    color: #aaa8a1;
+  }
+
+  :global([data-theme='dark']) .editorial-footer__socials a:hover {
+    color: #fff;
+  }
+
+  @media (max-width: 850px) {
+    .newsletter-row {
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+      padding-block: 1.2rem;
+    }
+
+    .editorial-footer__main {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .editorial-footer__network {
+      align-items: flex-start;
+    }
+
+    .editorial-footer__bottom {
+      grid-template-columns: 1fr;
+      align-items: flex-start;
+    }
+
+    .editorial-footer__policies {
+      grid-column: auto;
+      grid-row: auto;
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .editorial-footer__shell {
+      width: min(100% - 2rem, 1200px);
+    }
+
+    .newsletter-copy {
+      align-items: flex-start;
+    }
+
+    .newsletter-form {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+
+    .newsletter-form input {
+      border-right: 1px solid #d8d5cf;
+      border-radius: 2px;
+    }
+
+    .newsletter-form button {
+      border-radius: 2px;
+    }
+
+    .newsletter-privacy {
+      text-align: left;
+    }
+
+    .editorial-footer__main {
+      grid-template-columns: 1fr;
+      gap: 1.7rem;
+    }
+
+    .editorial-footer__links {
+      gap: 1.5rem;
+    }
+
+    .editorial-footer__bottom {
+      align-items: flex-start;
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+    }
+
+    .editorial-footer__policies {
+      grid-column: auto;
+      grid-row: auto;
+      margin-bottom: 0.35rem;
+    }
+
+    .editorial-footer__bottom p {
+      white-space: normal;
+    }
+  }
+</style>
+
+<script>
+  function initFooterNewsletter() {
+    document.querySelectorAll<HTMLFormElement>('[data-beehiiv-form]').forEach((form) => {
+      if (form.dataset.initialized === 'true') return;
+      form.dataset.initialized = 'true';
+      form.addEventListener('submit', () => {
+        (window as any).aiViewerTrack?.('newsletter_submit_attempt', {
+          placement: 'footer',
+          path: window.location.pathname,
+        });
+      });
+    });
+  }
+
+  initFooterNewsletter();
+  document.addEventListener('astro:page-load', initFooterNewsletter);
+</script>

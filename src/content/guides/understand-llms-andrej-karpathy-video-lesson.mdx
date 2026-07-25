@@ -1,0 +1,174 @@
+---
+title: "Understand LLMs with Andrej Karpathy: A Video Lesson"
+description: "Learn how language models move from next-token prediction to useful assistants, where tools fit, and why fluent answers still need verification."
+category: "education"
+publishedDate: "2026-07-25"
+updatedDate: "2026-07-25"
+coverImage: "/images/editorial/aiviewer-lens-learner.webp"
+tags: ["large language models", "LLM", "Andrej Karpathy", "AI education", "pretraining", "hallucinations"]
+featured: false
+draft: false
+format: "video-lesson"
+publication:
+  status: "published"
+  index: true
+  monetize: true
+factCheckedAt: "2026-07-25"
+reviewDueAt: "2026-10-25"
+evidence:
+  mode: "creator-source-plus-verification"
+  sources:
+    - title: "[1hr Talk] Intro to Large Language Models"
+      url: "https://www.youtube.com/watch?v=zjkBMFhNj_g"
+      publisher: "Andrej Karpathy"
+      kind: "primary"
+      publishedAt: "2023-11-22"
+      checkedAt: "2026-07-25"
+      note: "The attributed source lesson; used for its conceptual path from pretraining to assistants and tools."
+    - title: "Andrej Karpathy on YouTube"
+      url: "https://www.youtube.com/@AndrejKarpathy"
+      publisher: "Andrej Karpathy"
+      kind: "primary"
+      checkedAt: "2026-07-25"
+      note: "Creator channel used to verify attribution."
+    - title: "GPT-4 Technical Report"
+      url: "https://arxiv.org/abs/2303.08774"
+      publisher: "OpenAI via arXiv"
+      kind: "primary"
+      publishedAt: "2023-03-15"
+      checkedAt: "2026-07-25"
+      note: "Supports the distinction between next-token pretraining and post-training alignment."
+    - title: "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile"
+      url: "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence"
+      publisher: "National Institute of Standards and Technology"
+      kind: "primary"
+      publishedAt: "2024-07-26"
+      checkedAt: "2026-07-25"
+      note: "Used for the risk-management frame around confabulation, verification, and deployment context."
+    - title: "Why language models hallucinate"
+      url: "https://openai.com/index/why-language-models-hallucinate/"
+      publisher: "OpenAI"
+      kind: "primary"
+      publishedAt: "2025-09-05"
+      checkedAt: "2026-07-25"
+      note: "Later research used to update the lesson's explanation of plausible false answers."
+    - title: "Neural Networks: Zero to Hero"
+      url: "https://github.com/karpathy/nn-zero-to-hero"
+      publisher: "Andrej Karpathy on GitHub"
+      kind: "primary"
+      checkedAt: "2026-07-25"
+      note: "Creator-maintained notebooks and exercises for readers who want to build the underlying ideas."
+  limitations:
+    - "The source video was published in 2023, so product names, interfaces, context limits, and assistant features shown or discussed may no longer match current services."
+    - "This lesson explains a useful mental model, not the undisclosed architecture, data, or post-training recipe of every commercial system."
+    - "Linked risk guidance describes how to manage generative-AI risks; it does not certify any particular model or answer as safe or correct."
+aiUse:
+  mode: "ai-generated"
+  tasks: ["research", "source-review", "drafting", "editing"]
+  disclosure: "This lesson was researched and drafted by AIViewer’s AI editorial system, source-checked page by page, and was not represented as human-reviewed."
+video:
+  youtubeId: "zjkBMFhNj_g"
+  title: "[1hr Talk] Intro to Large Language Models"
+  description: "Andrej Karpathy's general-audience introduction to how large language models are trained, adapted into assistants, and extended with tools."
+  creatorName: "Andrej Karpathy"
+  creatorType: "Person"
+  creatorUrl: "https://www.youtube.com/@AndrejKarpathy"
+  publishedAt: "2023-11-22"
+  durationSeconds: 3588
+lensSummary: "An LLM begins as a next-token predictor that compresses patterns from training text into parameters. An assistant adds post-training, instructions, safety behavior, context, and often tools; those additions improve usefulness without guaranteeing truth."
+learningOutcome: "Explain next-token prediction, the compression analogy, pretraining, post-training, and tool use; distinguish a base model from an assistant; and choose when to verify an answer."
+nextAction: "Run the prediction-to-verification exercise near the end: ask one factual question, separate claims from prose, use an external source or tool, and record what changed."
+---
+
+Andrej Karpathy's [one-hour introduction](https://www.youtube.com/watch?v=zjkBMFhNj_g), published on his [official channel](https://www.youtube.com/@AndrejKarpathy), remains one of the clearest routes into large language models because it starts with the training objective rather than the chat interface. This is an original companion lesson, not a transcript. Watch the video for Karpathy's demonstrations; use the sections below to organize the ideas, update the 2023 context, and practise deciding when an answer needs evidence.
+
+## The shortest useful mental model
+
+A text-generating LLM repeatedly answers one question: **given the tokens so far, what token is likely to come next?**
+
+A token is a unit chosen by a tokenizer. It might be a whole short word, part of a longer word, punctuation, or whitespace. The model receives a sequence of token IDs, transforms them through many layers, and produces a probability distribution for the next token. A decoding rule selects one, appends it to the sequence, and the cycle repeats.
+
+That mechanical description can sound too small to explain useful writing, coding, or question answering. The missing piece is scale. To become good at prediction across varied text, a model must absorb many regularities: syntax, document structures, common factual associations, styles of explanation, patterns in code, and some procedures expressed in text. Prediction is the training objective; the behavior that emerges from learning it can be much broader.
+
+The [GPT-4 technical report](https://arxiv.org/abs/2303.08774) describes GPT-4 in this same basic way: a Transformer-based model pretrained to predict the next token, followed by post-training intended to improve factuality and adherence to desired behavior. That does not mean every modern model uses an identical recipe. It does show why "next-token predictor" and "capable system" are not contradictory descriptions.
+
+## Prediction as compression—useful, but not literal
+
+Karpathy uses compression as a productive analogy. If a model can predict text well, its learned parameters must capture reusable structure in that text. Instead of storing a separate instruction for every sentence, training squeezes statistical regularities into weights. Better internal regularities generally produce better predictions.
+
+Two cautions keep the analogy honest.
+
+First, an LLM is not a searchable archive of its training set. Its parameters do not provide a reliable record lookup, citation trail, or guarantee that a requested fact appeared in training. Second, compression does not mean understanding in precisely the human sense. It says something operational: the model has learned a compact numerical system that can reproduce and combine patterns well enough to continue sequences.
+
+This explains both capability and failure. Strong patterns—grammar, common formats, frequently repeated relationships—can be generated consistently. Rare, ambiguous, private, recent, or arbitrary details are harder. Fluent continuation can therefore be convincing even when a particular claim is wrong.
+
+## Three layers people often collapse into “the AI”
+
+### 1. Pretraining builds a base model
+
+During pretraining, the system processes a large corpus and adjusts its parameters to reduce next-token prediction error. The resulting **base model** is best imagined as a document completer. Give it the opening of a recipe, dialogue, program, or encyclopedia entry and it continues in a statistically plausible direction.
+
+Pretraining is where much of the general language capability and broad pattern knowledge is acquired. It is computationally expensive, but it does not by itself create a patient, safe, instruction-following chat product.
+
+### 2. Post-training shapes an assistant
+
+Post-training uses examples, preferences, feedback, reward signals, or related techniques to make behavior more useful: follow an instruction, decline some requests, format an answer, ask a clarifying question, or prefer one response over another. The exact methods vary by developer and generation.
+
+This is the crucial distinction:
+
+| Base model | Assistant product |
+|---|---|
+| Continues token sequences | Tries to respond to a user's intent |
+| Primarily reflects pretraining | Adds post-training and behavioral policies |
+| Has no inherent chat interface | Receives roles, conversation history, and system instructions |
+| Produces model output | May combine model output with tools, filters, and product logic |
+
+Post-training can reduce unwanted behavior, but it does not convert probabilistic generation into a truth database. A polished refusal, citation-shaped sentence, or confident tone is still generated behavior unless the system actually checks an external source.
+
+### 3. Tools extend what the assistant can do
+
+A calculator, code runner, search service, retrieval system, database, or calendar is not the language model itself. The model may decide to call a tool, construct its input, read the result, and use that result in a response. The surrounding application handles permissions and execution.
+
+Tools matter because they move some work from uncertain recall to observable operations. A calculator can compute a total; retrieval can supply a current policy; search can locate a source. But tool use creates new failure points: the model may choose the wrong tool, form a poor query, misread the result, or describe an action that never completed. Check the returned evidence or application state, not merely the assistant's narration.
+
+## Why hallucinations fit the model
+
+An LLM is rewarded for producing a plausible continuation, not for attaching a verified provenance record to every sentence. OpenAI's later research on [why language models hallucinate](https://openai.com/index/why-language-models-hallucinate/) connects plausible falsehoods to pretraining and to evaluations that can reward guessing instead of admitting uncertainty. Post-training and tools can reduce errors, but confident mistakes remain possible.
+
+That leads to a practical rule: **fluency is evidence of language competence, not evidence that a claim is true**.
+
+The risk grows when a request involves:
+
+- recent events or live availability;
+- exact names, dates, quotations, or citations;
+- uncommon facts with little repetition in public text;
+- calculations or multi-step transformations;
+- high-impact medical, legal, financial, employment, or safety decisions;
+- private information the model cannot legitimately access.
+
+NIST's [Generative AI Profile](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence) treats confabulation and information integrity as risks to identify, measure, and manage across a system's lifecycle. The lesson for an individual is simpler: match verification effort to consequence. A brainstorming list and a medication decision should not share the same trust threshold.
+
+## What has changed since the 2023 video?
+
+The foundation has aged better than the product tour. Next-token pretraining, tokenization, Transformers, post-training, and tool augmentation still form a strong conceptual map. What changes quickly is the assistant layer around them.
+
+Since 2023, assistants have increasingly been presented with richer combinations of text, images, audio, longer working context, retrieval, code execution, and multi-step tool workflows. Post-training methods and inference-time strategies also keep evolving. Some interfaces make the boundaries nearly invisible: one answer may combine generated text, retrieved documents, hidden instructions, and several external calls.
+
+So do not use the video as a current feature catalogue. Use it to ask a better diagnostic question: **which part produced this result—the pretrained model, the post-trained behavior, supplied context, or a tool?** That question is even more valuable when the system feels seamless.
+
+## Practical exercise: prediction to verification
+
+Allow 15–20 minutes and use any assistant you already have.
+
+1. Ask one narrow factual question whose answer contains at least a name, date, or number. Avoid personal or sensitive data.
+2. Copy the response into a note. Underline each checkable claim separately from advice, tone, or explanation.
+3. Ask the assistant: “Which claims here are uncertain, time-sensitive, or based on information you did not retrieve during this conversation?” Treat its self-assessment as a clue, not proof.
+4. Verify the two most consequential claims using a primary source. If the assistant has browsing, inspect the links it actually returned. If it used a calculator or code tool, inspect the inputs and result.
+5. Rewrite the answer with unsupported details removed, uncertainty stated, and links placed beside the claims they support.
+6. Label each contribution: **model generation**, **post-trained instruction following**, **provided context**, or **external tool**.
+
+For a coding path, Karpathy's creator-maintained [Neural Networks: Zero to Hero](https://github.com/karpathy/nn-zero-to-hero) repository progresses from tiny neural networks to language models and a GPT tokenizer. Building a small model will not reproduce a commercial LLM, but it makes loss, sampling, and tokenization concrete.
+
+## What to remember
+
+An LLM is a prediction engine whose parameters encode compressed statistical structure. A base model becomes an assistant through post-training and a product wrapper. Tools can ground or execute parts of the task, yet the overall system can still fail. The right response is neither blind trust nor dismissal: understand which layer is doing the work, then verify in proportion to the stakes.

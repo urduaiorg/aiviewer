@@ -1,0 +1,259 @@
+---
+title: "How to Verify an AI Answer: A Practical Workflow"
+description: "Turn an AI response into checkable claims, trace each one to suitable evidence, test dates and scope, and record what you can safely use."
+category: "research"
+publishedDate: "2026-07-25"
+updatedDate: "2026-07-25"
+coverImage: "/images/editorial/verify-ai-answer.webp"
+tags: ["AI verification", "fact-checking", "hallucinations", "research workflow", "source evaluation", "AI literacy"]
+featured: false
+draft: false
+format: "practical-workflow"
+publication:
+  status: "published"
+  index: true
+  monetize: true
+factCheckedAt: "2026-07-25"
+reviewDueAt: "2027-01-25"
+evidence:
+  mode: "primary-sources"
+  sources:
+    - title: "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile"
+      url: "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence"
+      publisher: "National Institute of Standards and Technology"
+      kind: "primary"
+      publishedAt: "2024-07-26"
+      checkedAt: "2026-07-25"
+      note: "Used for confabulation, information-integrity risk, documentation, monitoring, and context-sensitive risk management."
+    - title: "NIST AI Resource Center"
+      url: "https://airc.nist.gov/"
+      publisher: "National Institute of Standards and Technology"
+      kind: "primary"
+      checkedAt: "2026-07-25"
+      note: "Used for the testing, evaluation, verification, and validation frame and current AI RMF implementation context."
+    - title: "Why language models hallucinate"
+      url: "https://openai.com/index/why-language-models-hallucinate/"
+      publisher: "OpenAI"
+      kind: "primary"
+      publishedAt: "2025-09-05"
+      checkedAt: "2026-07-25"
+      note: "Provider-authored research used only to explain plausible false answers and the value of appropriate uncertainty."
+    - title: "Evaluate info you find with Google"
+      url: "https://support.google.com/websearch/answer/12003459?hl=en"
+      publisher: "Google Search Help"
+      kind: "primary"
+      checkedAt: "2026-07-25"
+      note: "Official search guidance used for evaluating authors, dates, source context, and corroborating coverage."
+    - title: "ChatGPT Search"
+      url: "https://help.openai.com/en/articles/9237897-chatgpt-search"
+      publisher: "OpenAI Help Center"
+      kind: "primary"
+      checkedAt: "2026-07-25"
+      note: "Official product documentation used to distinguish a displayed source link from verification of the claim."
+  limitations:
+    - "This workflow improves traceability but cannot guarantee that available evidence is complete, independent, or correct."
+    - "NIST resources are voluntary organizational guidance; this lesson adapts their risk and documentation principles for individual research."
+    - "OpenAI sources describe its own research and product; they are provider evidence, not independent proof that any answer is accurate."
+    - "High-stakes medical, legal, financial, employment, and safety decisions require the relevant qualified professional or official authority."
+aiUse:
+  mode: "ai-generated"
+  tasks: ["research", "source-review", "drafting", "editing"]
+  disclosure: "This lesson was researched and drafted by AIViewer’s AI editorial system, source-checked page by page, and was not represented as human-reviewed."
+lensSummary: "Verification is a claim-by-claim process: preserve the answer, classify what it asserts, open the best available source, check whether that source actually supports the wording, test date and scope, corroborate when stakes justify it, and record unresolved points."
+learningOutcome: "Convert an AI answer into a claim ledger, choose appropriate primary evidence, check citation support, date, scope, calculations, and availability, and escalate high-stakes decisions."
+nextAction: "Print or copy the claim ledger, choose one factual AI response, and verify its three most consequential claims before using or sharing it."
+---
+
+import AnswerBox from '../../components/content/AnswerBox.astro';
+
+<AnswerBox
+  question="How do I verify an answer from AI?"
+  answer="Freeze the original response, split it into checkable claims, rank those claims by consequence, and open the best available source for each one. Confirm that the source supports the exact wording, date, location, version, and availability. Use independent corroboration when the cost of an error is meaningful, then record what is confirmed, contradicted, or still unresolved."
+/>
+
+An AI answer can be useful before it is trustworthy. It may organize a topic well while getting one date wrong, combining two policies, inventing a quotation, or describing a feature that is unavailable in your region. Verification is how you separate the helpful structure from the claims you can actually rely on.
+
+NIST’s [Generative AI Profile](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence) treats confabulation and information integrity as risks that depend on context and consequence. OpenAI’s provider-authored research on [why language models hallucinate](https://openai.com/index/why-language-models-hallucinate/) describes the same practical problem from a model perspective: language models can produce plausible false statements, and some evaluation incentives reward guessing rather than admitting uncertainty.
+
+The response therefore is not its own evidence. Neither is the model’s confidence.
+
+## Start by setting the verification depth
+
+Do not spend an hour proving a harmless dinner idea. Do not spend thirty seconds checking a decision that could affect someone’s health, rights, money, education, employment, or safety.
+
+Use three bands:
+
+| Band | Example | Verification depth |
+|---|---|---|
+| Low consequence | Brainstorming names or rewriting your own paragraph | Check usefulness, tone, and obvious errors |
+| Material | Product comparison, current eligibility, business plan, public article | Verify decisive facts, dates, prices, scope, and calculations |
+| High stakes | Medical, legal, financial, safety, or employment decision | Use official evidence and the appropriate qualified professional; AI does not make the final decision |
+
+Risk is not just the chance of an error. It also includes the magnitude of what follows. A small chance of a severe outcome can justify much stronger review.
+
+## Step 1: Preserve the answer
+
+Keep the exact response you are checking. Copy it into a note or export the conversation. Record:
+
+- the prompt or question;
+- the answer as delivered;
+- the product or model label shown;
+- whether search, files, code, or other tools were used;
+- the date and time;
+- the citations or source panel;
+- any settings or location that affect the result.
+
+For an action-taking system, also capture the destination state: the sent message, created event, changed file, or transaction record. A narration of success is not confirmation that the action occurred correctly.
+
+## Step 2: Split prose into claims
+
+AI often packages several assertions in one sentence. Break them apart.
+
+> “Tool A launched in Canada in June, is free for teachers, and keeps uploaded documents out of training.”
+
+That is at least four claims:
+
+1. Tool A exists.
+2. It launched in Canada.
+3. The relevant launch date was in June.
+4. Teachers can use it free.
+5. Uploaded documents are excluded from training under the applicable terms.
+
+Each claim may need a different page and may be true under different conditions. A launch post might support the date but not the current price. A privacy page might distinguish consumer and enterprise accounts. Verification fails when one related source is treated as proof of the entire sentence.
+
+Classify claims before searching:
+
+- **Definition:** What does a term mean?
+- **Existence:** Is the named person, product, paper, law, or feature real?
+- **Current state:** What is available, allowed, priced, or in force now?
+- **Attribution:** Did this person or document actually say this?
+- **Number:** Is the amount, percentage, total, or comparison correct?
+- **Causal claim:** Does the evidence show that one thing caused another?
+- **Recommendation:** Which facts and values make this option suitable?
+- **Action claim:** Did the system actually complete the stated action?
+
+## Step 3: Treat source requests as leads, not proof
+
+Asking “give me sources” is useful because it creates a research queue. It does not verify the answer.
+
+Search-enabled products may show inline citations or a source panel. OpenAI’s current [ChatGPT Search documentation](https://help.openai.com/en/articles/9237897-chatgpt-search) explains how those links can appear. The presence of a link establishes only that a link was presented. You still need to check:
+
+1. **Existence:** Does the page load and is it the claimed document?
+2. **Identity:** Who published it, and are they in a position to know?
+3. **Support:** Does it state or demonstrate the exact claim?
+4. **Context:** Are qualifiers, exceptions, or contrary passages omitted?
+
+A real article can be cited for a statement it does not support. A primary source can also make an unproven promotional claim. Record what the source establishes, not what you hoped it would establish.
+
+## Step 4: Choose evidence close to the claim
+
+Prefer the source responsible for or directly documenting the fact:
+
+| Claim | Strong starting source |
+|---|---|
+| Product feature or current plan | Official documentation, pricing page, or release notes |
+| Law, rule, or deadline | Statute, regulation, court, regulator, or government notice |
+| Research result | Original paper, dataset, protocol, and corrections |
+| Company financial figure | Filed report or audited statement |
+| Quotation | Original recording, transcript, speech, or publication |
+| Completed account action | The destination service’s confirmation and activity log |
+
+“Primary” does not automatically mean “unbiased” or “sufficient.” A vendor is authoritative about what it announced, but its performance claim may still require independent testing. An original study can have design limits. Match source authority to the exact claim.
+
+Google Search’s official guide to [evaluating information](https://support.google.com/websearch/answer/12003459?hl=en) recommends investigating the source and author, considering why information was published, checking dates, and looking at what other sources say. Those are useful checks whether the initial answer came from search, chat, or a document assistant.
+
+## Step 5: Test date, scope, and availability
+
+Many AI errors are not completely fictional. They are true in the wrong time, place, plan, or version.
+
+For every current claim, check:
+
+- publication date and last meaningful update;
+- effective date, not merely announcement date;
+- country, province, state, or other jurisdiction;
+- consumer, education, business, or enterprise account;
+- free, paid, preview, waitlist, or general availability;
+- web, mobile, desktop, or API;
+- product and model version;
+- eligibility, age, language, and administrator requirements.
+
+Do not turn “rolling out to selected users” into “available to everyone.” Do not use an old launch article as a current pricing page. If the source is undated or the scope is ambiguous, mark the claim unresolved.
+
+## Step 6: Reproduce numbers and comparisons
+
+For a numeric claim, copy the relevant inputs and calculate it again. Check:
+
+- units and currency;
+- numerator and denominator;
+- time period;
+- sample and exclusions;
+- baseline used for a percentage change;
+- whether a total is estimated or observed;
+- whether two figures measure the same thing.
+
+If a price fell from 80 to 60, check `(80 - 60) / 80` and confirm both values use the same plan, currency, and billing period. Keep source values beside the calculation. A calculator verifies arithmetic, not the truth or relevance of its inputs.
+
+## Step 7: Triangulate when one source is not enough
+
+Corroboration means finding evidence with different provenance. Articles repeating one press release form one evidentiary chain, not independent confirmations.
+
+Look for:
+
+- an official record plus independent reporting;
+- a research paper plus its data or protocol;
+- a vendor claim plus independent evaluation;
+- a national rule plus the local authority that implements it;
+- a current source plus an archived version when a page has changed.
+
+Triangulation is especially useful for disputed, causal, or safety claims and material decisions. If evidence conflicts, record what differs and what could resolve it.
+
+The [NIST AI Resource Center](https://airc.nist.gov/) frames testing, evaluation, verification, and validation as connected practices for making AI risk management operational. For an individual reader, the practical translation is simple: test the exact use case, evaluate the output against criteria, verify important claims against evidence, and validate that the result is fit for its intended decision.
+
+## Step 8: Make a decision record
+
+End with one of four statuses:
+
+- **Confirmed:** Suitable evidence supports the claim as written.
+- **Partly confirmed:** The core is supported, but wording, date, or scope needs correction.
+- **Contradicted:** Suitable evidence conflicts with the claim.
+- **Unresolved:** Evidence is missing, inaccessible, too weak, or inconsistent.
+
+Then record the decision: use, revise, omit, delay, or escalate. This prevents an unresolved claim from quietly returning to the final document because it sounded plausible.
+
+## Printable claim ledger
+
+Copy or print this table. Use one row per claim, not one row per paragraph.
+
+| # | Exact claim | Type and consequence | Best source opened | Date and scope checked | Status | Decision or owner |
+|---:|---|---|---|---|---|---|
+| 1 |  |  |  |  | Confirmed / Partial / Contradicted / Unresolved |  |
+| 2 |  |  |  |  | Confirmed / Partial / Contradicted / Unresolved |  |
+| 3 |  |  |  |  | Confirmed / Partial / Contradicted / Unresolved |  |
+| 4 |  |  |  |  | Confirmed / Partial / Contradicted / Unresolved |  |
+| 5 |  |  |  |  | Confirmed / Partial / Contradicted / Unresolved |  |
+
+Add a final note beneath the ledger:
+
+> **Decision:** I will use / revise / omit / escalate this answer because ________. The person responsible for the final decision is ________. The evidence was checked on ________.
+
+## The high-stakes boundary
+
+For health, law, finance, safety, employment, and other consequential areas, verification is not “ask the same chatbot again.” A second answer may repeat the same error. Another model may rely on the same public claim. Even an official document may require professional interpretation in your circumstances.
+
+Use AI to organize questions, identify terms to investigate, or summarize material you can inspect. Use the relevant clinician, lawyer, accountant, regulator, safety officer, employer, or other qualified authority for the decision. If there is an immediate safety or medical emergency, use the appropriate emergency service rather than an AI workflow.
+
+## A compact version for everyday use
+
+Before sharing or acting on an AI answer, ask:
+
+1. What are the three most consequential factual claims?
+2. Did I preserve the answer I am checking?
+3. Did I open the sources rather than accept a citation list?
+4. Does each source support the exact claim?
+5. Are the date, region, plan, version, and eligibility correct?
+6. Can I reproduce the numbers?
+7. Is corroboration independent?
+8. What remains unresolved?
+9. Who owns the final decision?
+
+Verification makes uncertainty visible before a fluent response becomes a published fact or consequential action.

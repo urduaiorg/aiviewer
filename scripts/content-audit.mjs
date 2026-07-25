@@ -50,6 +50,8 @@ for (const file of files) {
   const duplicateH2s = [...new Set(h2s.filter((heading, index) => h2s.indexOf(heading) !== index))];
   const published = frontmatterValue(source, 'publishedDate');
   const updated = frontmatterValue(source, 'updatedDate');
+  const publicPath = publicPathForContent(path);
+  const excluded = shouldNoindexPath(publicPath);
   const issues = [];
 
   if (words < 500) issues.push(`thin:${words}-words`);
@@ -58,10 +60,43 @@ for (const file of files) {
   if (published && updated && new Date(updated) < new Date(published)) issues.push('updated-before-published');
   if (/we buy our own subscriptions|we pay for 100%|never accept paid placements/i.test(source)) issues.push('unsupported-editorial-claim');
 
+  if (!excluded && path.startsWith('guides/')) {
+    if (words < 900) issues.push(`indexable-guide-below-900-words:${words}`);
+
+    for (const requiredField of [
+      'format',
+      'publication',
+      'factCheckedAt',
+      'reviewDueAt',
+      'lensSummary',
+      'learningOutcome',
+      'nextAction',
+      'evidence',
+      'aiUse',
+    ]) {
+      if (!new RegExp(`^${requiredField}:`, 'm').test(source)) {
+        issues.push(`missing-${requiredField}`);
+      }
+    }
+
+    if (!/^\s+mode:\s*["']?(primary-sources|mixed-sources|documented-test|creator-source-plus-verification)["']?\s*$/m.test(source)) {
+      issues.push('missing-substantive-evidence-mode');
+    }
+
+    if (!/^\s+disclosure:\s*["'].{20,}["']\s*$/m.test(source)) {
+      issues.push('missing-ai-use-disclosure');
+    }
+
+    const reviewDue = frontmatterValue(source, 'reviewDueAt');
+    if (reviewDue && new Date(reviewDue).getTime() < Date.now()) {
+      issues.push(`review-overdue:${reviewDue}`);
+    }
+  }
+
   if (issues.length) findings.push({
     path,
     issues,
-    excluded: shouldNoindexPath(publicPathForContent(path)),
+    excluded,
   });
 }
 

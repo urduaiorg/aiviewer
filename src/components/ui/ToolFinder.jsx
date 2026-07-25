@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 const QUESTION_WEIGHTS = {
   role: 4,
@@ -392,6 +392,24 @@ const STACK_BLUEPRINTS = [
   },
 ];
 
+export const FINDER_TOOL_IDS = [...new Set(
+  STACK_BLUEPRINTS.flatMap((blueprint) => [
+    blueprint.primaryToolId,
+    blueprint.secondaryToolId,
+    blueprint.cheaperToolId,
+  ])
+)];
+
+export const FINDER_PLAYBOOK_IDS = [...new Set(
+  STACK_BLUEPRINTS.map((blueprint) => blueprint.playbookId)
+)];
+
+export const FINDER_MODEL_SLUGS = [...new Set(
+  STACK_BLUEPRINTS
+    .map((blueprint) => blueprint.model.url.match(/\/models\/([^/]+)\/?$/)?.[1])
+    .filter(Boolean)
+)];
+
 function getQuestionOptions(question, answers) {
   if (question.id === 'goal') {
     return question.optionsByRole[answers.role] || [];
@@ -448,8 +466,8 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
   const [answers, setAnswers] = useState({});
   const [isComplete, setIsComplete] = useState(false);
 
-  const toolMap = buildMap(tools);
-  const playbookMap = buildMap(playbooks);
+  const toolMap = useMemo(() => buildMap(tools), [tools]);
+  const playbookMap = useMemo(() => buildMap(playbooks), [playbooks]);
 
   const currentQuestion = QUIZ_QUESTIONS[currentStep];
   const options = getQuestionOptions(currentQuestion, answers);
@@ -484,7 +502,7 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
           <div className="flex flex-wrap items-start justify-between gap-6">
             <div className="max-w-2xl">
               <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
-                Recommended stack
+                Suggested stack
               </div>
               <h2 className="mt-5 text-3xl font-bold text-zinc-950 dark:text-zinc-50">{blueprint.title}</h2>
               <p className="mt-4 text-base leading-8 text-zinc-600 dark:text-zinc-400">{blueprint.fitSummary}</p>
@@ -518,8 +536,13 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
                 </div>
               )}
               {primaryTool && (
-                <a href={primaryTool.url} className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 dark:text-indigo-300">
-                  Read the tool review
+                <a
+                  href={primaryTool.url}
+                  target={primaryTool.isExternal ? '_blank' : undefined}
+                  rel={primaryTool.isExternal ? 'noopener noreferrer' : undefined}
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 dark:text-indigo-300"
+                >
+                  {primaryTool.linkLabel}
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -528,14 +551,14 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
             </div>
 
             <div className="space-y-4">
-              <a href={blueprint.model.url} className="block rounded-[var(--radius-lg)] border border-zinc-200 bg-zinc-50/80 p-5 transition-colors hover:border-indigo-200 dark:border-zinc-800 dark:bg-zinc-950/50 dark:hover:border-indigo-800">
+              <div className="rounded-[var(--radius-lg)] border border-zinc-200 bg-zinc-50/80 p-5 dark:border-zinc-800 dark:bg-zinc-950/50">
                 <div className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-300">Model pick</div>
                 <h3 className="mt-3 text-xl font-bold text-zinc-950 dark:text-zinc-50">{blueprint.model.label}</h3>
                 {(() => {
                   const slug = blueprint.model.url.match(/\/models\/([^/]+)\/?$/)?.[1];
                   const liveModel = slug && modelData[slug];
                   if (!liveModel) return (
-                    <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-400">Pair the tool recommendation with this model when you need stronger capability fit, pricing context, and release tracking.</p>
+                    <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-400">Use this as a shortlist candidate, then confirm current availability, pricing, and data terms with the provider.</p>
                   );
                   return (
                     <>
@@ -566,14 +589,20 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
                     </>
                   );
                 })()}
-              </a>
+                <p className="mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                  Catalog snapshot only. This is not an independent performance test.
+                </p>
+              </div>
 
               {playbook && (
-                <a href={playbook.url} className="block rounded-[var(--radius-lg)] border border-zinc-200 bg-zinc-50/80 p-5 transition-colors hover:border-indigo-200 dark:border-zinc-800 dark:bg-zinc-950/50 dark:hover:border-indigo-800">
-                  <div className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-300">Playbook</div>
+                <div className="rounded-[var(--radius-lg)] border border-zinc-200 bg-zinc-50/80 p-5 dark:border-zinc-800 dark:bg-zinc-950/50">
+                  <div className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-300">Workflow outline</div>
                   <h3 className="mt-3 text-xl font-bold text-zinc-950 dark:text-zinc-50">{playbook.title}</h3>
                   <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-400">{playbook.description}</p>
-                </a>
+                  <a href="/guides/" className="mt-4 inline-flex text-sm font-semibold text-indigo-600 dark:text-indigo-300">
+                    Browse published guides
+                  </a>
+                </div>
               )}
             </div>
           </div>
@@ -584,8 +613,13 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
                 <div className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Runner-up tool</div>
                 <h3 className="mt-3 text-xl font-bold text-zinc-950 dark:text-zinc-50">{secondaryTool.name}</h3>
                 <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-400">{secondaryTool.description}</p>
-                <a href={secondaryTool.url} className="mt-4 inline-flex text-sm font-semibold text-indigo-600 dark:text-indigo-300">
-                  Open alternative
+                <a
+                  href={secondaryTool.url}
+                  target={secondaryTool.isExternal ? '_blank' : undefined}
+                  rel={secondaryTool.isExternal ? 'noopener noreferrer' : undefined}
+                  className="mt-4 inline-flex text-sm font-semibold text-indigo-600 dark:text-indigo-300"
+                >
+                  {secondaryTool.linkLabel}
                 </a>
               </div>
             )}
@@ -595,20 +629,25 @@ export default function ToolFinder({ tools = [], playbooks = [], modelData = {} 
                 <div className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-zinc-400">Lower-cost fallback</div>
                 <h3 className="mt-3 text-xl font-bold text-zinc-950 dark:text-zinc-50">{cheaperTool.name}</h3>
                 <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-400">{cheaperTool.description}</p>
-                <a href={cheaperTool.url} className="mt-4 inline-flex text-sm font-semibold text-indigo-600 dark:text-indigo-300">
-                  Open fallback
+                <a
+                  href={cheaperTool.url}
+                  target={cheaperTool.isExternal ? '_blank' : undefined}
+                  rel={cheaperTool.isExternal ? 'noopener noreferrer' : undefined}
+                  className="mt-4 inline-flex text-sm font-semibold text-indigo-600 dark:text-indigo-300"
+                >
+                  {cheaperTool.linkLabel}
                 </a>
               </div>
             )}
           </div>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <a href="/compare/" className="inline-flex items-center gap-2 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/20 px-5 py-2.5 text-sm font-semibold text-indigo-600 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors">
-              Compare recommended models
+            <a href="/tools/" className="inline-flex items-center gap-2 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/20 px-5 py-2.5 text-sm font-semibold text-indigo-600 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors">
+              Browse published tool profiles
               <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
             </a>
-            <a href="/changes/" className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
-              Latest model changes
+            <a href="/guides/" className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+              Read practical guides
             </a>
           </div>
 

@@ -1,0 +1,170 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../layout/Header.astro';
+import Footer from '../layout/Footer.astro';
+import Breadcrumbs from '../layout/Breadcrumbs.astro';
+import EditorialCover from '../content/EditorialCover.astro';
+import CollectionSchema from '../seo/CollectionSchema.astro';
+import NewsletterSignup from '../content/NewsletterSignup.astro';
+import { formatDateShort } from '../../utils/formatDate';
+import { categoryLabels } from '../../data/site.config';
+import { shouldNoindexPath } from '../../utils/indexPolicy';
+import {
+  GUIDE_FORMATS,
+  GUIDE_FORMAT_INFO,
+  isPublishedGuide,
+  type GuideFormat,
+} from './model';
+
+interface Props {
+  format: GuideFormat;
+  title: string;
+  description: string;
+  introduction: string;
+  emptyMessage: string;
+}
+
+const { format, title, description, introduction, emptyMessage } = Astro.props;
+const formatInfo = GUIDE_FORMAT_INFO[format];
+const entries = (await getCollection('guides', ({ data }) => isPublishedGuide(data)))
+  .filter((entry) =>
+    entry.data.format === format &&
+    entry.data.publication.index &&
+    !shouldNoindexPath(`/guides/${entry.id}/`)
+  )
+  .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+---
+
+<BaseLayout title={title} description={description} monetize={false}>
+  <Fragment slot="head">
+    <CollectionSchema
+      name={title}
+      description={description}
+      url={formatInfo.href}
+      numberOfItems={entries.length}
+    />
+  </Fragment>
+  <Header />
+
+  <section class="relative overflow-hidden border-b border-zinc-200/70 bg-white dark:border-zinc-800 dark:bg-[var(--color-bg)]">
+    <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.1),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.15),_transparent_38%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.06),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.07),_transparent_38%)]"></div>
+    <div class="page-container relative py-12 md:py-16">
+      <Breadcrumbs items={[{ label: 'Guides', href: '/guides/' }, { label: title }]} />
+      <div class="max-w-3xl" data-reveal>
+        <p class="text-sm font-semibold text-indigo-700 dark:text-indigo-300">{formatInfo.label}</p>
+        <h1 class="mt-4 text-zinc-950 dark:text-zinc-50">{title}</h1>
+        <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">{introduction}</p>
+      </div>
+    </div>
+  </section>
+
+  <nav class="border-b border-zinc-200/70 bg-zinc-50/70 dark:border-zinc-800 dark:bg-zinc-950/40" aria-label="Editorial formats">
+    <div class="page-container flex gap-x-6 gap-y-2 overflow-x-auto py-4">
+      {GUIDE_FORMATS.map((candidateFormat) => {
+        const candidate = GUIDE_FORMAT_INFO[candidateFormat];
+        const current = candidateFormat === format;
+        return (
+          <a
+            href={candidate.href}
+            aria-current={current ? 'page' : undefined}
+            class:list={[
+              'shrink-0 text-sm font-medium',
+              current
+                ? 'text-indigo-700 dark:text-indigo-300'
+                : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100',
+            ]}
+          >
+            {candidate.pluralLabel}
+          </a>
+        );
+      })}
+    </div>
+  </nav>
+
+  <section class="bg-[var(--color-bg)]">
+    <div class="page-container py-12 md:py-16">
+      <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h2 class="text-2xl text-zinc-950 dark:text-zinc-50">Published {formatInfo.collectionLabel}</h2>
+          <p class="mt-2 max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">{formatInfo.description}</p>
+        </div>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400">
+          {entries.length} {entries.length === 1 ? 'article' : 'articles'}
+        </p>
+      </div>
+
+      {entries.length > 0 ? (
+        <div class="grid gap-6 lg:grid-cols-2">
+          {entries.map((entry, index) => (
+            <a
+              href={`/guides/${entry.id}/`}
+              class="group overflow-hidden rounded-[1.55rem] border border-zinc-200 bg-white shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)] dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-indigo-800"
+            >
+              <div class="border-b border-zinc-200 dark:border-zinc-800">
+                <EditorialCover
+                  title={entry.data.title}
+                  subtitle={categoryLabels[entry.data.category] ?? entry.data.category}
+                  category={entry.data.category}
+                  variant="guide"
+                  badge={formatInfo.label}
+                  compact={true}
+                  layout={index % 2 === 0 ? 'panel' : 'frame'}
+                  showTitle={false}
+                />
+              </div>
+              <div class="p-6">
+                <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-zinc-500 dark:text-zinc-400">
+                  <span class="font-semibold uppercase tracking-[0.12em]">
+                    {categoryLabels[entry.data.category] ?? entry.data.category}
+                  </span>
+                  <span>{formatDateShort(entry.data.publishedDate)}</span>
+                </div>
+                <h3 class="mt-4 text-[1.35rem] text-zinc-950 group-hover:text-indigo-700 dark:text-zinc-50 dark:group-hover:text-indigo-300">
+                  {entry.data.title}
+                </h3>
+                <p class="mt-3 text-[0.95rem] leading-7 text-zinc-600 dark:text-zinc-400">
+                  {entry.data.lensSummary ?? entry.data.description}
+                </p>
+
+                {entry.data.learningOutcome && (
+                  <div class="mt-5 border-t border-zinc-100 pt-4 dark:border-zinc-800">
+                    <p class="text-xs font-semibold uppercase tracking-[0.12em] text-zinc-400">Learning outcome</p>
+                    <p class="mt-2 text-sm leading-6 text-zinc-700 dark:text-zinc-300">{entry.data.learningOutcome}</p>
+                  </div>
+                )}
+
+                <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs text-zinc-500 dark:text-zinc-400">
+                  <span>
+                    {entry.data.evidence
+                      ? `${entry.data.evidence.sources.length} structured ${entry.data.evidence.sources.length === 1 ? 'source' : 'sources'}`
+                      : 'No structured evidence record'}
+                  </span>
+                  <span>
+                    {entry.data.factCheckedAt
+                      ? `Checked ${formatDateShort(entry.data.factCheckedAt)}`
+                      : 'No structured check date'}
+                  </span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="rounded-[1.55rem] border border-dashed border-zinc-300 bg-white px-8 py-14 text-center dark:border-zinc-700 dark:bg-zinc-900">
+          <h2 class="text-xl text-zinc-950 dark:text-zinc-50">No published items yet.</h2>
+          <p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">{emptyMessage}</p>
+          <a href="/guides/" class="mt-5 inline-flex text-sm font-semibold text-indigo-700 hover:text-indigo-900 dark:text-indigo-300 dark:hover:text-indigo-100">
+            Browse all guides
+          </a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="page-container py-12">
+    <NewsletterSignup variant="inline" />
+  </section>
+
+  <Footer />
+</BaseLayout>

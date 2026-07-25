@@ -1,0 +1,132 @@
+---
+title: "AI Update: ChatGPT Health Rolls Out and Claude Offers a Free Teacher Plan"
+description: "ChatGPT Health is rolling out to eligible U.S. adults, while Claude for Teachers offers verified U.S. K–12 educators a free year of premium access."
+category: "technology"
+publishedDate: 2026-07-25
+updatedDate: 2026-07-25
+coverImage: "/images/guides/ai-in-healthcare.jpg"
+tags: ["ai news", "chatgpt health", "claude", "teachers", "health ai", "education ai", "2026"]
+featured: true
+draft: false
+format: "ai-signal"
+publication:
+  status: "published"
+  index: true
+  monetize: true
+factCheckedAt: 2026-07-25
+reviewDueAt: 2026-08-25
+lensSummary: "Two launches move general-purpose AI into sensitive health and classroom workflows. The useful story is not the announcement alone, but who can access each product, what data it may touch, and where human judgment remains necessary."
+learningOutcome: "Separate confirmed availability and safeguards from provider positioning, then decide whether either product fits a bounded, reviewable task."
+nextAction: "Choose one low-risk use case, confirm current eligibility and data rules on the provider page, and define what a qualified person must review."
+evidence:
+  mode: "primary-sources"
+  sources:
+    - title: "Launching Health in ChatGPT"
+      url: "https://openai.com/index/health-in-chatgpt/"
+      publisher: "OpenAI"
+      kind: "primary"
+      publishedAt: 2026-07-23
+      checkedAt: 2026-07-25
+    - title: "Introducing Claude for Teachers"
+      url: "https://www.anthropic.com/news/claude-for-teachers"
+      publisher: "Anthropic"
+      kind: "primary"
+      publishedAt: 2026-07-14
+      checkedAt: 2026-07-25
+  limitations:
+    - "AIViewer did not independently test either product."
+    - "Eligibility, connected services, privacy controls, and rollout status can change after publication."
+aiUse:
+  mode: "ai-generated"
+  tasks: ["research", "source-review", "drafting", "editing"]
+  disclosure: "This lesson was researched and drafted by AIViewer’s AI editorial system, source-checked page by page, and was not represented as human-reviewed."
+---
+
+import AnswerBox from '../../components/content/AnswerBox.astro';
+import WhatChanged from '../../components/content/WhatChanged.astro';
+import TrustBadge from '../../components/content/TrustBadge.astro';
+
+{/* Cover image intentionally reuses the existing healthcare guide asset; a dedicated weekly-update visual is a documented future asset gap. */}
+
+<TrustBadge />
+
+<AnswerBox
+  question="What are the important AI updates this week?"
+  answer="OpenAI is rolling out Health in ChatGPT to logged-in U.S. adults on web and iOS, letting people optionally connect Apple Health and supported medical records. Anthropic has also introduced Claude for Teachers: verified U.S. K–12 educators can receive a free year of premium Claude access, teaching skills, and standards-linked resources. Both are useful, but each comes with clear boundaries around eligibility, privacy, and human review."
+/>
+
+<WhatChanged changes={[
+  { type: 'release', description: 'Anthropic introduced Claude for Teachers for verified U.S. K–12 educators', date: '2026-07-14', detail: 'Free premium access for one year when signed up by June 30, 2027' },
+  { type: 'release', description: 'OpenAI began rolling out Health in ChatGPT to eligible U.S. adults', date: '2026-07-23', detail: 'Web and iOS; Free, Go, Plus, and Pro plans' },
+]} limit={2} />
+
+> **Reporting note:** This briefing was checked against the providers’ own launch posts on July 25, 2026. It reports announced availability and safeguards; AIViewer did not independently test either product.
+
+Two recent releases are worth attention because they move AI from generic chat into sensitive, practical contexts: personal health information and classroom work. Neither should be treated as an autonomous expert. The useful question is whether its controls, access rules, and review process fit your situation.
+
+## ChatGPT Health: a U.S. rollout with optional connected data
+
+On July 23, OpenAI began rolling out [Health in ChatGPT](https://openai.com/index/health-in-chatgpt/) to logged-in users aged 18 and over in the United States. It is available on web and iOS across Free, Go, Plus, and Pro plans. It is not available in Codex.
+
+Health lets a user choose to connect Apple Health and supported medical-record sources, then use that information to understand trends, prepare for an appointment, or make sense of a result in context. Connecting data is optional: a person can still ask health questions without it.
+
+### What the privacy controls actually say
+
+OpenAI says connected medical records, Apple Health information, and conversations that use those sources are not used to train its foundation models or target ads. Health data receives additional encryption protections. By default, ChatGPT asks before using connected medical-record or Apple Health information in a response; users can keep those prompts or change the setting.
+
+Disconnecting an account starts deletion of data synced from that source from OpenAI’s systems within 30 days. That does **not** remove information already written into a separate conversation history; those conversations must be deleted separately. Connected records can also be incomplete or out of date, so the original medical record remains the source to check.
+
+### The boundary that matters
+
+OpenAI describes Health as support for understanding information and preparing for care—not a replacement for a clinician. That is the correct frame. Use it to turn a visit note into plain language, prepare questions, or organize a timeline. Do not use it to self-diagnose, decide whether an urgent symptom can wait, change medication, or replace professional medical advice.
+
+For people who do connect data, a sensible first step is narrow: link one source, ask it to summarize a recent document you can independently read, and keep permission prompts enabled. Do not turn a convenience setting into blanket access before you know how you want the system to use sensitive context.
+
+## Claude for Teachers: a free individual offer for verified U.S. K–12 educators
+
+Anthropic announced [Claude for Teachers](https://www.anthropic.com/news/claude-for-teachers) on July 14. Verified K–12 educators in the United States can sign up by June 30, 2027 for a year of free premium Claude access. The offer is for individual educators, not yet a school- or district-wide product.
+
+The product includes teaching skills and a Learning Commons connector. Anthropic says that connector links lesson planning to academic standards in all 50 states and to curriculum resources including OpenSciEd and Illustrative Mathematics. It also supports connections to several education tools, such as Canva Education, Diffit, MagicSchool, and TeachFX.
+
+### Where it could save time
+
+The strongest use cases are bounded, reviewable work: creating a first lesson-plan draft, adapting a resource for different readiness levels, preparing practice material, or organizing non-sensitive class information into planning notes. The output should still be checked for subject accuracy, local curriculum fit, accessibility, and whether it reflects the teacher’s own classroom judgment.
+
+Anthropic says the service includes Claude Code and Cowork, which can support scheduled or multi-step work. That increases the value of a careful setup: before connecting files or scheduling a recurring task, decide exactly what data is needed and what output a human will review.
+
+### Student data is not a casual upload
+
+Anthropic says Claude for Teachers data is not used for model training and that student information is covered by its K–12 Data Processing Addendum. However, Anthropic also says that whether and how educational data may be used is determined by district and state policies.
+
+That means a teacher should confirm local approval before uploading rosters, assessments, individualized education information, or other student records—even if a product advertises privacy protections. Start with de-identified or synthetic examples where possible, and keep a human responsible for educational decisions.
+
+## The practical takeaway
+
+These releases are not interchangeable product features. ChatGPT Health is a personal, U.S.-only health-information experience with optional sensitive-data connections. Claude for Teachers is a U.S. educator offer designed for planning and instructional support.
+
+In both cases, the best starting point is a limited, reversible task with clear human review. The question is not whether the AI can produce a plausible answer. It is whether you can verify the result, understand the data boundary, and safely decide what happens next.
+
+## Frequently Asked Questions
+
+### Can I use ChatGPT Health outside the United States?
+
+Not in this rollout. OpenAI says Health is beginning with logged-in users aged 18 and over in the United States on web and iOS. Availability can change, so check the Health option in ChatGPT and OpenAI’s current launch page.
+
+### Does ChatGPT Health replace a doctor?
+
+No. OpenAI states that ChatGPT can make mistakes and does not replace the care or judgment of qualified medical professionals. Use it to understand and organize information, then verify important details and medical decisions with a clinician.
+
+### Who can get Claude for Teachers?
+
+The current offer is for verified K–12 educators in the United States. Anthropic says individual educators who sign up by June 30, 2027 receive a year of free access; a separate product for schools and districts is still to come.
+
+### Can a teacher upload student data to Claude for Teachers?
+
+Do not assume so. Anthropic provides stated privacy protections, but says district and state policies determine whether and how educational data may be used. Obtain the relevant approval first and prefer de-identified material whenever practical.
+
+## Primary sources checked
+
+- OpenAI: [Launching Health in ChatGPT](https://openai.com/index/health-in-chatgpt/), published July 23, 2026.
+- Anthropic: [Introducing Claude for Teachers](https://www.anthropic.com/news/claude-for-teachers), published July 14, 2026 and updated July 21, 2026.
+
+Sources were opened and checked on July 25, 2026. Product access, supported connections, and policy details can change after publication.

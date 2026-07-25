@@ -1,0 +1,202 @@
+---
+import { formatDate } from '../../utils/formatDate';
+import {
+  DEFAULT_AI_DISCLOSURE,
+  GUIDE_FORMAT_INFO,
+  type GuideFormat,
+} from './model';
+
+interface EvidenceSource {
+  title: string;
+  url: string;
+  publisher?: string;
+  kind: 'primary' | 'secondary' | 'dataset' | 'first-hand';
+  publishedAt?: Date;
+  checkedAt?: Date;
+  note?: string;
+}
+
+interface Evidence {
+  mode:
+    | 'primary-sources'
+    | 'mixed-sources'
+    | 'documented-test'
+    | 'creator-source-plus-verification'
+    | 'none';
+  sources: EvidenceSource[];
+  limitations: string[];
+}
+
+interface AiUse {
+  mode: 'ai-assisted' | 'ai-generated';
+  tasks: string[];
+  disclosure: string;
+}
+
+interface Props {
+  format: GuideFormat;
+  summary: string;
+  learningOutcome?: string;
+  nextAction?: string;
+  factCheckedAt?: Date;
+  reviewDueAt?: Date;
+  evidence?: Evidence;
+  aiUse?: AiUse;
+}
+
+const {
+  format,
+  summary,
+  learningOutcome,
+  nextAction,
+  factCheckedAt,
+  reviewDueAt,
+  evidence,
+  aiUse,
+} = Astro.props;
+
+const formatInfo = GUIDE_FORMAT_INFO[format];
+const evidenceModeLabels: Record<NonNullable<Props['evidence']>['mode'], string> = {
+  'primary-sources': 'Primary-source reporting',
+  'mixed-sources': 'Primary and secondary sources',
+  'documented-test': 'Documented first-hand test',
+  'creator-source-plus-verification': 'Creator source plus independent verification',
+  none: 'No structured evidence record',
+};
+const sourceKindLabels: Record<EvidenceSource['kind'], string> = {
+  primary: 'Primary',
+  secondary: 'Secondary',
+  dataset: 'Dataset',
+  'first-hand': 'First-hand',
+};
+---
+
+<aside
+  class="not-prose mb-9 overflow-hidden rounded-[1.5rem] border border-indigo-200/80 bg-indigo-50/50 dark:border-indigo-900/70 dark:bg-indigo-950/20"
+  aria-labelledby="aiviewer-lens-title"
+>
+  <div class="border-b border-indigo-200/70 px-6 py-5 dark:border-indigo-900/60 md:px-7">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h2 id="aiviewer-lens-title" class="text-xl font-semibold text-zinc-950 dark:text-zinc-50">
+        AIViewer Lens
+      </h2>
+      <a
+        href={formatInfo.href}
+        class="text-xs font-semibold uppercase tracking-[0.14em] text-indigo-700 hover:text-indigo-900 dark:text-indigo-300 dark:hover:text-indigo-100"
+      >
+        {formatInfo.label}
+      </a>
+    </div>
+    <p class="mt-3 max-w-3xl text-[0.95rem] leading-7 text-zinc-700 dark:text-zinc-300">
+      {summary}
+    </p>
+  </div>
+
+  {(learningOutcome || nextAction) && (
+    <div class="grid border-b border-indigo-200/70 dark:border-indigo-900/60 md:grid-cols-2">
+      {learningOutcome && (
+        <section class="px-6 py-5 md:px-7">
+          <h3 class="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+            What you will learn
+          </h3>
+          <p class="mt-2 text-sm leading-6 text-zinc-700 dark:text-zinc-300">{learningOutcome}</p>
+        </section>
+      )}
+      {nextAction && (
+        <section class:list={[
+          'px-6 py-5 md:px-7',
+          learningOutcome ? 'border-t border-indigo-200/70 dark:border-indigo-900/60 md:border-l md:border-t-0' : '',
+        ]}>
+          <h3 class="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+            What to do next
+          </h3>
+          <p class="mt-2 text-sm leading-6 text-zinc-700 dark:text-zinc-300">{nextAction}</p>
+        </section>
+      )}
+    </div>
+  )}
+
+  <div class="grid gap-6 px-6 py-6 md:grid-cols-[minmax(0,1fr)_minmax(15rem,0.65fr)] md:px-7">
+    <section>
+      <h3 class="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+        Evidence record
+      </h3>
+      {evidence ? (
+        <>
+          <p class="mt-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
+            {evidenceModeLabels[evidence.mode]}
+          </p>
+          {evidence.sources.length > 0 ? (
+            <ul class="mt-3 space-y-2">
+              {evidence.sources.map((source) => (
+                <li class="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                  <a
+                    href={source.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-4 hover:text-indigo-900 dark:text-indigo-300 dark:decoration-indigo-700 dark:hover:text-indigo-100"
+                  >
+                    {source.title}
+                  </a>
+                  <span class="text-zinc-400 dark:text-zinc-500">
+                    {' '}— {source.publisher ? `${source.publisher}; ` : ''}{sourceKindLabels[source.kind]} source
+                    {source.checkedAt ? `; checked ${formatDate(source.checkedAt)}` : ''}
+                  </span>
+                  {source.note && <span class="block text-xs text-zinc-500 dark:text-zinc-500">{source.note}</span>}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+              No external sources are recorded for this item.
+            </p>
+          )}
+        </>
+      ) : (
+        <p class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+          This legacy article does not yet have a structured evidence record. Check whether the article itself provides citations or source notes before relying on a claim.
+        </p>
+      )}
+    </section>
+
+    <section>
+      <h3 class="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+        Check dates
+      </h3>
+      <dl class="mt-2 space-y-2 text-sm">
+        <div class="flex items-start justify-between gap-4">
+          <dt class="text-zinc-500 dark:text-zinc-400">Fact-checked</dt>
+          <dd class="text-right font-medium text-zinc-800 dark:text-zinc-200">
+            {factCheckedAt ? formatDate(factCheckedAt) : 'No structured date'}
+          </dd>
+        </div>
+        <div class="flex items-start justify-between gap-4">
+          <dt class="text-zinc-500 dark:text-zinc-400">Review due</dt>
+          <dd class="text-right font-medium text-zinc-800 dark:text-zinc-200">
+            {reviewDueAt ? formatDate(reviewDueAt) : 'Not scheduled'}
+          </dd>
+        </div>
+      </dl>
+    </section>
+  </div>
+
+  {evidence && evidence.limitations.length > 0 && (
+    <section class="border-t border-indigo-200/70 px-6 py-5 dark:border-indigo-900/60 md:px-7">
+      <h3 class="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+        Known limitations
+      </h3>
+      <ul class="mt-2 space-y-1 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+        {evidence.limitations.map((limitation) => <li>— {limitation}</li>)}
+      </ul>
+    </section>
+  )}
+
+  <section class="border-t border-indigo-200/70 bg-white/60 px-6 py-5 dark:border-indigo-900/60 dark:bg-zinc-950/20 md:px-7">
+    <h3 class="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+      AI-use disclosure
+    </h3>
+    <p class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+      {aiUse?.disclosure ?? DEFAULT_AI_DISCLOSURE}
+    </p>
+  </section>
+</aside>

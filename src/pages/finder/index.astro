@@ -3,35 +3,49 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
-import ToolFinder from '../../components/ui/ToolFinder.jsx';
+import ToolFinder, {
+  FINDER_MODEL_SLUGS,
+  FINDER_PLAYBOOK_IDS,
+  FINDER_TOOL_IDS,
+} from '../../components/ui/ToolFinder.jsx';
 import { buildModelLookup } from '../../utils/modelLookup';
 import modelCatalogSnapshot from '../../data/model-catalog.snapshot.json';
 import { shouldNoindexPath } from '../../utils/indexPolicy';
 
-const snapshotModels = Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : [];
+const finderModelSlugs = new Set(FINDER_MODEL_SLUGS);
+const snapshotModels = (Array.isArray(modelCatalogSnapshot.models) ? modelCatalogSnapshot.models : [])
+  .filter((model) => finderModelSlugs.has(model.slug));
 const modelData = buildModelLookup(snapshotModels);
 
-const tools = (await getCollection('tools', ({ data }) => !data.draft)).map((entry) => ({
-  id: entry.id,
-  name: entry.data.toolName,
-  description: entry.data.description,
-  pricing: entry.data.pricing,
-  category: entry.data.category,
-  bestFor: entry.data.bestFor,
-  url: `/tools/${entry.id}/`,
-}));
+const finderToolIds = new Set(FINDER_TOOL_IDS);
+const tools = (await getCollection('tools', ({ data }) => !data.draft))
+  .filter((entry) => finderToolIds.has(entry.id))
+  .map((entry) => {
+    const internalUrl = `/tools/${entry.id}/`;
+    const hasPublicProfile = !shouldNoindexPath(internalUrl);
 
-const playbooks = (await getCollection('playbooks', ({ data }) => !data.draft)).map((entry) => ({
-  id: entry.id,
-  title: entry.data.title,
-  description: entry.data.description,
-  role: entry.data.role,
-  difficulty: entry.data.difficulty,
-  url: `/playbooks/${entry.id}/`,
-}));
+    return {
+      id: entry.id,
+      name: entry.data.toolName,
+      description: entry.data.description,
+      pricing: entry.data.pricing,
+      url: hasPublicProfile ? internalUrl : entry.data.website,
+      isExternal: !hasPublicProfile,
+      linkLabel: hasPublicProfile ? 'Read the AIViewer profile' : 'Visit the official tool',
+    };
+  });
+
+const finderPlaybookIds = new Set(FINDER_PLAYBOOK_IDS);
+const playbooks = (await getCollection('playbooks', ({ data }) => !data.draft))
+  .filter((entry) => finderPlaybookIds.has(entry.id))
+  .map((entry) => ({
+    id: entry.id,
+    title: entry.data.title,
+    description: entry.data.description,
+  }));
 
 const title = 'AI Stack Finder | AIViewer';
-const description = 'Answer a few practical questions and AIViewer will recommend the right AI tool, model, and playbook for your workflow.';
+const description = 'Answer six practical questions to get a rule-based shortlist of AI tools, model candidates, and workflow guidance.';
 ---
 
 <BaseLayout title={title} description={description} noindex={shouldNoindexPath(Astro.url.pathname)}>
@@ -44,16 +58,16 @@ const description = 'Answer a few practical questions and AIViewer will recommen
         <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
           <div class="max-w-3xl">
             <div class="inline-flex items-center gap-2 rounded-full border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-700 dark:text-indigo-300">
-              AI decision engine
+              Guided stack finder
             </div>
-            <h1 class="mt-5 text-zinc-950 dark:text-zinc-50">Find the right AI stack for the work you actually do.</h1>
+            <h1 class="mt-5 text-zinc-950 dark:text-zinc-50">Narrow down an AI stack for the work you do.</h1>
             <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-              This is not a toy quiz. Tell AIViewer about your role, task, privacy sensitivity, budget, and team setup, and it will recommend the tool, model, and playbook most likely to fit.
+              Answer six questions about your role, task, privacy sensitivity, budget, and team setup. The finder applies a fixed set of matching rules to produce a practical shortlist you can verify.
             </p>
             <div class="mt-8 flex flex-wrap gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-              <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-1">Tool recommendation</span>
-              <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-1">Model recommendation</span>
-              <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-1">Playbook follow-through</span>
+              <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-1">Tool shortlist</span>
+              <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-1">Model candidate</span>
+              <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-1">Workflow outline</span>
               <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-1">Cheaper fallback</span>
             </div>
           </div>
@@ -63,15 +77,15 @@ const description = 'Answer a few practical questions and AIViewer will recommen
             <div class="mt-6 grid grid-cols-2 gap-4">
               <div>
                 <div class="text-3xl font-bold text-white">{tools.length}</div>
-                <p class="mt-1 text-sm text-zinc-400">Reviewed tools</p>
+                <p class="mt-1 text-sm text-zinc-400">Tool options</p>
               </div>
               <div>
                 <div class="text-3xl font-bold text-[#F0C75E]">{playbooks.length}</div>
-                <p class="mt-1 text-sm text-zinc-400">Operational playbooks</p>
+                <p class="mt-1 text-sm text-zinc-400">Workflow outlines</p>
               </div>
             </div>
             <p class="mt-6 text-sm leading-7 text-zinc-300">
-              Recommendations are grounded in AIViewer's current tool and playbook library, then paired with model fields from a dated catalog snapshot.
+              Recommendations use a curated subset of AIViewer's tool and workflow catalog, paired with model fields from a dated snapshot. Confirm current vendor details before adopting a tool.
             </p>
           </aside>
         </div>
