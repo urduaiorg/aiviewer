@@ -226,6 +226,118 @@
     margin: 2rem 0;
   }
 
+  /* Keep long-form reading lines comfortable, including at tablet widths. */
+  .article-prose {
+    width: 100%;
+    max-width: 72ch;
+    margin-inline: auto;
+  }
+
+  /* Prose links retain a visible cue even when color cannot be perceived. */
+  .prose a {
+    color: #4338CA;
+    font-weight: 500;
+    text-decoration-line: underline;
+    text-decoration-color: #818CF8;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.2em;
+    overflow-wrap: anywhere;
+  }
+
+  .prose a:visited {
+    color: #5B21B6;
+  }
+
+  .prose a:hover {
+    color: #312E81;
+    text-decoration-thickness: 0.12em;
+  }
+
+  .prose a:focus-visible {
+    border-radius: 0.125rem;
+    outline: 2px solid #4F46E5;
+    outline-offset: 3px;
+  }
+
+  [data-theme="dark"] .prose a {
+    color: #C7D2FE;
+    text-decoration-color: #818CF8;
+  }
+
+  [data-theme="dark"] .prose a:visited {
+    color: #DDD6FE;
+  }
+
+  [data-theme="dark"] .prose a:hover {
+    color: #EEF2FF;
+  }
+
+  [data-theme="dark"] .prose a:focus-visible {
+    outline-color: #A5B4FC;
+  }
+
+  /* Markdown tables scroll within the reading column instead of widening the page. */
+  .prose table {
+    display: block;
+    width: max-content;
+    min-width: 100%;
+    max-width: 100%;
+    margin: 2rem 0;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    border-spacing: 0;
+    background: var(--color-bg-white);
+  }
+
+  .prose th,
+  .prose td {
+    min-width: 8.5rem;
+    max-width: 28rem;
+    padding: 0.75rem 0.875rem;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.5;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .prose th:first-child,
+  .prose td:first-child {
+    min-width: 10rem;
+  }
+
+  .prose th {
+    background: var(--color-bg-alt);
+    color: var(--color-heading);
+    font-size: 0.875rem;
+    font-weight: 650;
+  }
+
+  .prose td {
+    color: var(--color-text);
+  }
+
+  .prose th:last-child,
+  .prose td:last-child {
+    border-right: 0;
+  }
+
+  .prose tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .prose caption {
+    padding: 0 0 0.75rem;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    text-align: left;
+  }
+
   /* Card transitions */
   .transition-card {
     transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
@@ -383,4 +495,3 @@
     }
   }
 }
-

@@ -53,7 +53,7 @@ function formatDeadline(date?: Date): string {
       categoryCount={categories.length}
     />
   </Fragment>
-  <Header />
+  <Header slot="header" />
 
   <!-- ── Hero ── -->
   <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
@@ -304,5 +304,5 @@ function formatDeadline(date?: Date): string {
     <NewsletterSignup variant="inline" />
   </section>
 
-  <Footer />
+  <Footer slot="footer" />
 </BaseLayout>

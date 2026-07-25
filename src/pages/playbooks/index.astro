@@ -52,7 +52,7 @@ import { shouldNoindexPath } from '../../utils/indexPolicy';
       numberOfItems={playbooks.length}
     />
   </Fragment>
-  <Header />
+  <Header slot="header" />
 
   <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
     <div class="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.22),_transparent_45%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.10),_transparent_40%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.08),_transparent_45%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.06),_transparent_40%)]"></div>
@@ -304,5 +304,5 @@ import { shouldNoindexPath } from '../../utils/indexPolicy';
     <NewsletterSignup variant="inline" />
   </section>
 
-  <Footer />
+  <Footer slot="footer" />
 </BaseLayout>

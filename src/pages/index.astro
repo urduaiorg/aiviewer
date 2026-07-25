@@ -79,9 +79,9 @@ const heroIsVideo = heroLesson ? getGuideFormat(heroLesson) === 'video-lesson' :
     <WebsiteSchema />
   </Fragment>
 
-  <Header />
+  <Header slot="header" />
 
-  <main class="editorial-home">
+  <div class="editorial-home">
     <section class="editorial-hero" aria-labelledby="homepage-title">
       <div class="editorial-shell editorial-hero__grid">
         <div class="editorial-hero__copy">
@@ -465,9 +465,9 @@ const heroIsVideo = heroLesson ? getGuideFormat(heroLesson) === 'video-lesson' :
         </div>
       </div>
     </section>
-  </main>
+  </div>
 
-  <Footer />
+  <Footer slot="footer" />
 </BaseLayout>
 
 <style>
@@ -476,7 +476,7 @@ const heroIsVideo = heroLesson ? getGuideFormat(heroLesson) === 'video-lesson' :
     --ink: #12120f;
     --muted: #5d5b55;
     --hairline: #e3e0d8;
-    --amber: #b97400;
+    --amber: #a96300;
     --amber-bright: #d88a00;
     --amber-soft: #fff8eb;
     --indigo: #37338f;
@@ -988,7 +988,7 @@ const heroIsVideo = heroLesson ? getGuideFormat(heroLesson) === 'video-lesson' :
     flex-wrap: wrap;
     gap: 0.4rem;
     margin-bottom: 0;
-    color: #7c786f;
+    color: #706e67;
     font-size: 0.76rem;
     line-height: 1.35;
   }
@@ -1214,7 +1214,7 @@ const heroIsVideo = heroLesson ? getGuideFormat(heroLesson) === 'video-lesson' :
     flex-wrap: wrap;
     gap: 0.4rem;
     margin: 0;
-    color: #7c786f;
+    color: #706e67;
     font-size: 0.75rem;
   }
 
@@ -1286,7 +1286,7 @@ const heroIsVideo = heroLesson ? getGuideFormat(heroLesson) === 'video-lesson' :
   }
 
   .practical-list__time {
-    color: #7c786f;
+    color: #706e67;
     font-size: 0.75rem;
     white-space: nowrap;
   }
@@ -1401,7 +1401,7 @@ const heroIsVideo = heroLesson ? getGuideFormat(heroLesson) === 'video-lesson' :
   }
 
   .urduai-band__mark p strong {
-    color: #d88a00;
+    color: #a96300;
   }
 
   .urduai-band__copy h2 {
@@ -1610,11 +1610,27 @@ const heroIsVideo = heroLesson ? getGuideFormat(heroLesson) === 'video-lesson' :
     }
 
     .signals-list article a {
-      grid-template-columns: 5rem minmax(0, 1fr) 1.1rem;
+      grid-template-areas:
+        'category date arrow'
+        'title title arrow';
+      grid-template-columns: minmax(0, 1fr) auto 1.1rem;
+      gap: 0.25rem 0.75rem;
+    }
+
+    .signals-list__category {
+      grid-area: category;
+    }
+
+    .signals-list strong {
+      grid-area: title;
     }
 
     .signals-list__date {
-      display: none;
+      grid-area: date;
+    }
+
+    .signals-list article svg {
+      grid-area: arrow;
     }
 
     .video-row__link {

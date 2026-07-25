@@ -25,7 +25,7 @@ const secondaryCta = shouldNoindexPath(useCase.secondaryCta.href)
 ---
 
 <BaseLayout title={pageTitle} description={useCase.description} noindex={shouldNoindexPath(Astro.url.pathname)}>
-  <Header />
+  <Header slot="header" />
 
   <section class="relative overflow-hidden border-b border-zinc-200/70 bg-white dark:border-zinc-800 dark:bg-[var(--color-bg)]">
     <div class="absolute inset-x-0 top-0 h-80 bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.22),_transparent_38%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.12),_transparent_38%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(240,199,94,0.08),_transparent_38%),radial-gradient(circle_at_top_right,_rgba(79,70,229,0.06),_transparent_38%)]"></div>
@@ -132,5 +132,5 @@ const secondaryCta = shouldNoindexPath(useCase.secondaryCta.href)
     <NewsletterSignup variant="inline" />
   </section>
 
-  <Footer />
+  <Footer slot="footer" />
 </BaseLayout>

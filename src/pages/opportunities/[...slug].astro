@@ -73,7 +73,7 @@ const isExpired = entry.data.deadline ? entry.data.deadline < new Date() : false
       { name: entry.data.title, url: `/opportunities/${entry.id}/` },
     ]}
   />
-  <Header />
+  <Header slot="header" />
 
   <!-- ── Hero ── -->
   <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
@@ -211,5 +211,5 @@ const isExpired = entry.data.deadline ? entry.data.deadline < new Date() : false
     </section>
   )}
 
-  <Footer />
+  <Footer slot="footer" />
 </BaseLayout>

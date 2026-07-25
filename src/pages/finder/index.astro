@@ -49,9 +49,9 @@ const description = 'Answer six practical questions to get a rule-based shortlis
 ---
 
 <BaseLayout title={title} description={description} noindex={shouldNoindexPath(Astro.url.pathname)}>
-  <Header />
+  <Header slot="header" />
 
-  <main class="pt-28 pb-24">
+  <div class="pt-28 pb-24">
     <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
       <div class="absolute inset-x-0 top-0 h-96 bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.14),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.18),_transparent_36%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.06),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.08),_transparent_36%)]"></div>
       <div class="page-container relative py-12 md:py-16">
@@ -97,7 +97,7 @@ const description = 'Answer six practical questions to get a rule-based shortlis
         <ToolFinder client:load tools={tools} playbooks={playbooks} modelData={modelData} />
       </div>
     </section>
-  </main>
+  </div>
 
-  <Footer />
+  <Footer slot="footer" />
 </BaseLayout>

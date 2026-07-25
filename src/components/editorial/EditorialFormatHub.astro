@@ -45,7 +45,7 @@ const entries = (await getCollection('guides', ({ data }) => isPublishedGuide(da
       numberOfItems={entries.length}
     />
   </Fragment>
-  <Header />
+  <Header slot="header" />
 
   <section class="relative overflow-hidden border-b border-zinc-200/70 bg-white dark:border-zinc-800 dark:bg-[var(--color-bg)]">
     <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.1),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.15),_transparent_38%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.06),_transparent_42%),radial-gradient(circle_at_top_right,_rgba(240,199,94,0.07),_transparent_38%)]"></div>
@@ -166,5 +166,5 @@ const entries = (await getCollection('guides', ({ data }) => isPublishedGuide(da
     <NewsletterSignup variant="inline" />
   </section>
 
-  <Footer />
+  <Footer slot="footer" />
 </BaseLayout>

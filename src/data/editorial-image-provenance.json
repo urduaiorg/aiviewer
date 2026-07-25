@@ -1,0 +1,24 @@
+[
+  {
+    "asset": "/images/editorial/ai-basics-models-assistants-agents.webp",
+    "page": "/guides/ai-basics-models-assistants-agents/",
+    "altText": "AI-generated editorial illustration of two learners arranging study cards beside a notebook and laptop",
+    "width": 1600,
+    "height": 901,
+    "createdAt": "2026-07-25",
+    "workflow": "Imagin prompt workflow",
+    "renderer": "OpenAI built-in image generation",
+    "model": "Not exposed by the built-in generation tool",
+    "prompt": "Create an original cinematic South Asian documentary photograph of two young adult Pakistani learners at a worn wooden reading table in a modest sunlit library corner, quietly organizing three blank cream index cards beside an open notebook and an unbranded laptop as a visual metaphor for understanding AI models, assistants, and agents. Express the idea through their hands: one hand arranges the three cards into a simple sequence while the other rests beside a pencil and points gently toward the notebook; faces remain secondary, partly cropped and seen from an over-the-shoulder angle. Dress them in understated lived-in cotton shalwar kameez and a neutral kurta in dusty blue, warm cream, olive, and muted brown. Frame the scene asymmetrically with a close 35mm documentary perspective, partial-body crop, foreground books softly out of focus, layered depth, and useful breathing room without making it look staged. Let diffused late-afternoon window light enter from the side, producing soft shadows, creamy highlights, and a calm thoughtful atmosphere. Use warm natural skin tones, faded blues, olive greens, beige, warm wood, delicate analog grain, mild halation, slightly lifted blacks, restrained contrast, realistic hands, and the texture of scanned 35mm film. Make the moment private, culturally authentic, educational, unposed, and quietly observed rather than performed. This is clearly an editorial illustration, not a photograph of a documented real event. Exclude all visible text, Urdu text, legible writing, logos, brand marks, watermarks, recognizable software interfaces, screens with readable content, public figures, direct camera posing, exaggerated smiles, glossy commercial fashion, artificial-looking skin, oversaturated color, harsh flash, neon lighting, plastic textures, distorted hands, extra fingers, duplicate limbs, awkward anatomy, fake embroidery, cluttered backgrounds, wedding styling, hyper-real HDR, generic stock-photo composition, and any implication of scientific evidence. Aspect ratio 16:9.",
+    "materialEdits": [
+      "Resized to 1600 by 901 pixels",
+      "Converted from PNG to WebP at quality 82"
+    ],
+    "disclosure": "AI-generated editorial illustration; not evidence of a real event",
+    "reviewNotes": [
+      "No visible text, logos, watermarks, product interface, public figure, or documentary claim",
+      "Hands and anatomy visually inspected before publication",
+      "Alt text must describe the illustrative learning scene without presenting it as a documented event"
+    ]
+  }
+]
