@@ -251,7 +251,6 @@ for (const removedPath of [
   'tools/ourscreen/index.html',
   'guides/ai-and-jobs-2026/index.html',
   'guides/best-ai-tools-for-small-business-2026/index.html',
-  'guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/index.html',
   'guides/best-free-ai-tools-2026/index.html',
   'guides/claude-fable-5-mythos-5-explained/index.html',
   'guides/gpt-5-6-sol-explained-openai-new-model/index.html',
@@ -358,8 +357,6 @@ const canonicalVideoGuide = '/video-lessons/';
 for (const source of [
   '/guides/best-ai-video-generators/',
   '/guides/best-ai-video-generators',
-  '/guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/',
-  '/guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared',
 ]) {
   if (redirectMap.get(source) !== canonicalVideoGuide || redirectStatusMap.get(source) !== '301') {
     fail(`_redirects: ${source} must permanently consolidate into ${canonicalVideoGuide}`);

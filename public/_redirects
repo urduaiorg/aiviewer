@@ -49,8 +49,6 @@
 # Retired comparison pages now point to the source-aware video lesson library
 /guides/best-ai-video-generators/ /video-lessons/ 301
 /guides/best-ai-video-generators /video-lessons/ 301
-/guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ /video-lessons/ 301
-/guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared /video-lessons/ 301
 
 # Consolidate overlapping editorial search intent
 /guides/ai-for-small-business-owners/ /guides/ 302
