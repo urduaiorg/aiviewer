@@ -8,6 +8,36 @@ coverImage: "/images/tools/v0-dev-review.jpg"
 tags: ["v0", "vercel", "ai-coding", "frontend", "react", "ui-generator"]
 featured: false
 draft: false
+format: "practical-workflow"
+publication:
+  status: "published"
+  index: true
+  monetize: true
+factCheckedAt: 2026-07-27
+reviewDueAt: 2026-10-27
+lensSummary: "v0 is best understood as a fast UI drafting tool for React-style product work, not a full product builder or a substitute for review."
+learningOutcome: "Evaluate v0 by speed to reviewable UI, code clarity, responsiveness, accessibility basics, and cost control."
+nextAction: "Give v0 one real product screen prompt, then inspect the generated code and mobile layout before using it in a project."
+evidence:
+  mode: "primary-sources"
+  sources:
+    - title: "v0 pricing"
+      url: "https://v0.app/pricing"
+      publisher: "Vercel"
+      kind: "primary"
+      checkedAt: 2026-07-27
+    - title: "Vercel v0 docs"
+      url: "https://vercel.com/docs/v0"
+      publisher: "Vercel"
+      kind: "primary"
+      checkedAt: 2026-07-27
+  limitations:
+    - "This review evaluates workflow fit and review criteria, not a controlled benchmark across UI generators."
+    - "Pricing credits, generated-code behavior, and framework support may change after the source-check date."
+aiUse:
+  mode: "ai-generated"
+  tasks: ["research", "source-review", "drafting", "editing"]
+  disclosure: "This review was researched, expanded, and source-checked by AIViewer's AI editorial system; no human review is claimed."
 ---
 
 v0 is one of the most useful AI tools for turning rough product ideas into interface drafts. It is not a full product builder, and it is not a replacement for a frontend engineer. But for UI exploration, it can save real time.
@@ -93,3 +123,33 @@ Do not use it as a publishing shortcut for production UI without testing.
 ## Bottom line
 
 v0 may be the best AI UI generator for React-style product work in 2026, especially for prototypes and early product screens. Its value is speed to first review, not guaranteed production quality.
+
+## How to review generated UI
+
+Treat v0 output as a design and code draft. The first review should be visual: does the screen communicate the job, and can a user scan it quickly? The second review should be technical: does the code fit your app's component patterns, state model, accessibility expectations, and data flow?
+
+Use a checklist:
+
+1. Remove decorative elements that do not support the workflow.
+2. Check responsive behavior on mobile and desktop.
+3. Confirm buttons, inputs, labels, and focus states are usable.
+4. Replace placeholder data with realistic examples.
+5. Simplify generated code before connecting real backend logic.
+
+This is where v0 can be valuable. It gives you something concrete to critique. But the human still decides whether the interface is appropriate for the product.
+
+## When v0 is worth paying for
+
+Credits are useful when they reduce blank-screen time or speed up iteration with a team. They are less useful if you repeatedly throw away generated screens because the prompt is vague or the app requirements are unclear.
+
+Before upgrading, run three real prompts: one simple form, one dense dashboard, and one mobile-first screen. If v0 gets each to a reviewable first draft faster than your usual process, the paid plan may make sense. If every output requires a full rewrite, improve your prompting and product brief before spending more.
+
+## Production warning
+
+Generated UI can look polished while hiding weak semantics, poor contrast, awkward mobile wrapping, or inaccessible interaction patterns. Do not ship it only after visual approval. Run your normal lint, build, accessibility checks, and manual review.
+
+## Final decision checklist
+
+Use v0 when it gets a real screen to first review faster than your normal process. Do not use it when the product problem is still undefined, when the backend or permissions model is the hard part, or when nobody has time to review the generated code. The useful output is not a pretty screenshot. It is an editable starting point that survives design, accessibility, and engineering review.
+
+For a serious test, ask v0 for one dense operational screen rather than a marketing hero. Dense screens reveal whether the tool handles hierarchy, tables, filters, empty states, and mobile constraints.
