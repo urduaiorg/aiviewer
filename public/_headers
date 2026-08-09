@@ -23,8 +23,8 @@
 /models/*
   X-Robots-Tag: noindex, follow
 
-/opportunities/*
-  X-Robots-Tag: noindex, follow
+# Opportunity pages use the shared per-page index policy because individually
+# verified entries can be allowlisted while the rest remain noindex.
 
 /tags/*
   X-Robots-Tag: noindex, follow

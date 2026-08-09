@@ -95,6 +95,10 @@ export const siteConfig = {
         { label: 'AI Signals', href: '/signals/' },
       ],
       resources: [
+        { label: 'All guides', href: '/guides/' },
+        { label: 'AI tools', href: '/tools/' },
+        { label: 'AI glossary', href: '/glossary/' },
+        { label: 'Newsletter', href: '/newsletter/' },
         { label: 'Practical Guides', href: '/practical-guides/' },
         { label: 'About', href: '/about/' },
       ],

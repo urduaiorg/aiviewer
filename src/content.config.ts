@@ -38,6 +38,7 @@ const tools = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/tools' }),
   schema: z.object({
     title: z.string(),
+    seoTitle: z.string().min(30).max(60).optional(),
     description: z.string().max(160),
     toolName: z.string(),
     category: z.enum([
@@ -114,6 +115,7 @@ const guideVideoSchema = z.object({
 
 const guideSchema = z.object({
   title: z.string(),
+  seoTitle: z.string().min(30).max(60).optional(),
   description: z.string().max(160),
   category: z.enum([
     'education', 'business', 'agriculture',
@@ -230,6 +232,7 @@ const opportunities = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/opportunities' }),
   schema: z.object({
     title: z.string(),
+    seoTitle: z.string().min(30).max(60).optional(),
     description: z.string().max(160),
     category: z.enum([
       'course', 'grant', 'fellowship', 'competition',

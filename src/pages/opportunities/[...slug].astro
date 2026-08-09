@@ -45,6 +45,7 @@ const isExpired = entry.data.deadline ? entry.data.deadline < new Date() : false
 
 <BaseLayout
   title={entry.data.title}
+  seoTitle={entry.data.seoTitle}
   description={entry.data.description}
   type="article"
   publishedDate={entry.data.publishedDate.toISOString()}

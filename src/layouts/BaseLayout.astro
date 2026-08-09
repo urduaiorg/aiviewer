@@ -9,6 +9,7 @@ import { siteConfig } from '../data/site.config';
 
 interface Props {
   title: string;
+  seoTitle?: string;
   description: string;
   ogImage?: string;
   canonicalUrl?: string;
@@ -22,6 +23,7 @@ interface Props {
 
 const {
   title,
+  seoTitle,
   description,
   ogImage = siteConfig.seo.ogImage,
   canonicalUrl,
@@ -33,7 +35,9 @@ const {
   monetize = false,
 } = Astro.props;
 
-const fullTitle = title === siteConfig.name ? title : `${title} — ${siteConfig.name}`;
+// A dedicated SEO title is already publication-ready and should not receive
+// the automatic brand suffix. Pages without one retain the existing behavior.
+const fullTitle = seoTitle ?? (title === siteConfig.name ? title : `${title} — ${siteConfig.name}`);
 const canonical = canonicalUrl || Astro.url.href;
 const ogImageUrl = new URL(ogImage, Astro.site).href;
 ---
