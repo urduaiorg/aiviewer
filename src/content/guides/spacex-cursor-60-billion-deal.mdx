@@ -1,97 +1,225 @@
 ---
-title: "SpaceX Has an Option to Buy Cursor for $60 Billion — What Developers Need to Know"
-description: "SpaceX paid $10 billion for the right to acquire Cursor later in 2026. Here is what happened and what changes for Cursor users."
+title: "Cursor Is Losing OpenAI Models: What Developers Should Do Before November 12"
+seoTitle: "Cursor Losing OpenAI Models: What Changes"
+description: "OpenAI plans to remove its models from Cursor on November 12 after SpaceX acquired the coding platform. Here is what users should do."
 category: "technology"
-publishedDate: 2026-05-07
-updatedDate: 2026-05-07
-coverImage: "/images/guides/spacex-cursor-deal.jpg"
-tags: ["cursor", "spacex", "elon musk", "ai coding", "anysphere", "acquisition", "2026"]
-featured: true
-draft: true
+publishedDate: 2026-08-30
+updatedDate: 2026-08-30
+coverImage: "/images/tools/cursor-ide-review.jpg"
+tags: ["Cursor", "OpenAI", "SpaceX", "AI coding", "Codex", "Claude Code", "developers", "2026"]
+featured: false
+draft: false
+format: "ai-signal"
+publication:
+  status: "published"
+  index: true
+  monetize: true
+factCheckedAt: 2026-08-30
+reviewDueAt: 2026-09-30
+lensSummary: "Cursor is now owned by SpaceX, and OpenAI intends to stop supplying models to the editor on November 12. Cursor remains usable, but developers who depend on GPT models should inventory workflows, test alternatives and avoid an emergency migration."
+learningOutcome: "Understand what OpenAI announced, distinguish confirmed model-access changes from speculation, and prepare a low-risk migration or fallback plan."
+nextAction: "List every Cursor workflow that explicitly uses an OpenAI model, save prompts and rules outside the app, then test the same repository with Cursor Auto, Claude Code, Codex or GitHub Copilot."
+evidence:
+  mode: "primary-sources"
+  sources:
+    - title: "Our decision on Cursor following its acquisition by SpaceX"
+      url: "https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex/"
+      publisher: "OpenAI"
+      kind: "primary"
+      publishedAt: 2026-08-28
+      checkedAt: 2026-08-30
+    - title: "Cursor is now a part of SpaceX"
+      url: "https://cursor.com/blog/joining-spacex"
+      publisher: "Cursor"
+      kind: "primary"
+      publishedAt: 2026-08-14
+      checkedAt: 2026-08-30
+    - title: "Cursor partners with SpaceX on model training"
+      url: "https://cursor.com/blog/spacex-model-training"
+      publisher: "Cursor"
+      kind: "primary"
+      publishedAt: 2026-04-21
+      checkedAt: 2026-08-30
+  limitations:
+    - "OpenAI announced a proposed November 12 shutoff date; contract, transition or product details could change before then."
+    - "Cursor had not published a detailed user-transition notice addressing OpenAI model removal when this article was checked."
+    - "AIViewer did not independently inspect the companies' contract, acquisition terms or internal model-routing arrangements."
+    - "Availability may differ for direct API keys, enterprise agreements, Auto routing and future Cursor-built models."
+aiUse:
+  mode: "ai-generated"
+  tasks: ["research", "source-review", "drafting", "editing"]
+  disclosure: "This article was researched and drafted by AIViewer’s AI editorial system, checked against OpenAI and Cursor announcements, and was not represented as human-reviewed."
 ---
 
 import AnswerBox from '../../components/content/AnswerBox.astro';
+import WhatChanged from '../../components/content/WhatChanged.astro';
 import TrustBadge from '../../components/content/TrustBadge.astro';
+
+{/* Cover image intentionally reuses the existing Cursor tool-review asset. */}
 
 <TrustBadge />
 
 <AnswerBox
-  question="Did SpaceX buy Cursor?"
-  answer="Not yet. SpaceX paid $10 billion for the right to acquire Cursor for $60 billion later in 2026, after SpaceX's planned IPO this summer. If SpaceX declines the full acquisition, Cursor keeps the $10 billion regardless. The deal is a collaboration agreement now and a potential acquisition later — not a completed purchase."
+  question="Is Cursor removing OpenAI models?"
+  answer="OpenAI says it intends to stop providing its models to Cursor on November 12, 2026, after Cursor’s acquisition by SpaceX. Cursor has not announced that the editor itself is closing, and developers can still use other available models and Cursor-built routing. Users who explicitly depend on GPT models should test alternatives before the proposed cutoff instead of waiting for the final week."
 />
 
-On April 21, 2026, SpaceX announced something unusual: it had secured the option to acquire Cursor — the AI code editor built by Anysphere — for $60 billion later this year. If SpaceX ultimately walks away from the full acquisition, Cursor still collects $10 billion. Either way, the collaboration between SpaceX and Cursor has already started.
+<WhatChanged changes={[
+  { type: 'acquisition', description: 'Cursor confirmed that it was acquired by SpaceX', date: '2026-08-14', detail: 'Cursor says the combination gives it access to more compute for training its own models' },
+  { type: 'contract', description: 'OpenAI notified SpaceX that it intends to wind down model access through Cursor', date: '2026-08-28', detail: 'OpenAI proposed November 12, 2026 as the shutoff date' },
+  { type: 'transition', description: 'Developers who select OpenAI models in Cursor now face a migration decision', date: '2026-08-28', detail: 'Cursor itself remains available, but exact replacement and enterprise-transition details are still incomplete' },
+]} limit={3} />
 
-For the millions of developers who use Cursor daily, the question is simple: what does this mean for the tool you rely on?
+Cursor users now have a real deadline to plan around.
 
-## What Actually Happened
+On August 28, OpenAI said it had notified SpaceX that it intends to wind down the contract supplying OpenAI models to Cursor, with a proposed shutoff date of November 12, 2026. The announcement followed Cursor’s confirmation two weeks earlier that SpaceX had completed its acquisition of the AI coding platform.
 
-The deal has two parts, and keeping them separate matters.
+This does not mean Cursor is shutting down. It does not mean every developer must immediately abandon the editor. It means one of Cursor’s most important selling points—easy access to multiple frontier-model families—is becoming less certain.
 
-**The collaboration:** SpaceX and Anysphere are jointly building what they describe as a next-generation "coding and knowledge work AI." This work runs on Colossus, SpaceX's supercomputer cluster with compute equivalent to one million Nvidia H100 GPUs. This part is already in motion.
+If your daily workflow explicitly depends on an OpenAI model inside Cursor, use the notice period to test a fallback now.
 
-**The option:** At some point later in 2026 — after SpaceX's planned IPO on Nasdaq — SpaceX will either acquire Anysphere (Cursor's parent company) for $60 billion, or pay $10 billion and walk away. The timing is tied to the IPO because SpaceX wants to finance a $60 billion acquisition using publicly traded stock rather than restructuring its private finances.
+## What OpenAI actually announced
 
-What SpaceX paid for is not Cursor itself — it is the right to decide. The $10 billion is the option premium. Cursor already banked it.
+OpenAI says it is using a change-of-control provision in its Cursor agreement after the SpaceX acquisition. The company proposed November 12 as the end date and said Cursor would not receive its future models.
 
-## Why SpaceX, Not xAI?
+OpenAI framed the decision around confidence in contractual compliance and the responsibilities associated with increasingly capable models. It cited earlier disputes involving Elon Musk’s companies and said it could not be confident that SpaceX would use OpenAI technology within its terms.
 
-This is the question most people are asking. Elon Musk has an AI company — xAI, which makes Grok. Why is the deal through SpaceX instead?
+Those are OpenAI’s stated reasons, not a neutral legal finding about the contract. AIViewer has not seen the agreement or the evidence underlying the dispute.
 
-The answer appears to be compute and timing. SpaceX owns Colossus, the supercomputer cluster. xAI also uses Colossus, but the infrastructure asset sits inside SpaceX. Running Cursor's next-generation model on Colossus requires a SpaceX deal, not an xAI one.
+What is operationally clear is narrower: OpenAI intends to stop serving models through Cursor after the notice period. The exact behavior users will see—models disappearing from the selector, existing conversations moving to another model, enterprise exceptions or support for personal API keys—had not been fully explained by Cursor when this article was checked.
 
-There is also a competitive framing issue: xAI competes directly with the OpenAI and Anthropic models that Cursor currently offers. Cursor's value proposition is that developers can use any frontier model — GPT-5.4, Claude Opus 4.7, Gemini. An outright xAI acquisition would raise immediate questions about whether Cursor stays model-agnostic or becomes locked to Grok. SpaceX as the acquiring entity provides a degree of separation, at least structurally.
+## Cursor is now part of SpaceX
 
-Worth noting: two of Cursor's most senior engineering leaders left Anysphere to join xAI before the deal was announced, reporting directly to Musk. The organizational lines between SpaceX, xAI, and now Cursor are blurrier than the corporate structure suggests.
+Cursor announced on August 14 that its acquisition by SpaceX was complete. The company says the deal gives its team access to a much larger pool of computing resources and should help it build stronger, less expensive models.
 
-## Cursor's Trajectory That Made This Possible
+The direction was visible before the acquisition. Cursor partnered with SpaceX in April to expand model training, then released jointly developed Grok models and continued investing in its own Composer and Router systems.
 
-The $60 billion figure only makes sense in the context of how fast Cursor has grown.
+That creates a plausible path forward: Cursor may rely more heavily on its own routing, Cursor-trained models and models associated with SpaceX and xAI. It may also continue offering models from providers whose partnerships remain intact.
 
-- January 2025: valued at $2.5 billion
-- May 2025: valued at $9 billion
-- November 2025: $29.3 billion post-money valuation after a $2.3 billion Series D
-- February 2026: annual run rate reached $2 billion
-- April 2026: SpaceX option values the company at $60 billion
+But a plausible path is not a confirmed replacement. Developers should make decisions based on the models available in their actual account, not assumptions about what Cursor will offer by November.
 
-That is a 24x increase in valuation in 15 months. Cursor's run rate is projected to reach $6 billion by the end of 2026. At that scale, $60 billion is roughly 10x annualized revenue — expensive, but within the range of how high-growth AI infrastructure companies are being priced.
+## Who needs to act
 
-## What Changes for Cursor Users Right Now
+You should prepare now if any of these statements is true:
 
-The short answer: nothing, yet.
+- Your team selects a named OpenAI model for code generation or review.
+- Internal documentation promises that a particular GPT model powers the workflow.
+- Evaluation tests, prompts or automated checks were tuned around that model’s behavior.
+- You bought Cursor partly to avoid managing a separate OpenAI or Codex workflow.
+- Client, security or procurement approval names OpenAI as the underlying provider.
+- You need consistent model behavior during a release scheduled near November 12.
 
-Cursor is still built by the same team at Anysphere. The same models are still available. Pricing has not changed. The collaboration with SpaceX is focused on building a new product on Colossus, not modifying the existing Cursor product.
+You probably do not need an urgent migration if you already use Cursor’s Auto mode, Claude models, Grok, Gemini or a Cursor-built model and your work does not depend on OpenAI-specific behavior. You should still confirm the route used for important tasks and watch Cursor’s transition notices.
 
-The things that could change, and when:
+## A practical migration test
 
-**Model availability.** If the full acquisition closes after the SpaceX IPO, the question of whether Cursor stays model-agnostic becomes real. A Cursor owned by SpaceX/xAI might favor Grok over Claude and GPT. No announcements have been made, and Anysphere's founders have not addressed this publicly.
+Do not compare tools using a toy prompt. Use one real, bounded task from your own repository.
 
-**Pricing.** An acquisition at $60 billion requires a return. Companies acquired at large multiples tend to either monetize more aggressively or expand upmarket into enterprise. Cursor's individual subscription is currently $20/month, which is relatively modest for a tool at its usage scale.
+### Step 1: Capture the current baseline
 
-**Competition.** GitHub Copilot (Microsoft), Claude Code (Anthropic), and OpenAI Codex are all accelerating. A Cursor backed by Colossus compute could produce a significantly more capable model than any competitor. That is likely the strategic argument SpaceX is making internally.
+Choose a task you have already completed with your preferred OpenAI model in Cursor—for example:
 
-## Should Developers Be Worried?
+- Fixing a failing test with a known root cause.
+- Refactoring one module without changing behavior.
+- Adding validation to a small API endpoint.
+- Reviewing a pull request for a security or accessibility issue.
 
-The honest answer is: it is too early to know, but the risk is real.
+Record the prompt, repository state, time taken, files changed, test outcome and corrections required. Do not rely only on whether the first answer looked impressive.
 
-Cursor's biggest strength is that it is not owned by any of the foundation model companies. It can be genuinely model-agnostic — offering Claude, GPT, Gemini, and open-source models without a conflict of interest. The moment it becomes part of Elon Musk's broader technology portfolio, that neutrality becomes harder to maintain, even if the company structures it carefully.
+### Step 2: Repeat it with two alternatives
 
-The $10 billion collaboration — regardless of whether the acquisition closes — already represents a significant commitment to the SpaceX/xAI orbit. How that affects roadmap decisions, model partnerships, and product direction over the next 12 months is the real question.
+Run the same task with one alternative inside Cursor and one outside it. Reasonable candidates include:
 
-For now: Cursor still works the same way it did last week. But this is worth watching closely.
+- Cursor Auto or a Cursor-built model.
+- Claude inside Cursor or Claude Code.
+- OpenAI Codex as a direct OpenAI workflow.
+- GitHub Copilot inside your existing editor.
 
----
+Use the same success criteria. If the alternative needs a different prompt style, document the change rather than quietly optimizing one tool more than another.
 
-**Frequently Asked Questions**
+### Step 3: Compare workflow costs, not benchmark claims
 
-**Has SpaceX completed the Cursor acquisition?**
-No. SpaceX paid $10 billion for the option to acquire Cursor for $60 billion later in 2026. The full acquisition is expected after SpaceX's planned IPO this summer. If SpaceX chooses not to acquire, Cursor keeps the $10 billion and the companies' collaboration continues.
+The useful measures are:
 
-**Will Cursor still support Claude and GPT models after acquisition?**
-No announcements have been made about model availability changes. Anysphere has not publicly addressed whether the acquisition would affect model-agnosticism. This is one of the most important open questions for Cursor's current users.
+- Did the tests pass?
+- Did the agent stay within scope?
+- How much review and repair was needed?
+- Were tool calls and terminal actions easy to inspect?
+- Did the result respect project rules and architecture?
+- What did the successful run cost under your plan?
 
-**Why is the deal through SpaceX and not xAI?**
-SpaceX owns the Colossus supercomputer that the collaboration will run on. There is also a strategic reason: structuring the deal through SpaceX rather than xAI preserves some appearance of separation from Grok, which would compete with the OpenAI and Anthropic models Cursor currently offers.
+A model that scores higher on a public coding benchmark can still be worse for your repository, language or review process.
 
-**What is Cursor's current valuation?**
-The SpaceX option values Cursor (Anysphere) at $60 billion. In November 2025, it was valued at $29.3 billion in its Series D round. Its annual revenue run rate was $2 billion in February 2026.
+### Step 4: Keep a reversible fallback
+
+Export or copy important project rules, reusable prompts and workflow documentation into version-controlled files. Avoid keeping the only usable version of your process inside one product’s private settings.
+
+If you switch editors or agents, keep the old workflow available until the new one has completed several real tasks successfully. Migration should be a controlled comparison, not a loyalty test.
+
+## Should developers switch from Cursor to Codex?
+
+Not automatically.
+
+Codex is the most direct option if continued access to OpenAI models is the deciding requirement. It also reduces dependence on a third-party editor contract for those models.
+
+Cursor may remain the better product for developers who value its editor experience, model router, codebase context and access to non-OpenAI models. The acquisition could also give Cursor more resources to improve its own models.
+
+The decision comes down to dependency:
+
+- **Choose Codex** if OpenAI models and OpenAI’s agent workflow are essential.
+- **Stay with Cursor** if the editor and multi-model experience matter more than a specific GPT model.
+- **Test Claude Code** if terminal-native, long-running coding work is your priority.
+- **Use GitHub Copilot** if enterprise governance and GitHub integration outweigh frontier-model choice.
+
+For more context, read the [full Cursor review](/guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/), compare the [OpenAI, Anthropic and Google model strategies](/guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/) and use [AIViewer’s verification workflow](/guides/how-to-verify-an-ai-answer/) when testing outputs.
+
+## What remains unknown
+
+Several important details were still unresolved on August 30:
+
+- Whether every OpenAI model disappears on the same date.
+- Whether users can continue through personal API keys.
+- How Cursor will migrate saved model preferences and agent rules.
+- Whether enterprise customers receive different transition arrangements.
+- Which model Cursor will recommend for workflows previously routed to OpenAI.
+- Whether the proposed date changes after further discussions.
+
+Until Cursor publishes a detailed transition notice, treat November 12 as a planning deadline, not a complete product specification.
+
+## The practical verdict
+
+Cursor is not suddenly useless, and a rushed migration would create more risk than it removes. But the platform’s ownership and model mix have materially changed.
+
+Developers who depend on OpenAI models should spend one afternoon in September testing a real repository task in at least two alternatives. Save the evidence, choose a fallback and repeat the test before November.
+
+If nothing changes, you have lost only a few hours. If the cutoff arrives as proposed, you will already know what works.
+
+## Frequently asked questions
+
+### When will OpenAI models leave Cursor?
+
+OpenAI proposed November 12, 2026 as the contract shutoff date. It is possible that implementation details or the date could change.
+
+### Is Cursor shutting down?
+
+No. Cursor has been acquired by SpaceX and says it plans to continue developing the product and its own models.
+
+### Will Claude and Gemini remain in Cursor?
+
+The OpenAI announcement concerns OpenAI’s contract. It does not itself announce the removal of Anthropic or Google models. Confirm current availability in Cursor’s official model selector and account documentation.
+
+### Can I use OpenAI through a personal API key in Cursor?
+
+Cursor had not clearly documented how the proposed contract change would affect every personal-key or enterprise configuration when this article was checked. Do not assume that a personal key is guaranteed to bypass the change.
+
+### What should teams do first?
+
+Inventory workflows that name an OpenAI model, identify affected repositories and approvals, then benchmark one alternative inside Cursor and one separate coding agent using the same real task.
+
+## Sources checked
+
+- OpenAI: [Our decision on Cursor following its acquisition by SpaceX](https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex/), published August 28, 2026.
+- Cursor: [Cursor is now a part of SpaceX](https://cursor.com/blog/joining-spacex), published August 14, 2026.
+- Cursor: [Cursor partners with SpaceX on model training](https://cursor.com/blog/spacex-model-training), published April 21, 2026.
+
+Sources were checked August 30, 2026. AIViewer will update this page when Cursor publishes detailed transition guidance.
