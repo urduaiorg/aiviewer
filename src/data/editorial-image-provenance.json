@@ -20,5 +20,27 @@
       "Hands and anatomy visually inspected before publication",
       "Alt text must describe the illustrative learning scene without presenting it as a documented event"
     ]
+  },
+  {
+    "asset": "/images/editorial/gemini-claude-meta-models-2026.webp",
+    "page": "/guides/gemini-3-8-flash-claude-fable-5-1-meta-muse-spark-1-3/",
+    "altText": "Abstract editorial illustration of three luminous computational systems converging on a shared agent workspace",
+    "width": 1600,
+    "height": 900,
+    "createdAt": "2026-09-03",
+    "workflow": "OpenAI built-in image generation",
+    "renderer": "OpenAI built-in image generation",
+    "model": "Not exposed by the built-in generation tool",
+    "prompt": "Create an original premium 16:9 editorial illustration representing three competing AI model families released at the same moment. Show three distinct luminous computational forms converging toward a shared central workspace: a cool blue crystalline stream suggesting speed and multimodal reasoning, a warm amber-violet layered form suggesting careful long-horizon analysis and safeguards, and a deep blue-green modular network suggesting collaborative tool-using agents. Use a clean dark charcoal-to-midnight backdrop, a high-end 3D editorial style, balanced composition and controlled studio lighting. Include no text, logos, company or model names, recognizable interfaces, people, mascots, fabricated benchmark charts, trophies, podiums or watermarks. Do not imply an independently verified winner.",
+    "materialEdits": [
+      "Resized to 1600 by 900 pixels",
+      "Converted from PNG to WebP at quality 84"
+    ],
+    "disclosure": "AI-generated editorial illustration; conceptual comparison artwork, not product evidence or an independent benchmark",
+    "reviewNotes": [
+      "No visible text, logos, watermarks, recognizable product interfaces or public figures",
+      "Three abstract systems are balanced around one focal point and do not imply a benchmark winner",
+      "Alt text describes the conceptual scene without assigning the forms to specific providers"
+    ]
   }
 ]
