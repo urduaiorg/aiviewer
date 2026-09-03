@@ -101,6 +101,7 @@ const NOINDEX_EXACT_PATHS = new Set([
   '/guides/ai-in-2026-state-of-the-industry/',
   '/guides/ai-safety-and-risks-2026/',
   '/guides/ai-tools-for-teachers-2026/',
+  '/guides/ai-update-july-25-2026/',
   '/guides/anthropic-project-glasswing-ai-cybersecurity/',
   '/guides/best-ai-tools-for-small-business-2026/',
   '/guides/best-ai-coding-tools-compared/',
@@ -125,6 +126,7 @@ const NOINDEX_EXACT_PATHS = new Set([
   '/guides/midjourney-vs-dalle-vs-stable-diffusion/',
   '/guides/neuro-symbolic-ai-energy-breakthrough-2026/',
   '/guides/understanding-local-llms/',
+  '/guides/weekly-ai-update-july-11-2026/',
   '/guides/what-is-agentic-ai/',
   '/guides/what-is-multimodal-ai/',
 ]);
