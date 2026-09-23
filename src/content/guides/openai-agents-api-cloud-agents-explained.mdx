@@ -1,0 +1,140 @@
+---
+title: "OpenAI Agents API Explained: What Changes When Agents Run in the Cloud"
+seoTitle: "OpenAI Agents API: Cloud Agents, Costs and Controls"
+description: "Understand OpenAI's managed Agents API, its beta limits and costs, with a worked supplier-comparison example and a clear map of who controls each decision."
+category: "technology"
+publishedDate: 2026-09-23
+coverImage: "/images/guides/agentic-ai.jpg"
+tags: ["OpenAI", "Agents API", "AI agents", "business workflows", "Codex"]
+featured: true
+draft: false
+format: "ai-signal"
+publication:
+  status: "published"
+  index: true
+  monetize: false
+factCheckedAt: 2026-09-23
+reviewDueAt: 2026-10-07
+originalContribution: "A fictional supplier-comparison exercise with calculated totals, a missing-information correction, and a responsibility matrix separating provider operations, developer controls and owner approval."
+lensSummary: "A managed agent runtime can reduce infrastructure work. A useful business workflow still needs explicit inputs, approval boundaries and a result that someone can check."
+learningOutcome: "Distinguish the Agents API from an SDK or consumer assistant, identify its current limits, and specify a bounded workflow with a checkable output."
+nextAction: "Try the fictional supplier exercise, then test whether changing a delivery date changes the recommendation without triggering an unauthorized purchase."
+evidence:
+  mode: "primary-sources"
+  sources:
+    - title: "Introducing the Agents API"
+      url: "https://openai.com/index/introducing-the-agents-api/"
+      publisher: "OpenAI"
+      kind: "primary"
+      publishedAt: 2026-09-10
+      checkedAt: 2026-09-23
+    - title: "Agents API overview"
+      url: "https://developers.openai.com/api/docs/guides/agents-api/overview"
+      publisher: "OpenAI"
+      kind: "primary"
+      checkedAt: 2026-09-23
+    - title: "Configuring Agents"
+      url: "https://developers.openai.com/api/docs/guides/agents-api/configuration"
+      publisher: "OpenAI"
+      kind: "primary"
+      checkedAt: 2026-09-23
+    - title: "Agents SDK overview"
+      url: "https://developers.openai.com/api/docs/guides/agents/sdk"
+      publisher: "OpenAI"
+      kind: "primary"
+      checkedAt: 2026-09-23
+    - title: "API pricing"
+      url: "https://developers.openai.com/api/docs/pricing"
+      publisher: "OpenAI"
+      kind: "primary"
+      checkedAt: 2026-09-23
+  limitations:
+    - "Documentation-based reporting; no hands-on Agents API test or measured reliability claim. The supplier example is fictional."
+    - "Public beta behavior, model compatibility, pricing and access can change. Verify the documentation before implementation."
+    - "The existing AIViewer cover is an abstract agent illustration, not an OpenAI product screenshot."
+aiUse:
+  mode: "ai-generated"
+  tasks: ["research", "source-review", "drafting", "editing"]
+  disclosure: "AIViewer's AI editorial system researched, drafted and edited this article using linked primary sources. No hands-on product test or human editorial review is claimed."
+---
+
+*AIViewer editorial system · September 23, 2026*
+
+OpenAI's Agents API lets developers put a managed agent runtime inside their own applications. Announced in public beta on September 10, it brings the Codex harness to developers, with a choice of OpenAI-hosted, self-hosted or partner execution environments. OpenAI operates the harness; the application supplies its tools and business context. [OpenAI's launch announcement](https://openai.com/index/introducing-the-agents-api/)
+
+For a small business, the useful question is whether a repeatable job needs a custom application. A supplier-comparison service, for example, needs to know which documents it may read, what counts as an acceptable offer, and who can authorize an order. A managed runtime helps run the work. Someone still has to define that job properly.
+
+**What runs in the cloud?**
+
+A harness is the software around the model that coordinates its work. OpenAI's documentation describes managed sessions, orchestration, context compaction and recovery. A sandbox provides a place to run code and handle files. The API exposes agent configuration, environments, sessions, and the events or outputs produced during work. [Agents API overview](https://developers.openai.com/api/docs/guides/agents-api/overview)
+
+In ordinary terms, the model proposes steps, the surrounding software manages the conversation and tool calls, and the environment is where executable work happens. Those are separate responsibilities. Giving an agent a place to work does not tell it which supplier is acceptable or give it permission to spend money.
+
+The launch also describes tool search, programmatic tool calling and subagents, alongside support for MCP connections, custom functions and web search. These mechanisms can help organize a larger task; their presence does not establish that a particular business process will finish correctly without oversight. [Documented harness capabilities](https://openai.com/index/introducing-the-agents-api/)
+
+**API, SDK and consumer assistant: what is the difference?**
+
+The Agents SDK is a code library for building agents, with Python and TypeScript implementations and facilities for orchestration, state and guardrails. It is a separate developer option from the managed Agents API. [Agents SDK documentation](https://developers.openai.com/api/docs/guides/agents/sdk)
+
+A consumer assistant gives someone a ready-made interface. An API gives an application developer a service to integrate. Buying or using a chat interface is therefore a different decision from commissioning a custom supplier portal, a reporting service or an internal operations application.
+
+Our guide to [models, assistants and agents](/guides/ai-basics-models-assistants-agents/) explains the basic distinctions. The [Meta Muse WhatsApp article](/guides/meta-muse-ai-agent-whatsapp/) explores delegation through familiar messaging. Neither interface choice removes the need to define the work and inspect its output.
+
+**A worked business example**
+
+This is a fictional teaching exercise, not an observed Agents API run. Imagine a training company needs 100 printed workbooks delivered by October 8. All amounts below are Canadian dollars before tax. The owner asks for the lowest stated total among offers that meet the quantity and delivery requirements, with unanswered questions preserved. Preparing a comparison is authorized; contacting suppliers and placing orders are not.
+
+| Fictional source | Price for 100 workbooks | Delivery charge | Stated arrival |
+| --- | --- | --- | --- |
+| Quote A | $400 | $40 | October 7 |
+| Quote B | $370 | Not stated | October 6 |
+| Quote C | $390 | $30 | October 10 |
+
+The proposed application would read only these three quote files, extract each field with a source reference, calculate known totals, and save a comparison for the owner. It would keep a separate list of missing information. A developer could initially omit all messaging and purchasing tools, making this a document-analysis job with no route to submit an order.
+
+The calculated answer key is:
+
+| Offer | Known total before tax | Assessment |
+| --- | --- | --- |
+| A | $440 | Meets the stated deadline; complete quoted total. |
+| B | $370 plus unknown delivery | Meets the stated deadline; final comparison remains unresolved. |
+| C | $420 | Misses the deadline by two days. |
+
+A is the only offer with both an on-time arrival and a complete stated total. It is not yet proven cheapest among all eligible offers: B could be cheaper, equal or more expensive once delivery is known. C's lower total does not make it eligible under the owner's rule.
+
+This distinction is easy to lose in a polished summary. “Choose B because it costs $370” would invent free delivery. “Choose C because it is cheaper than A” would ignore the deadline. These are deliberately constructed mistakes for the exercise, not failures we observed from OpenAI's product.
+
+A useful proposed output would say: “Quote A has a complete pre-tax total of $440 and meets the deadline. Quote B needs a delivery price before comparison. Quote C arrives too late. No supplier has been contacted and no order has been placed.”
+
+**Who is responsible for each step?**
+
+The following is a suggested implementation plan for this fictional application, not a promise that the API enforces every rule automatically.
+
+| Work | Responsible party | Evidence to retain |
+| --- | --- | --- |
+| Operate the managed harness | OpenAI | Service configuration and session identifiers. |
+| Select files and connect tools | Application developer | Approved source list and actual access controls. |
+| Define quantity, deadline and decision rule | Business owner | Written task brief. |
+| Extract and calculate | Agent, checked by the application or reviewer | Source fields, arithmetic and unresolved questions. |
+| Approve an outgoing inquiry | Business owner | Recipient and exact message approved. |
+| Submit an order if later authorized | A separately controlled application action | Approved supplier, quantity, final amount and submission result. |
+
+The current configuration documentation lets developers specify the model, instructions, tools and reasoning/output settings. Its examples use `gpt-6-astra`; this article does not infer compatibility with every newly released model. Developers should check accepted model values when building. [Configuration documentation](https://developers.openai.com/api/docs/guides/agents-api/configuration)
+
+An instruction to “ask before ordering” should be backed by application controls. A sensible design keeps purchasing unavailable during research and requires an explicit approved action later. If a submission times out, the application should establish whether an order exists before retrying. Otherwise, a recovery attempt can create a duplicate commitment.
+
+**What does it cost, and what are the current limits?**
+
+OpenAI announced public-beta access for developers without an additional Agents API fee. Usage is still billable: the current overview specifies model rates, tool rates and container charges for OpenAI-hosted sandboxes. It also states that data residency is currently US-only and Zero Data Retention is unsupported, including when the sandbox is self-hosted. [Launch access statement](https://openai.com/index/introducing-the-agents-api/) · [Current billing and data limits](https://developers.openai.com/api/docs/guides/agents-api/overview)
+
+As checked September 23, the pricing page lists a 1 GB container at $0.03 per 20-minute session per container. Two such billable sessions would total $0.06 in container charges alone. That calculation excludes model tokens, tools and other services; it is not an estimate of a complete agent task. Larger container sizes have different rates. [Official API pricing](https://developers.openai.com/api/docs/pricing)
+
+For an initial evaluation, record spending across both successful and unsuccessful attempts. Divide that total by the number of accepted outputs, and measure how much checking each one needed. A low price per request can be misleading if several retries and substantial manual correction are needed to finish one job.
+
+**Try one change before adding more automation**
+
+Return to the fictional quotes. Suppose B confirms delivery costs $85. Its total becomes $455, so A is $15 cheaper and still meets the deadline. Now change A's arrival date to October 9. A becomes ineligible; B is the only offer that meets the date requirement. Neither change authorizes a purchase.
+
+Use these variations as an acceptance exercise for any proposed implementation. Check whether it updates the arithmetic, preserves the deadline rule, identifies the changed source, and stops at the agreed boundary. If it cannot produce a trustworthy comparison from three simple documents, adding more tools will make the workflow harder to assess.
+
+For a one-off comparison, a document-capable assistant may be enough. A custom API application becomes worth evaluating when the same task recurs, has defined inputs and outputs, and needs integration with existing systems. Start with a result that is easy to check, then expand the scope only when the evidence supports doing so.
