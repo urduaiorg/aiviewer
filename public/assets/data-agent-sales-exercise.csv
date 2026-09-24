@@ -1,0 +1,8 @@
+event_id,order_id,event_date,event_type,amount_cad
+E1,O1,2026-09-01,sale,100
+E2,O2,2026-09-02,sale,200
+E2,O2,2026-09-02,sale,200
+E3,O2,2026-09-03,refund,50
+E4,O3,2026-09-07,sale,150
+E5,O4,2026-09-08,sale,300
+E6,O0,2026-09-04,refund,20
