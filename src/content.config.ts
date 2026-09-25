@@ -66,7 +66,7 @@ const tools = defineCollection({
 const guidePublicationSchema = z.object({
   status: z.enum(PUBLICATION_STATUSES).default('published'),
   index: z.boolean().default(true),
-  monetize: z.boolean().default(true),
+  monetize: z.boolean().default(false),
 });
 
 const guideEvidenceSourceSchema = z.object({
@@ -130,12 +130,14 @@ const guideSchema = z.object({
   featured: z.boolean().default(false),
   draft: z.boolean().default(false),
   format: z.enum(GUIDE_FORMATS).optional(),
+  historical: z.boolean().default(false),
   publication: guidePublicationSchema.optional(),
   factCheckedAt: z.coerce.date().optional(),
   reviewDueAt: z.coerce.date().optional(),
   evidence: guideEvidenceSchema.optional(),
   aiUse: guideAiUseSchema.optional(),
   video: guideVideoSchema.optional(),
+  originalContribution: z.string().min(30).max(500).optional(),
   lensSummary: z.string().max(320).optional(),
   learningOutcome: z.string().max(240).optional(),
   nextAction: z.string().max(240).optional(),

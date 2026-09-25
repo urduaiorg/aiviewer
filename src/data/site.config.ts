@@ -53,6 +53,8 @@ export const siteConfig = {
   // ── Monetization ──
   monetization: {
     adsenseClient: 'ca-pub-8532451951782012',
+    // Enable only after account approval, editorial review and consent readiness are recorded.
+    adServingEnabled: false,
     adsTxtPublisherId: 'pub-8532451951782012',
     contactEmail: 'hi@aiviewer.ai',
   },
@@ -83,7 +85,7 @@ export const siteConfig = {
     main: [
       { label: 'Learn AI', href: '/learn/' },
       { label: 'Video Lessons', href: '/video-lessons/' },
-      { label: 'AI Signals', href: '/signals/' },
+      { label: 'Free resources', href: '/download/' },
       { label: 'Practical Guides', href: '/practical-guides/' },
       { label: 'About', href: '/about/' },
     ],
@@ -92,13 +94,14 @@ export const siteConfig = {
       content: [
         { label: 'Learn AI', href: '/learn/' },
         { label: 'Video Lessons', href: '/video-lessons/' },
-        { label: 'AI Signals', href: '/signals/' },
+        { label: 'Free resources', href: '/download/' },
       ],
       resources: [
         { label: 'All guides', href: '/guides/' },
         { label: 'AI tools', href: '/tools/' },
         { label: 'AI glossary', href: '/glossary/' },
-        { label: 'Newsletter', href: '/newsletter/' },
+        { label: 'Follow lessons', href: '/newsletter/' },
+        { label: 'AI Signals', href: '/signals/' },
         { label: 'Practical Guides', href: '/practical-guides/' },
         { label: 'About', href: '/about/' },
       ],
@@ -146,9 +149,9 @@ export const siteConfig = {
  *   Max 2 featured items per collection at any time.
  *
  * EDITORIAL TONE:
- *   - Direct and clear. No hedging, no filler.
+ *   - Direct and clear. State uncertainty when evidence is limited.
  *   - Authoritative but approachable. Expert friend, not professor.
- *   - Honest verdicts. We say what we think. No wishy-washy "it depends."
+ *   - Tie conclusions to observed evidence. Do not invent rankings or test experience.
  *   - Action-oriented. Every piece ends with what to DO.
  *   - Zero jargon without explanation. If we use a term, we define it inline.
  *

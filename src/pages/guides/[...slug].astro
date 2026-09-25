@@ -43,6 +43,7 @@ const relatedEntries = (await getCollection('guides', ({ data }) => isPublishedG
   .filter((candidate) =>
     candidate.id !== entry.id &&
     candidate.data.publication.index &&
+    !candidate.data.historical &&
     !shouldNoindexPath(`/guides/${candidate.id}/`)
   )
   .sort((a, b) => {
@@ -120,7 +121,7 @@ for (const heading of headings) {
   <div>
     <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
       <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,_rgba(240,199,94,0.16),_transparent_40%),linear-gradient(180deg,rgba(79,70,229,0.08),transparent_75%)] dark:bg-[radial-gradient(circle_at_top,_rgba(240,199,94,0.07),_transparent_40%),linear-gradient(180deg,rgba(79,70,229,0.05),transparent_75%)]"></div>
-      <div class="page-container relative py-12 md:py-16">
+      <div class="page-container relative py-6 md:py-12">
         <Breadcrumbs items={[{ label: formatInfo.pluralLabel, href: formatInfo.href }, { label: entry.data.title }]} />
 
         <div class="max-w-3xl" data-reveal>
@@ -130,7 +131,7 @@ for (const heading of headings) {
             </span>
             <span class="capitalize">{entry.data.category}</span>
             <a href="/about/" class="font-medium text-zinc-600 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400">AIViewer</a>
-            <a href="/ai-use/" class="text-zinc-500 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400">AI-assisted publication</a>
+            <a href="/ai-use/" class="text-zinc-500 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400">{entry.data.aiUse.mode === 'ai-generated' ? 'AI-generated article' : 'AI-assisted article'}</a>
             <span>{formatDate(entry.data.publishedDate)}</span>
             {entry.data.updatedDate && entry.data.updatedDate.getTime() !== entry.data.publishedDate.getTime() && (
               <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2.5 py-0.5 text-[0.7rem] font-medium text-emerald-700 dark:text-emerald-400">
@@ -148,7 +149,8 @@ for (const heading of headings) {
           <h1 class="mt-5 max-w-3xl text-zinc-950 dark:text-zinc-50">{entry.data.title}</h1>
           <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">{entry.data.description}</p>
 
-          <div class="mt-8 flex flex-wrap gap-2">
+          <a href="#lesson-content" class="mt-5 inline-block font-semibold text-indigo-700 underline underline-offset-4 dark:text-indigo-300">Read the guide ↓</a>
+          <div class="mt-5 hidden flex-wrap gap-2 md:flex">
             {entry.data.tags.map((tag) => (
               <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-3 py-1 text-sm text-zinc-600 dark:text-zinc-300">{tag}</span>
             ))}
@@ -159,7 +161,7 @@ for (const heading of headings) {
             )}
           </div>
 
-          <div class="mt-5">
+          <div class="mt-5 hidden md:block">
             <ShareButtons title={entry.data.title} url={`${siteConfig.url}${Astro.url.pathname}`} />
           </div>
 
@@ -173,7 +175,7 @@ for (const heading of headings) {
                 loading="eager"
                 decoding="async"
                 fetchpriority="high"
-                class="h-auto w-full object-cover"
+                class="max-h-48 w-full object-cover md:max-h-none"
               />
               <figcaption class="border-t border-zinc-200 bg-white px-4 py-2 text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
                 {generatedCoverProvenance.disclosure}.
@@ -185,7 +187,7 @@ for (const heading of headings) {
     </section>
 
     <section class="bg-[var(--color-bg)]">
-      <div class="page-container py-12 md:py-16">
+      <div class="page-container py-6 md:py-12">
         <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_16rem] xl:gap-12">
           <TableOfContents headings={headings} label="Guide outline" compact />
 
@@ -203,17 +205,16 @@ for (const heading of headings) {
                   creatorUrl={entry.data.video.creatorUrl}
                   poster={entry.data.coverImage}
                 />
-                <AIViewerLens
-                  format={entry.data.format}
-                  summary="Sources, limitations, review dates, and AI-use notes for this lesson."
-                  nextAction={entry.data.nextAction}
-                  factCheckedAt={entry.data.factCheckedAt}
-                  reviewDueAt={entry.data.reviewDueAt}
-                  evidence={entry.data.evidence}
-                  aiUse={entry.data.aiUse}
-                />
               </Fragment>
-            ) : (
+            ) : null}
+            {entry.data.historical && (
+              <p class="mb-6 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-zinc-800 dark:border-amber-800 dark:bg-amber-950 dark:text-zinc-200">Historical briefing: this page describes developments at its publication date. Access, prices and product details may have changed. For reusable exercises, explore <a href="/practical-guides/" class="underline">practical lessons</a>.</p>
+            )}
+            <div id="lesson-content" class="prose article-prose dark:prose-invert prose-headings:scroll-mt-24 scroll-mt-24">
+              <Content />
+            </div>
+            <details class="mt-8 rounded-xl border border-zinc-200 p-4 dark:border-zinc-700" data-editorial-details>
+              <summary class="cursor-pointer py-2 font-semibold text-zinc-900 dark:text-zinc-100">Sources, review dates and AI use</summary>
               <AIViewerLens
                 format={entry.data.format}
                 summary={entry.data.lensSummary ?? entry.data.description}
@@ -224,10 +225,7 @@ for (const heading of headings) {
                 evidence={entry.data.evidence}
                 aiUse={entry.data.aiUse}
               />
-            )}
-            <div class="prose article-prose dark:prose-invert prose-headings:scroll-mt-24">
-              <Content />
-            </div>
+            </details>
             <AuthorBio compact variant="publisher" disclosure={entry.data.aiUse.disclosure} />
             <NewsletterSignup variant="inline" />
           </article>

@@ -6,7 +6,6 @@ const learnLinks = siteConfig.nav.footer.content;
 const exploreLinks = siteConfig.nav.footer.resources;
 const trustLinks = siteConfig.nav.footer.trust;
 const socialLinks = siteConfig.nav.footer.social;
-const BEEHIIV_FORM_ID = 'df762eb2-5183-49d6-bb1e-fafb3683f2e0';
 
 const socialIcons: Record<string, string> = {
   LinkedIn:
@@ -26,34 +25,17 @@ const socialIcons: Record<string, string> = {
           <path d="M3.5 6.5h17v11h-17zM4 7l8 6 8-6" />
         </svg>
         <div>
-          <h2>Get new lessons and signals in your inbox.</h2>
+          <h2>Learn at your own pace.</h2>
           <p>Clear explanations, useful sources, and practical steps.</p>
         </div>
       </div>
 
       <div class="newsletter-action">
-        <form
-          class="newsletter-form"
-          method="POST"
-          action={`https://subscribe-forms.beehiiv.com/${BEEHIIV_FORM_ID}`}
-          target="_blank"
-          data-beehiiv-form
-        >
-          <label class="sr-only" for="footer-newsletter-email">Email address</label>
-          <input
-            id="footer-newsletter-email"
-            type="email"
-            name="email"
-            autocomplete="email"
-            placeholder="Enter your email"
-            required
-          />
-          <input type="hidden" name="utm_source" value="aiviewer" />
-          <button type="submit">Subscribe</button>
-        </form>
-        <p class="newsletter-privacy">
-          Subscription data is handled under our <a href="/privacy/">Privacy Policy</a>.
-        </p>
+        <div class="newsletter-form">
+          <a class="learning-link" href="/practical-guides/">Explore practical guides</a>
+          <a class="learning-link" href="/rss.xml">Follow via RSS</a>
+        </div>
+        <p class="newsletter-privacy">Free lessons and downloadable exercises.</p>
       </div>
     </div>
   </div>
@@ -63,7 +45,7 @@ const socialIcons: Record<string, string> = {
       <a href="/" class="editorial-footer__logo" aria-label="AIViewer home">
         <span>AI</span>Viewer
       </a>
-      <p>Selected AI lessons, source-aware signals, and practical guides from UrduAI.</p>
+      <p>Practical AI lessons and exercises in clear English from UrduAI.</p>
     </div>
 
     <div class="editorial-footer__links">
@@ -114,6 +96,8 @@ const socialIcons: Record<string, string> = {
 </footer>
 
 <style>
+  .learning-link { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0.75rem 1rem; background: #f0c75e; color: #202020; font-weight: 600; border-radius: 4px; text-decoration: none; }
+  .learning-link:focus-visible { outline: 3px solid #4f46e5; outline-offset: 3px; }
   .editorial-footer {
     border-top: 1px solid #dedbd5;
     background: #fff;
@@ -515,21 +499,3 @@ const socialIcons: Record<string, string> = {
     }
   }
 </style>
-
-<script>
-  function initFooterNewsletter() {
-    document.querySelectorAll<HTMLFormElement>('[data-beehiiv-form]').forEach((form) => {
-      if (form.dataset.initialized === 'true') return;
-      form.dataset.initialized = 'true';
-      form.addEventListener('submit', () => {
-        (window as any).aiViewerTrack?.('newsletter_submit_attempt', {
-          placement: 'footer',
-          path: window.location.pathname,
-        });
-      });
-    });
-  }
-
-  initFooterNewsletter();
-  document.addEventListener('astro:page-load', initFooterNewsletter);
-</script>

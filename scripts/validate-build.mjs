@@ -1,6 +1,7 @@
 import { access, readFile, readdir } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { siteConfig } from '../src/data/site.config.ts';
 
 const dist = fileURLToPath(new URL('../dist/', import.meta.url));
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
@@ -185,6 +186,8 @@ for (const file of htmlFiles) {
   }
 
   if (adsense) monetizedCount += 1;
+  if (adsense && !siteConfig.monetization.adServingEnabled) fail(`${path}: AdSense loads while the site hold is active`);
+  if (!html.includes(`name="google-adsense-account" content="${siteConfig.monetization.adsenseClient}"`)) fail(`${path}: missing AdSense ownership meta tag`);
 }
 
 const requiredNoindex = [
@@ -211,7 +214,7 @@ const requiredMonetized = [
 for (const path of requiredMonetized) {
   const html = await read(path);
   if (isNoindex(html)) fail(`${path}: expected indexable page`);
-  if (!hasAdsense(html)) fail(`${path}: eligible editorial page does not load AdSense`);
+  // Ad serving is held separately from ownership verification and indexability.
 }
 
 const downloadPage = await read('download/index.html');
@@ -220,8 +223,11 @@ for (const unsupportedClaim of ['pravatar.cc', '10,000+ professionals', 'battle-
     fail(`download/index.html: contains unsupported proof or endorsement (${unsupportedClaim})`);
   }
 }
-if (!downloadPage.includes("join AIViewer's newsletter")) {
-  fail('download/index.html: newsletter opt-in is not disclosed beside the form');
+if (!/<a[^>]+href="\/assets\/2026-ultimate-ai-prompt-cheat-sheet.md"[^>]+download/.test(downloadPage)) {
+  fail('download/index.html: missing direct downloadable template link');
+}
+if (/<form\b|type="email"|success-container|lead-magnet-form/.test(downloadPage)) {
+  fail('download/index.html: resource must remain accessible without email capture or simulated success');
 }
 try {
   await access(join(dist, 'assets/2026-ultimate-ai-prompt-cheat-sheet.md'));
@@ -289,8 +295,8 @@ for (const trustPath of [
     fail(`index.html: global footer is missing trust link ${trustPath}`);
   }
 }
-if (!homepage.includes('Subscription data is handled under our')) {
-  fail('index.html: newsletter form is missing its nearby privacy notice');
+if (!homepage.includes('href="/rss.xml"') || /subscribe-forms.beehiiv.com|data-beehiiv-form/.test(homepage)) {
+  fail('index.html: expected working RSS link without the unverified email signup');
 }
 
 const sitemap = await read('sitemap-0.xml');
@@ -343,7 +349,7 @@ if (redirectMap.get('/guides/gpt-5-6-sol-explained-openai-new-model/') !== '/gui
   fail('_redirects: retired GPT-5.6 preview does not consolidate into the current model-race explainer');
 }
 
-const canonicalVideoGuide = '/video-lessons/';
+const canonicalVideoGuide = '/guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/';
 for (const source of [
   '/guides/best-ai-video-generators/',
   '/guides/best-ai-video-generators',
@@ -541,5 +547,5 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Validated ${htmlFiles.length} HTML pages: ${indexableCount} indexable, ${noindexCount} noindex, ${monetizedCount} AdSense-eligible.`);
-console.log(`Validated ${sitemapUrls.length} sitemap URLs, internal links and images, ${imageProvenance.length} image provenance record(s), redirects, schema integrity, ads.txt, and newsletter CSP.`);
+console.log(`Validated ${htmlFiles.length} HTML pages: ${indexableCount} indexable, ${noindexCount} noindex, ${monetizedCount} loading AdSense.`);
+console.log(`Validated ${sitemapUrls.length} sitemap URLs, internal links and images, ${imageProvenance.length} image provenance record(s), redirects, schema integrity, ads.txt, and content security policy.`);

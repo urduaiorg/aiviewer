@@ -46,9 +46,9 @@
 /guides/what-is-multimodal-ai/ /guides/ 302
 /guides/what-is-multimodal-ai /guides/ 302
 
-# Retired comparison pages now point to the source-aware video lesson library
-/guides/best-ai-video-generators/ /video-lessons/ 301
-/guides/best-ai-video-generators /video-lessons/ 301
+# Retired comparison pages point to the matching video evaluation guide
+/guides/best-ai-video-generators/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/guides/best-ai-video-generators /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
 
 # Consolidate overlapping editorial search intent
 /guides/ai-for-small-business-owners/ /guides/ 302
@@ -67,5 +67,11 @@
 /guides/midjourney-vs-dalle3-vs-stable-diffusion /guides/ 302
 
 # Canonical Cursor vs GitHub Copilot comparison
-/guides/copilot-vs-cursor-coding-ai/ /tools/ 301
-/guides/copilot-vs-cursor-coding-ai /tools/ 301
+/guides/copilot-vs-cursor-coding-ai/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/guides/copilot-vs-cursor-coding-ai /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+
+# September 2026: consolidate overlapping image/video evaluations
+/guides/sora-vs-runway-vs-pika-vs-kling-the-ai-video-generator-comparison-that-matters/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/guides/sora-vs-runway-vs-pika-vs-kling-the-ai-video-generator-comparison-that-matters /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/guides/grok-imagine-vs-midjourney-vs-flux-vs-dall-e-which-image-tool-wins-in-2026/ /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
+/guides/grok-imagine-vs-midjourney-vs-flux-vs-dall-e-which-image-tool-wins-in-2026 /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301

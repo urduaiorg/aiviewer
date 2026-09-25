@@ -8,7 +8,7 @@ export async function GET(context: any) {
   const playbooks = await getCollection('playbooks', ({ data }) => !data.draft);
   const tools = await getCollection('tools', ({ data }) => !data.draft);
   const guides = await getCollection('guides', ({ data }) =>
-    isPublishedGuide(data) && data.publication.index
+    isPublishedGuide(data) && data.publication.index && !data.historical
   );
   const reports = await getCollection('reports', ({ data }) => !data.draft);
   const prompts = await getCollection('prompts', ({ data }) => !data.draft);
@@ -53,7 +53,7 @@ export async function GET(context: any) {
 
   return rss({
     title: 'AIViewer.ai',
-    description: 'Source-aware AI lessons, practical workflows, timely signals, and a small set of transparent tool profiles.',
+    description: 'Practical AI lessons, worked examples, and exercises for learning and work.',
     site: context.site || 'https://aiviewer.ai',
     items: recentItems,
     customData: `<language>en-us</language>`,

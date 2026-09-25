@@ -171,7 +171,7 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
               <div class="border-b border-zinc-200 dark:border-zinc-800">
                 <EditorialCover
                   title={entry.data.title}
-                  subtitle={GUIDE_FORMAT_INFO[entry.data.format].label}
+                  subtitle={entry.data.historical ? 'Historical briefing' : GUIDE_FORMAT_INFO[entry.data.format].label}
                   category={entry.data.category}
                   variant="guide"
                   badge={getReadingTime(entry.body)}
@@ -184,7 +184,7 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
               <div class="flex flex-1 flex-col p-6">
               <div class="flex items-start justify-between gap-4">
                 <span class="inline-flex rounded-full bg-zinc-100 dark:bg-zinc-800 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-zinc-600 dark:text-zinc-400">
-                  {GUIDE_FORMAT_INFO[entry.data.format].label}
+                  {entry.data.historical ? 'Historical briefing' : GUIDE_FORMAT_INFO[entry.data.format].label}
                 </span>
                 <span class="text-right text-xs font-medium text-zinc-400">
                   {categoryLabels[entry.data.category] ?? entry.data.category}<br />

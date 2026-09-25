@@ -1,178 +1,74 @@
-# AIViewer.ai — Editorial Integrity Policy
+# AIViewer editorial policy
 
-> **Status**: MANDATORY — ALL AGENTS, ALL SESSIONS, NO EXCEPTIONS
-> **Enforcement**: Agent 1 (Lead) will audit all content against this policy. Violations trigger full rewrite.
-> **Origin**: This policy exists because Agent 4 published 4 fabricated source URLs and 1 fake company name while claiming "100% verified." That failure is the reason every rule below is non-negotiable.
+Adopted September 9, 2026. Apply when researching, drafting, materially updating, curating or publishing AIViewer content. Follow the current user's scope and authorization.
 
----
+## Editorial purpose
 
-## THE CARDINAL RULE
+Help English-speaking adults complete everyday document and knowledge tasks with AI. Start with summaries, source verification, action lists, tables and output evaluation. The business experiment is weekly evergreen publishing and site-attributed AdSense earnings, even small amounts. Do not substitute daily news, price trackers, courses or sponsorship sales for that objective.
 
-**Never publish anything you cannot prove.**
+One publishing session per week is the capacity constraint. A useful default is three new lessons and one refresh/measurement session per four weeks. A lesson may take another session to finish. Do not publish filler to meet a quota or schedule recurring agent runs without a request.
 
-If you cannot open a URL and see a live page, do not write that URL.
-If you cannot find a company in a web search, do not name that company.
-If you cannot cite the exact source of a statistic, do not quote that statistic.
-If you cannot verify a claim, say "unverified" or omit it entirely.
+## Decide whether a page deserves publication
 
-There is no tolerance for fabrication. Not approximate. Not "directionally correct." Not "I'm fairly sure." Either you verified it or you didn't. If you didn't, it doesn't ship.
+Name the reader, task and intended result in one sentence. Check the inventory before creating a URL. Compare current competing answers and identify a specific contribution: an input and worked solution, a corrected claim ledger, a reproducible exercise, an original observation or analysis that changes the reader's decision.
 
----
+A prompt list, generic checklist, provider summary or embedded video is not automatically sufficient. Prefer an existing URL when the reader task is unchanged. Merge overlapping answers into the relevant keeper, update internal links and use a permanent redirect. Without Search Console data, call this an editorial consolidation, not proven keyword cannibalization. Use a real 404 for retired material with no equivalent; do not send every old article to a generic hub.
 
-## 1. SOURCE URL VERIFICATION
+Do not convert a price list or announcement into evergreen content just by changing its title or dates. Give historical material an explicit dated context, remove current promotion and ads, and preserve honest source-check dates. Keep material needing a substantive correction in the repair queue until the correction is done.
 
-### What "verified" means
-A URL is verified if and only if:
-- You fetched it (via WebFetch, curl, or browser) AND
-- It returned HTTP 200 with relevant content on the page, OR
-- It returned HTTP 403 (bot-blocked) but you confirmed the URL structure matches the publisher's known URL pattern and the page exists via web search
+## What a practical lesson contains
 
-### What "verified" does NOT mean
-- "I constructed a plausible-looking URL" — **NOT verified**
-- "The domain exists" — **NOT verified**
-- "I've seen similar URLs from this publisher" — **NOT verified**
-- "It looks right" — **NOT verified**
+Lead with the useful answer. Normally include:
 
-### Mandatory process
-1. Before writing ANY `sourceUrl` in frontmatter, fetch the URL
-2. If it returns 404, 500, or any error: DO NOT USE IT
-3. Search for the real URL using the article title + publisher name
-4. If no live URL exists for the claim, either find an alternative authoritative source or remove the sourceUrl field entirely
-5. Document your verification: note in a comment or agent status that you tested the URL and the result
+- Inspectable input or source material with permission to use it.
+- A worked output or proposed solution.
+- Checks, failures or corrections that explain why the result is usable.
+- A bounded reader exercise, preferably with an answer key or reusable asset.
 
-### Forbidden patterns
-- Never construct URLs by guessing path segments (e.g., `/press-release/2026/ai-agriculture-report`)
-- Never assume a publisher's URL structure follows a pattern you've seen before
-- Never claim "all URLs verified" without having actually fetched each one individually
+Adapt this shape to the task. A conceptual lesson can use a worked analogy; a video lesson needs independent teaching value beyond a transcript summary. Length is determined by the task. The old 900-word rule was a local heuristic, not a Google requirement; neither word count nor an article quota establishes quality.
 
----
+Use accurate, specific titles. Avoid “best,” “winner,” “tested,” numerical ratings, superlatives or claimed productivity gains unless the evidence supports that exact conclusion. Do not fill a comparison table with invented scores.
 
-## 2. FACTUAL CLAIMS & STATISTICS
+## Keep evidence categories separate
 
-### The standard
-Every statistic, percentage, dollar figure, and quantitative claim in any AIViewer content must trace back to a named, verifiable source.
+Official documentation establishes documented features and terms. It does not establish output quality, comparative superiority or AIViewer's personal experience. Attribute provider demonstrations and third-party tests to their producers. Open the actual supporting content; a plausible URL, HTTP success or search snippet alone is not verification of the claim.
 
-### Verification tiers
+An authored or synthetic teaching example must be labelled beside the example. Deliberately flawed text must be identified as such. Never present synthetic cases as client outcomes, real feedback or observed model failures.
 
-**Tier 1 — Hard facts (MUST verify before publishing)**
-- Statistics with specific numbers ("92 million jobs," "20% yield increase," "80% reduction")
-- Company names, product names, program names
-- Government program names and their described functions
-- Claims about what a specific organization said or published
-- Dates of events, launches, or publications
+A real tool test records the date, product/model or mode, account conditions, prompt, inputs, attempts, actual outputs and checks. Preserve unsuccessful attempts relevant to the conclusion. Compare equivalent tasks and explain material differences. A small trial supports a narrow observation, not a universal ranking.
 
-**Tier 2 — Directional claims (verify if possible, flag if not)**
-- General industry trends ("AI adoption is accelerating in agriculture")
-- Qualitative assessments ("the most significant challenge is...")
-- Widely-reported consensus positions
+Recalculate numbers and check their denominators. Preserve missing values and unresolved evidence. Use primary sources for consequential product claims; separate facts, interpretation, estimates and opinion. Respect permissions and attribution for videos, images, source excerpts and exercises.
 
-**Tier 3 — Analysis and editorial judgment (no external verification needed)**
-- Our own assessments, comparisons, and recommendations
-- Synthesis across multiple verified sources
-- Forward-looking editorial perspective clearly marked as opinion
+## Dates, AI use and manual review
 
-### Forbidden patterns
-- Inventing company names that sound plausible (e.g., "HarvestMAX," "AgriBot Pro," "FarmSense AI")
-- Fabricating statistics that "feel about right"
-- Attributing quotes or positions to organizations without verifying the attribution
-- Presenting fabricated search volume or keyword difficulty numbers as data
-- Using approximate numbers presented as exact ("approximately 47 countries" is fine; "47 countries" without verification is fabrication)
+Keep original publication dates. Update the content-modification date for substantive changes. Change factCheckedAt and source checkedAt only for checks actually performed. If only an exercise was added, retain the previous source-check date and say what changed.
 
----
+New and materially rewritten active guides include originalContribution, evidence, limitations, learningOutcome, nextAction, aiUse, publication state and review dates. The schema and content audit help catch omissions; they cannot judge originality or truth.
 
-## 3. ENTITY VERIFICATION
+Disclose AI generation or assistance accurately. AI self-review, code tests and source checks are not manual editorial review. Credit a named person only for work that person actually performed. Permission to publish does not establish that the person reviewed the content.
 
-### Before naming ANY company, product, or program in content:
-1. **Search for it** — does it exist? Can you find its website, press coverage, or official documentation?
-2. **Confirm the description matches** — is the company actually doing what you're claiming it does?
-3. **Check the geography** — is it actually based where you say it is?
-4. **Check the timeline** — does it actually exist in 2025-2026, not just 2020?
+For actual manual review or curation, record: page/asset, content revision or hash, reviewer, date, claims and examples inspected, corrections requested, and decision. Keep fields null until known. Review affected material again after a consequential change. Prepare the finished article and focused review points before asking for human review.
 
-### If an entity cannot be verified:
-- Replace with a verified alternative that serves the same editorial purpose
-- Use a generic descriptor ("several Kenyan agritech startups") instead of a fake specific name
-- Never invent a proper noun. Ever.
+## Publication and AdSense gates
 
----
+New lessons start as drafts with index and monetize false. Existing page corrections can proceed under the user's repair authorization. Follow the project's build and browser checks in project-publishing.md; preserve unrelated changes and verify the released result if deployment is authorized.
 
-## 4. KEYWORD & SEO DATA
+Downloads must work directly without forced signup. Never simulate a saved result or subscription success with a timer. Restore email signup only after the publication identity, actual destination and success/failure behavior have been verified.
 
-### The reality
-AI agents do not have access to Ahrefs, SEMrush, Moz, Google Search Console, or any keyword research tool. Therefore:
+The site uses an AdSense ownership meta tag and ads.txt independently of ad serving. adServingEnabled is held false during the September cleanup. Do not enable it merely because a build passes. Require current account approval, appropriate consent coverage and recorded manual review/curation of retained automated ad content. Per-page eligibility still excludes utility, noindex, historical and unreviewed material. Recheck current official Google guidance when assessing readiness or submitting.
 
-- **Never fabricate search volume numbers** (e.g., "12,100 monthly searches")
-- **Never fabricate keyword difficulty scores** (e.g., "KD: 34")
-- **Never fabricate "current SERP holders"** (e.g., "Currently held by HubSpot")
-- **Never present estimated data as measured data**
+Resolve low-value public content across the site; noindex alone is not a repair. Do not guarantee approval from a word count, page count, traffic threshold or arbitrary wait period. Reapply only with session authorization and completed readiness checks; record the actual response and avoid repeated submissions while a review is pending.
 
-### What you CAN do
-- Describe keyword intent qualitatively ("high commercial intent," "informational query")
-- Recommend content topics based on topical authority logic
-- Suggest content gaps based on competitor analysis (what topics they cover that we don't)
-- State clearly: "Estimated — no tool data available" when providing any directional numbers
+## Weekly learning loop
 
----
+Use actual Search Console query/page performance, analytics pageviews and site-filtered AdSense revenue when available. Search clicks are not pageviews, and account/network revenue is not AIViewer revenue. Record unknowns as unknown. Revenue scenarios are assumptions until observed RPM and traffic exist.
 
-## 5. COVER IMAGES & MEDIA
+Judge a lesson by whether it gains relevant impressions/clicks, supports an identifiable task and can be maintained within the weekly capacity. Review patterns over several weeks rather than rewriting after a few quiet days. Track costs and time alongside even small income. Update evergreen-state.json and the queue with what is drafted, reviewed, released, retired and still dependent on access or review.
 
-### Requirements
-- Every `coverImage` path in frontmatter must point to a file that actually exists in `public/`
-- If a dedicated image doesn't exist, explicitly note it as a gap — do not silently borrow another report's image without documenting the reuse
-- Never reference images that don't exist in the repository
+## Repository implementation and authorized exceptions
 
----
+Updated September 24, 2026. Use `historical: true` only for deliberately archived briefings. The `ai-signal` format alone does not mean historical: the user separately authorized September 21–25 news publications. Preserve that bounded exception; normal capacity remains weekly. Historical briefings are excluded from homepage promotion and RSS, display a dated banner and remain ad-free.
 
-## 6. SELF-ASSESSMENT HONESTY
+Keep `adServingEnabled: false` until account approval, applicable consent coverage and actual manual curation are established. Publication authorization is not human review. Run `npm run build`, `npm run audit:content` and `npm run validate:build`; check the actual desktop/mobile reading and download flows and verify the released deployment. Read the repository's current branch before publishing, preserve parallel changes and never force-push.
 
-### The standard
-When evaluating AIViewer's own technical SEO, content quality, or competitive position:
-
-- Be brutally honest. Inflated self-scores waste everyone's time.
-- A "9.5/10 technical SEO" score requires: perfect Core Web Vitals, complete structured data (FAQ, HowTo, Article, BreadcrumbList, ItemList, SpeakableSpecification), XML sitemap with lastmod, robots.txt, canonical URLs, hreflang (if multilingual), OpenGraph + Twitter Cards, author markup, updatedDate signals, and internal linking architecture. If any of these are missing, the score is lower.
-- Always list what's missing alongside any score you give.
-
----
-
-## 7. THE VERIFICATION DECLARATION
-
-Every agent completing content work MUST include this declaration in their status update:
-
-```
-VERIFICATION STATUS:
-- [ ] All sourceUrls fetched and confirmed live (HTTP 200 or verified 403)
-- [ ] All named companies/products confirmed to exist via web search
-- [ ] All statistics traced to named sources
-- [ ] All coverImage paths confirmed to exist in public/
-- [ ] No keyword metrics presented without "Estimated" disclaimer
-```
-
-Any box left unchecked means the work is NOT ready for publication. Period.
-
----
-
-## 8. CONSEQUENCES OF VIOLATION
-
-Content that violates this policy will be:
-1. Flagged with specific line-by-line issues
-2. Fully rewritten with verified replacements
-3. Documented as a policy violation in AGENT-TASKS.md
-
-Repeat patterns of fabrication from any agent will result in all future work from that agent being subjected to mandatory pre-publication audit by Agent 1.
-
----
-
-## INCIDENT LOG
-
-| Date | Agent | File | Violation | Resolution |
-|------|-------|------|-----------|------------|
-| 2026-03-09 | Agent 4 | `ai-and-democracy.mdx` | sourceUrl 404 — wrong URL slug | Fixed by Agent 1 |
-| 2026-03-09 | Agent 4 | `ai-justice-and-policing.mdx` | sourceUrl 404 — wrong URL slug | Fixed by Agent 1 |
-| 2026-03-09 | Agent 4 | `ai-in-agriculture.mdx` | sourceUrl 404 — completely fabricated URL | Fixed by Agent 1 |
-| 2026-03-09 | Agent 4 | `ai-in-agriculture.mdx` | "HarvestMAX" — fabricated company name | Replaced with verified "Apollo Agriculture" by Agent 1 |
-| 2026-03-09 | Agent 4 | `ai-in-global-south.mdx` | sourceUrl 404 — fabricated URL, wrong topic | Fixed by Agent 1 |
-| 2026-03-09 | Agent 4 | Multiple research files | Fabricated keyword difficulty scores and search volumes | Flagged — files annotated as "Estimated, no tool data" |
-| 2026-03-09 | Agent 4 | `seo-aeo-standing-deep-dive-2026.md` | Self-assessed technical SEO as 9.5/10 (actual ~7.5/10) | Flagged — inflated self-score documented |
-
----
-
-*This document is the law. No deadline, no "move fast," no "it's close enough" overrides it. Quality is the product. Fabrication destroys it.*
+Use real Search Console data when accessible, with property, period and filters recorded. Unknown metrics remain unknown. No fixed word count, article count or self-assigned SEO score establishes readiness. The older policy and incident record are preserved in [editorial-integrity-history.md](editorial-integrity-history.md) as history; this policy governs current work.

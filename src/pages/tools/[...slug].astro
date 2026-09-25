@@ -69,7 +69,7 @@ for (const heading of headings) {
   type="article"
   publishedDate={entry.data.publishedDate.toISOString()}
   updatedDate={entry.data.updatedDate?.toISOString()}
-  monetize={true}
+  monetize={false}
   noindex={shouldNoindexPath(Astro.url.pathname)}
 >
   <ArticleSchema

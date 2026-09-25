@@ -107,7 +107,7 @@ const entries = (await getCollection('guides', ({ data }) => isPublishedGuide(da
                   subtitle={categoryLabels[entry.data.category] ?? entry.data.category}
                   category={entry.data.category}
                   variant="guide"
-                  badge={formatInfo.label}
+                  badge={entry.data.historical ? 'Historical briefing' : formatInfo.label}
                   compact={true}
                   layout={index % 2 === 0 ? 'panel' : 'frame'}
                   showTitle={false}

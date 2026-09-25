@@ -49,6 +49,8 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
 
+    {siteConfig.monetization.adsenseClient && <meta name="google-adsense-account" content={siteConfig.monetization.adsenseClient} />}
+
     <!-- Primary Meta -->
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
@@ -143,7 +145,7 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     {siteConfig.analytics.googleSiteVerification && <meta name="google-site-verification" content={siteConfig.analytics.googleSiteVerification} />}
 
     <!-- Google AdSense site verification and ad serving -->
-    {siteConfig.monetization.adsenseClient && monetize && !noindex && (
+    {siteConfig.monetization.adServingEnabled && siteConfig.monetization.adsenseClient && monetize && !noindex && (
       <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteConfig.monetization.adsenseClient}`} crossorigin="anonymous"></script>
     )}
 

@@ -56,22 +56,19 @@ The practical opportunity is to ask a business question and inspect the supporti
 
 This article explains the product's documented scope, then gives you a small dataset with an answer you can calculate yourself. The exercise works as an evaluation task for any suitable assistant; it does not require access to a company database.
 
-**What Data connects and produces**
-
+## What Data connects and produces
 OpenAI says Data can create interactive dashboards and work with BI tools including Power BI, Tableau, Sigma and ThoughtSpot. Administrators control available connections and roles; queries respect the connected account's table, row and column permissions. [Documented capabilities and controls](https://openai.com/index/put-data-to-work/)
 
 A semantic layer is a shared description of business meaning: which field represents revenue, which records count as customers, and how datasets relate. In practice, a team might define whether sales include tax, when a cancellation takes effect, and whether a refund belongs to its processing date or the original sale period. Writing those choices down makes disagreement easier to diagnose.
 
 A dashboard can be visually consistent while using the wrong definition. The first useful output is therefore a short statement of the metric, time window, source and exclusions. Build the chart after that statement is clear.
 
-**Availability and setup**
-
+## Availability and setup
 The current Help Center calls the product the **Data plugin** in ChatGPT Work and Codex. Data and the required source plugins/apps must be available to your account or workspace; installation alone does not grant database access. In a managed workspace, an administrator may need to enable connections or configure app templates. To begin, find Data in Plugins, complete the relevant setup, then address a question to `@Data`. [Data setup guidance](https://help.openai.com/en/articles/20001518-using-the-data-plugin-in-chatgpt-work-and-codex)
 
 OpenAI's Work documentation specifies eligible paid plans for web and mobile; desktop access also depends on plan and workspace settings. These sources do not establish a universal Data entitlement for every plan or every free account. Check the actual plugin listing and workspace policy before planning a rollout. [Work availability](https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex)
 
-**A fictional sales exercise**
-
+## A fictional sales exercise
 [Download the synthetic CSV](/assets/data-agent-sales-exercise.csv). It contains seven rows and no real customer information. Amounts are Canadian dollars, before tax. Dates are already normalized calendar dates in one business timezone; there are no timestamp conversions to perform in this exercise.
 
 | Event | Order | Date in September 2026 | Type | Amount CAD |
@@ -96,8 +93,7 @@ These are authored rules for this example, not an accounting standard or a claim
 
 A useful request would be: “Analyze this fictional CSV using the metric contract above. Show included and excluded event IDs, gross sales, refunds, net sales and distinct sale-order count. Explain your calculation before proposing a dashboard. Do not publish or share anything.”
 
-**The calculated answer key**
-
+## The calculated answer key
 | Check | Expected result | Why |
 | --- | ---: | --- |
 | Raw rows | 7 | Includes the duplicate and the out-of-period sale. |
@@ -112,22 +108,19 @@ The statement you want is precise: “For September 1–7, after removing one ex
 
 Now inspect the denominator. Gross sales per sale order are CAD 450 divided by 3, or CAD 150. Net sales divided by those same three orders are approximately CAD 126.67. The second ratio includes a refund for O0, whose original sale is outside the supplied period. Calling it simply “average order value” would hide that mismatch. Label the ratio explicitly or obtain the information needed for the team's preferred definition.
 
-**Use wrong answers to locate the problem**
-
+## Use wrong answers to locate the problem
 The following are deliberately constructed errors, not outputs observed from the Data agent. With all other rules applied correctly, forgetting to remove duplicate E2 produces CAD 580 net sales. Including September 8's E5 produces CAD 680. Dropping the older-order refund E6 produces CAD 400. Those differences point to specific checks rather than a vague request to “be more accurate.”
 
 A production source may contain conflicting versions of an event, not exact duplicates. In that situation, do not arbitrarily keep the first row. Ask which timestamp or source is authoritative, preserve the conflict, and recalculate after the rule is settled.
 
 For a second exercise, extend the window through September 8. The correct results become CAD 750 gross sales, CAD 70 refunds, CAD 680 net sales and four distinct sale orders. Changing a date filter should update the metric label, totals and denominator together.
 
-**What a checkable dashboard should show**
-
+## What a checkable dashboard should show
 For this example, a proposed dashboard would show three separate cards: gross sales CAD 450, refunds CAD 70 and net sales CAD 380. A subtitle would state the inclusive date window and currency. An evidence table would retain the five included unique events, while a short note would explain the duplicate and excluded September 8 sale.
 
 This is a proposed design, not a Data screenshot. Its value is that another person can reproduce the result. A refresh should also identify when the underlying data was read and whether the definition changed. When a figure differs from an existing report, compare the inputs and rules before debating the visual presentation. Our guide to [verifying an AI answer](/guides/how-to-verify-an-ai-answer/) develops that source-checking habit.
 
-**Sharing changes the audience**
-
+## Sharing changes the audience
 OpenAI's Data guidance says that analysis data is copied into a published Site. It also distinguishes source access from plugin installation and says connected actions depend on permissions and approval requirements. Query permissions therefore should not be treated as proof that every intended dashboard recipient may see the exported analysis. [Publishing and access guidance](https://help.openai.com/en/articles/20001518-using-the-data-plugin-in-chatgpt-work-and-codex)
 
 For a real team, inspect the actual dashboard contents and recipient list before sharing. Consider whether detailed rows are necessary or whether aggregate figures are enough for the intended audience. A person authorized to read a database may be producing an artifact for a different group.

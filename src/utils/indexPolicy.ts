@@ -39,6 +39,8 @@ const COMPARISON_BUILD_PATHS = new Set([
 const INDEXABLE_COMPARISON_PATHS = new Set<string>();
 
 const NOINDEX_EXACT_PATHS = new Set([
+  '/guides/grok-imagine-vs-midjourney-vs-flux-vs-dall-e-which-image-tool-wins-in-2026/',
+  '/guides/sora-vs-runway-vs-pika-vs-kling-the-ai-video-generator-comparison-that-matters/',
   '/changes/',
   '/creators/',
   '/download/',

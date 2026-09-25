@@ -125,7 +125,7 @@ export function normalizeGuidePublication(data: PublicationGuideData) {
   return {
     status: data.publication?.status ?? (isLegacyDraft ? 'draft' : 'published'),
     index: data.publication?.index ?? !isLegacyDraft,
-    monetize: data.publication?.monetize ?? !isLegacyDraft,
+    monetize: data.publication?.monetize ?? false,
   };
 }
 
