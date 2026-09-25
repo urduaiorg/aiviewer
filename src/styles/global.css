@@ -395,7 +395,7 @@
     z-index: 60;
     transform-origin: left;
     transform: scaleX(0);
-    background: linear-gradient(90deg, #4F46E5, #818CF8);
+    background: linear-gradient(90deg, #a26b00, #f5c75f);
     transition: opacity 0.4s ease;
     pointer-events: none;
   }

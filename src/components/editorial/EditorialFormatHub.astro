@@ -104,6 +104,7 @@ const entries = (await getCollection('guides', ({ data }) => isPublishedGuide(da
               <div class="border-b border-zinc-200 dark:border-zinc-800">
                 <EditorialCover
                   title={entry.data.title}
+                  image={entry.data.coverImage}
                   subtitle={categoryLabels[entry.data.category] ?? entry.data.category}
                   category={entry.data.category}
                   variant="guide"

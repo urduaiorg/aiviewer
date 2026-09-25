@@ -1,27 +1,5 @@
 [
   {
-    "asset": "/images/editorial/ai-basics-models-assistants-agents.webp",
-    "page": "/guides/ai-basics-models-assistants-agents/",
-    "altText": "AI-generated editorial illustration of two learners arranging study cards beside a notebook and laptop",
-    "width": 1600,
-    "height": 901,
-    "createdAt": "2026-07-25",
-    "workflow": "Imagin prompt workflow",
-    "renderer": "OpenAI built-in image generation",
-    "model": "Not exposed by the built-in generation tool",
-    "prompt": "Create an original cinematic South Asian documentary photograph of two young adult Pakistani learners at a worn wooden reading table in a modest sunlit library corner, quietly organizing three blank cream index cards beside an open notebook and an unbranded laptop as a visual metaphor for understanding AI models, assistants, and agents. Express the idea through their hands: one hand arranges the three cards into a simple sequence while the other rests beside a pencil and points gently toward the notebook; faces remain secondary, partly cropped and seen from an over-the-shoulder angle. Dress them in understated lived-in cotton shalwar kameez and a neutral kurta in dusty blue, warm cream, olive, and muted brown. Frame the scene asymmetrically with a close 35mm documentary perspective, partial-body crop, foreground books softly out of focus, layered depth, and useful breathing room without making it look staged. Let diffused late-afternoon window light enter from the side, producing soft shadows, creamy highlights, and a calm thoughtful atmosphere. Use warm natural skin tones, faded blues, olive greens, beige, warm wood, delicate analog grain, mild halation, slightly lifted blacks, restrained contrast, realistic hands, and the texture of scanned 35mm film. Make the moment private, culturally authentic, educational, unposed, and quietly observed rather than performed. This is clearly an editorial illustration, not a photograph of a documented real event. Exclude all visible text, Urdu text, legible writing, logos, brand marks, watermarks, recognizable software interfaces, screens with readable content, public figures, direct camera posing, exaggerated smiles, glossy commercial fashion, artificial-looking skin, oversaturated color, harsh flash, neon lighting, plastic textures, distorted hands, extra fingers, duplicate limbs, awkward anatomy, fake embroidery, cluttered backgrounds, wedding styling, hyper-real HDR, generic stock-photo composition, and any implication of scientific evidence. Aspect ratio 16:9.",
-    "materialEdits": [
-      "Resized to 1600 by 901 pixels",
-      "Converted from PNG to WebP at quality 82"
-    ],
-    "disclosure": "AI-generated editorial illustration; not evidence of a real event",
-    "reviewNotes": [
-      "No visible text, logos, watermarks, product interface, public figure, or documentary claim",
-      "Hands and anatomy visually inspected before publication",
-      "Alt text must describe the illustrative learning scene without presenting it as a documented event"
-    ]
-  },
-  {
     "asset": "/images/editorial/gemini-claude-meta-models-2026.webp",
     "page": "/guides/gemini-3-8-flash-claude-fable-5-1-meta-muse-spark-1-3/",
     "altText": "Abstract editorial illustration of three luminous computational systems converging on a shared agent workspace",
@@ -42,5 +20,97 @@
       "Three abstract systems are balanced around one focal point and do not imply a benchmark winner",
       "Alt text describes the conceptual scene without assigning the forms to specific providers"
     ]
+  },
+  {
+    "asset": "/images/editorial/ai-basics-cover-v2.webp",
+    "socialAsset": "/images/editorial/ai-basics-cover-v2-social.webp",
+    "page": "/guides/ai-basics-models-assistants-agents/",
+    "altText": "AI-generated editorial illustration: three amber cubes show a model alone, inside a conversation frame, and connected to a loop of tool blocks.",
+    "width": 1600,
+    "height": 900,
+    "createdAt": "2026-09-25",
+    "workflow": "AIViewer article-cover policy; original amber branding",
+    "renderer": "OpenAI built-in image generation",
+    "model": "Not exposed by the built-in generation tool",
+    "prompt": "Use case: stylized-concept\nAsset type: standalone AIViewer educational article cover, wide 16:9 landscape, ideally 2400 pixels wide or larger.\nArticle: AI Basics: Models, Assistants, and Agents Explained. A model maps inputs to outputs; an assistant adds a product interface and context; an agent adds tools and repeated goal-directed actions.\nVisual thesis: show the same amber model core alone, within an assistant interface, and within a bounded tool-action system.\nScene: refined tactile tabletop editorial still life against a warm ivory seamless studio background. Across the central horizontal band, three clear sculptural groups with generous breathing space. Left: one small amber cube with softly rounded edges on a slim ivory paper plinth. Center: an identical amber cube sitting inside a sculptural thick ivory conversation-bubble frame, open interior, a small tail cut into the frame. Right: another matching ivory conversation frame containing the same amber cube, connected by a restrained thin curved sage cord to two small sage cuboid tool blocks, arranged in a compact oval loop on the tabletop. The right group is clearly bounded and modest, not magical or infinitely capable. The shapes are real crafted physical editorial props, not an app UI or a technical engineering diagram. No arrowheads needed.\nStyle: sophisticated art-directed studio photography of hand-built paper/plaster objects, slight organic surface texture, crisp object edges, believable contact shadows, restrained quiet elegance. More adult editorial publication than toy illustration. All three groups equally readable at small size.\nComposition: wide 16:9, calm eye-level three-quarter view, all meaningful objects within central 80 percent width and central 65 percent height, generous empty ivory margins above and below for safe crops. Nothing cropped at edges.\nLighting: soft window light from upper left, warm pale shadows, pleasing neutral whites, tactile amber surfaces. Palette: warm ivory, AIViewer amber inspired by #D88A00, soft gold inspired by #F0C75E, very restrained muted sage, no violet or neon.\nText: none. No logos, no watermarks, no screens, no faces, no robot, no brain, no decorative sparkles, no checkmarks, no fake results. This is an illustration of distinct system layers, not a claim of guaranteed correctness or a literal computational architecture.\n\n\nEdit this editorial illustration only to improve crop safety. Preserve the three groups, amber cubes, ivory conversation frames, sage tool loop, warm studio lighting and all material quality. Make the entire ensemble about 18 percent smaller relative to the canvas, keeping it centered as one row. Add generous matching empty ivory studio background on BOTH left and right: every object must end within the central 78 percent of the image width, with at least 11 percent empty margin on each side. Preserve 16:9 landscape. No new objects, no text, no logos. Do not change the explanation or geometry, only pull camera back for more breathing room.\n",
+    "materialEdits": [
+      "Resized and compressed to 1600x900 WebP; 800x450 card and 1200x630 social exports"
+    ],
+    "disclosure": "AI-generated editorial illustration.",
+    "reviewNotes": [
+      "AI visual inspection and crop checks completed; not human editorial review"
+    ],
+    "humanReviewer": null,
+    "humanReviewedAt": null
+  },
+  {
+    "asset": "/images/editorial/verify-ai-answer-v2.webp",
+    "socialAsset": "/images/editorial/verify-ai-answer-v2-social.webp",
+    "page": "/guides/how-to-verify-an-ai-answer/",
+    "altText": "AI-generated editorial illustration: a learner compares a printed source with notebook notes beside a laptop in warm window light.",
+    "width": 1600,
+    "height": 900,
+    "createdAt": "2026-09-25",
+    "workflow": "AIViewer article-cover policy; original amber branding",
+    "renderer": "OpenAI built-in image generation",
+    "model": "Not exposed by the built-in generation tool",
+    "prompt": "# Verification cover v2\n\n## Concepts\n\n1. Learner comparing a printed source with notes beside a laptop: directly communicates careful source verification with a believable person.\n2. Overhead claim ledger, pencil and printed source: task-specific but loses the requested human connection.\n3. Learner pausing between two open reference books: warm and approachable, but less precise about documenting claims.\n\nSelected concept 1 for article relevance and a clear human action at thumbnail size.\n\n## Exact built-in imagegen prompt\n\nUse case: photorealistic-natural\nAsset type: AIViewer editorial article cover, 16:9 landscape, preferably 2400 pixels wide or larger.\nArticle: How to Verify an AI Answer: A Practical Workflow.\nReader task: Trace an AI-generated assertion to an original source, compare wording, and record uncertainty.\nVisual thesis: Verification is careful human comparison of a source and notes, not accepting a fluent answer.\nScene: A modest, beautiful sunlit home study with warm ivory plaster and pale oak desk. One fictional adult learner, a woman in her thirties in a plain cream shirt, sits studying a printed source sheet beside an open notebook and a laptop. She looks down with natural, relaxed concentration. One hand gently anchors the printed page; the other holds a simple pencil poised above her notebook. Laptop at frame edge with its unbranded back toward camera; do not show a readable screen. Short paragraph shapes on paper softly out of focus and too small to read, no invented data or visible claims.\nComposition: Authentic candid editorial photography, waist-up three-quarter view, one person only. Face and both working hands, source sheet and notebook form a clear central triangle entirely within central 80 percent; generous space around head and hands for 16:9, 16:10 and 2:1 crops. Natural facial features and skin texture, anatomically convincing hands and contact with paper. Quiet human moment, no camera-facing smile, no fashion pose.\nLighting: Soft warm window light from left, coherent subtle shadows, realistic depth of field, tactile paper and linen, understated amber notebook edge, desaturated natural skin and wood tones, warm-white dominant palette.\nText: None. No titles, signatures, marks, watermarks, badges, logos or readable interfaces.\nFactual constraints: A fictional generated learner, not a real researcher, testimonial, company employee or documented event. No verification checkmark or implication that a specific claim has passed.\nAvoid: Plastic skin, airbrushing, extra fingers, exaggerated gestures, neon circuitry, robots, floating UI, magnifying glasses, dramatic luxury offices or stock-photo smiles.\n",
+    "materialEdits": [
+      "Resized and compressed to 1600x900 WebP; 800x450 card and 1200x630 social exports"
+    ],
+    "disclosure": "AI-generated editorial illustration featuring a fictional learner; not a photograph of an actual person or event.",
+    "reviewNotes": [
+      "AI visual inspection and crop checks completed; not human editorial review"
+    ],
+    "humanReviewer": null,
+    "humanReviewedAt": null
+  },
+  {
+    "asset": "/images/editorial/gemini-workspace-cover-v2.webp",
+    "socialAsset": "/images/editorial/gemini-workspace-cover-v2-social.webp",
+    "page": "/guides/gemini-workspace-cross-app-actions-explained/",
+    "altText": "AI-generated editorial illustration: four paper message cards arranged beside a structured draft and pencil, with the official Google Workspace wordmark.",
+    "width": 1600,
+    "height": 900,
+    "createdAt": "2026-09-25",
+    "workflow": "AIViewer article-cover policy; original amber branding",
+    "renderer": "OpenAI built-in image generation",
+    "model": "Not exposed by the built-in generation tool",
+    "prompt": "# Gemini Workspace cover v2\n\nAudience: Learners exploring cross-app drafting and the need to preserve source meaning and review actions.\n\nConcepts:\n1. Tangible message cards arranged toward a project brief with pencil: shows the article's email-to-brief exercise and ongoing review.\n2. Five paper formats in a ring: suggests cross-app possibilities but too broad at thumbnail size.\n3. Desk with laptop and open documents: familiar, but too generic and risks invented interface details.\n\nSelected 1 for specificity, clarity and warm visual family. Authentic official wordmark will be composited separately; no AIViewer logo is regenerated.\n\n## Exact prompt\n\nUse case: photorealistic-natural\nAsset type: AIViewer article cover, landscape 16:9 studio editorial still life.\nArticle: Gemini's New Workspace Actions: Five Workflows Across Gmail, Docs and Sheets.\nVisual thesis: Many messages become a structured draft for review while source material remains available.\nScene: Beautiful tangible paper sculpture photographed on a warm ivory seamless studio surface. At lower left and center, four slightly overlapping thick cream paper message cards, each with a small embossed envelope outline and two shallow blank horizontal grooves (no text). Their edges lead toward a single upright-leaning ivory project-brief sheet on the right with three restrained horizontal section shapes and a small amber paper tab. A real graphite pencil rests beside the brief to suggest human review. No arrows, no checkmarks, no dashboard or product interface. Everything physically resting on the surface with convincing contact shadows.\nComposition: One clear left-to-right visual story, modestly elevated three-quarter view. Keep all significant objects inside the central 80%, generous margins; group occupies lower two-thirds. Entire upper-left quadrant completely empty ivory for a separately composited official wordmark. Nothing reaches the image edges. Quiet elegant editorial art, approachable learner website.\nPalette: Warm ivory and paper cream, restrained amber #D88A00, ink graphite, faint natural sage supporting tint. Lighting: Soft directional window light, delicate shadows, realistic cotton paper grain and folded edges.\nText and logos: NONE. Do not generate company logos, lettering, readable writing, watermarks or badges. Authentic Google Workspace wordmark will be added separately.\nFactual constraints: Conceptual editorial illustration only, not product screenshot, no claim of speed, correctness or automatic approval. No people. Avoid floating objects, neon, robots, glass spheres, glossy plastic, excessive clutter.\n",
+    "materialEdits": [
+      "Resized and compressed to 1600x900 WebP; 800x450 card and 1200x630 social exports",
+      "Authentic Google Workspace SVG proportionally composited, colors and paths unchanged"
+    ],
+    "disclosure": "AI-generated editorial illustration with an authentic Google Workspace wordmark added separately; not a product screenshot. Google Workspace and Gemini are trademarks of Google LLC. AIViewer is not affiliated with or endorsed by Google.",
+    "reviewNotes": [
+      "AI visual inspection and crop checks completed; not human editorial review"
+    ],
+    "humanReviewer": null,
+    "humanReviewedAt": null,
+    "logo": {
+      "company": "Google Workspace",
+      "sourceURL": "https://workspace.google.com/",
+      "sourceLocation": "Inline SVG in TemplateHeader_headerLogo",
+      "retrievedAt": "2026-09-25",
+      "originalPath": "output/imagegen/implementation/gemini/google-workspace-original.svg",
+      "originalSha256": "866b9c9747aa1560bcd114a6ec4947d954a3ebcc547764c33d9bd7fddbcf7eed",
+      "originalDimensions": {
+        "width": 1525,
+        "height": 192
+      },
+      "placement": {
+        "left": 200,
+        "top": 185,
+        "width": 660,
+        "height": 83
+      },
+      "alterations": "Uniform proportional rasterization only; colors and SVG paths unchanged.",
+      "guidelines": [
+        "https://about.google/brand-resource-center/guidance/",
+        "https://partnermarketinghub.withgoogle.com/brands/google/use-cases/books-and-media/"
+      ],
+      "usage": "Independent educational editorial article; identifies subject only. No claimed affiliation or endorsement. Official media guidance calls for attribution and disclaimer in accompanying article.",
+      "attribution": "Google Workspace and Gemini are trademarks of Google LLC. AIViewer is not affiliated with or endorsed by Google."
+    }
   }
 ]

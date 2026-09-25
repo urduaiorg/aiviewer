@@ -1,4 +1,5 @@
 ---
+import '../../styles/learner-article.css';
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/layout/Header.astro';
@@ -85,7 +86,7 @@ for (const heading of headings) {
   title={entry.data.title}
   seoTitle={entry.data.seoTitle}
   description={entry.data.description}
-  ogImage={entry.data.coverImage}
+  ogImage={generatedCoverProvenance?.socialAsset ?? entry.data.coverImage}
   type="article"
   publishedDate={entry.data.publishedDate.toISOString()}
   updatedDate={entry.data.updatedDate?.toISOString()}
@@ -118,20 +119,20 @@ for (const heading of headings) {
     <ReadingProgress />
   </Fragment>
 
-  <div>
+  <div class="learner-article">
     <section class="relative overflow-hidden border-b border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
-      <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,_rgba(240,199,94,0.16),_transparent_40%),linear-gradient(180deg,rgba(79,70,229,0.08),transparent_75%)] dark:bg-[radial-gradient(circle_at_top,_rgba(240,199,94,0.07),_transparent_40%),linear-gradient(180deg,rgba(79,70,229,0.05),transparent_75%)]"></div>
+      <div class="absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,_rgba(240,199,94,0.16),_transparent_40%),linear-gradient(180deg,rgba(216,138,0,0.08),transparent_75%)] dark:bg-[radial-gradient(circle_at_top,_rgba(240,199,94,0.07),_transparent_40%),linear-gradient(180deg,rgba(216,138,0,0.05),transparent_75%)]"></div>
       <div class="page-container relative py-6 md:py-12">
         <Breadcrumbs items={[{ label: formatInfo.pluralLabel, href: formatInfo.href }, { label: entry.data.title }]} />
 
-        <div class="max-w-3xl" data-reveal>
+        <div class="article-opening max-w-3xl" data-reveal>
           <div class="flex flex-wrap items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
-            <span class="rounded-full bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-indigo-600 dark:text-indigo-400">
+            <span class="rounded-full bg-amber-50 dark:bg-amber-900/30 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-amber-800 dark:text-amber-300">
               {formatInfo.label}
             </span>
             <span class="capitalize">{entry.data.category}</span>
-            <a href="/about/" class="font-medium text-zinc-600 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400">AIViewer</a>
-            <a href="/ai-use/" class="text-zinc-500 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400">{entry.data.aiUse.mode === 'ai-generated' ? 'AI-generated article' : 'AI-assisted article'}</a>
+            <a href="/about/" class="font-medium text-zinc-600 dark:text-zinc-300 hover:text-amber-800 dark:hover:text-amber-400">AIViewer</a>
+            <a href="/ai-use/" class="text-zinc-500 dark:text-zinc-400 hover:text-amber-800 dark:hover:text-amber-400">{entry.data.aiUse.mode === 'ai-generated' ? 'AI-generated article' : 'AI-assisted article'}</a>
             <span>{formatDate(entry.data.publishedDate)}</span>
             {entry.data.updatedDate && entry.data.updatedDate.getTime() !== entry.data.publishedDate.getTime() && (
               <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2.5 py-0.5 text-[0.7rem] font-medium text-emerald-700 dark:text-emerald-400">
@@ -149,13 +150,13 @@ for (const heading of headings) {
           <h1 class="mt-5 max-w-3xl text-zinc-950 dark:text-zinc-50">{entry.data.title}</h1>
           <p class="mt-5 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">{entry.data.description}</p>
 
-          <a href="#lesson-content" class="mt-5 inline-block font-semibold text-indigo-700 underline underline-offset-4 dark:text-indigo-300">Read the guide ↓</a>
+          <a href="#lesson-content" class="mt-5 inline-block font-semibold text-amber-700 underline underline-offset-4 dark:text-amber-300">Read the guide ↓</a>
           <div class="mt-5 hidden flex-wrap gap-2 md:flex">
             {entry.data.tags.map((tag) => (
               <span class="rounded-full border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-3 py-1 text-sm text-zinc-600 dark:text-zinc-300">{tag}</span>
             ))}
             {entry.data.relatedPlaybook && !shouldNoindexPath(`/playbooks/${entry.data.relatedPlaybook}/`) && (
-              <a href={`/playbooks/${entry.data.relatedPlaybook}/`} class="rounded-full border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-sm font-medium text-indigo-700 dark:text-indigo-400">
+              <a href={`/playbooks/${entry.data.relatedPlaybook}/`} class="rounded-full border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/30 px-3 py-1 text-sm font-medium text-amber-700 dark:text-amber-300">
                 Related playbook
               </a>
             )}
@@ -169,16 +170,18 @@ for (const heading of headings) {
             <figure class="mt-8 overflow-hidden rounded-[1.5rem] border border-zinc-200 bg-zinc-100 shadow-[var(--shadow-card)] dark:border-zinc-800 dark:bg-zinc-900">
               <img
                 src={entry.data.coverImage}
+                srcset={generatedCoverProvenance.socialAsset ? `${entry.data.coverImage.replace(/\.webp$/, '-800.webp')} 800w, ${entry.data.coverImage} 1600w` : undefined}
+                sizes="(max-width: 768px) 100vw, 768px"
                 alt={generatedCoverProvenance.altText}
                 width={generatedCoverProvenance.width}
                 height={generatedCoverProvenance.height}
                 loading="eager"
                 decoding="async"
                 fetchpriority="high"
-                class="max-h-48 w-full object-cover md:max-h-none"
+                class="article-cover-image w-full object-cover"
               />
               <figcaption class="border-t border-zinc-200 bg-white px-4 py-2 text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
-                {generatedCoverProvenance.disclosure}.
+                {generatedCoverProvenance.disclosure}
               </figcaption>
             </figure>
           )}
@@ -237,17 +240,17 @@ for (const heading of headings) {
       <section class="border-t border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-[var(--color-bg)]">
         <div class="page-container py-12 md:py-16">
           <div class="mb-8" data-reveal>
-            <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-400">Continue reading</p>
+            <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-amber-800 dark:text-amber-300">Continue reading</p>
             <h2 class="mt-2 text-zinc-950 dark:text-zinc-50">More {formatInfo.collectionLabel}.</h2>
           </div>
           <div class="grid gap-5 md:grid-cols-3">
             {relatedEntries.map((candidate) => (
               <a
                 href={`/guides/${candidate.id}/`}
-                class="group rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-indigo-200 hover:shadow-[var(--shadow-card-hover)]"
+                class="group rounded-[var(--radius-lg)] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-[var(--shadow-card)] transition-card hover:border-amber-200 hover:shadow-[var(--shadow-card-hover)]"
               >
                 <p class="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-400">{GUIDE_FORMAT_INFO[candidate.data.format].label}</p>
-                <h3 class="mt-3 text-xl text-zinc-950 dark:text-zinc-50 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{candidate.data.title}</h3>
+                <h3 class="mt-3 text-xl text-zinc-950 dark:text-zinc-50 group-hover:text-amber-800 dark:group-hover:text-amber-400">{candidate.data.title}</h3>
                 <p class="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{candidate.data.description}</p>
               </a>
             ))}

@@ -1,0 +1,25 @@
+/* A quiet, warm reading surface shared by every guide. */
+.learner-article{--color-primary:#895800;--color-primary-hover:#684300;--color-primary-light:#fcf0cd;--color-primary-subtle:#e6cd93;--color-bg:#faf9f6;background:#faf9f6}
+.learner-article>section:first-child{background:#f6f3ec}
+.learner-article .article-opening{max-width:850px;margin-inline:auto}
+.learner-article h1{font-size:clamp(2rem,4vw,3.65rem);line-height:1.08;letter-spacing:-.04em;text-wrap:balance}
+.learner-article .article-opening>p{max-width:65ch;font-size:1.125rem;line-height:1.75}
+.learner-article .article-opening figure{border-radius:14px;box-shadow:none}
+.learner-article .article-cover-image{aspect-ratio:16/9;height:auto}
+.learner-article figcaption{line-height:1.65;padding:14px 18px}
+.learner-article article[data-pagefind-body]{border-radius:16px;box-shadow:none;background:#fffefa}
+.learner-article .article-prose{max-width:66ch;font-size:1.0625rem;line-height:1.85;color:#37362f}
+.learner-article .article-prose h2{margin-top:2.5em;letter-spacing:-.025em;line-height:1.25}
+.learner-article .article-prose h3{line-height:1.4}
+.learner-article .article-prose a,.learner-article .article-prose a:visited{color:#805200;text-decoration-color:#b78b35}
+.learner-article a:focus-visible,.learner-article summary:focus-visible{outline:3px solid #926000;outline-offset:4px}
+.learner-article .toc-text{line-height:1.55}
+.learner-article [data-toc-progress]{background:#b2760b}
+.learner-article .article-opening>a{color:#805200;min-height:44px;padding-block:8px}
+[data-theme="dark"] .learner-article{--color-bg:#191917;background:#191917}
+[data-theme="dark"] .learner-article>section:first-child{background:#23221e}
+[data-theme="dark"] .learner-article article[data-pagefind-body]{background:#22221f}
+[data-theme="dark"] .learner-article .article-prose{color:#ddd8cc}
+[data-theme="dark"] .learner-article .article-prose a,[data-theme="dark"] .learner-article .article-prose a:visited,[data-theme="dark"] .learner-article .article-opening>a{color:#edc875}
+[data-theme="dark"] .learner-article a:focus-visible,[data-theme="dark"] .learner-article summary:focus-visible{outline-color:#edc875}
+@media(max-width:700px){.learner-article article[data-pagefind-body]{padding:24px 18px;border-radius:12px}.learner-article .article-prose{font-size:1rem;line-height:1.8}.learner-article figcaption{font-size:.75rem}}

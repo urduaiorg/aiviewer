@@ -72,3 +72,8 @@ Updated September 24, 2026. Use `historical: true` only for deliberately archive
 Keep `adServingEnabled: false` until account approval, applicable consent coverage and actual manual curation are established. Publication authorization is not human review. Run `npm run build`, `npm run audit:content` and `npm run validate:build`; check the actual desktop/mobile reading and download flows and verify the released deployment. Read the repository's current branch before publishing, preserve parallel changes and never force-push.
 
 Use real Search Console data when accessible, with property, period and filters recorded. Unknown metrics remain unknown. No fixed word count, article count or self-assigned SEO score establishes readiness. The older policy and incident record are preserved in [editorial-integrity-history.md](editorial-integrity-history.md) as history; this policy governs current work.
+
+
+## Article covers
+
+Follow [the article-cover policy](article-cover-policy.md) for generated covers, original company logos, realistic fictional people, source attribution, image exports and quality gates. New cover images must render in the article, cards and social metadata; procedural artwork is only a fallback.

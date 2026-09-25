@@ -101,6 +101,7 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
           <div class="border-b border-zinc-200 dark:border-zinc-800 lg:border-b-0 lg:border-r">
             <EditorialCover
               title={featuredGuide.data.title}
+              image={featuredGuide.data.coverImage}
               subtitle={GUIDE_FORMAT_INFO[featuredGuide.data.format].label}
               category={featuredGuide.data.category}
               variant="guide"
@@ -171,6 +172,7 @@ import NewsletterSignup from '../../components/content/NewsletterSignup.astro';
               <div class="border-b border-zinc-200 dark:border-zinc-800">
                 <EditorialCover
                   title={entry.data.title}
+                  image={entry.data.coverImage}
                   subtitle={entry.data.historical ? 'Historical briefing' : GUIDE_FORMAT_INFO[entry.data.format].label}
                   category={entry.data.category}
                   variant="guide"
