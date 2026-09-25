@@ -33,7 +33,7 @@ const entries = (await getCollection('guides', ({ data }) => isPublishedGuide(da
     entry.data.publication.index &&
     !shouldNoindexPath(`/guides/${entry.id}/`)
   )
-  .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+  .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime() || a.id.localeCompare(b.id, 'en'));
 ---
 
 <BaseLayout title={title} description={description} monetize={false}>

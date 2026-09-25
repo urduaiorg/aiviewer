@@ -22,7 +22,7 @@ const guides = (await getCollection('guides', ({ data }) => isPublishedGuide(dat
     !shouldNoindexPath(`/guides/${entry.id}/`)
   )
   .sort(
-  (a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime()
+  (a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime() || a.id.localeCompare(b.id, 'en')
   );
 
 const featuredGuide = guides.find((entry) => entry.data.featured) ?? guides[0];

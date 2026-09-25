@@ -48,7 +48,7 @@ export async function GET(context: any) {
   ].filter((item) => !shouldNoindexPath(item.link));
 
   // Sort by date descending and limit to 20
-  items.sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
+  items.sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf() || a.link.localeCompare(b.link, 'en'));
   const recentItems = items.slice(0, 20);
 
   return rss({

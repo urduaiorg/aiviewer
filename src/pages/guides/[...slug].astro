@@ -50,7 +50,7 @@ const relatedEntries = (await getCollection('guides', ({ data }) => isPublishedG
     const aFormatMatch = a.data.format === entry.data.format ? 1 : 0;
     const bFormatMatch = b.data.format === entry.data.format ? 1 : 0;
     if (aFormatMatch !== bFormatMatch) return bFormatMatch - aFormatMatch;
-    return b.data.publishedDate.getTime() - a.data.publishedDate.getTime();
+    return b.data.publishedDate.getTime() - a.data.publishedDate.getTime() || a.id.localeCompare(b.id, 'en');
   })
   .slice(0, 3);
 

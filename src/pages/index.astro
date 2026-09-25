@@ -47,7 +47,7 @@ function contentDateLabel(entry: GuideEntry): string {
 const guides = (await getCollection('guides'))
   .filter(({ data }) => isPublishedGuide(data) && data.publication.index && !data.historical)
   .filter((entry) => !shouldNoindexPath(`/guides/${entry.id}/`))
-  .sort((a, b) => contentDate(b).getTime() - contentDate(a).getTime());
+  .sort((a, b) => contentDate(b).getTime() - contentDate(a).getTime() || a.id.localeCompare(b.id, 'en'));
 
 const latestLessons = guides.slice(0, 3);
 const videoLessons = guides
