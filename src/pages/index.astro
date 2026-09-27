@@ -13,6 +13,10 @@ import '../styles/learner-home.css';
 
 const guides = (await getCollection('guides', ({ data }) => isPublishedGuide(data)))
   .filter((entry) => entry.data.publication.index && !entry.data.historical && !shouldNoindexPath(`/guides/${entry.id}/`));
+const latest = [...guides]
+  .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf() || a.id.localeCompare(b.id, 'en'))
+  .slice(0, 3);
+const publicationDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeZone: 'UTC' });
 const selected = [
   { id: 'ai-basics-models-assistants-agents', label: 'The basics', outcome: 'Tell models, assistants and agents apart—and know when each is useful.', title: 'AI models, assistants and agents—explained' },
   { id: 'how-to-verify-an-ai-answer', label: 'Practical skills', outcome: 'Turn a confident answer into claims you can check against original sources.', title: 'How to check an AI answer' },
@@ -55,6 +59,29 @@ const principles = [
         </figure>
       </div>
     </section>
+    {latest.length > 0 && (
+      <section class="learn-shell learn-lessons" aria-labelledby="latest-title">
+        <div class="learn-section-heading">
+          <div><h2 id="latest-title">Latest articles</h2><p>New lessons and explanations to explore.</p></div>
+          <a class="learn-text-link" href="/guides/">Browse all articles <ArrowUpRight size={18} aria-hidden="true" /></a>
+        </div>
+        <div class="learn-lessons__grid">
+          {latest.map((entry) => (
+            <article class="learn-card">
+              <a href={`/guides/${entry.id}/`} class="learn-card__link" aria-labelledby={`latest-${entry.id}`}>
+                <div class="learn-card__image"><EditorialCover image={entry.data.coverImage} title={entry.data.title} category={entry.data.category} compact={true} showTitle={false} badge="" /></div>
+                <div class="learn-card__copy">
+                  <p class="learn-category"><time datetime={entry.data.publishedDate.toISOString()}>{publicationDate.format(entry.data.publishedDate)}</time></p>
+                  <h3 id={`latest-${entry.id}`}>{entry.data.title}</h3>
+                  <p class="learn-card__outcome">{entry.data.description}</p>
+                  <p class="learn-card__meta">{getReadingTime(entry.body ?? '')}<ArrowUpRight size={18} aria-hidden="true" /></p>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
     <section class="learn-shell learn-paths" aria-labelledby="paths-title">
       <h2 id="paths-title">What would you like to learn?</h2>
       <div class="learn-paths__grid">

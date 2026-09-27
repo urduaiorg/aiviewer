@@ -1,5 +1,7 @@
 # AIViewer editorial policy
 
+Publication verification includes opening the live homepage and confirming that the newest eligible article appears first under **Latest articles**, with its cover, date and working link. The handpicked starter lessons serve a separate purpose and do not establish new-article visibility.
+
 Adopted September 9, 2026. Apply when researching, drafting, materially updating, curating or publishing AIViewer content. Follow the current user's scope and authorization.
 
 ## Editorial purpose
