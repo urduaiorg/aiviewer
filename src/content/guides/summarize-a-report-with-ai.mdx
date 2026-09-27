@@ -1,0 +1,158 @@
+---
+title: "How to Summarize a Report with AI Without Changing the Facts"
+seoTitle: "How to Summarize a Report with AI and Check the Facts"
+description: "Practice with a complete sample report, catch errors in a flawed summary, check the numbers, and reuse a source-checking worksheet."
+category: "research"
+publishedDate: "2026-09-27"
+coverImage: "/images/editorial/report-summary-cover-v1.webp"
+ogImage: "/images/editorial/report-summary-cover-v1-social.webp"
+tags: ["AI summaries", "report writing", "verification", "AI literacy"]
+featured: false
+draft: false
+format: "practical-workflow"
+publication:
+  status: "published"
+  index: true
+  monetize: false
+factCheckedAt: "2026-09-27"
+reviewDueAt: "2027-03-27"
+evidence:
+  mode: "primary-sources"
+  sources:
+    - title: "Generative Artificial Intelligence Profile, section 2.2 and MS-2.5-003"
+      url: "https://doi.org/10.6028/NIST.AI.600-1"
+      publisher: "National Institute of Standards and Technology"
+      kind: "primary"
+      publishedAt: "2024-07-26"
+      checkedAt: "2026-09-27"
+      note: "Supports the risk of confidently wrong content and fabricated citations, and the value of reviewing sources. The exercise and worksheet are AIViewer's teaching material."
+  limitations:
+    - "The report, flawed summary, and corrected summary are fictional teaching examples created for this lesson. They are not outputs from a comparative product test."
+    - "Checking against a report establishes fidelity to that report, not that its underlying data is true."
+    - "No model-specific accuracy rate, time saving, or human editorial review is claimed."
+aiUse:
+  mode: "ai-generated"
+  tasks: ["research", "source-review", "drafting", "editing"]
+  disclosure: "This lesson and its fictional exercises were created and checked by AI. No human editorial review or independent product test is claimed."
+lensSummary: "A reliable summary preserves the report's numbers, scope, uncertainty, and decision status. Trace each important sentence to the source before sharing it."
+originalContribution: "A complete fictional library report, deliberately flawed summary, corrected summary, source-by-source evidence table, seven checked calculations and a reusable report-summary worksheet. No comparative product test is claimed."
+learningOutcome: "Check a report summary against its source, correct denominators and unsupported conclusions, and write a concise summary with an evidence trail."
+nextAction: "Read the five-part sample report, identify the errors in the summary, and check your reasoning against the completed evidence table."
+---
+
+**To summarize a report with AI, give it the source and a clear purpose, ask it to preserve important numbers and qualifications, then check each consequential sentence against the original.** Recalculate totals and percentages yourself. A shorter report should not become a stronger claim.
+
+This lesson gives you a complete practice example. You can do the checking exercise without an AI account. If you have an approved AI assistant, you can also paste in the fictional report and compare its response with the answer key.
+
+## Read the source before judging the summary
+
+The following report is **fictional teaching material**. All people, activities, and figures are invented for this exercise. The flawed and corrected summaries below were also written for teaching; they are not results of a product test.
+
+### Sample report: community reading pilot
+
+**[S1] Participation.** A library ran four reading workshops. There were 120 registered residents. Of these, 96 attended at least one workshop. The library defined completion as attending at least three workshops; 72 residents completed the pilot.
+
+**[S2] Spending.** The approved budget was CA$1,800. Actual spending was CA$1,440, including materials and refreshments. These figures exclude volunteer time.
+
+**[S3] Feedback.** A survey was sent to all 72 completers. There were 54 responses: 46 respondents said the workshops were useful and eight said they were not. Non-completers were not surveyed. The pilot did not measure changes in reading ability.
+
+**[S4] Future timing.** Twelve survey respondents requested an evening workshop series. Evening volunteer availability has not been confirmed.
+
+**[S5] Recommendation.** The report recommends considering a second pilot, subject to the volunteer coordinator's sign-off. No decision to run a second pilot has been made.
+
+The labels make the evidence easy to locate. With a real report, use page numbers, section headings, or table identifiers. Keep a copy of the source version you used.
+
+## Set the purpose and the boundaries
+
+A summary for a volunteer coordinator should preserve the participation result, spending, feedback limits, and the unresolved decision. A social caption might use fewer figures, but it still cannot turn a suggestion into an approval.
+
+Try this prompt with the sample report:
+
+```text
+Summarize the report below for a volunteer coordinator deciding what
+to discuss next. Use only this report. Write no more than 140 words.
+
+Preserve the main participation figures, actual spending, the survey's
+respondent group, important limitations, and the status of the next pilot.
+Do not invent benefits, approvals, owners, or dates.
+
+After the summary, list each numerical or decision-related claim with
+its supporting source label. Show denominators for any percentages
+you calculate. Mark information that is not stated as unknown.
+
+[Paste the report here.]
+```
+
+The purpose and required details tell the assistant what the summary must preserve. Source labels make its proposed evidence trail easier to inspect. Neither the prompt nor the trail guarantees a correct answer.
+
+For real documents, use material you are permitted to process in your chosen service. Start with this fictional example if you are learning the workflow. Before checking a long or scanned report, confirm that the text, tables, and notes were actually available to the assistant; an unreadable section is a gap, not permission to fill it in.
+
+## Spot the errors in this summary
+
+Here is a **deliberately flawed teaching example**:
+
+> The library helped 120 residents complete its reading programme at a cost of CA$12 per completer. Some 85% of participants found it useful. An evening series has been approved because the programme improved reading ability.
+
+Read it against the source before continuing. The language is confident and the arithmetic looks plausible. Which statements would mislead the coordinator?
+
+NIST's [Generative AI Profile, section 2.2](https://doi.org/10.6028/NIST.AI.600-1) describes how generated content can confidently present errors and misleading citations. That is the general risk behind this exercise; this example does not measure how often a particular assistant makes these mistakes.
+
+## Check the claims one by one
+
+| Claim in the flawed summary | Source check | Correct treatment |
+|---|---|---|
+| 120 residents completed | S1 says 120 registered; 72 completed | Preserve the distinction between registration, attendance, and completion. |
+| CA$12 per completer | S2 spending divided by S1 completers is 1,440 ÷ 72 | CA$20 per completer, excluding volunteer time. CA$12 is per registered resident. |
+| 85% of participants found it useful | S3 says 46 of 54 survey respondents; only completers were surveyed | About 85% of respondents, not all participants. Prefer the counts when space permits. |
+| An evening series is approved | S4 records requests; S5 says there is no decision | Evening timing was requested; availability and approval remain unresolved. |
+| The programme improved reading ability | S3 explicitly says this was not measured | Remove the claim. Satisfaction is not a reading-ability result. |
+
+These checks are independent of the assistant's tone. You do not need another model to verify 1,440 ÷ 72. You need the correct denominator and a calculator.
+
+There is also an omission: any cost figure needs the qualification that volunteer time was excluded. A summary can contain individually correct numbers and still lose an important limit.
+
+### Keep the denominator attached
+
+Several percentages can be calculated from S1. Each answers a different question:
+
+- Attendance among registered residents: 96 ÷ 120 × 100 = **80%**.
+- Completion among registered residents: 72 ÷ 120 × 100 = **60%**.
+- Completion among people who attended: 72 ÷ 96 × 100 = **75%**.
+
+Writing only “the completion rate was 60%” leaves the reader to guess the denominator. Writing “72 of the 120 registered residents completed” makes the meaning visible.
+
+## A corrected summary
+
+> Of 120 registered residents, 96 attended at least one workshop and 72 completed at least three. Spending was CA$1,440 against a CA$1,800 budget, or CA$20 per completer, excluding volunteer time. Among 54 survey respondents—all completers—46 found the workshops useful. Non-completers were not surveyed, and reading improvement was not measured. Twelve respondents requested evening sessions, but volunteer availability is unconfirmed. A second pilot is recommended for consideration, subject to coordinator sign-off; no decision has been made.
+
+Participation comes from S1, spending from S2, feedback and its limits from S3, timing from S4, and decision status from S5. The per-completer cost is a calculation using S1 and S2.
+
+This summary stays faithful to the fictional report. That does not establish that a real report's attendance register or survey data is accurate. For an important decision, checking the underlying records may be a separate task.
+
+## Use this worksheet with your own report
+
+Copy the table into your notes, or <a href="/assets/report-summary-worksheet.md" download>download the report-summary worksheet (Markdown)</a>. Fill it before sharing a summary that other people will rely on.
+
+| Summary claim | Source page or section | Exact supporting fact | Calculation or qualification | Keep, correct, or unresolved? |
+|---|---|---|---|---|
+| Main result | | | | |
+| Key number | | | | |
+| Cost or resource use | | | | |
+| Limitation | | | | |
+| Decision or next action | | | | |
+
+Then read the summary once more as a whole. Does it answer the intended reader's question? Did compression hide a condition? Are recommendations still described as recommendations? Is there a missing detail that would change the decision?
+
+Source checking needs actual inspection. NIST's suggested action MS-2.5-003 calls for reviewing sources and citations in generated outputs. This worksheet is AIViewer's practical teaching approach, not an official NIST template or certification.
+
+## Try one final check
+
+Consider this sentence:
+
+> Sixty percent of attendees completed the pilot, and the library spent 80% of its approved budget.
+
+One part is wrong. Work it out before reading the answer.
+
+**Answer:** 72 of 96 attendees completed, so the first percentage is **75%**. The 60% figure applies to all 120 registered residents. The spending statement is correct: 1,440 ÷ 1,800 × 100 = **80%**. One correct number does not verify the whole sentence.
+
+For a broader process covering external sources and quotations, continue with [how to verify an AI answer](/guides/how-to-verify-an-ai-answer/). For the difference between the model producing text and the assistant providing tools, read [AI basics: models, assistants, and agents](/guides/ai-basics-models-assistants-agents/).

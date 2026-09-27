@@ -112,5 +112,27 @@
       "usage": "Independent educational editorial article; identifies subject only. No claimed affiliation or endorsement. Official media guidance calls for attribution and disclaimer in accompanying article.",
       "attribution": "Google Workspace and Gemini are trademarks of Google LLC. AIViewer is not affiliated with or endorsed by Google."
     }
+  },
+  {
+    "asset": "/images/editorial/report-summary-cover-v1.webp",
+    "socialAsset": "/images/editorial/report-summary-cover-v1-social.webp",
+    "page": "/guides/summarize-a-report-with-ai/",
+    "altText": "AI-generated editorial illustration: a longer report and a shorter summary share three amber evidence tabs beside a pencil.",
+    "width": 1600,
+    "height": 900,
+    "createdAt": "2026-09-27",
+    "workflow": "AIViewer article-cover policy",
+    "renderer": "OpenAI built-in image generation",
+    "model": "Not exposed by the built-in generation tool",
+    "prompt": "Use case: stylized-concept\nAsset type: original AIViewer editorial article cover, wide landscape 16:9, ideally 2400x1350 or greater.\nArticle: How to Summarize a Report with AI Without Changing the Facts. The reader practices preserving numbers, qualifications and decision status while condensing a source report.\nVisual thesis: a long source report becomes a shorter summary while matching evidence remains visibly traceable.\nScene: beautifully art-directed physical paper still life on a warm ivory tabletop, viewed from a calm high three-quarter angle. On the left a modest stack of three off-white report sheets, the top sheet showing several restrained charcoal line groups. On the right a single smaller summary sheet showing three shorter charcoal line groups. Three small amber rectangular tabs mark selected source lines; three matching amber tabs mark the corresponding summary groups. A single matte amber pencil lies diagonally in the lower central gap as a sign of review. All paper rests naturally on the table, nothing floating. Text is represented only by short abstract lines; no readable words, numbers, claims, logos, checkmarks or UI. Keep the two paper groups clearly distinct with breathing space.\nStyle: refined tactile editorial studio photograph of handcrafted paper props, subtle paper grain, coherent soft shadows, realistic folded page edges, understated and credible. Palette warm ivory, near-black charcoal and AIViewer amber #D88A00 / soft gold #F0C75E. Soft natural light from upper left. One focused visual relationship, no extra ornament.\nComposition: broad landscape, the complete ensemble within central 75 percent width and central 60 percent height so 2:1 and 16:10 crops preserve the source, summary and tabs. Generous warm ivory border on all sides. No people, robot, brain, magnifying glass, charts, trophy, stamps, branding, watermark or headline. Symbolic illustration only; no implied proof of correctness.\n",
+    "materialEdits": [
+      "Resized and compressed to 1600x900 WebP; 800x450 card and 1200x630 social exports"
+    ],
+    "disclosure": "AI-generated editorial illustration; symbolic report and summary, not a product screenshot or evidence of a tested output.",
+    "reviewNotes": [
+      "AI visual inspection: clear source-to-summary relationship, matching evidence tabs, no readable invented figures or branding. Human review not claimed."
+    ],
+    "humanReviewer": null,
+    "humanReviewedAt": null
   }
 ]
