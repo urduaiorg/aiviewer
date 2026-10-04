@@ -1,13 +1,14 @@
 ---
 title: "Gemini 3.8 Flash, Claude Fable 5.1 and Meta Muse Spark 1.3: What Actually Changed"
 seoTitle: "Gemini 3.8 vs Claude 5.1 vs Meta Muse Spark 1.3"
-description: "Google, Anthropic and Meta released new agentic AI models this week. Compare access, cost signals, safeguards and the practical differences."
+description: "A dated briefing on the September 1–2, 2026 model releases, with an October 4 correction to Meta Muse Spark 1.3 reasoning availability."
 category: "technology"
 publishedDate: 2026-09-03
-updatedDate: 2026-09-03
+updatedDate: 2026-10-04
 coverImage: "/images/editorial/gemini-claude-meta-models-2026.webp"
 tags: ["gemini 3.8", "claude fable 5.1", "claude mythos 5.1", "muse spark 1.3", "meta ai", "ai models", "coding agents"]
-featured: true
+featured: false
+historical: true
 draft: false
 format: "ai-signal"
 publication:
@@ -51,7 +52,7 @@ evidence:
       publisher: "Meta Superintelligence Labs"
       kind: "primary"
       publishedAt: 2026-09-02
-      checkedAt: 2026-09-03
+      checkedAt: 2026-10-04
   limitations:
     - "AIViewer did not independently benchmark these models. Performance, efficiency and safety figures are provider-reported and use different evaluation methods."
     - "Access, introductory pricing, model identifiers, regional availability and trusted-access requirements can change after publication."
@@ -68,15 +69,17 @@ import TrustBadge from '../../components/content/TrustBadge.astro';
 <TrustBadge />
 
 <AnswerBox
-  question="What changed in Gemini, Claude and Meta AI this week?"
+  question="What did the September 1–2, 2026 model releases announce?"
   answer="Three major model releases arrived between September 1 and 2, 2026. Google launched Gemini 3.8 Flash for broadly available, cost-conscious coding and agent workflows plus a restricted Cyber variant. Anthropic released Claude Fable 5.1 for general use and the more permissive Mythos 5.1 for vetted cyber and life-sciences organizations. Meta released Muse Spark 1.3 through Muse Code and Meta Model API, emphasizing longer agent work, coding efficiency and better collaboration with users."
 />
 
 <WhatChanged changes={[
   { type: 'release', description: 'Anthropic released Claude Fable 5.1 and restricted-access Claude Mythos 5.1', date: '2026-09-01', detail: 'Same underlying model, different safeguards and access rules' },
   { type: 'release', description: 'Google launched Gemini 3.8 Flash and Gemini 3.8 Flash Cyber', date: '2026-09-02', detail: 'Broad Flash access; Cyber limited to trusted defenders' },
-  { type: 'release', description: 'Meta released Muse Spark 1.3', date: '2026-09-02', detail: 'Available in Muse Code and Meta Model API; max reasoning still pending' },
+  { type: 'release', description: 'Meta released Muse Spark 1.3', date: '2026-09-02', detail: 'Muse Code and Meta Model API release; reasoning availability corrected below on October 4' },
 ]} limit={3} />
+
+> **Archive note, October 4, 2026:** This briefing explains the September 1–2 releases; it is not a current buying guide. Meta’s max-reasoning availability is corrected below from its updated announcement. Other launch-era details and model-card checks retain their original dates.
 
 > **Reporting note:** AIViewer checked five first-party announcement and model-card sources on September 3, 2026. We did not run these models side by side. Benchmark, savings and efficiency figures below are attributed to the companies that published them.
 
@@ -88,13 +91,13 @@ That makes the releases useful to compare—but only by access, workload, cost e
 
 ## The practical comparison
 
-| Model | Available now | Main emphasis | Important limit |
+| Model | Access described in the release materials | Main emphasis | Important limit |
 |---|---|---|---|
 | Gemini 3.8 Flash | Gemini API, Google AI Studio, Antigravity, Android Studio, Stitch, Gemini Enterprise; selected consumer surfaces | Cost-conscious coding, agents and complex knowledge work | Higher effort can use more tokens; introductory API price expires December 31 |
 | Gemini 3.8 Flash Cyber | Fairwind Program for trusted defenders | Vulnerability discovery and automated defensive patching | Not a general public model |
 | Claude Fable 5.1 | Claude platforms, API and supported AWS, Google Cloud and Microsoft Azure services | Coding, long-running knowledge work, science and computer use | General safeguards still restrict higher-risk cyber and biology work |
 | Claude Mythos 5.1 | Vetted organizations through trusted-access programs | More permissive defensive cyber and life-sciences research | Access is limited, initially to selected U.S. organizations |
-| Muse Spark 1.3 | Muse Code and Meta Model API | Long-horizon agents, coding and user collaboration | Max reasoning is not available yet; broader consumer rollout was not announced in the release post |
+| Muse Spark 1.3 | Muse Code and Meta Model API | Long-horizon agents, coding and user collaboration | Meta now lists max reasoning as available; the announcement does not establish a broader consumer rollout |
 
 ## Gemini 3.8 Flash: Google moves Flash closer to frontier work
 
@@ -138,7 +141,7 @@ Those behaviors may matter more than a small benchmark change. Many agent failur
 
 Meta reports that, in comparisons performed by its engineers, Muse Spark 1.3 used about 20% fewer tool calls and 25% fewer tokens than Muse Spark 1.2 while completing coding work. These are provider-run measurements, and the public post does not establish that every task will see the same reduction.
 
-The model is available now through Muse Code and Meta Model API. Previously offered reasoning modes are live, while a new maximum-reasoning mode is still undergoing additional safety testing. Meta also says an open-weights Muse Spark release remains on its roadmap, but the 1.3 announcement does not release downloadable weights.
+**Correction checked October 4, 2026:** Meta’s current release page says Muse Spark 1.3 **with max reasoning is available** in Muse Code and Meta Model API. Our earlier statement that max reasoning was still pending is out of date. The announcement does not itself provide downloadable model weights.
 
 That distinction matters because Meta’s older Llama identity may lead readers to assume every new Meta model is open weight. Muse Spark 1.3 is currently a hosted product release, not a downloadable Llama-style checkpoint.
 
@@ -190,4 +193,4 @@ They are not intended as ordinary upgrades. Google’s Flash Cyber and Anthropic
 - Anthropic: [Claude Fable 5.1 and Claude Mythos 5.1 System Card](https://www-cdn.anthropic.com/0339e6a7c5c7b87f5c07798616dc32c215d14235/Claude%20Fable%205.1%20%26%20Claude%20Mythos%205.1%20System%20Card.pdf), September 1, 2026.
 - Meta: [Introducing Muse Spark 1.3](https://research.meta.ai/blog/introducing-muse-spark-1-3), September 2, 2026.
 
-Sources were opened and checked on September 3, 2026. Availability, pricing and access programs can change after publication.
+The original five-source review was September 3, 2026. On October 4, the three announcement pages were reopened to assess archive treatment; the Meta source was used to correct max-reasoning availability. The model cards were not fully re-audited, so the overall fact-check date remains September 3. Availability, pricing and access programs can change after publication.

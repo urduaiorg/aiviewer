@@ -1,12 +1,12 @@
 ---
-title: "Your AI Assistant Knows More About You Now: 7 Privacy Settings to Review"
+title: "ChatGPT and Claude Privacy Settings: A Practical Review"
 seoTitle: "ChatGPT and Claude Privacy Settings to Review"
-description: "ChatGPT and Claude now remember more and connect more accounts. Review these seven privacy settings before handing them more of your life."
+description: "Check memory, temporary chats and connected accounts, then practise choosing what to share with a fictional workplace example."
 category: "technology"
 publishedDate: 2026-08-30
-updatedDate: 2026-08-30
+updatedDate: 2026-10-04
 coverImage: "/images/guides/chatgpt-vs-claude.jpg"
-tags: ["AI privacy", "ChatGPT", "Claude", "memory", "connected accounts", "temporary chat", "2026"]
+tags: ["AI privacy", "ChatGPT", "Claude", "memory", "connected accounts", "temporary chat"]
 featured: false
 draft: false
 format: "practical-workflow"
@@ -14,198 +14,137 @@ publication:
   status: "published"
   index: true
   monetize: false
-factCheckedAt: 2026-08-30
-reviewDueAt: 2026-09-30
-lensSummary: "Claude now shares memory across chat and cloud Cowork, while ChatGPT can personalize temporary chats and connect multiple Google accounts. These features reduce repetition, but users need to understand what is remembered, retained and accessible."
-learningOutcome: "Identify the difference between chat history, generated memory, temporary or incognito chat, connected accounts and provider retention, then configure each deliberately."
-nextAction: "Spend five minutes reviewing Memory, temporary or incognito chat behavior, connected Google accounts, app permissions, sensitive-topic settings, saved conversations and workplace controls."
+factCheckedAt: 2026-10-04
+reviewDueAt: 2026-11-04
+originalContribution: "A fictional community-workshop scenario separates three data types and supplies a corrected prompt, a control-choice answer key and a reusable review record. It tests the reader's reasoning, not a provider's privacy implementation."
+lensSummary: "Memory, conversation history, model improvement, retention and connected-account access are separate controls. Choose the permitted data and account first, then check the controls that apply to that task."
+learningOutcome: "Distinguish memory from history and retention, inspect connected accounts, and prepare a limited-data prompt for an approved workflow."
+nextAction: "Complete the fictional exercise, then record the data, account, memory choice and output-review step for one permitted task of your own."
 evidence:
   mode: "primary-sources"
   sources:
-    - title: "Release notes: Memory in Claude Cowork, editable topics, and a sensitive topics setting"
+    - title: "Claude release notes: August 25 memory update"
       url: "https://support.claude.com/en/articles/12138966-release-notes"
       publisher: "Anthropic"
       kind: "primary"
       publishedAt: 2026-08-25
-      checkedAt: 2026-08-30
-    - title: "Use Claude’s chat search and memory to build on previous context"
+      checkedAt: 2026-10-04
+    - title: "Use Claude's chat search and memory to build on previous context"
       url: "https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context"
       publisher: "Anthropic"
       kind: "primary"
-      checkedAt: 2026-08-30
-    - title: "ChatGPT release notes"
-      url: "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"
+      checkedAt: 2026-10-04
+    - title: "Temporary chat in ChatGPT"
+      url: "https://help.openai.com/en/articles/8914046-temporary-chat-in-chatgpt"
       publisher: "OpenAI"
       kind: "primary"
-      publishedAt: 2026-08-28
-      checkedAt: 2026-08-30
-    - title: "Temporary Chat FAQ"
-      url: "https://help.openai.com/en/articles/8914046-temporary-chat-faq"
-      publisher: "OpenAI"
-      kind: "primary"
-      checkedAt: 2026-08-30
+      checkedAt: 2026-10-04
     - title: "Connecting and managing app accounts in ChatGPT"
       url: "https://help.openai.com/en/articles/20001494-connecting-and-managing-app-accounts-in-chatgpt"
       publisher: "OpenAI"
       kind: "primary"
-      checkedAt: 2026-08-30
+      checkedAt: 2026-10-04
   limitations:
-    - "AIViewer verified the published controls and documentation but did not independently audit provider storage systems, model-training pipelines or deletion processes."
-    - "Plan availability, workplace controls, regional access, labels and retention rules can change after publication."
-    - "A privacy setting reduces a defined exposure; it does not make an AI conversation confidential in every legal, professional or technical sense."
+    - "This is a documentation-based guide. AIViewer did not inspect provider storage, test deletion or audit privacy implementations."
+    - "Controls and availability depend on plan, account, region, surface and workspace; current organizational rules take priority."
+    - "The fictional exercise is a teaching example, not legal advice, a real client record or an observed model result."
 aiUse:
   mode: "ai-generated"
   tasks: ["research", "source-review", "drafting", "editing"]
-  disclosure: "This guide was researched and drafted by AIViewer’s AI editorial system, checked against the providers’ documentation, and was not represented as human-reviewed."
+  disclosure: "AIViewer's AI editorial system checked provider documentation and prepared this lesson and fictional exercise. No human editorial review or hands-on privacy test is claimed."
 ---
 
 import AnswerBox from '../../components/content/AnswerBox.astro';
-import WhatChanged from '../../components/content/WhatChanged.astro';
-import TrustBadge from '../../components/content/TrustBadge.astro';
-
-{/* Cover image intentionally reuses an existing ChatGPT-versus-Claude editorial asset. */}
-
-<TrustBadge />
 
 <AnswerBox
-  question="Are ChatGPT and Claude becoming less private?"
-  answer="They are becoming more connected and persistent. Claude can now carry memory between chats and cloud Cowork tasks, while ChatGPT can personalize temporary chats and connect more than one Google account. Those features can save time, but they increase the importance of checking what is remembered, which accounts are connected, what a temporary conversation actually excludes, and which workplace rules still apply."
+  question="Which privacy setting should I check first?"
+  answer="Start with the data you are allowed to share and the account you are allowed to use. Then check memory, chat history, retention and connected apps separately. Turning off one feature does not turn off every way information can be retained or accessed."
 />
 
-<WhatChanged changes={[
-  { type: 'memory', description: 'Claude memory now works across chat and Cowork in the cloud', date: '2026-08-25', detail: 'Memory is on by default for Free, Pro and Max accounts, with editable topic controls' },
-  { type: 'privacy', description: 'ChatGPT added personalized Temporary Chats and the option to save them', date: '2026-08-27', detail: 'Personalized temporary chats can use existing memory, instructions and plugins without creating new memories' },
-  { type: 'connection', description: 'ChatGPT can connect multiple Google accounts', date: '2026-08-28', detail: 'Supported plans can search work and personal Gmail, Calendar and Contacts accounts in one conversation' },
-]} limit={3} />
+A useful privacy check begins with a concrete task. Writing a public workshop reminder needs different information from analysing a participant register. Before adjusting settings, write down the result you need and the minimum input needed to produce it.
 
-AI assistants are becoming more useful for the same reason they deserve a fresh privacy check: they can remember more about you and reach more of the accounts where your life and work happen.
+The controls below were checked against provider documentation on **October 4, 2026**. They describe documented behaviour, not an independent audit. If your employer or school prohibits sending a type of information to an assistant, a temporary-chat setting does not change that rule.
 
-This week, Anthropic expanded Claude’s memory across ordinary chat and cloud-based Cowork tasks. OpenAI gave Temporary Chat new personalization controls and let supported users connect multiple Google accounts to ChatGPT.
+## 1. Inspect what memory contains
 
-None of these changes automatically means a provider is secretly reading everything. They do mean the old mental model—“each chat starts blank and disappears when I close it”—is increasingly wrong.
+Anthropic's [August memory update](https://support.claude.com/en/articles/12138966-release-notes) describes editable topics under **Settings → Memory**. Memory is enabled by default on Free, Pro and Max; organization owners control availability on Team and Enterprise. Shared memory applies to cloud Cowork, not local Cowork sessions.
 
-Here are the seven settings and habits worth reviewing now.
+Sensitive-topic memory is a separate choice. The same announcement describes excluding subjects such as health and beliefs unless the user opts in. Review the actual setting instead of assuming that the account default suits your task.
 
-## 1. See what Claude has turned into memory
+## 2. Distinguish memory-off from incognito
 
-Claude’s memory is now on by default for Free, Pro and Max plans. Team and Enterprise organizations start with it off unless an owner enables it.
+Claude's [current memory guide](https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context) explains that disabling memory for one conversation still leaves it in chat history. Incognito conversations are excluded from ordinary history and memory, but organizational export and retention rules still apply.
 
-Anthropic describes memory as a collection of topics generated from conversations. It can include your role, projects, colleagues, communication preferences and technical choices. Cloud-based Cowork can use the same memory as chat, and information from a Cowork task can carry back into later chats.
+The guide also separates deleting a chat from removing memory created from it. Inspect saved topics after deleting a conversation. In managed workspaces, organization-level availability and the member's individual choice are separate steps.
 
-Open **Settings → Memory** and read the topics one by one. Correct details that are outdated, remove context you do not want reused and decide whether the convenience is worth keeping on.
+## 3. Choose ChatGPT personalization before starting
 
-Deleting a conversation does not necessarily delete a related memory topic. Anthropic’s documentation says a memory generated from a conversation can remain until you remove that memory separately. Treat chat deletion and memory deletion as two different actions.
+OpenAI's [Temporary chat guidance](https://help.openai.com/en/articles/8914046-temporary-chat-in-chatgpt) distinguishes **Personalized**, which can use existing memory, instructions and plugins, from **Unpersonalized**, which does not. Neither updates memory while the chat remains temporary. Choose before sending the first message.
 
-## 2. Decide whether sensitive topics belong in memory
+Temporary chats stay out of history and model improvement while temporary; saving converts one to a regular chat governed by account settings. OpenAI may retain a copy for up to 30 days. Workspace restrictions still apply, and limited safety-related context can still be used. Unpersonalized therefore does not mean every form of prior context is technically impossible.
 
-Claude excludes categories such as health, race, religion, political beliefs and gender identity from memory by default. Users can turn on **Include sensitive topics in memory** if they prefer not to repeat that context.
+Data sent through a GPT action follows the recipient's privacy terms. The temporary-chat label does not impose OpenAI's retention period on that third party.
 
-That is a deliberate trade-off. Remembering an accessibility need or health constraint can make future assistance more relevant. It also creates a persistent record of information you may not want carried into unrelated conversations.
+## 4. Check the connected account, not just the app name
 
-Anthropic says certain information is never stored in memory, including government identification numbers, financial account numbers, criminal history and immigration status. That safeguard is useful, but it is not a reason to paste those details into a conversation. The safest data is still the data you did not unnecessarily provide.
+OpenAI's [account-connection instructions](https://help.openai.com/en/articles/20001494-connecting-and-managing-app-accounts-in-chatgpt) now use **Settings → Plugins**. Inspect the selected app and its connection details. Multiple accounts are available only where supported; access also depends on the plan, region, surface and workspace.
 
-## 3. Use incognito or non-personalized chat for a clean start
+Review the provider permissions and available actions. Installing a plugin does not establish that the correct account is connected or that it has access to the intended records. If an app requires permissions for its selected services, choosing fewer services can narrow the connection; do not assume individual required permissions can be omitted.
 
-Claude’s incognito chats do not appear in normal chat history and do not feed memory. ChatGPT’s non-personalized Temporary Chats do not use memory, custom instructions or plugins, and they do not create new memories.
+A prompt naming the intended account helps communicate scope. It is not a replacement for workspace access controls.
 
-Use these modes when you want the answer separated from your normal profile—for example, when exploring a surprise gift, testing an unfamiliar viewpoint or asking a question that should not shape future personalization.
+## 5. Separate reading from sending
 
-Temporary does not always mean instantly deleted. OpenAI says it may retain a copy of an unsaved Temporary Chat for up to 30 days for safety purposes. Anthropic says Enterprise and Team incognito chats can still be included in organizational exports and follow the organization’s retention policy.
+For your task, list the actions needed: read one excerpt, draft text, create a file, or send a message. A drafting task may not need access to an entire inbox. Before granting access, consider whether a permitted excerpt is enough.
 
-For confidential workplace, legal, medical or client information, check the governing policy instead of relying on the word “temporary.”
+Keep the review step explicit. Reading a draft is different from authorizing its distribution. Our [guide to models, assistants and agents](/guides/ai-basics-models-assistants-agents/) explains why these boundaries matter when an assistant can act.
 
-## 4. Understand ChatGPT’s new personalized Temporary Chat
+## Try it: prepare a workshop reminder with less data
 
-ChatGPT now lets you choose a personalized Temporary Chat when starting the conversation. This mode can use existing memories, custom instructions and plugins, but it does not create new memories and does not enter chat history unless you save it.
+**Fictional teaching scenario:** Mina coordinates a community workshop. Her organization allows public event information in an approved assistant, but forbids uploading participant records or health information. She needs a reminder draft and will send it herself after review.
 
-That distinction is easy to miss:
+Her working folder contains:
 
-- **Non-personalized Temporary Chat:** starts without your memory, instructions or plugins.
-- **Personalized Temporary Chat:** can read existing personalization but does not add the unsaved conversation to memory.
-- **Saved Temporary Chat:** becomes a regular conversation and then follows ordinary history, personalization and model-improvement settings.
+| Item | Contents |
+| --- | --- |
+| Public flyer | Saturday workshop, 10 a.m.–noon, Community Room B; bring a notebook |
+| Participant register | Names, email addresses and attendance notes |
+| Access notes | Individual health information and requested accommodations |
 
-Choose before you begin; OpenAI says personalization cannot be changed midway through the temporary conversation.
+**Deliberately flawed prompt:**
 
-## 5. Audit every Google account connected to ChatGPT
+> Read all three files and both my work and personal inboxes. Write a personalised reminder for everyone, remember their needs, and send it. Use temporary chat so nothing is stored.
 
-Supported Plus, Pro, Business and Enterprise users can now connect multiple accounts for Gmail, Google Calendar and Google Contacts. That can solve a real problem: checking a personal calendar and a work calendar together or finding a message without remembering which inbox received it.
+Before reading the answer, identify four problems and write a narrower prompt.
 
-It also creates a new boundary problem. A broad request such as “find every email about the budget” may cross accounts unless you specify which account should be searched.
+### Answer key
 
-Open ChatGPT’s app or plugin settings and check:
+1. The allowed input is the public flyer. Neither the register nor access notes is needed for a generic reminder, and the stated organizational rule excludes them.
+2. Searching two inboxes adds unnecessary access. The flyer already contains the required facts.
+3. Remembering individual needs and sending messages exceeds a draft-only task.
+4. Temporary chat does not establish zero retention or authorize otherwise prohibited data sharing.
 
-1. Which Google accounts are connected.
-2. Which services each connection can access.
-3. Whether a former employer, school or unused account is still authorized.
-4. Whether your workplace permits cross-account use.
-5. Whether you can reduce the requested permissions.
+**Corrected prompt:**
 
-Use account-specific instructions—“search only my work Gmail”—for tasks where separation matters. Connecting an account does not override its existing permissions, but it makes careful scoping more important.
+> Using only these public event details, draft a reminder of no more than 80 words: Saturday workshop, 10 a.m.–noon, Community Room B. Ask attendees to bring a notebook. Do not infer a calendar date or add promises about accessibility. Produce draft text only; do not access accounts, remember participant information or send anything.
 
-## 6. Review plugins and apps before using personalization
+**Authored example output, not a tested model response:**
 
-A personalized conversation can involve more than the model and its memory. ChatGPT’s personalized Temporary Chat can use plugins, and Claude Cowork can use connectors or interact with applications.
+> A reminder that our workshop is on Saturday from 10 a.m. to noon in Community Room B. Please bring a notebook. We look forward to seeing you there.
 
-Each additional system creates another path through which information may be retrieved or acted upon. Before using an app, ask four questions:
+Check the time, room and requested item against the flyer. The draft has no names, health information or invented date. Mina must still use the organization's approved sending process and check the intended recipients herself.
 
-- What data can it read?
-- Can it write, send or delete anything?
-- Does the task require that level of access?
-- Can the same result be achieved with a narrower permission or a copied excerpt?
+## Keep a short review record
 
-For agent-like tools that can take actions, start with a reversible task and supervise the result. Our [plain-English guide to models, assistants and agents](/guides/ai-basics-models-assistants-agents/) explains why an assistant that can act requires different precautions from a chatbot that only drafts text.
+For one permitted task, fill in:
 
-## 7. Separate personal convenience from workplace permission
+- **Result needed:** What will the assistant produce?
+- **Allowed input:** Which exact text or files may be shared?
+- **Account and access:** Which workspace and services are needed?
+- **Memory and history:** What do the selected controls do, and what remains retained?
+- **Actions:** Draft only, or a separately authorized action?
+- **Verification:** Who checks the result before it is used?
 
-Consumer defaults are not workplace approval. A teacher, health worker, lawyer, researcher or employee may have obligations that are stricter than the product’s own settings.
+If any answer is unclear, resolve that point before supplying the data. For checking the resulting text, use [How to Verify an AI Answer](/guides/how-to-verify-an-ai-answer/).
 
-Do not assume that an Enterprise label automatically makes every use appropriate. Confirm which workspace you are using, whether the organization enabled memory, what its retention period is, whether exports include incognito activity and which data categories are prohibited.
-
-A safe personal habit is to remove names, account numbers and identifying details whenever they are unnecessary. A safe organizational habit is to define approved tools, accounts, data classes and review steps before asking people to improvise.
-
-## A five-minute privacy check
-
-Do this once now and repeat it whenever an assistant adds memory, connectors or computer control:
-
-1. Open the assistant’s memory settings and delete anything unnecessary or inaccurate.
-2. Confirm whether sensitive-topic memory is on or off.
-3. Learn how to start a genuinely non-personalized conversation.
-4. Review connected Gmail, Calendar, Drive, Slack and other accounts.
-5. Remove unused connections and reduce permissions where possible.
-6. Check whether saved chats contribute to model improvement under your plan.
-7. Read your employer or school’s rules before using protected information.
-
-The goal is not to make AI forget everything. Persistent context can be genuinely useful. The goal is to make persistence intentional rather than accidental.
-
-## Frequently asked questions
-
-### Is Claude memory on automatically?
-
-Anthropic says memory is on by default for Free, Pro and Max accounts. Team and Enterprise memory is off by default and must first be enabled by an organization owner.
-
-### Does deleting a Claude chat delete its memory?
-
-Not necessarily. Anthropic says memory entries related to an expired or deleted conversation are not automatically removed. Review and delete the individual topic under Settings → Memory.
-
-### Does ChatGPT Temporary Chat use memory?
-
-It depends on the option chosen when the chat begins. A non-personalized Temporary Chat does not use memory. A personalized Temporary Chat can use existing memory but does not create new memories unless the conversation is saved and becomes a regular chat.
-
-### Is a Temporary Chat deleted immediately?
-
-OpenAI says an unsaved Temporary Chat does not appear in history, but a copy may be kept for up to 30 days for safety purposes.
-
-### Can ChatGPT search my work and personal Gmail together?
-
-Supported plans can connect multiple Google accounts and ask ChatGPT to search across them. Specify the intended account when separation matters, and confirm that workplace policy allows the connection.
-
-### What is the safest default for sensitive work?
-
-Use the approved organizational account and tool, minimize identifying information, keep memory off when it is unnecessary, avoid broad app permissions and verify every consequential output. See [How to Verify an AI Answer](/guides/how-to-verify-an-ai-answer/) for a practical review workflow.
-
-## Sources checked
-
-- Anthropic: [Claude release notes](https://support.claude.com/en/articles/12138966-release-notes) and [Claude memory documentation](https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context).
-- OpenAI: [ChatGPT release notes](https://help.openai.com/en/articles/6825453-chatgpt-release-notes), [Temporary Chat FAQ](https://help.openai.com/en/articles/8914046-temporary-chat-faq), and [connected account guidance](https://help.openai.com/en/articles/20001494-connecting-and-managing-app-accounts-in-chatgpt).
-
-Sources were checked August 30, 2026. Product labels, availability and retention rules can change.
+**October 4 update:** Replaced the August news framing with a task-based lesson, corrected connected-account availability wording, added organizational and safety-context limits, and added the fictional exercise. Provider documentation was rechecked; human editorial review remains unrecorded.
