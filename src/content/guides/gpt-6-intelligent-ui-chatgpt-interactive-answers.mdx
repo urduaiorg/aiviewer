@@ -1,0 +1,122 @@
+---
+title: "GPT-6 Intelligent UI in ChatGPT: What It Does and How to Check It"
+seoTitle: "GPT-6 Intelligent UI in ChatGPT: Features and Checks"
+description: "OpenAI's GPT-6 can create interactive answers in ChatGPT. Learn what is rolling out and use a worked example to check a generated calculator."
+category: "technology"
+publishedDate: "2026-10-08"
+coverImage: "/images/editorial/gpt-6-intelligent-ui-cover-v1.webp"
+ogImage: "/images/editorial/gpt-6-intelligent-ui-cover-v1-social.webp"
+tags: ["GPT-6", "ChatGPT", "Intelligent UI", "AI literacy", "verification"]
+featured: false
+draft: false
+format: "ai-signal"
+publication:
+  status: "published"
+  index: true
+  monetize: false
+factCheckedAt: "2026-10-08"
+reviewDueAt: "2026-10-22"
+originalContribution: "An original fictional workshop-capacity case, a reproducible prompt, independently checked answer table, and a deliberately flawed interactive-result example that teaches readers to inspect assumptions as well as arithmetic."
+lensSummary: "Intelligent UI can turn a ChatGPT answer into an interactive tool. Treat its controls and calculations as a draft: identify the inputs, check the rule against the source, and test a changed value before relying on it."
+learningOutcome: "Explain what Intelligent UI adds to GPT-6 ChatGPT answers and check an interactive calculator's source inputs, formula and changed-value behavior."
+nextAction: "Use the fictional workshop figures below to check a proposed seat calculator, then try the one-value exercise against the answer key."
+evidence:
+  mode: "primary-sources"
+  sources:
+    - title: "GPT-6 and Intelligent UI for everyone"
+      url: "https://openai.com/index/gpt-6-for-everyone/"
+      publisher: "OpenAI"
+      kind: "primary"
+      publishedAt: "2026-10-07"
+      checkedAt: "2026-10-08"
+      note: "Supports the announced capability, provider examples, rollout tiers and separation from Work and Codex. It does not establish AIViewer's experience or independent reliability."
+    - title: "Intelligent UI in ChatGPT"
+      url: "https://help.openai.com/en/articles/20001598-intelligent-ui-in-chatgpt"
+      publisher: "OpenAI Help Center"
+      kind: "primary"
+      checkedAt: "2026-10-08"
+      note: "Supports the Pro reasoning exception, Chat-only scope and documented simpler layout preference."
+  limitations:
+    - "This is an announcement-based explainer. AIViewer did not test Intelligent UI in an authenticated ChatGPT account or measure its accuracy, speed or accessibility."
+    - "Rollout, feature behavior and account availability may change; the stated availability is OpenAI's October 7 announcement, not a guarantee for an individual account."
+    - "The workshop, generated-result example and answer key are authored fictional teaching material, not an observed GPT-6 output."
+aiUse:
+  mode: "ai-generated"
+  tasks: ["research", "source-review", "drafting", "editing", "image-generation"]
+  disclosure: "AIViewer's AI editorial system prepared this article and fictional exercise from the linked OpenAI announcement. No hands-on product test or human editorial review is claimed."
+---
+
+**GPT-6 in ChatGPT can now answer some questions with an interactive interface instead of text alone.** OpenAI calls this *Intelligent UI*: an answer may contain a chart, controls, a form or a small tool you can use inside the conversation. The useful habit is to check what the interface assumes before acting on its result. A slider can make a wrong calculation feel more convincing because it moves smoothly. [OpenAI's October 7 announcement](https://openai.com/index/gpt-6-for-everyone/)
+
+*Source checked October 8, 2026. This is a documentation-based explainer, not an AIViewer product test. The exercise below is fictional teaching material.*
+
+## What changed in ChatGPT?
+
+OpenAI says GPT-6 can choose a response format to suit a question. Its examples include a visual explanation, an adjustable shopping list and calculator, and a bill splitter. A straightforward question can still receive a straightforward text answer. The company says the interface can appear progressively while the response is being generated. These are provider descriptions; AIViewer has not tested how consistently they work in an account. [OpenAI's product description](https://openai.com/index/gpt-6-for-everyone/)
+
+This release concerns the **Chat** tab in ChatGPT. OpenAI says it does not change the models powering Work or Codex. GPT-6 with Intelligent UI began rolling out on October 7 to Plus, Pro, Business and Enterprise; Free and Go rollout was scheduled to start October 8. OpenAI identifies GPT-6 Sol for the first group and GPT-6 Luna for Free and Go. Enterprise access depends on administrator settings. The separate Pro reasoning option uses GPT-6 Astra and does not support Intelligent UI. A rollout announcement does not prove the feature is present in your account today. [OpenAI's availability section](https://openai.com/index/gpt-6-for-everyone/) [OpenAI's feature help](https://help.openai.com/en/articles/20001598-intelligent-ui-in-chatgpt)
+
+If you prefer fewer visual elements, OpenAI documents **Personalization → Layout and Visuals → Simple** in ChatGPT web settings. It says this reduces interactive elements, although some may still appear. Asking for a different response style in an individual conversation is another option; the exact layout can vary. [OpenAI's feature help](https://help.openai.com/en/articles/20001598-intelligent-ui-in-chatgpt)
+
+OpenAI also describes answers that can begin while GPT-6 continues reasoning. Its published speed and quality comparisons are **internal evaluations**, not independent AIViewer measurements. They do not tell you whether a particular generated calculator has the correct inputs or formula. [OpenAI's evaluation discussion](https://openai.com/index/gpt-6-for-everyone/)
+
+## A checkable example: workshop seats
+
+The following case is **fictional teaching material**. The example interface and its possible error were written for this lesson; they are not screenshots, transcripts or observed GPT-6 results.
+
+A community group has a room with **30 total seats**. It has **24 confirmed registrations**. It is holding **2 separate seats** for volunteers; those two people are *not* included among the 24 registrations. Five people are on a waitlist, but none has been offered a seat. The group wants to know how many seats are available for new confirmed registrations.
+
+An answer must use the group's actual rule:
+
+```text
+Available seats = total seats − confirmed registrations − seats held separately
+                = 30 − 24 − 2
+                = 4
+```
+
+The waitlist does not reduce availability until someone is offered and accepts a seat. If the two volunteer seats were already counted in the 24 registrations, subtracting them again would be another error. Define the categories before doing the math.
+
+If an interactive answer says **6 seats available**, it may have calculated `30 − 24` and overlooked the two seats held separately. The display might be neat and responsive, but the result would still be wrong for this source. That is a **deliberately flawed authored example**, not a claim that GPT-6 made this mistake.
+
+## Ask for a result you can inspect
+
+If Intelligent UI is available in your account, try a request like this using only the fictional figures above:
+
+```text
+Make a small seat-availability calculator for this fictional workshop.
+The room has 30 total seats, 24 confirmed registrations, and 2 seats
+held separately for volunteers. The volunteer seats are not included
+in the confirmed registration count. Five people are on a waitlist,
+but none has accepted an offer.
+
+Show every input and the formula beside the result. Let me change the
+number of confirmed registrations. Keep total seats and separately
+held seats visible. If the result would be below zero, label it as
+over capacity. Do not treat the waitlist as confirmed registrations.
+```
+
+This is a request for an inspectable draft, not a guarantee that the generated interface will follow every rule. If your account does not offer Intelligent UI, the same prompt can produce a table or written calculation that you check in the same way.
+
+| Check | What the source says | Correct treatment |
+| --- | --- | --- |
+| Total seats | 30 | The room limit, including the two held seats. |
+| Confirmed registrations | 24 | Count only accepted registrations. |
+| Separately held seats | 2 | Subtract them once because they are outside the 24. |
+| Waitlist | 5 | Show separately; do not subtract from available seats. |
+| Current result | 30 − 24 − 2 | **4 seats available.** |
+
+Before you use a generated tool with real information, inspect the labels as carefully as the answer. “People interested,” “registered,” “attending” and “seats held” can mean different things. A correct formula applied to the wrong category is still a wrong result.
+
+## Change one input and check again
+
+Move the hypothetical confirmed-registration value from **24 to 27**, leaving the other values unchanged. The correct result is `30 − 27 − 2 = 1` available seat. If the interface still shows 4, its control is not connected to the result. If it shows 3, it has again ignored the held seats.
+
+**Try it yourself:** suppose 31 people are confirmed while the two separate volunteer seats remain held. What should the interface show? **Answer:** `30 − 31 − 2 = −3`. It should show **over capacity by 3 seats**, not “−3 available seats” as if that were a usable inventory. The label matters as much as the arithmetic.
+
+For a real event, first check the current registration record, the room's actual permitted capacity and whether held seats overlap with registrations. The exercise checks fidelity to the stated inputs; it does not validate a venue record. Review any generated output before sharing it or changing a registration system.
+
+## What to take from the release
+
+Intelligent UI could make explanations and small calculations easier to explore. Its most useful first test is a task with a known answer and a value you can change. Ask to see the inputs and rule, calculate one result independently, then change a single input and repeat the check. That gives you evidence about *this output* in *your account* without assuming the new interface is reliable for every task.
+
+For a broader method of checking factual claims and sources, use our [guide to verifying an AI answer](/guides/how-to-verify-an-ai-answer/). For document summarization where a polished output can also hide changed numbers, see [how to summarize a report without changing the facts](/guides/summarize-a-report-with-ai/).

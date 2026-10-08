@@ -134,5 +134,27 @@
     ],
     "humanReviewer": null,
     "humanReviewedAt": null
+  },
+  {
+    "asset": "/images/editorial/gpt-6-intelligent-ui-cover-v1.webp",
+    "socialAsset": "/images/editorial/gpt-6-intelligent-ui-cover-v1-social.webp",
+    "page": "/guides/gpt-6-intelligent-ui-chatgpt-interactive-answers/",
+    "altText": "AI-generated editorial still life: an adjustable paper card beside a source note and pencil.",
+    "width": 1600,
+    "height": 900,
+    "createdAt": "2026-10-08",
+    "workflow": "AIViewer article-cover policy; original amber branding",
+    "renderer": "OpenAI built-in image generation",
+    "model": "Not exposed by the built-in generation tool",
+    "prompt": "Use case: stylized-concept. Asset type: AIViewer editorial article cover, wide landscape 16:9. Article: GPT-6 Intelligent UI in ChatGPT: What It Does and How to Check an Interactive Answer. Reader task: understand that an AI-generated interactive calculator can be useful but its inputs, arithmetic and assumptions need checking. Visual thesis: a small, tactile adjustable calculator card is being checked against a separate handwritten source note, with human judgment visibly present. Scene: refined physical paper and crafted object still life on a warm ivory tabletop. A single upright ivory card at center-right has one large blank circular dial and two small blank sliders made of paper, with no numbers, letters, screen pixels, or logos. Beside it at center-left is a separate off-white source note with three abstract short ink line groups and one amber paper tab. A graphite pencil lies between the two, tip pointing toward the source note, suggesting verification. All objects rest naturally with convincing contact shadows. Medium: sophisticated editorial studio photograph of handcrafted paper props, subtle cotton texture, crisp edges, calm premium composition. Brand palette: warm ivory, AIViewer amber #D88A00 and soft gold #F0C75E, restrained near-black ink. Soft window light from upper left. Keep the whole group within the central 72% of the image width and 60% of height, generous crop-safe margins for 2:1 and 16:10. No readable text, numbers, generated product interfaces, charts, company logos, AIViewer logo, watermarks, glowing effects, robots, brains, or checkmarks. This is a symbolic illustration, not a product screenshot or a claim that a tool's result is correct.",
+    "materialEdits": [
+      "Resized and compressed to 1600x900 WebP; 800x450 card and 1200x630 social exports"
+    ],
+    "disclosure": "AI-generated editorial illustration; not a ChatGPT screenshot or tested result.",
+    "reviewNotes": [
+      "AI visual inspection and crop checks completed; not human editorial review"
+    ],
+    "humanReviewer": null,
+    "humanReviewedAt": null
   }
 ]
