@@ -156,5 +156,27 @@
     ],
     "humanReviewer": null,
     "humanReviewedAt": null
+  },
+  {
+    "asset": "/images/editorial/claude-motion-report-cover-v1.webp",
+    "socialAsset": "/images/editorial/claude-motion-report-cover-v1-social.webp",
+    "page": "/guides/claude-motion-animated-report-explainer/",
+    "altText": "AI-generated editorial still life: three storyboard cards with an abstract bar chart in front of a report.",
+    "width": 1600,
+    "height": 900,
+    "createdAt": "2026-10-08",
+    "workflow": "AIViewer article-cover policy; original amber branding",
+    "renderer": "OpenAI built-in image generation",
+    "model": "Not exposed by the built-in generation tool",
+    "prompt": "Use case: stylized-concept. Asset type: AIViewer editorial article cover, landscape 16:9. Article: Claude Motion: How to Turn a Report into an Animated Explainer Without Distorting the Data. Reader task: plan and check a short animated report so that changing charts, counts, rates and caveats remain faithful to a source. Visual thesis: a report becomes an editable sequence of motion frames, with source figures still traceable. Scene: a refined tabletop editorial photograph of three separate thick ivory storyboard cards arranged in a gentle arc, each card showing the same abstract two-bar chart motif at successive positions like frames of an animation; the bar heights must stay the same across all cards while their placement shifts slightly. Behind the cards sits one compact report sheet with small abstract ink lines and an amber tab; a slim dark timing ruler beneath the cards has only unnumbered tick marks. Clear paper edges, real contact shadows, no floating elements. Visually distinct from a source-note-and-calculator still life: emphasize the sequence of three storyboard frames and temporal progression, no dials or sliders. Sophisticated handcrafted paper/plaster studio art, warm ivory surface, AIViewer amber #D88A00 and soft gold #F0C75E, restrained graphite, soft window light from upper left. Keep cards and report within central 78% width and 62% height for 2:1 and 16:10 crops. No readable text or numbers, no product screen, no company or AIViewer logo, no watermark, no people, robots, brain, neon, video camera, clapperboard, or fabricated real chart data. Conceptual editorial illustration, not a Claude Motion screenshot or evidence of tested output.",
+    "materialEdits": [
+      "Resized and compressed to 1600x900 WebP; 800x450 card and 1200x630 social exports"
+    ],
+    "disclosure": "AI-generated editorial illustration; not a Claude Motion screenshot or tested animation.",
+    "reviewNotes": [
+      "AI visual inspection and crop checks completed; not human editorial review"
+    ],
+    "humanReviewer": null,
+    "humanReviewedAt": null
   }
 ]
