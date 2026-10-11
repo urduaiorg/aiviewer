@@ -4,6 +4,7 @@ seoTitle: "OpenAI Agents API: Cloud Agents, Costs and Controls"
 description: "Understand OpenAI's managed Agents API, its beta limits and costs, with a worked supplier-comparison example and a clear map of who controls each decision."
 category: "technology"
 publishedDate: 2026-09-23
+updatedDate: 2026-10-11
 coverImage: "/images/guides/agentic-ai.jpg"
 tags: ["OpenAI", "Agents API", "AI agents", "business workflows", "Codex"]
 featured: true
@@ -13,8 +14,8 @@ publication:
   status: "published"
   index: true
   monetize: false
-factCheckedAt: 2026-09-23
-reviewDueAt: 2026-10-07
+factCheckedAt: 2026-10-11
+reviewDueAt: 2026-10-25
 originalContribution: "A fictional supplier-comparison exercise with calculated totals, a missing-information correction, and a responsibility matrix separating provider operations, developer controls and owner approval."
 lensSummary: "A managed agent runtime can reduce infrastructure work. A useful business workflow still needs explicit inputs, approval boundaries and a result that someone can check."
 learningOutcome: "Distinguish the Agents API from an SDK or consumer assistant, identify its current limits, and specify a bounded workflow with a checkable output."
@@ -27,27 +28,27 @@ evidence:
       publisher: "OpenAI"
       kind: "primary"
       publishedAt: 2026-09-10
-      checkedAt: 2026-09-23
+      checkedAt: 2026-10-11
     - title: "Agents API overview"
       url: "https://developers.openai.com/api/docs/guides/agents-api/overview"
       publisher: "OpenAI"
       kind: "primary"
-      checkedAt: 2026-09-23
+      checkedAt: 2026-10-11
     - title: "Configuring Agents"
       url: "https://developers.openai.com/api/docs/guides/agents-api/configuration"
       publisher: "OpenAI"
       kind: "primary"
-      checkedAt: 2026-09-23
+      checkedAt: 2026-10-11
     - title: "Agents SDK overview"
       url: "https://developers.openai.com/api/docs/guides/agents/sdk"
       publisher: "OpenAI"
       kind: "primary"
-      checkedAt: 2026-09-23
+      checkedAt: 2026-10-11
     - title: "API pricing"
       url: "https://developers.openai.com/api/docs/pricing"
       publisher: "OpenAI"
       kind: "primary"
-      checkedAt: 2026-09-23
+      checkedAt: 2026-10-11
   limitations:
     - "Documentation-based reporting; no hands-on Agents API test or measured reliability claim. The supplier example is fictional."
     - "Public beta behavior, model compatibility, pricing and access can change. Verify the documentation before implementation."
@@ -122,7 +123,7 @@ An instruction to “ask before ordering” should be backed by application cont
 ## What does it cost, and what are the current limits?
 OpenAI announced public-beta access for developers without an additional Agents API fee. Usage is still billable: the current overview specifies model rates, tool rates and container charges for OpenAI-hosted sandboxes. It also states that data residency is currently US-only and Zero Data Retention is unsupported, including when the sandbox is self-hosted. [Launch access statement](https://openai.com/index/introducing-the-agents-api/) · [Current billing and data limits](https://developers.openai.com/api/docs/guides/agents-api/overview)
 
-As checked September 23, the pricing page lists a 1 GB container at $0.03 per 20-minute session per container. Two such billable sessions would total $0.06 in container charges alone. That calculation excludes model tokens, tools and other services; it is not an estimate of a complete agent task. Larger container sizes have different rates. [Official API pricing](https://developers.openai.com/api/docs/pricing)
+As checked October 11, the pricing page lists a 1 GB container at $0.03 per 20-minute session per container. Two full 20-minute sessions at that listed rate total $0.06 in container charges alone. Eligible container sessions are billed by the minute with a five-minute minimum, so check the applicable billing mode and duration before estimating a task. The example excludes model tokens, tools and other services; it is not a complete agent-task estimate. Larger container sizes have different rates. [Official API pricing](https://developers.openai.com/api/docs/pricing)
 
 For an initial evaluation, record spending across both successful and unsuccessful attempts. Divide that total by the number of accepted outputs, and measure how much checking each one needed. A low price per request can be misleading if several retries and substantial manual correction are needed to finish one job.
 
