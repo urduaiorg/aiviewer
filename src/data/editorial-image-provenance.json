@@ -178,5 +178,53 @@
     ],
     "humanReviewer": null,
     "humanReviewedAt": null
+  },
+  {
+    "asset": "/images/editorial/gemini-4-argon-source-check-cover-v1.webp",
+    "socialAsset": "/images/editorial/gemini-4-argon-source-check-cover-v1-social.webp",
+    "page": "/guides/gemini-4-argon-multi-document-check/",
+    "altText": "AI-generated editorial still life: three report sheets beside a claim ledger, pencil and draft page.",
+    "width": 1600,
+    "height": 900,
+    "createdAt": "2026-10-13",
+    "workflow": "AIViewer article-cover policy; original amber branding",
+    "renderer": "OpenAI built-in image generation",
+    "model": "Not exposed by the built-in generation tool",
+    "prompt": "Use case: stylized-concept. Asset type: AIViewer editorial article cover, wide landscape 16:9. Article: Gemini 4 Argon: A source-checking exercise for a complex document task. Visual thesis: several sources become one reviewable answer, with conflicting claims visibly kept separate for human inspection. Scene: warm ivory tabletop, three slim stacked report sheets at left with abstract dark ink lines and small distinct amber paper tabs, a clean draft sheet at right, and a compact physical claim-ledger card between them with three blank rows formed by embossed paper strips. One graphite pencil points at a row of the ledger. Sophisticated handcrafted paper studio photograph, natural physical shadows, cotton texture, calm editorial detail. AIViewer amber #D88A00, soft gold #F0C75E, warm ivory, restrained graphite. Entire ensemble within central 75 percent width and 60 percent height, generous crop-safe margins. No readable words, numbers, logos, product UI, screen, robot, brain, checkmarks, fabricated benchmark chart or watermark. Conceptual illustration only, no claim of an actual Gemini output.",
+    "materialEdits": [
+      "Cropped original 1672×941 image to 1600×900 without upscaling",
+      "Exported 800×450 card and 1200×630 social WebP variants"
+    ],
+    "disclosure": "AI-generated conceptual editorial illustration; not a Gemini screenshot or tested output.",
+    "reviewNotes": [
+      "Source/ledger/draft relationship is legible; no fabricated readable claims. The pencil extends off the lower edge but the evidence relationship is intact.",
+      "AI visual inspection and crop checks completed; not human editorial review"
+    ],
+    "humanReviewer": null,
+    "humanReviewedAt": null
+  },
+  {
+    "asset": "/images/editorial/meta-muse-wonder-agent-check-cover-v1.webp",
+    "socialAsset": "/images/editorial/meta-muse-wonder-agent-check-cover-v1-social.webp",
+    "page": "/guides/meta-muse-wonder-agent-memory-approval/",
+    "altText": "AI-generated editorial still life: a memory note linked to task cards and an empty approval card.",
+    "width": 1600,
+    "height": 900,
+    "createdAt": "2026-10-13",
+    "workflow": "AIViewer article-cover policy; original amber branding",
+    "renderer": "OpenAI built-in image generation",
+    "model": "Not exposed by the built-in generation tool",
+    "prompt": "Use case: stylized-concept. Asset type: AIViewer editorial article cover, wide landscape 16:9. Article: Meta Muse Wonder: How to review memory, focus and approval in an AI agent task. Visual thesis: a long-running task has a remembered note, a working plan, and an explicit human approval point. Scene: warm ivory tabletop, one small amber-tabbed memory note at left, a central sequence of three thick ivory task cards linked by a thin charcoal cord, and an intentionally empty final approval card at right with a graphite pencil resting beside it. The physical sequence feels carefully bounded and inspectable, not autonomous magic. Premium editorial photograph of handcrafted paper props, subtle texture, convincing contact shadows, soft window light. Palette warm ivory, AIViewer amber #D88A00 and soft gold #F0C75E, dark graphite. All objects inside central 75 percent width and 60 percent height for safe landscape crops. No readable text, numbers, logo, product interface, lock icon, checkmark, brain, robot, glowing effects, fabricated model results or watermark. Conceptual artwork, not a Meta Muse screenshot or tested agent trace.",
+    "materialEdits": [
+      "Cropped original 1672×941 image to 1600×900 without upscaling",
+      "Exported 800×450 card and 1200×630 social WebP variants"
+    ],
+    "disclosure": "AI-generated conceptual editorial illustration; not a Meta Muse screenshot or tested agent trace.",
+    "reviewNotes": [
+      "The blank final card reads as a pause for approval, distinct from the source-check cover. Crops remove a tiny generator artifact at the bottom edge.",
+      "AI visual inspection and crop checks completed; not human editorial review"
+    ],
+    "humanReviewer": null,
+    "humanReviewedAt": null
   }
 ]
