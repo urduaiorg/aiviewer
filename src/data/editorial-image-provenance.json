@@ -226,5 +226,80 @@
     ],
     "humanReviewer": null,
     "humanReviewedAt": null
+  },
+  {
+    "asset": "/images/editorial/gemini-small-business-finance-check-cover-v1.webp",
+    "socialAsset": "/images/editorial/gemini-small-business-finance-check-cover-v1-social.webp",
+    "page": "/guides/gemini-small-business-finance-check/",
+    "altText": "AI-generated editorial still life: Three blank receipt slips and a bar-chart card beside an amber ruler and pencil.",
+    "width": 1536,
+    "height": 864,
+    "createdAt": "2026-10-23",
+    "workflow": "AIViewer article-cover policy; original amber branding",
+    "renderer": "OpenAI built-in image generation",
+    "model": "Not exposed by the built-in generation tool",
+    "prompt": "Use case: stylized-concept. Asset type: AIViewer landscape editorial cover for a practical Gemini small-business financial verification lesson. Visual thesis: a small business owner checks a marketing cost chart against its underlying receipts before deciding. Refined top-down physical still life on warm ivory tabletop: three unmarked receipt slips and a compact blank bar-chart card, an amber ruler aligning them, graphite pencil pointing to a discrepant bar. Crafted paper, natural contact shadows, soft daylight. Palette warm ivory, amber #D88A00, gold #F0C75E, restrained ink #11110F. One clear visual idea centered within 75% width and 60% height, generous crop-safe edges for landscape and social formats. No readable words, numbers, logos, fabricated product UI, people, watermarks, robots, glowing effects, checkmarks, or endorsement. This is a conceptual illustration, not a screenshot or evidence of a real Gemini test.",
+    "materialEdits": [
+      "Cropped original 1536×1024 to 1536×864 without upscaling",
+      "Exported 800×450 card and 1200×630 social WebP variants"
+    ],
+    "disclosure": "AI-generated conceptual editorial illustration; not a product screenshot or tested output.",
+    "reviewNotes": [
+      "AI visual inspection completed at full image and 800×450 and 1200×630 crops; no readable invented claims or brand marks.",
+      "Human editorial review not claimed."
+    ],
+    "qualityScore": 94,
+    "humanReviewer": null,
+    "humanReviewedAt": null
+  },
+  {
+    "asset": "/images/editorial/canva-craft-poster-review-cover-v1.webp",
+    "socialAsset": "/images/editorial/canva-craft-poster-review-cover-v1-social.webp",
+    "page": "/guides/canva-craft-poster-review/",
+    "altText": "AI-generated editorial still life: A blank botanical poster with separate transparent artwork layer and palette swatches.",
+    "width": 1536,
+    "height": 864,
+    "createdAt": "2026-10-23",
+    "workflow": "AIViewer article-cover policy; original amber branding",
+    "renderer": "OpenAI built-in image generation",
+    "model": "Not exposed by the built-in generation tool",
+    "prompt": "Use case: stylized-concept. Asset type: AIViewer landscape editorial cover for a practical Canva Craft poster creation lesson. Visual thesis: an image poster draft becomes a checked, editable design with separated elements. Premium paper-craft studio still life: one upright blank poster board with a stylized botanical illustration and empty ivory headline band, two small physical color and crop swatches beside it, and a transparent acetate layer offset slightly to reveal editable composition. Warm ivory, amber #D88A00, soft gold #F0C75E, natural muted green, graphite. Soft directional daylight and convincing material texture. Dominant poster central, whole scene within 75% width/60% height, crop-safe margins. No readable text, numbers, logos, simulated Canva interface, badges, watermark, fake screenshots, robots or neon. Conceptual editorial artwork, not a Canva Craft output.",
+    "materialEdits": [
+      "Cropped original 1536×1024 to 1536×864 without upscaling",
+      "Exported 800×450 card and 1200×630 social WebP variants"
+    ],
+    "disclosure": "AI-generated conceptual editorial illustration; not a product screenshot or tested output.",
+    "reviewNotes": [
+      "AI visual inspection completed at full image and 800×450 and 1200×630 crops; no readable invented claims or brand marks.",
+      "Human editorial review not claimed."
+    ],
+    "qualityScore": 94,
+    "humanReviewer": null,
+    "humanReviewedAt": null
+  },
+  {
+    "asset": "/images/editorial/chatgpt-slides-source-check-cover-v1.webp",
+    "socialAsset": "/images/editorial/chatgpt-slides-source-check-cover-v1-social.webp",
+    "page": "/guides/chatgpt-slides-source-check/",
+    "altText": "AI-generated editorial still life: A source notebook connected by an amber ledger strip to six presentation cards.",
+    "width": 1536,
+    "height": 864,
+    "createdAt": "2026-10-23",
+    "workflow": "AIViewer article-cover policy; original amber branding",
+    "renderer": "OpenAI built-in image generation",
+    "model": "Not exposed by the built-in generation tool",
+    "prompt": "Use case: stylized-concept. Asset type: AIViewer landscape editorial cover for a ChatGPT Slides source-to-deck verification lesson. Visual thesis: source notes become a six-slide storyboard while a separate ledger keeps figures traceable. Refined physical editorial still life on warm ivory tabletop: one open source notebook at left with abstract non-readable lines, a neat row of six small blank slide cards arcing to the right, a slim amber claim-ledger strip joining source to two cards, graphite pencil resting nearby. Clear hierarchy, tactile cardstock, consistent soft window light, natural shadows. AIViewer amber #D88A00, gold #F0C75E, ivory and near-black #11110F. Centered within 75% width and 60% height, ample crop-safe edges. No readable letters or figures, charts with fabricated data, corporate logos, product UI, watermark, generic robots or glowing effects. Symbolic artwork, not a ChatGPT screenshot or tested deck.",
+    "materialEdits": [
+      "Cropped original 1536×1024 to 1536×864 without upscaling",
+      "Exported 800×450 card and 1200×630 social WebP variants"
+    ],
+    "disclosure": "AI-generated conceptual editorial illustration; not a product screenshot or tested output.",
+    "reviewNotes": [
+      "AI visual inspection completed at full image and 800×450 and 1200×630 crops; no readable invented claims or brand marks.",
+      "Human editorial review not claimed."
+    ],
+    "qualityScore": 94,
+    "humanReviewer": null,
+    "humanReviewedAt": null
   }
 ]

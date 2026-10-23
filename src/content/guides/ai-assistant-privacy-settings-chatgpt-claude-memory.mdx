@@ -1,12 +1,12 @@
 ---
 title: "ChatGPT and Claude Privacy Settings: A Practical Review"
 seoTitle: "ChatGPT and Claude Privacy Settings to Review"
-description: "Check memory, temporary chats and connected accounts, then practise choosing what to share with a fictional workplace example."
+description: "Check memory, temporary and locked chats, and connected accounts with a fictional workplace exercise and clear control-choice table."
 category: "technology"
 publishedDate: 2026-08-30
-updatedDate: 2026-10-04
+updatedDate: 2026-10-23
 coverImage: "/images/guides/chatgpt-vs-claude.jpg"
-tags: ["AI privacy", "ChatGPT", "Claude", "memory", "connected accounts", "temporary chat"]
+tags: ["AI privacy", "ChatGPT", "Claude", "memory", "connected accounts", "temporary chat", "locked chats"]
 featured: false
 draft: false
 format: "practical-workflow"
@@ -14,11 +14,11 @@ publication:
   status: "published"
   index: true
   monetize: false
-factCheckedAt: 2026-10-04
-reviewDueAt: 2026-11-04
-originalContribution: "A fictional community-workshop scenario separates three data types and supplies a corrected prompt, a control-choice answer key and a reusable review record. It tests the reader's reasoning, not a provider's privacy implementation."
+factCheckedAt: 2026-10-23
+reviewDueAt: 2026-11-06
+originalContribution: "A fictional community-workshop scenario separates three data types and supplies a corrected prompt, a temporary-versus-locked-chat choice table, a PIN consequence exercise and a reusable review record. It tests reasoning, not a provider's privacy implementation."
 lensSummary: "Memory, conversation history, model improvement, retention and connected-account access are separate controls. Choose the permitted data and account first, then check the controls that apply to that task."
-learningOutcome: "Distinguish memory from history and retention, inspect connected accounts, and prepare a limited-data prompt for an approved workflow."
+learningOutcome: "Distinguish memory, history, retention and locked-chat visibility; inspect connected accounts; and prepare a limited-data prompt for an approved workflow."
 nextAction: "Complete the fictional exercise, then record the data, account, memory choice and output-review step for one permitted task of your own."
 evidence:
   mode: "primary-sources"
@@ -39,6 +39,11 @@ evidence:
       publisher: "OpenAI"
       kind: "primary"
       checkedAt: 2026-10-04
+    - title: "Using locked chats in ChatGPT"
+      url: "https://help.openai.com/en/articles/20001411-using-locked-chats-in-chatgpt"
+      publisher: "OpenAI"
+      kind: "primary"
+      checkedAt: 2026-10-23
     - title: "Connecting and managing app accounts in ChatGPT"
       url: "https://help.openai.com/en/articles/20001494-connecting-and-managing-app-accounts-in-chatgpt"
       publisher: "OpenAI"
@@ -63,7 +68,7 @@ import AnswerBox from '../../components/content/AnswerBox.astro';
 
 A useful privacy check begins with a concrete task. Writing a public workshop reminder needs different information from analysing a participant register. Before adjusting settings, write down the result you need and the minimum input needed to produce it.
 
-The controls below were checked against provider documentation on **October 4, 2026**. They describe documented behaviour, not an independent audit. If your employer or school prohibits sending a type of information to an assistant, a temporary-chat setting does not change that rule.
+The original memory and temporary-chat controls were checked against provider documentation on **October 4, 2026**. The locked-chat section was checked on **October 23, 2026**. These describe documented behaviour, not an independent audit. If your employer or school prohibits sending a type of information to an assistant, a privacy setting does not change that rule.
 
 ## 1. Inspect what memory contains
 
@@ -84,6 +89,22 @@ OpenAI's [Temporary chat guidance](https://help.openai.com/en/articles/8914046-t
 Temporary chats stay out of history and model improvement while temporary; saving converts one to a regular chat governed by account settings. OpenAI may retain a copy for up to 30 days. Workspace restrictions still apply, and limited safety-related context can still be used. Unpersonalized therefore does not mean every form of prior context is technically impossible.
 
 Data sent through a GPT action follows the recipient's privacy terms. The temporary-chat label does not impose OpenAI's retention period on that third party.
+
+### New: decide whether a saved chat should be locked
+
+OpenAI began rolling out **locked chats** on October 20. A locked chat is *saved*, but its title and content are hidden from regular history and conversation search until you open **Projects → Locked chats** with a four-digit account PIN or supported device authentication. That is useful when you want to keep a conversation but reduce casual exposure on a shared screen. Availability varies by account and surface. [OpenAI's locked-chat guidance](https://help.openai.com/en/articles/20001411-using-locked-chats-in-chatgpt)
+
+Locking does **not** change retention, the account's model-improvement setting, or information ChatGPT remembered before the lock. It is not an end-to-end encrypted vault. A shared link created before locking continues to expose the content already shared unless you separately delete that link. In a managed workspace, applicable compliance access and policies still apply. A locked chat also cannot be a temporary chat at the same time. [OpenAI's feature limits](https://help.openai.com/en/articles/20001411-using-locked-chats-in-chatgpt)
+
+| If the task needs... | Consider | Check before using it |
+| --- | --- | --- |
+| A saved conversation visible in normal history | Regular chat | Account and workspace data controls. |
+| A conversation kept out of history while temporary | Temporary chat | Personalization choice and whether later saving changes its status. |
+| A saved conversation hidden behind a PIN | Locked chat | Existing memory, shared links, and the consequences of a PIN reset. |
+
+**PIN recovery matters:** changing a PIN with the current PIN preserves locked chats; resetting a forgotten PIN permanently deletes all locked chats and content protected only by that PIN. OpenAI says Support cannot recover them. Keep records that must be retained in an approved system rather than relying on a locked chat as the only copy. [OpenAI's PIN instructions](https://help.openai.com/en/articles/20001411-using-locked-chats-in-chatgpt)
+
+**Mini-exercise:** Mina wants to keep a draft workshop plan out of casual view while she shares her screen, and she needs to reopen it next week. A locked chat fits that *display* goal if her account has the feature. It does not make the participant register or access notes from the exercise below appropriate to upload. She should also check whether the draft was previously shared by link and whether ChatGPT already saved related memory. The answer changes if her goal is to avoid saving the conversation at all: choose a temporary chat instead.
 
 ## 4. Check the connected account, not just the app name
 
