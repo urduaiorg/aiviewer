@@ -408,6 +408,17 @@ for (const [source, initialTarget] of redirectMap) {
   }
 }
 
+// Cloudflare Pages applies _redirects before static assets, so a permanent rule
+// whose source is also a built page silently hides that page. (The 302 hub
+// rules above intentionally hide temporarily retired hubs.)
+for (const source of redirectSources) {
+  if (source.includes('*') || source.includes(':')) continue;
+  if (redirectStatusMap.get(source) !== '301') continue;
+  if (builtHtmlPath(source)) {
+    fail(`_redirects: ${source} redirects away from a built page; remove the rule or unpublish the page`);
+  }
+}
+
 async function validateDirectIndexableRoute(pathname, source) {
   if (hasRedirect(pathname)) {
     fail(`${source}: links through redirect ${pathname}`);

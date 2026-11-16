@@ -28,50 +28,165 @@
 /guides/how-we-test-ai/ /review-methodology/ 301
 /guides/how-we-test-ai /review-methodology/ 301
 
-# Temporarily retired editorial pages awaiting evidence-led rewrites
-/guides/best-ai-tools-for-small-business-2026/ /guides/ 302
-/guides/best-ai-tools-for-small-business-2026 /guides/ 302
-/guides/best-free-ai-tools-2026/ /guides/ 302
-/guides/best-free-ai-tools-2026 /guides/ 302
-/guides/midjourney-vs-dalle-vs-stable-diffusion/ /guides/ 302
-/guides/midjourney-vs-dalle-vs-stable-diffusion /guides/ 302
-/guides/claude-fable-5-mythos-5-explained/ /guides/ 302
-/guides/claude-fable-5-mythos-5-explained /guides/ 302
-/guides/gpt-5-6-sol-explained-openai-new-model/ /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
-/guides/gpt-5-6-sol-explained-openai-new-model /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
-/guides/how-to-use-google-ai-studio/ /tools/google-ai-studio/ 301
-/guides/how-to-use-google-ai-studio /tools/google-ai-studio/ 301
+# Retired editorial pages with no current lesson on the same topic
 /guides/how-to-write-ai-prompts/ /guides/ 302
 /guides/how-to-write-ai-prompts /guides/ 302
-/guides/what-is-multimodal-ai/ /guides/ 302
-/guides/what-is-multimodal-ai /guides/ 302
-
-# Retired comparison pages point to the matching video evaluation guide
-/guides/best-ai-video-generators/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
-/guides/best-ai-video-generators /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
-
-# Consolidate overlapping editorial search intent
-/guides/ai-for-small-business-owners/ /guides/ 302
-/guides/ai-for-small-business-owners /guides/ 302
 /guides/prompt-engineering-handbook/ /guides/ 302
 /guides/prompt-engineering-handbook /guides/ 302
 
-# Canonical Claude vs GPT comparison
-/guides/claude-opus-vs-gpt-5-4/ /guides/ 301
-/guides/claude-opus-vs-gpt-5-4 /guides/ 301
-/guides/claude-opus-vs-gpt5/ /guides/ 301
-/guides/claude-opus-vs-gpt5 /guides/ 301
+# November 2026: retired pages that earned search traffic now permanently
+# consolidate into the current lesson that answers the same reader question.
+# Pages with no matching lesson are left to return 404 rather than being sent
+# to an unrelated hub. Remove a rule here before republishing its source URL.
 
-# Canonical Midjourney vs DALL-E comparison
-/guides/midjourney-vs-dalle3-vs-stable-diffusion/ /guides/ 302
-/guides/midjourney-vs-dalle3-vs-stable-diffusion /guides/ 302
-
-# Canonical Cursor vs GitHub Copilot comparison
-/guides/copilot-vs-cursor-coding-ai/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
-/guides/copilot-vs-cursor-coding-ai /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
-
-# September 2026: consolidate overlapping image/video evaluations
-/guides/sora-vs-runway-vs-pika-vs-kling-the-ai-video-generator-comparison-that-matters/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
-/guides/sora-vs-runway-vs-pika-vs-kling-the-ai-video-generator-comparison-that-matters /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+# AI image generators
+/guides/best-ai-image-generators-compared/ /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
+/guides/best-ai-image-generators-compared /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
+/guides/midjourney-vs-dalle-vs-stable-diffusion/ /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
+/guides/midjourney-vs-dalle-vs-stable-diffusion /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
+/guides/midjourney-vs-dalle3-vs-stable-diffusion/ /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
+/guides/midjourney-vs-dalle3-vs-stable-diffusion /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
 /guides/grok-imagine-vs-midjourney-vs-flux-vs-dall-e-which-image-tool-wins-in-2026/ /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
 /guides/grok-imagine-vs-midjourney-vs-flux-vs-dall-e-which-image-tool-wins-in-2026 /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
+/guides/ai-art-generators/ /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
+/guides/ai-art-generators /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
+/tools/midjourney/ /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
+/tools/midjourney /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
+/tools/ideogram/ /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
+/tools/ideogram /guides/best-ai-image-generators-2026-alternatives-to-grok-imagine/ 301
+/tools/canva-ai/ /guides/canva-craft-poster-review/ 301
+/tools/canva-ai /guides/canva-craft-poster-review/ 301
+
+# AI video generators
+/guides/best-ai-video-generators/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/guides/best-ai-video-generators /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/guides/sora-vs-runway-vs-pika-vs-kling-the-ai-video-generator-comparison-that-matters/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/guides/sora-vs-runway-vs-pika-vs-kling-the-ai-video-generator-comparison-that-matters /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/guides/google-veo-3-review/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/guides/google-veo-3-review /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/guides/google-vids-lyria-veo-free-ai-video/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/guides/google-vids-lyria-veo-free-ai-video /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/tools/runway-gen45/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/tools/runway-gen45 /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/tools/runway-gen3/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/tools/runway-gen3 /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/tools/google-veo/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/tools/google-veo /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/tools/google-vids/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/tools/google-vids /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/tools/meta-vibes/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/tools/meta-vibes /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/playbooks/content-creators-video-production/ /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+/playbooks/content-creators-video-production /guides/best-ai-video-generator-2026-sora-runway-veo-pika-and-kling-compared/ 301
+
+# AI coding tools
+/guides/best-ai-coding-tools-compared/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/guides/best-ai-coding-tools-compared /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/guides/copilot-vs-cursor-coding-ai/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/guides/copilot-vs-cursor-coding-ai /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/guides/cursor-vs-copilot-2026/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/guides/cursor-vs-copilot-2026 /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/guides/cursor-vs-github-copilot-2026/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/guides/cursor-vs-github-copilot-2026 /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/guides/openai-codex-super-app-2026/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/guides/openai-codex-super-app-2026 /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/tools/cursor-ide/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/tools/cursor-ide /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/tools/github-copilot/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/tools/github-copilot /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/tools/openai-codex/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/tools/openai-codex /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/tools/claude-code/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/tools/claude-code /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/playbooks/software-engineer-ai-workflow/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/playbooks/software-engineer-ai-workflow /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/playbooks/software-engineer-workflow/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/playbooks/software-engineer-workflow /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/playbooks/engineer-workflow/ /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/playbooks/engineer-workflow /guides/cursor-ai-code-editor-review-2026-what-it-does-better-than-copilot/ 301
+/tools/v0-dev/ /guides/v0-by-vercel-review-is-it-the-best-ai-ui-generator-in-2026/ 301
+/tools/v0-dev /guides/v0-by-vercel-review-is-it-the-best-ai-ui-generator-in-2026/ 301
+/playbooks/designers-ai-wireframe-to-code/ /guides/v0-by-vercel-review-is-it-the-best-ai-ui-generator-in-2026/ 301
+/playbooks/designers-ai-wireframe-to-code /guides/v0-by-vercel-review-is-it-the-best-ai-ui-generator-in-2026/ 301
+
+# Assistant and model comparisons
+/guides/chatgpt-vs-claude-2026/ /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/guides/chatgpt-vs-claude-2026 /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/guides/claude-opus-vs-gpt-5-4/ /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/guides/claude-opus-vs-gpt-5-4 /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/guides/claude-opus-vs-gpt5/ /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/guides/claude-opus-vs-gpt5 /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/guides/gpt-5-6-sol-explained-openai-new-model/ /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/guides/gpt-5-6-sol-explained-openai-new-model /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/guides/microsoft-copilot-losing-ai-race/ /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/guides/microsoft-copilot-losing-ai-race /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/guides/ai-in-2026-state-of-the-industry/ /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/guides/ai-in-2026-state-of-the-industry /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/tools/chatgpt/ /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/tools/chatgpt /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/tools/claude-ai/ /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/tools/claude-ai /guides/openai-vs-anthropic-vs-google-what-the-2026-model-race-means-for-normal-users/ 301
+/guides/claude-fable-5-mythos-5-explained/ /guides/gemini-3-8-flash-claude-fable-5-1-meta-muse-spark-1-3/ 301
+/guides/claude-fable-5-mythos-5-explained /guides/gemini-3-8-flash-claude-fable-5-1-meta-muse-spark-1-3/ 301
+/guides/grok-vs-claude-2026/ /tools/grok/ 301
+/guides/grok-vs-claude-2026 /tools/grok/ 301
+/guides/claude-april-2026-launches/ /guides/ai-workflow-shift-openai-anthropic-google-2026/ 301
+/guides/claude-april-2026-launches /guides/ai-workflow-shift-openai-anthropic-google-2026/ 301
+
+# Free tool lists and role-based stacks
+/guides/best-free-ai-tools-2026/ /guides/free-ai-tool-stacks-by-role-creator-founder-student-teacher-developer/ 301
+/guides/best-free-ai-tools-2026 /guides/free-ai-tool-stacks-by-role-creator-founder-student-teacher-developer/ 301
+/guides/best-ai-tools-for-students-2026/ /guides/free-ai-tool-stacks-by-role-creator-founder-student-teacher-developer/ 301
+/guides/best-ai-tools-for-students-2026 /guides/free-ai-tool-stacks-by-role-creator-founder-student-teacher-developer/ 301
+/guides/ai-tools-for-teachers-2026/ /guides/free-ai-tool-stacks-by-role-creator-founder-student-teacher-developer/ 301
+/guides/ai-tools-for-teachers-2026 /guides/free-ai-tool-stacks-by-role-creator-founder-student-teacher-developer/ 301
+/guides/best-ai-writing-tools-2026/ /guides/free-ai-tool-stacks-by-role-creator-founder-student-teacher-developer/ 301
+/guides/best-ai-writing-tools-2026 /guides/free-ai-tool-stacks-by-role-creator-founder-student-teacher-developer/ 301
+/playbooks/ai-for-teachers-lesson-planning/ /guides/free-ai-tool-stacks-by-role-creator-founder-student-teacher-developer/ 301
+/playbooks/ai-for-teachers-lesson-planning /guides/free-ai-tool-stacks-by-role-creator-founder-student-teacher-developer/ 301
+/guides/best-ai-tools-for-small-business-2026/ /guides/best-free-ai-tools-for-startups-2026-zero-budget-stack/ 301
+/guides/best-ai-tools-for-small-business-2026 /guides/best-free-ai-tools-for-startups-2026-zero-budget-stack/ 301
+/guides/ai-for-small-business-owners/ /guides/best-free-ai-tools-for-startups-2026-zero-budget-stack/ 301
+/guides/ai-for-small-business-owners /guides/best-free-ai-tools-for-startups-2026-zero-budget-stack/ 301
+/tools/gamma-ai/ /guides/chatgpt-slides-source-check/ 301
+/tools/gamma-ai /guides/chatgpt-slides-source-check/ 301
+
+# AI basics and how language models work
+/guides/getting-started-with-ai/ /guides/ai-basics-models-assistants-agents/ 301
+/guides/getting-started-with-ai /guides/ai-basics-models-assistants-agents/ 301
+/guides/what-is-agentic-ai/ /guides/ai-basics-models-assistants-agents/ 301
+/guides/what-is-agentic-ai /guides/ai-basics-models-assistants-agents/ 301
+/guides/what-is-multimodal-ai/ /guides/ai-basics-models-assistants-agents/ 301
+/guides/what-is-multimodal-ai /guides/ai-basics-models-assistants-agents/ 301
+/guides/understanding-local-llms/ /guides/understand-llms-andrej-karpathy-video-lesson/ 301
+/guides/understanding-local-llms /guides/understand-llms-andrej-karpathy-video-lesson/ 301
+/guides/fine-tuning-vs-rag/ /guides/understand-llms-andrej-karpathy-video-lesson/ 301
+/guides/fine-tuning-vs-rag /guides/understand-llms-andrej-karpathy-video-lesson/ 301
+/guides/ai-agents-replacing-saas/ /guides/openai-agents-api-cloud-agents-explained/ 301
+/guides/ai-agents-replacing-saas /guides/openai-agents-api-cloud-agents-explained/ 301
+/guides/how-ai-search-engines-work/ /guides/how-to-verify-an-ai-answer/ 301
+/guides/how-ai-search-engines-work /guides/how-to-verify-an-ai-answer/ 301
+
+# Summaries, research and data work
+/prompts/meeting-notes-summarizer/ /guides/summarize-a-report-with-ai/ 301
+/prompts/meeting-notes-summarizer /guides/summarize-a-report-with-ai/ 301
+/prompts/summarize-academic-paper/ /guides/summarize-a-report-with-ai/ 301
+/prompts/summarize-academic-paper /guides/summarize-a-report-with-ai/ 301
+/playbooks/researchers-ai-literature-review/ /guides/summarize-a-report-with-ai/ 301
+/playbooks/researchers-ai-literature-review /guides/summarize-a-report-with-ai/ 301
+/playbooks/student-research-paper-workflow/ /guides/summarize-a-report-with-ai/ 301
+/playbooks/student-research-paper-workflow /guides/summarize-a-report-with-ai/ 301
+/prompts/analyze-business-data/ /guides/chatgpt-work-data-agent-explained/ 301
+/prompts/analyze-business-data /guides/chatgpt-work-data-agent-explained/ 301
+/tools/notebooklm/ /guides/notebooklm-short-video-overviews-60-second-source-videos/ 301
+/tools/notebooklm /guides/notebooklm-short-video-overviews-60-second-source-videos/ 301
+
+# Retired weekly news digests
+/guides/ai-update-july-25-2026/ /guides/weekly-ai-update-august-8-2026/ 301
+/guides/ai-update-july-25-2026 /guides/weekly-ai-update-august-8-2026/ 301
+/guides/weekly-ai-update-july-11-2026/ /guides/weekly-ai-update-august-8-2026/ 301
+/guides/weekly-ai-update-july-11-2026 /guides/weekly-ai-update-august-8-2026/ 301
+
+# Retired how-to replaced by the tool reference
+/guides/how-to-use-google-ai-studio/ /tools/google-ai-studio/ 301
+/guides/how-to-use-google-ai-studio /tools/google-ai-studio/ 301
