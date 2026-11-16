@@ -1,0 +1,196 @@
+---
+title: "Turn Meeting Notes into an Action List Without Inventing Deadlines"
+seoTitle: "Meeting Notes to Action Items with AI: Check Owners & Dates"
+description: "Practise with complete sample notes, catch invented owners and deadlines in a flawed AI action list, and reuse a worksheet before sending follow-ups."
+category: "general"
+publishedDate: "2026-11-15"
+coverImage: "/images/editorial/meeting-action-list-cover-v1.webp"
+ogImage: "/images/editorial/meeting-action-list-cover-v1-social.webp"
+tags: ["meeting notes", "action items", "AI summaries", "verification", "AI literacy"]
+featured: false
+draft: false
+format: "practical-workflow"
+publication:
+  status: "published"
+  index: true
+  monetize: false
+factCheckedAt: "2026-11-15"
+reviewDueAt: "2027-05-15"
+evidence:
+  mode: "primary-sources"
+  sources:
+    - title: "Take notes for me in Google Meet"
+      url: "https://support.google.com/meet/answer/14754931?hl=en"
+      publisher: "Google"
+      kind: "primary"
+      checkedAt: "2026-11-15"
+      note: "Supports that Meet's generated notes include action items and that the meeting summary can be incomplete, inaccurate or not generated. Does not measure how often errors occur."
+    - title: "Use Copilot in Microsoft Teams meetings"
+      url: "https://support.microsoft.com/en-us/office/use-copilot-in-microsoft-teams-meetings-0bf9dd3c-96f7-44e2-8bb8-790bedf066b1"
+      publisher: "Microsoft"
+      kind: "primary"
+      checkedAt: "2026-11-15"
+      note: "Supports that Copilot suggests action items during or after a Teams meeting and cites the sources used for its answers."
+    - title: "Generative Artificial Intelligence Profile, section 2.2"
+      url: "https://doi.org/10.6028/NIST.AI.600-1"
+      publisher: "National Institute of Standards and Technology"
+      kind: "primary"
+      publishedAt: "2024-07-26"
+      checkedAt: "2026-11-15"
+      note: "Supports the general risk of confidently stated false content. The meeting example, flawed list and worksheet are AIViewer teaching material."
+  limitations:
+    - "The meeting notes, flawed action list, corrected list and exercise are fictional teaching examples written for this lesson. They are not outputs from a product test of any meeting assistant."
+    - "Matching an action list to the notes shows fidelity to the notes, not that the notes themselves captured the meeting correctly."
+    - "No error rate, time saving or human editorial review is claimed."
+aiUse:
+  mode: "ai-generated"
+  tasks: ["research", "source-review", "drafting", "editing"]
+  disclosure: "This lesson, its fictional exercises and its illustrated cover were created and checked by AI. No human editorial review or hands-on product test is claimed."
+lensSummary: "An action list is only useful if every owner and date was actually agreed. Keep unknowns visible, separate decisions from tasks, and confirm with people before sending."
+originalContribution: "Complete fictional committee notes with source labels, a deliberately flawed action list containing six invented or altered commitments, a corrected source-linked action table, a confirmation message, a short exercise with an answer key and a reusable worksheet."
+learningOutcome: "Turn meeting notes into an action list that separates decisions, tasks and open questions, and mark owners or deadlines as unknown when the notes do not state them."
+nextAction: "Read the sample notes, find the six problems in the flawed action list, then compare your answers with the corrected table."
+---
+
+**To turn meeting notes into an action list with AI, ask for tasks, decisions and open questions as separate lists, require a source line for every item, and tell the assistant to write "not stated" instead of guessing an owner or a date.** Then check each item against the notes and confirm owners and deadlines with the people involved before you send anything.
+
+The common failure is not a spelling mistake. It is a tidy list that turns "someone should" into a named person, "probably before the end of the month" into a firm deadline, or a suggestion into an agreed task. Meeting assistants are now built into common tools: Google says Meet's notes include action items, and Microsoft says Copilot in Teams suggests them during or after a meeting. Google's own help page also warns that the meeting summary [can be incomplete or inaccurate](https://support.google.com/meet/answer/14754931?hl=en). The check below works whichever tool produced the list.
+
+## Read the notes first
+
+The following notes are **fictional teaching material**. The people, garden and figures are invented. The labels [N1] to [N8] let you trace each claim.
+
+### Sample notes: community garden committee, Tuesday 3 March
+
+**[N1] Attendance.** Amira (chair), Ben, Chen and Dana attended. Eli sent apologies.
+
+**[N2] Seeds.** Ben said he can *probably* place the spring seed order before the end of the month, once the seed budget is confirmed. Amira will check the budget with the treasurer.
+
+**[N3] Shed.** The shed lock is broken. Chen will replace it this week.
+
+**[N4] Open day.** The committee discussed an open day in late April or May. No date was chosen. Dana suggested asking the local school to lend tables; nobody agreed to do it yet.
+
+**[N5] Water tank.** The rainwater tank is leaking. "Someone should call the council about it." No one volunteered.
+
+**[N6] Newsletter.** Eli normally writes the newsletter. The committee would like a short open-day item once a date is set.
+
+**[N7] Plot fee.** The committee voted 3–1 to raise the annual plot fee from $20 to $25 from next season.
+
+**[N8] Next meeting.** First Tuesday of April.
+
+Notice what the notes do *not* say. There is no date for the budget check, no owner for the council call, no open-day date and no agreement on the tables. A faithful action list keeps those gaps visible.
+
+## Ask for structure, not just a summary
+
+Try this prompt with the sample notes, or with notes you are permitted to process in your chosen tool:
+
+```text
+From the meeting notes below, produce three lists.
+
+1. Decisions made: what was agreed, and how (vote, consensus).
+2. Action items: task, owner, due date, condition, source line.
+3. Open questions: anything discussed but not decided or assigned.
+
+Rules:
+- Use only the notes. Quote the source label, e.g. [N3], for every item.
+- If an owner or due date is not stated, write "not stated".
+  Do not assign tasks to people or invent dates.
+- Keep conditions and uncertainty ("probably", "once the budget
+  is confirmed") with the task they belong to.
+- Do not turn a suggestion into an action unless someone agreed to it.
+
+[Paste the notes here.]
+```
+
+Separate lists stop decisions, tasks and ideas from being blended into one confident checklist. The "not stated" rule gives the assistant an honest option when the notes are silent. Neither guarantees a correct result, so the next step is checking.
+
+## Find the problems in this action list
+
+Here is a **deliberately flawed teaching example**, written to show typical errors. It is not output recorded from a real assistant.
+
+> **Action items**
+> 1. Ben: place seed order, due 31 March.
+> 2. Amira: confirm budget with treasurer, due Friday.
+> 3. Chen: replace the shed lock, this week.
+> 4. Dana: book school tables for the open day on 25 April.
+> 5. Amira: call the council about the leaking tank.
+> 6. Eli: write the open-day newsletter item before the next meeting.
+
+Only one item is fully supported. Find the problems before reading on.
+
+## Check each item against the source
+
+| Item in the flawed list | What the notes say | Problem | Corrected treatment |
+|---|---|---|---|
+| Ben, seed order, due 31 March | [N2] "probably… before the end of the month", once the budget is confirmed | Tentative estimate became a firm deadline; the condition was dropped | Ben, target end of March **if the budget is confirmed**; mark as tentative |
+| Amira, budget check, due Friday | [N2] Amira will check; no date | Invented deadline | Amira, due **not stated**; ask her for a date because the seed order depends on it |
+| Chen, shed lock, this week | [N3] Chen will replace it this week | None | Keep. "This week" means by Sunday 8 March if you need a date; say that is your interpretation |
+| Dana, book tables for 25 April | [N4] Dana *suggested* asking; no one agreed; no date chosen | Suggestion became a task; invented owner and event date | Open question: does anyone ask the school, and when? Depends on the open-day date |
+| Amira, call the council | [N5] "Someone should"; no volunteer | Invented owner (the chair is not automatically the owner) | Action with owner **not stated**; flag it as needing a volunteer |
+| Eli, newsletter item before next meeting | [N6] Eli normally writes it; item wanted *once a date is set*; Eli was absent | Assigned to an absent person; condition dropped; invented deadline | Ask Eli; item waits until the open-day date is set |
+
+The list also left something out. The plot-fee vote in [N7] is a **decision**, not a task, and it belongs in the decisions list. If someone must tell plot holders about the new fee, that is a separate action whose owner is not stated in these notes.
+
+A useful test for every line: *could you point to the sentence that makes this person responsible, and to the sentence that sets this date?* If not, the line is a guess.
+
+## The corrected action list
+
+**Decisions**
+- Plot fee rises from $20 to $25 from next season, agreed by a 3–1 vote. [N7]
+
+**Action items**
+
+| Task | Owner | Due | Condition or status | Source |
+|---|---|---|---|---|
+| Confirm the seed budget with the treasurer | Amira | Not stated | Seed order depends on it | [N2] |
+| Place the spring seed order | Ben | Target: end of March (tentative) | Only once the budget is confirmed | [N2] |
+| Replace the shed lock | Chen | This week | Agreed | [N3] |
+| Report the tank leak to the council | Not stated | Not stated | Needs a volunteer | [N5] |
+
+**Open questions**
+- Open-day date: late April or May discussed, nothing chosen. [N4]
+- Whether anyone asks the school about tables. [N4]
+- Whether Eli will write the open-day newsletter item once there is a date. [N6]
+
+Next meeting: Tuesday 7 April (the first Tuesday of April). [N8]
+
+This list is shorter than the flawed one and contains more blanks. That is the point: the blanks are real gaps that the group needs to fill, and hiding them would make the follow-up wrong.
+
+## Confirm before you send
+
+Turn the gaps into questions. A short follow-up can do the confirming for you:
+
+> Thanks, everyone. From Tuesday's meeting: **Decided:** plot fee rises to $25 from next season. **Actions:** Chen is replacing the shed lock this week. Amira is checking the seed budget with the treasurer. Amira, when do you expect an answer? Ben will place the seed order once it is confirmed. **Still needs an owner:** reporting the tank leak to the council. Can someone take it? **Open:** we have not chosen an open-day date. Eli, could you write a newsletter item once we have one?
+
+Each named person sees what was recorded against their name and can correct it. That catches errors in the notes as well as in the action list. Checking the list against the notes proves it matches the notes; it does not prove the notes captured what people meant.
+
+If your tool links an action item to a transcript passage, as Microsoft says Copilot does by [citing its sources](https://support.microsoft.com/en-us/office/use-copilot-in-microsoft-teams-meetings-0bf9dd3c-96f7-44e2-8bb8-790bedf066b1), open the passage and read it. A citation shows where to look; it does not confirm the item. NIST's [Generative AI Profile](https://doi.org/10.6028/NIST.AI.600-1) describes the general risk of AI systems producing confident but false content, which is why this inspection matters.
+
+## Use this worksheet with your own notes
+
+Copy the table into your notes, or <a href="/assets/meeting-action-list-worksheet.md" download>download the meeting action-list worksheet (Markdown)</a>.
+
+| Item | Decision, action or open question? | Owner stated in notes? | Date stated in notes? | Condition or uncertainty | Source line | Confirmed with owner? |
+|---|---|---|---|---|---|---|
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+
+Before sending, read the whole list once more. Is anyone named for something they did not agree to? Has an estimate become a deadline? Did an absent person receive a task? Is every decision recorded as a decision?
+
+## Try it yourself
+
+Sort these four lines from a different fictional meeting into decisions, actions and open questions. Note the owner and date only where they are stated.
+
+> **[X1]** Priya will draft the volunteer rota.
+> **[X2]** We should probably update the website before the open day.
+> **[X3]** Tom said he'd look into insurance, maybe next week.
+> **[X4]** Agreed: the gate code changes on 1 April.
+
+**Answer key**
+- **X1** is an action: owner Priya, due date not stated.
+- **X2** is an open question. It is a suggestion with no owner and no agreement.
+- **X3** is an action: owner Tom, task "look into insurance". "Maybe next week" is tentative, so record it as a tentative target rather than a deadline.
+- **X4** is a decision with a date. If members must be told the new code, that is a separate action with no stated owner.
+
+For checking AI summaries of longer documents, continue with [how to summarize a report with AI and check the facts](/guides/summarize-a-report-with-ai/). For a broader process covering external sources, read [how to verify an AI answer](/guides/how-to-verify-an-ai-answer/).

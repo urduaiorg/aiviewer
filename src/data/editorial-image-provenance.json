@@ -301,5 +301,30 @@
     "qualityScore": 94,
     "humanReviewer": null,
     "humanReviewedAt": null
+  },
+  {
+    "asset": "/images/editorial/meeting-action-list-cover-v1.webp",
+    "socialAsset": "/images/editorial/meeting-action-list-cover-v1-social.webp",
+    "page": "/guides/meeting-notes-to-action-list-with-ai/",
+    "altText": "Illustration: highlighted lines on a page of notes connect by amber lines to an action list, where some owner and date slots are left empty with dashed outlines.",
+    "width": 1600,
+    "height": 900,
+    "createdAt": "2026-11-15",
+    "workflow": "AIViewer article-cover policy; original amber branding; restrained conceptual illustration",
+    "renderer": "Hand-authored SVG vector illustration written by AI, rasterised with sharp",
+    "model": "Not applicable (no image-generation model used)",
+    "prompt": "Not applicable. Source SVG and render script retained at docs/editorial/assets/meeting-action-list/.",
+    "materialEdits": [
+      "Rendered 1600x900 article WebP from vector source",
+      "Exported 800x450 card and 1200x630 social WebP variants"
+    ],
+    "disclosure": "AI-authored conceptual vector illustration; not a product screenshot or recorded meeting output.",
+    "reviewNotes": [
+      "AI visual inspection at 1600x900 and 1200x630; no readable text, logos or invented claims.",
+      "Human editorial review not claimed."
+    ],
+    "qualityScore": null,
+    "humanReviewer": null,
+    "humanReviewedAt": null
   }
 ]
