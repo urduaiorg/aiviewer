@@ -326,5 +326,30 @@
     "qualityScore": null,
     "humanReviewer": null,
     "humanReviewedAt": null
+  },
+  {
+    "asset": "/images/editorial/check-percentages-in-ai-generated-table-cover-v1.webp",
+    "socialAsset": "/images/editorial/check-percentages-in-ai-generated-table-cover-v1-social.webp",
+    "page": "/guides/check-percentages-in-ai-generated-table/",
+    "altText": "Illustration: one highlighted row of a dark table connects by an amber line to a small group of ten dots with six filled, and by a faint dotted line to a larger dashed group that includes empty outlines.",
+    "width": 1600,
+    "height": 900,
+    "createdAt": "2026-11-23",
+    "workflow": "AIViewer article-cover policy; original amber branding; restrained conceptual illustration",
+    "renderer": "Hand-authored SVG vector illustration written by AI, rasterised with sharp",
+    "model": "Not applicable (no image-generation model used)",
+    "prompt": "Not applicable. Source SVG retained at docs/editorial/assets/check-percentages-in-ai-generated-table/; render script at docs/editorial/assets/meeting-action-list/render.mjs.",
+    "materialEdits": [
+      "Rendered 1600x900 article WebP from vector source",
+      "Exported 800x450 card and 1200x630 social WebP variants"
+    ],
+    "disclosure": "AI-authored conceptual vector illustration; not a product screenshot or recorded AI output.",
+    "reviewNotes": [
+      "AI visual inspection at 1600x900 and 1200x630; no readable text, logos or invented claims.",
+      "Human editorial review not claimed."
+    ],
+    "qualityScore": null,
+    "humanReviewer": null,
+    "humanReviewedAt": null
   }
 ]

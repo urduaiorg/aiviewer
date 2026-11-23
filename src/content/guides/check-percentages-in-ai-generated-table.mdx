@@ -1,0 +1,184 @@
+---
+title: "Check Percentages in an AI-Generated Table: Find the Denominator First"
+seoTitle: "Check Percentages in an AI Table: Denominators First"
+description: "Use a complete sample survey to catch wrong denominators, percentage-point mix-ups and forced totals in an AI-made table, then reuse the worksheet."
+category: "general"
+publishedDate: "2026-11-23"
+coverImage: "/images/editorial/check-percentages-in-ai-generated-table-cover-v1.webp"
+ogImage: "/images/editorial/check-percentages-in-ai-generated-table-cover-v1-social.webp"
+tags: ["percentages", "tables", "denominators", "verification", "AI literacy"]
+featured: false
+draft: false
+format: "practical-workflow"
+publication:
+  status: "published"
+  index: true
+  monetize: false
+factCheckedAt: "2026-11-23"
+reviewDueAt: "2027-05-23"
+evidence:
+  mode: "primary-sources"
+  sources:
+    - title: "Percentages and percentage points (Content style guide)"
+      url: "https://service-manual.ons.gov.uk/content/numbers/percentages"
+      publisher: "Office for National Statistics"
+      kind: "primary"
+      checkedAt: "2026-11-23"
+      note: "Supports the definition of a percentage point as the difference between percentages, and the example that 10% falling by 1 percentage point is 9% while a fall of 1% gives 9.9%. It does not cover denominators or rounded totals."
+    - title: "Percentages versus percentage points (Data Visualisation Guide)"
+      url: "https://data.europa.eu/apps/data-visualisation-guide/percentages-versus-percentage-points"
+      publisher: "data.europa.eu"
+      kind: "primary"
+      checkedAt: "2026-11-23"
+      note: "Supports the formula for a percentage change (new value minus initial value, divided by the initial value) and the instruction to call a simple subtraction of two percentages a difference in percentage points."
+  limitations:
+    - "The library survey, the flawed table, the corrected table and the exercise are fictional teaching examples written for this lesson. They are not outputs recorded from any AI assistant or spreadsheet tool."
+    - "Recalculating a table shows that it matches the counts you were given. It does not show that the counts were collected or recorded correctly."
+    - "No error rate, time saving, product test or human editorial review is claimed."
+aiUse:
+  mode: "ai-generated"
+  tasks: ["research", "source-review", "drafting", "editing"]
+  disclosure: "This lesson, its fictional exercises and its illustrated cover were created and checked by AI. No human editorial review or hands-on product test is claimed."
+lensSummary: "A percentage is a fraction with the bottom number hidden. Before trusting one in an AI-made table, find the two counts behind it and say out loud what it is a percentage of."
+originalContribution: "Complete fictional survey data with source labels, a deliberately flawed percentage table containing five denominator, wording and rounding errors plus one correct row, a recalculated table with explicit numerators and denominators, a short exercise with an answer key and a reusable worksheet."
+learningOutcome: "Trace each percentage in a table to a numerator and a denominator, tell a percentage change from a percentage-point difference, and explain a rounded total that is not 100%."
+nextAction: "Read the sample survey data, find the five problems in the flawed table, then compare your answers with the recalculated table."
+---
+
+**To check percentages in an AI-generated table, find the two counts behind every percentage, the part and the whole, and divide them yourself.** Then read the label: it should say what the figure is a percentage *of*. Most errors are not arithmetic slips. They are correct divisions by the wrong whole, or correct numbers with the wrong words attached.
+
+A percentage hides its denominator, the number on the bottom of the fraction. "60%" can describe 150 of 250 people or 90 of 150 people, and a table that drops the "of" lets one be mistaken for the other. The check below needs only a calculator and works whichever assistant or spreadsheet feature produced the table.
+
+## Read the data first
+
+The following survey is **fictional teaching material**. The library, branches and figures are invented. The labels [D1] to [D6] let you trace each number.
+
+### Sample data: Riverside Library reader survey
+
+**[D1] Forms.** 400 survey forms were handed out. 250 were returned. Everyone who returned a form is called a *respondent*.
+
+**[D2] E-books.** 150 of the 250 respondents said they borrowed at least one e-book this year.
+
+**[D3] Phone app.** Only the e-book borrowers were asked how they read. 90 of those 150 said they used the library's phone app.
+
+**[D4] Satisfaction this year.** Of the 250 respondents, 175 said they were satisfied, 50 said neither satisfied nor dissatisfied, and 25 said dissatisfied.
+
+**[D5] Satisfaction last year.** Last year's survey had 200 respondents, and 120 of them said they were satisfied.
+
+**[D6] Branches.** Respondents by home branch: Central 94, Eastside 79, Hillview 77.
+
+Notice that the data contains three different "wholes": 400 forms, 250 respondents and 150 e-book borrowers. Last year's survey adds a fourth, 200 respondents. Each percentage belongs to exactly one of them.
+
+## Ask for the fractions, not just the percentages
+
+Try this prompt with the sample data, or with data you are permitted to process in your chosen tool:
+
+```text
+Build a percentage table from the data below.
+
+For every row, show these columns:
+- what is being measured
+- numerator (the count)
+- denominator (the count it is divided by)
+- what the denominator is, in words (e.g. "all respondents")
+- percentage, to one decimal place
+- source label, e.g. [D2]
+
+Rules:
+- Use only the data given. If a count is missing, write
+  "not stated" instead of estimating.
+- When comparing two percentages, give the difference in
+  percentage points and say so.
+- Do not change any figure to make a column add up to 100%.
+
+[Paste the data here.]
+```
+
+Asking for the numerator and denominator in separate columns makes each percentage checkable at a glance. It does not guarantee a correct table, so the next step is still to check.
+
+## Find the problems in this table
+
+Here is a **deliberately flawed teaching example**, written to show typical errors. It is not output recorded from a real assistant. One row is correct. Five contain a problem.
+
+| Row | Measure | Figure |
+|---|---|---|
+| 1 | Response rate | 62.5% |
+| 2 | Readers who borrowed an e-book | 37.5% |
+| 3 | Respondents who used the phone app | 60% |
+| 4 | Satisfaction, compared with last year | Up 10% (from 60% to 70%) |
+| 5 | Not satisfied this year | 30% dissatisfied |
+| 6 | Respondents by branch | Central 38%, Eastside 32%, Hillview 30% (total 100%) |
+
+Try to find the problems before reading on. For each row, ask: which two counts produce this figure, and does the label describe the same group as the denominator?
+
+## Check each row against the data
+
+| Row | What the data supports | Problem | Fix |
+|---|---|---|---|
+| 1 | 250 returned ÷ 400 handed out = 62.5% [D1] | None. This row is correct | Keep it, and state "of forms handed out" |
+| 2 | 150 ÷ 250 respondents = 60.0% [D2]. The table used 150 ÷ 400 = 37.5% | Wrong denominator: the 150 people who did not return a form were counted as if they had answered "no" | 60.0% of respondents |
+| 3 | 90 ÷ 150 e-book borrowers = 60.0% [D3]. Of all respondents it is 90 ÷ 250 = 36.0% | Right number, wrong label: the question went only to e-book borrowers | "60.0% of e-book borrowers" or "36.0% of respondents" |
+| 4 | 120 ÷ 200 = 60.0% last year [D5]; 175 ÷ 250 = 70.0% this year [D4] | 70 − 60 = 10 is a difference in **percentage points**, not a 10% rise | "Up 10 percentage points"; as a relative change, (70 − 60) ÷ 60 = 16.7% |
+| 5 | 25 ÷ 250 = 10.0% dissatisfied; 50 ÷ 250 = 20.0% neither [D4] | 100% − 70% was labelled "dissatisfied", which merges the "neither" group into it | "10.0% dissatisfied, 20.0% neither"; or "30.0% did not say satisfied" |
+| 6 | 94 ÷ 250 = 37.6%, 79 ÷ 250 = 31.6%, 77 ÷ 250 = 30.8% [D6] | Hillview rounds to 31%, not 30%. It was lowered so the column would add up to 100% | Show 38%, 32%, 31% with a note that the total is 101% because of rounding, or use one decimal place |
+
+Three points are worth a closer look.
+
+**Row 2: people who did not answer are not "no".** The survey knows nothing about the 150 people who kept their forms. Dividing by 400 treats their silence as an answer. If you need a statement about everyone who received a form, the honest version is a range: at least 150 of 400 borrowed an e-book.
+
+**Row 4: points and percent are different units.** The UK Office for National Statistics style guide [defines a percentage point](https://service-manual.ons.gov.uk/content/numbers/percentages) as the difference between percentages, and gives the example that 10% falling by 1 percentage point becomes 9%, while a fall of 1% gives 9.9%. The data.europa.eu Data Visualisation Guide gives the formula for a percentage change, the new value minus the initial value, divided by the initial value, and says to call a simple subtraction of two percentages [a difference in percentage points](https://data.europa.eu/apps/data-visualisation-guide/percentages-versus-percentage-points). Here that means 10 percentage points, or 16.7%. Either is acceptable if it is named correctly. Also avoid comparing the raw counts: 175 is larger than 120 partly because 50 more people responded this year.
+
+**Row 6: rounded parts do not have to total 100.** The exact shares add up to 100.0% (37.6 + 31.6 + 30.8). Rounded to whole numbers they add up to 101%. That is normal and needs a short note, not an adjusted figure. A column that totals exactly 100% is not proof the rows are right, and a total of 99% or 101% is not proof they are wrong.
+
+## The recalculated table
+
+| Measure | Numerator | Denominator | Denominator in words | Percentage | Source |
+|---|---|---|---|---|---|
+| Response rate | 250 | 400 | Forms handed out | 62.5% | [D1] |
+| Borrowed an e-book | 150 | 250 | Respondents | 60.0% | [D2] |
+| Used the phone app | 90 | 150 | E-book borrowers | 60.0% | [D3] |
+| Satisfied, this year | 175 | 250 | Respondents this year | 70.0% | [D4] |
+| Neither | 50 | 250 | Respondents this year | 20.0% | [D4] |
+| Dissatisfied | 25 | 250 | Respondents this year | 10.0% | [D4] |
+| Satisfied, last year | 120 | 200 | Respondents last year | 60.0% | [D5] |
+| Central branch | 94 | 250 | Respondents | 37.6% | [D6] |
+| Eastside branch | 79 | 250 | Respondents | 31.6% | [D6] |
+| Hillview branch | 77 | 250 | Respondents | 30.8% | [D6] |
+
+Satisfaction change: up 10 percentage points (60.0% to 70.0%), measured on two different groups of respondents.
+
+This table is longer than the flawed one, and that is the point. Every percentage now shows where it came from, so a reader can check any row in a few seconds.
+
+## Use this worksheet with your own table
+
+Copy the table into your notes, or <a href="/assets/check-percentages-in-ai-generated-table-worksheet.md" download>download the percentage check worksheet (Markdown)</a>.
+
+| Percentage as shown | Numerator (count) | Denominator (count) | Denominator in words | My recalculation | Label matches the denominator? | Source |
+|---|---|---|---|---|---|---|
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+
+Before sharing the table, ask four questions. Can you name both counts behind every percentage? Does each label say "of what"? Is any comparison of two percentages described in percentage points? Has any figure been changed to make a total look tidy?
+
+If you cannot find a denominator in your source, write "denominator not stated" and do not present the percentage as checked. Remember, too, that this check proves the table matches the counts. It does not prove the counts are right.
+
+## Try it yourself
+
+These lines describe a different fictional event.
+
+> **[W1]** 80 people registered for a workshop. 60 attended.
+> **[W2]** 45 of the attendees filled in the feedback form.
+> **[W3]** 36 of those who filled in the form said they would recommend the workshop.
+> **[W4]** Last year, 70% of people who filled in the form said they would recommend it.
+
+1. What was the attendance rate, and what is its denominator?
+2. An AI table says "60% of attendees would recommend the workshop." What is wrong with that?
+3. Describe the change in the recommendation figure since last year.
+
+**Answer key**
+1. 60 ÷ 80 = 75.0% of people who registered.
+2. 36 ÷ 60 is 60%, but 15 attendees (60 − 45) did not fill in the form, so their view is unknown. The supported statement is 36 ÷ 45 = 80.0% of those who filled in the form. For all attendees you can only say at least 60%.
+3. From 70% to 80.0% is a rise of 10 percentage points. As a relative change it is (80 − 70) ÷ 70 = 14.3%. Last year's counts are not stated in [W4], so you cannot recalculate the 70% or compare the number of people.
+
+For checking the wording of a longer AI summary against its source, continue with [how to summarize a report with AI and check the facts](/guides/summarize-a-report-with-ai/). For a broader process covering external sources, read [how to verify an AI answer](/guides/how-to-verify-an-ai-answer/).
